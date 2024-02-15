@@ -1,0 +1,8 @@
+# draw a triangle
+fd 50
+rt 120
+forward 100
+right 120
+Forward 100
+Right 120
+FD 50

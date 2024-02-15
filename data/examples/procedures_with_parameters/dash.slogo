@@ -1,0 +1,16 @@
+to dash [ :count :distance ]
+[
+  repeat :count 
+  [
+    pu fd :distance pd fd :distance
+  ]      
+]
+
+cs
+home
+
+dash 10 20
+rt 120
+dash 20 10
+rt 120
+dash 40 5

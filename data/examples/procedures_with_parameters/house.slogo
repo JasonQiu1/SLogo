@@ -1,0 +1,41 @@
+to poly [ :numsides :length ]
+[
+  repeat :numsides
+  [
+    fd :length 
+    rt quotient 360 :numsides
+  ]
+]
+
+to square [ :side ]
+[
+  poly 4 :side
+]
+
+to triangle [ :side ]
+[
+  poly 3 :side
+]
+
+to house [ :size ]
+[
+  square :size
+  fd :size rt 30
+  triangle :size
+  lt 30 bk :size
+]
+
+to houserow [ :num ]
+[
+  repeat :num
+  [
+    make :rand randomrange 40 100
+    house :rand
+    rt 90 fd :rand lt 90
+  ]
+]
+
+home
+cs
+lt 90 fd 200 rt 90
+houserow 8

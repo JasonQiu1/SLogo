@@ -1,0 +1,13 @@
+set :count 12
+set :distance 20
+
+to dash [ ]
+[
+  repeat :count 
+  [
+    pu fd :distance pd fd :distance
+  ]
+]
+
+
+dash
