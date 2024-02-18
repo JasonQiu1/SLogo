@@ -1,0 +1,17 @@
+<command>
+  <name>forward</name>
+  <alias>fd</alias>
+  <description>
+    Moves turtle forward in its current heading by pixels distance
+    Returns distance turtle moved (the value of pixels)
+  </description>
+  <example>fd 10</example>
+  <help>
+    <parameters>
+      <parameter>pixels: the distance to move the turtle forward</parameter>
+    </parameters>
+    <return>The distance the turtle moved (the value of pixels)</return>
+  </help>
+  <parameters>1</parameters>
+  <implementation>ForwardCommand</implementation>
+</command>
