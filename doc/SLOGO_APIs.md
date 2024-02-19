@@ -28,10 +28,16 @@
 ### Model/Backend External API
 
  * Goals
+   * To allow the View to animate the turtle by inputting a distance or angle and receiving the final position or facing position without needing to understand any implementation details.
  
  * Contract
+   * 
  
  * Services
+   * Return the animation window's bounds, graphics scaling factor, turtle object
+   * Return the turtle's current position, initial postion, heading, step history
+   * Return the turtle's heading towards a given position
+   * Perform a step on turtle, step forward and backward in a turtle's step history, reset the turtle's position adn heading 
 
 
 ### View/Frontend External API
@@ -47,11 +53,17 @@
 ### Model/Backend Internal API
 
  * Goals
+   * To perform all math operations for updating the turtle's position and heading based on the commands received.
+   * To keep track of the history of steps taken by the turtle for efficient animation replay, speeding up the animation, and stepping forward or backward in the animation history. 
  
  * Contract
  
  * Services
-
+   * move and rotate turtle
+   * check if turtle in bound after a step
+   * calculate angle, magnitude, x and y components of vectors
+   * calculate dot product and cross product of vectors
+   * calculate final postion given distance and initial position or facing postion given angle and initial position.
 
 ### View/Frontend Internal API
 
@@ -66,6 +78,119 @@
 ## Design
 
 ### Backend Design CRCs
+
+
+This class's purpose or value is to represent a position in the animation environment:
+```java
+public class Point {
+  // returns x coordinate of position
+  public double getX()
+  // returns y coordinate of position
+  public double getY()
+}
+```
+This class's purpose or value is to represent a vector in the animation environment:
+```java
+protected class Vector {
+  // returns change in x position of vector
+  protected double getDx()
+  // returns change y postion of vector
+  protected double getDy()
+  // returns angle of vector
+  protected double getAngle()
+  // returns magnitude of vector
+  protected double getMagnitude()  
+    
+}
+```
+This class's purpose or value is to represent a turtle's step in the animation environment:
+```java
+protected class Step {
+  // returns start position of a turtle step
+  protected Point getInitialPos()
+  // returns end position of a turtle step
+  protected Point getFinalPos()
+  // returns start vector of a turtle step
+  protected Vector getInitialVector()
+  // returns end vector of a turtle step
+  protected Vector getFinalVector()
+  // returns length of a turtle step
+  protected double getLength()
+  // returns change in angle of a turtle step
+  protected double getChangeInAngle()
+  // returns if the pen is down during a turtle step
+  protected boolean isPenDown()
+
+}
+```
+This class's purpose or value is to perform the necessary math operations to calculate a turtle's next position or heading
+```java
+protected static class TurtleGeometry {
+  // return angle between 2 vectors
+  protected static double calculateAngle(Vector v1, Vector v2)
+  // return magnitude of vector  
+  protected static double calculateMagnitude(Vector v)
+  // return x component of vector
+  protected static Vector calculateXComponent(Vector v, double angle)
+  // return y component of vector
+  protected static Vector calculateYComponent(Vector v, double angle)
+  // calculate and return final position given initial position and distance to be travelled
+  protected static Point calculateFinalPosition(Point initialPosition, double distance)
+  // calculate and return final facing position given initial position and angle turned
+  protected static Point calculateFacingPosition(Point initialPosition, double angle)
+  // calculate and return dot product of 2 vectors
+  protected static double dotProduct(Vector v1, Vector v2)
+  // calculate and return cross product of 2 vectors
+  protected static Vector crossProduct(Vector v1, Vector v2)
+    
+}
+```
+This class's purpose or value is to represent a turtle in the animation
+```java
+protected class Turtle {
+  // return the unique id identifying the turtle
+  public int getId()
+  // return turtle current position   
+  public Point getCurrentPosition()
+  // return turtle initial position
+  public Point getStartingPosition()
+  // return turtle's history of steps
+  public List<Step> getStepHistory() 
+  // return turtle's heading towards given point
+  public double getHeadingTowards(Point point)
+  // returns turtle's heading   
+  public double getHeading()
+  // update turtle's position/heading and return turtle's final position/facing position (a point on the edge of screen)
+  public Point doStep (length, angle)
+  // go back one step in the turtle's step history and return turtle's final position/facing position (a point on the edge of screen)  
+  public Point stepBack()
+  // go forwards one step in the turtle's step history and return turtle's final position/facing position (a point on the edge of screen)    
+  public Point stepForward()
+  // reset turtle position and return its initial position  
+  public Point reset()
+  // move a turtle forward given distance
+  protected void move(double distance)
+  // turn a turtle given angle
+  protected void rotate(double angle)
+}
+```
+
+This class's purpose or value is to represent the animation environment
+```java
+protected static class TurtleAnimator {
+  // return the north, east, south, west boundaries the animation window should use
+  public Map<String, Double> getBounds()
+  // return the graphics scaling factor the animation window should use
+  public double getGraphicsScalingFactor()
+  // return the turtle(s) in the animation environment
+  public List<Turtle> getTurtles()
+  // check if turtle is within the animation window after a step
+  protected static boolean checkInBound(Point position)
+}
+```
+
+
+
 
 This class's purpose or value is to represent a customer's order:
 ![Order Class CRC Card](order_crc_card.png "Order Class")
