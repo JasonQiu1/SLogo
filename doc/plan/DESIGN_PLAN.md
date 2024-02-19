@@ -1,6 +1,6 @@
 # SLogo Design Plan
-### Judy He (yh381) 
-### TEAM
+### Judy He, Jason Qiu, Jordan Haytaian, Jeremyah Flowers
+### TEAM #3
 
 
 #### Examples

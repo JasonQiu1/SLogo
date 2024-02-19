@@ -1,6 +1,6 @@
 # SLogo API Design Lab Discussion
-### NAMES
-### TEAM
+### Judy He, Jason Qiu, Jordan Haytaian, Jeremyah Flowers
+### TEAM #3
 
 
 ## Planning Questions
