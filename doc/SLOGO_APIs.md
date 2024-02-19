@@ -44,12 +44,17 @@
 ### View/Frontend External API
 
  * Goals
- 
+   * To handle UI interactions and queries such as loads, saves, animation speed, pen colors
+   * To display internal date when requested, Splash Screen, GUI, etc.
+   
  * Contract
+   * All classes related to display will assume that the data is parsed and passed INTO the class.
+   * All classes related to interactions will assume the data needs to be handled and SENT
  
  * Services
-
-
+   * Methods to display/show window, page, turtle animation, buttons, etc.
+   * Provides an interface the user can communication with.
+   * Passes internal information to be processed/handled
 
 ### Model/Backend Internal API
 
@@ -71,12 +76,22 @@
 ### View/Frontend Internal API
 
  * Goals
- 
+   * To handle user queries, take information, and pass that information to be displayed.
+   * To handle XML configurations, errors, and pass exceptions.
+
  * Contract
+   * All classes related to the internal API assume that the data will be processed before being 
+     sent to the external API.
+   * All classes related to the internal API assume that any data that is needed is to be passed 
+     from the backend (or an XML file).
  
  * Services
-
-
+   * Pass data to be displayed
+   * Parse data
+   * Pass config 
+   * Handle query (or button)
+   * Handle error
+   * Pass exception
 
 ## Design
 
