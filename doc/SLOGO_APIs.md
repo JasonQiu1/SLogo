@@ -30,9 +30,10 @@
  * Goals
    * To allow the View to animate the turtle by inputting a distance or angle and receiving the final position or facing position without needing to understand any implementation details.
  
- * Contract
-   * 
- 
+ * Contract 
+   * All classes related to turtle animation will assume that the command is parsed and the distance or angle is passed in if turtle moves forward or turns.
+   * All classes related to turtle animation will collaborate to update the turtle's position or heading. 
+
  * Services
    * Return the animation window's bounds, graphics scaling factor, turtle object
    * Return the turtle's current position, initial postion, heading, step history
@@ -57,7 +58,9 @@
    * To keep track of the history of steps taken by the turtle for efficient animation replay, speeding up the animation, and stepping forward or backward in the animation history. 
  
  * Contract
- 
+   * All classes related to turtle animation will assume that the turtle's motion can be represented by interactions between position and vectors and that each turtle step represent a corresponding postion/vector operation.
+   * All classes related to turtle animation will collaborate to calculate the turtle's new position or heading.
+
  * Services
    * move and rotate turtle
    * check if turtle in bound after a step
@@ -105,21 +108,21 @@ protected class Vector {
 ```
 This class's purpose or value is to represent a turtle's step in the animation environment:
 ```java
-protected class Step {
+public class Step {
   // returns start position of a turtle step
-  protected Point getInitialPos()
+  public Point getInitialPos()
   // returns end position of a turtle step
-  protected Point getFinalPos()
+  public Point getFinalPos()
   // returns start vector of a turtle step
   protected Vector getInitialVector()
   // returns end vector of a turtle step
   protected Vector getFinalVector()
   // returns length of a turtle step
-  protected double getLength()
+  public double getLength()
   // returns change in angle of a turtle step
-  protected double getChangeInAngle()
+  public double getChangeInAngle()
   // returns if the pen is down during a turtle step
-  protected boolean isPenDown()
+  public boolean isPenDown()
 
 }
 ```
@@ -155,17 +158,21 @@ protected class Turtle {
   // return turtle initial position
   public Point getStartingPosition()
   // return turtle's history of steps
-  public List<Step> getStepHistory() 
-  // return turtle's heading towards given point
+  public List<Step> getStepHistory()
+  // return the step turtle is currently on in its step history  
+  protected int getCurrentPointInStepHistory()
+   // update the step turtle is currently on in its step history  
+   protected int setCurrentPointInStepHistory()
+   // return turtle's heading towards given point
   public double getHeadingTowards(Point point)
   // returns turtle's heading   
   public double getHeading()
   // update turtle's position/heading and return turtle's final position/facing position (a point on the edge of screen)
-  public Point doStep (length, angle)
+  public Step doStep (length, angle)
   // go back one step in the turtle's step history and return turtle's final position/facing position (a point on the edge of screen)  
-  public Point stepBack()
+  public Step stepBack()
   // go forwards one step in the turtle's step history and return turtle's final position/facing position (a point on the edge of screen)    
-  public Point stepForward()
+  public Step stepForward()
   // reset turtle position and return its initial position  
   public Point reset()
   // move a turtle forward given distance
@@ -179,11 +186,11 @@ This class's purpose or value is to represent the animation environment
 ```java
 protected static class TurtleAnimator {
   // return the north, east, south, west boundaries the animation window should use
-  public Map<String, Double> getBounds()
+  public static Map<String, Double> getBounds()
   // return the graphics scaling factor the animation window should use
-  public double getGraphicsScalingFactor()
+  public static double getGraphicsScalingFactor()
   // return the turtle(s) in the animation environment
-  public List<Turtle> getTurtles()
+  public static List<Turtle> getTurtles()
   // check if turtle is within the animation window after a step
   protected static boolean checkInBound(Point position)
 }
@@ -272,6 +279,7 @@ public class Something {
 
 ### Use Cases
 
+#### Example Use Cases: [Java File](plan/usecases/ExampleUseCases.java)
  * The user types 'fd 50' in the command window, sees the turtle move in the display window leaving a trail, and has the command added to the environment's history.
 
  * The user types '50 fd' in the command window and sees an error message that the command was not formatted correctly.
@@ -279,4 +287,14 @@ public class Something {
  * The user types 'pu fd 50 pd fd 50' in the command window and sees the turtle move twice (once without a trail and once with a trail).
 
  * The user changes the color of the environment's background.
+
+#### Judy He: [Java File](plan/usecases/JudyUseCases.java)
+1. SLOGO 76, 77: The user clicks on replay animation and sees the animation resets and reruns its previous series of commands.
+2. SLOGO 75, 77: The user clicks on step back in the animation and sees the animation go back one command.
+3. SLOGO 75, 77: The user clicks on step forward in the animation when there is no more commands in the turtle's step history.
+4. SLOGO 74-77: The user clicks on clear animation and sees the turtle position resets and the drawing clears.
+
+
+
+
 
