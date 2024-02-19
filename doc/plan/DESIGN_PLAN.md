@@ -47,7 +47,7 @@ This class is part of the Model internal API and will contain attributes of type
 
 `Step`
 
-This class is part of the Model internal API and is at the next higher level of abstraction. It will contain attributes: `Point` startPostion, `Point` endPosition, `Vector` initialVector, `Vector` finalVector, double changeInMagnitude, double changeInAngle. A `Step` object represents a step, a change in distance or heading, the turtle has taken. This satisfies SLOGO 75 and 76. To replay an animation, the View will only need to retrieve the list of Step objects for the turtle. To pause, play step forward, or step back in the animation, one will only need to trace the list of Step object.  
+This class is part of the Model internal and external APIs and is at the next higher level of abstraction. It will contain attributes: `Point` startPostion, `Point` endPosition, `Vector` initialVector, `Vector` finalVector, double changeInMagnitude, double changeInAngle. A `Step` object represents a step, a change in distance or heading, the turtle has taken. This satisfies SLOGO 75 and 76. To replay an animation, the View will only need to retrieve the list of Step objects for the turtle. To pause, play step forward, or step back in the animation, one will only need to trace the list of Step object.  
 
 `TurtleGeometry`
 
