@@ -1,7 +1,8 @@
 # SLogo Design Plan
-### Judy He, Jason Qiu, Jordan Haytaian, Jeremyah Flowers
-### TEAM #3
 
+### Judy He, Jason Qiu, Jordan Haytaian, Jeremyah Flowers
+
+### TEAM #3
 
 #### Examples
 
@@ -11,40 +12,71 @@ Here is a graphical look at my design:
 
 made from [a tool that generates UML from existing code](http://staruml.io/).
 
-
 Here is our amazing UI:
 
 ![This is cool, too bad you can't see it](29-sketched-ui-wireframe.jpg "An alternate design")
 
-taken from [Brilliant Examples of Sketched UI Wireframes and Mock-Ups](https://onextrapixel.com/40-brilliant-examples-of-sketched-ui-wireframes-and-mock-ups/).
-
+taken
+from [Brilliant Examples of Sketched UI Wireframes and Mock-Ups](https://onextrapixel.com/40-brilliant-examples-of-sketched-ui-wireframes-and-mock-ups/).
 
 ## Introduction
 
-
 ## Configuration File Format
-
 
 ## Design Overview
 
+The UI design will be handled by the Frontend internal and external API. The user will be able
+to interact with the UI mainly through mouse events and the GUI's built-in command line. The 
+user will be able to input a command (i.e, `fd`, `bk`, etc.), and see the turtle being animated 
+in real time. These input commands will be parsed by the model and passed via a method such as
+`passCommandToBeParsed`. The user will also be able to click different buttons such as pause/play,
+2x speed, 5x speed, and pen colors. These will all be filtered using classes called `Input` 
+and `Animation`. Finally, the user can change the turtle or load a saved configuration via a 
+file selector. These interactions will be handled through a `XML` configuration class.
 
 Updating and processing the turtle animation will be handled by the external and internal Model API. 
 To keep track of the turtle's position and heading, we will implement a `Point` class and a `Vector` class as our bottom level of abstraction. The Point class will be used to track position while the Vector class will be used to track angle and magnitude, the turtle's displacement between steps. To calculate the turtle's next position or new heading, we will have a static protected class `TurtleGeometry`, handling all `Vector` and `Point` related operations. 
 Moving up the levels of abstraction, to represent a turtle's state, its position and heading, we will implement a `TurtleState` class. To then keep track of a turtle's sequence of steps, we will implement a `TurtleStep` class that contains attributes like initial `TurtleState`, change in position `Vector`, change in angle as well as whether the pen is down for that step.
 This will allow us to efficiently step forward or back in the animation, replay the animation, and change in the animation speed in the View. Moving further up the abstraction layers, we will implement a `Turtle` class, which will contain attributes storing the turtle's unique id (this is to allow to a possible future extension of having multiple turtles), initial state at the start of the animation (`TurtleState`), current state (`TurtleState`), and the sequence of `TurtleStep` it has taken. 
 Lastly, at the very top level of abstraction, we will have the static `TurtleAnimator` class which defines the current graphics scaling factor, the animation speed and the bounds of the animation window. It will also be responsible for generating the series of intermediate TurtleStates needed in order for a turtle to smoothly perform a step, a change in postion or angle. It will also check whether a `Turtle` is in bound after a `Step`. 
-Overall, by encapsulating all the logic behind the turtle's animation in the backend external and internal APIs, the View will only need to call specific methods like `animateSteps()` and will receive the list of `TurtleStates` needed to smoothly animate the turtle view.   
+Overall, by encapsulating all the logic behind the turtle's animation in the backend external and internal APIs, the View will only need to call specific methods like `animateSteps()` and will receive the list of `TurtleStates` needed to smoothly animate the turtle view. 
 
 
 ## Design Details
+`Page`
+This abstract class creates a new page. This can be passed several different implementations of a 
+page including the GUI for turtle animation and the splash screen.
+
+`SlogoWindow`
+This class is the main area the user interacts with the animation, it can used to create any 
+number of pages. Any user interactions with the window will automatically go the page and vice 
+versa.
+
+`Button`
+This abstract class will have different implementations of the buttons needed to process user
+queries. For example, there will be load/save, pause/play, speed buttons.
+
+`CommandLine`
+This class displays and takes in information from the built-in command line. It should be called on
+by the parser.
+
+`Observer/Controller`
+This class will wait for user queries passed via the buttons and pass the information it receives.
 
 `Point`
 
-This class is part of the Model internal API and will contain 2 attributes of type double: x, y. This is one of the classes at the bottom level of abstraction for representing a position in the animation. Classes related to turtle animation in the backend internal and external APIs as well as the Controller in the frontend will depend on this class to update the turtle's position and the drawing.
+This class is part of the Model internal API and will contain 2 attributes of type double: x, y.
+This is one of the classes at the bottom level of abstraction for representing a position in the
+animation. Classes related to turtle animation in the backend internal and external APIs as well as
+the Controller in the frontend will depend on this class to update the turtle's position and the
+drawing.
 
 `Vector`
 
-This class is part of the Model internal API and will contain attributes of type double: dx, dy, angle, magnitude. This is one of the classes at the bottom level of abstraction for calculating distance and angle between `Point` objects. Classes related to turtle animation in the backend internal API will depend on this class.
+This class is part of the Model internal API and will contain attributes of type double: dx, dy,
+angle, magnitude. This is one of the classes at the bottom level of abstraction for calculating
+distance and angle between `Point` objects. Classes related to turtle animation in the backend
+internal API will depend on this class.
 
 `TurtleState`
 
@@ -56,7 +88,16 @@ This is a class part of the Model internal and external API and is at the next h
 
 `TurtleGeometry`
 
-This class will be a protected static class part of the Model internal API, another layer of abstraction, that handles all operations related to calculating values such as the distance travelled, the next position, and the heading of the turtle. Methods will include: `calculateAngle(Vector v1, Vector v2), calculateMagnitude(Vector v), calculateXComponent(Vector v, double angle), calculateYComponent(Vector v, double angle), calculateFinalPosition(Point initialPosition, double distance), double dotProduct(Vector v1, Vector v2), double crossProduct(Vector v1, Vector v2)`. The method signatures do not reveal the implementation details of the turtle animation used given that the TurtleGeometry only performs operations on the more abstract classes `Point` and `Vector`.
+This class will be a protected static class part of the Model internal API, another layer of
+abstraction, that handles all operations related to calculating values such as the distance
+travelled, the next position, and the heading of the turtle. Methods will
+include: `calculateAngle(Vector v1, Vector v2), calculateMagnitude(Vector v),
+calculateXComponent(Vector v, double angle), calculateYComponent(Vector v, double angle),
+calculateFinalPosition(Point initialPosition, double distance), 
+double dotProduct(Vector v1, Vector v2), 
+double crossProduct(Vector v1, Vector v2)`.
+The method signatures do not reveal the implementation details of the turtle animation used given
+that the TurtleGeometry only performs operations on the more abstract classes `Point` and `Vector`.
 
 `Turtle`
 
@@ -65,7 +106,7 @@ This class will represent a turtle in the animation and is towards the top level
 `TurtleAnimator`
 
 This class will be public static and is at the top level of abstraction. It is for storing all parameters related to the animation environment. Attributes include the bounds of the animation window to be generated by the View, the graphic scaling factor, speed of animation, and a Map mapping turtle ids to the series of `TurtleStates` needed to create the turtle animation for a given step. As part of the Model external API, it will contain method `animateStep()` to calculate the series of `TurtleState` needed to animate the turtle smoothly over a `TurtleStep` (change in position or angle) at a certain animation speed. `animateSteps()` will store the result in a local Map variable that maps turtle id to the list of `TurtleStates` needed to smoothly animate the Turtle. This satisfies SLOGO 75 and 76. To replay, pause, play step forward, or step back in the animation, the View will only need to obtain list of the TurtleStates needed for a turtle at each step by calling `stepForward()` or `stepBackward()`.
-As part of the Model internal API, it will contain a method `checkBounds()` to validate whether the turtle is within bound of the animation window after performing a `TurtleStep`. As part of the Model external API, this class will only return all its attributes, thereby encapsulating all the implementation details of the turtle animation from the user.
+As part of the Model internal API, it will contain a method `checkBounds()` to validate whether the turtle is within bound of the animation window after performing a `TurtleStep`. 
 
 ## Design Considerations
 
@@ -73,17 +114,19 @@ Session?
 
 ## Test Plan
 
-
 ## Team Responsibilities
 
- * Team Member #1: Judy He
-   * Primary: Implement the part of the Model internal and external APIs for animating the turtle. Debug all issues related to turtle animation. 
-   * Secondary: Create test cases, help teammates with debugging and planning. 
+* Team Member #1: Judy He
+    * Primary: Implement the part of the Model internal and external APIs for animating the turtle.
+      Debug all issues related to turtle animation.
+    * Secondary: Create test cases, help teammates with debugging and planning.
 
- * Team Member #2
+* Team Member #2: Jeremyah Flowers
+    * Primary: Implement the external portion of the Frontend/View API and the UI display
+    * Secondary: Help with internal framework for button/error handling
 
- * Team Member #3
+* Team Member #3
 
- * Team Member #4
+* Team Member #4
 
 ### Timeline
