@@ -106,21 +106,27 @@ protected class Vector {
     
 }
 ```
+This class's purpose or value is to represent a turtle's state in the animation environment:
+```java
+public class TurtleState {
+  // returns position of a turtle state
+  public Point getPosition()
+   // returns heading of a turtle state
+   public double getAngle()
+}
+
+```
 This class's purpose or value is to represent a turtle's step in the animation environment:
 ```java
-public class Step {
+public class TurtleStep {
   // returns start position of a turtle step
-  public Point getInitialPos()
+  public TurtleState getInitialState()
   // returns end position of a turtle step
-  public Point getFinalPos()
-  // returns start vector of a turtle step
-  protected Vector getInitialVector()
-  // returns end vector of a turtle step
-  protected Vector getFinalVector()
+  public Vector getChangeInPosition()
+   // returns change in angle of a turtle step
+   public double getChangeInAngle()
   // returns length of a turtle step
   public double getLength()
-  // returns change in angle of a turtle step
-  public double getChangeInAngle()
   // returns if the pen is down during a turtle step
   public boolean isPenDown()
 
@@ -153,12 +159,12 @@ This class's purpose or value is to represent a turtle in the animation
 protected class Turtle {
   // return the unique id identifying the turtle
   public int getId()
-  // return turtle current position   
-  public Point getCurrentPosition()
-  // return turtle initial position
-  public Point getStartingPosition()
+  // return turtle current state   
+  public TurtleState getState()
+  // return turtle initial state
+  public TurtleState getInitialState()
   // return turtle's history of steps
-  public List<Step> getStepHistory()
+  public List<TurtleStep> getStepHistory()
   // return the step turtle is currently on in its step history  
   protected int getCurrentPointInStepHistory()
    // update the step turtle is currently on in its step history  
@@ -189,10 +195,20 @@ protected static class TurtleAnimator {
   public static Map<String, Double> getBounds()
   // return the graphics scaling factor the animation window should use
   public static double getGraphicsScalingFactor()
-  // return the turtle(s) in the animation environment
-  public static List<Turtle> getTurtles()
-  // check if turtle is within the animation window after a step
-  protected static boolean checkInBound(Point position)
+   // return the animation speed
+   public static double getSpeed()
+   // update the animation speed
+   public static void setSpeed(double speed)
+   // calculate the list of TurtleState needed to smoothly move the turtle for its given TurtleStep
+   public static void animateSteps(Map<int, TurtleStep> eachTurtlesStep)
+   // return the list of TurtleState needed to smoothly move the turtle(s) a step forward in the animation
+   public static Map<int, List<TurtleStates>> stepForward()
+   // return the list of TurtleState needed to smoothly move the turtle(s) a step backward in the animation
+   public static Map<int, List<TurtleStates>> stepBackward()
+   // reset turtles' state
+   public static boolean resetTurtles(List<Turtle>)   
+   // check if turtle is within the animation window after a step
+   protected static boolean checkInBound(Point position)
 }
 ```
 
