@@ -33,27 +33,14 @@ in real time. These input commands will be parsed by the model and passed via a 
 2x speed, 5x speed, and pen colors. These will all be filtered using classes called `Input` 
 and `Animation`. Finally, the user can change the turtle or load a saved configuration via a 
 file selector. These interactions will be handled through a `XML` configuration class.
-Updating and processing the turtle animation will be handled by the external and internal Model API.
-To keep track of the turtle's position and heading, we will implement a `Point` class and a `Vector`
-class as our bottom level of abstraction. The Point class will be used to track position while the
-Vector class will be used to track angle and magnitude, the turtle's displacement between steps. To
-calculate the turtle's next position or new heading, we will have a static protected
-class `TurtleGeometry`, handling all `Vector` and `Point` related operations.
-Moving up the levels of abstraction, to keep track of a turtle's sequence of steps, we will
-implement a `Step` class that contains attributes like initial and final position (`Point` objects)
-and initial and final vector (`Vector` objects) as well as whether the pen is down for that step.
-This will allow us to efficiently step forward or back in the animation, replay the animation, and
-change in the animation speed in the View. Moving further up the abstraction layers, we will
-implement a `Turtle` class, which will contain attributes storing the turtle's unique id (this is to
-allow to a possible future extension of having multiple turtles), initial position at the start of
-the animation (`Point`), current position (`Point`), heading and the sequence of `Step` it has
-taken.
-Lastly, at the very top level of abstraction, we will have the static `TurtleAnimator` class which
-defines the scrunch, the current graphics scaling factor, and the bounds of the animation window and
-checks whether a `Turtle` is in bound after a `Step`. Overall, by encapsulating all the logic behind
-the turtle's animation in the backend external and internal APIs, the View will only need to call
-specific methods like `doStep()` or `getHeading()` and will receive the final position or facing
-position of the turtle.
+
+Updating and processing the turtle animation will be handled by the external and internal Model API. 
+To keep track of the turtle's position and heading, we will implement a `Point` class and a `Vector` class as our bottom level of abstraction. The Point class will be used to track position while the Vector class will be used to track angle and magnitude, the turtle's displacement between steps. To calculate the turtle's next position or new heading, we will have a static protected class `TurtleGeometry`, handling all `Vector` and `Point` related operations. 
+Moving up the levels of abstraction, to represent a turtle's state, its position and heading, we will implement a `TurtleState` class. To then keep track of a turtle's sequence of steps, we will implement a `TurtleStep` class that contains attributes like initial `TurtleState`, change in position `Vector`, change in angle as well as whether the pen is down for that step.
+This will allow us to efficiently step forward or back in the animation, replay the animation, and change in the animation speed in the View. Moving further up the abstraction layers, we will implement a `Turtle` class, which will contain attributes storing the turtle's unique id (this is to allow to a possible future extension of having multiple turtles), initial state at the start of the animation (`TurtleState`), current state (`TurtleState`), and the sequence of `TurtleStep` it has taken. 
+Lastly, at the very top level of abstraction, we will have the static `TurtleAnimator` class which defines the current graphics scaling factor, the animation speed and the bounds of the animation window. It will also be responsible for generating the series of intermediate TurtleStates needed in order for a turtle to smoothly perform a step, a change in postion or angle. It will also check whether a `Turtle` is in bound after a `Step`. 
+Overall, by encapsulating all the logic behind the turtle's animation in the backend external and internal APIs, the View will only need to call specific methods like `animateSteps()` and will receive the list of `TurtleStates` needed to smoothly animate the turtle view. 
+
 
 ## Design Details
 `Page`
@@ -91,15 +78,13 @@ angle, magnitude. This is one of the classes at the bottom level of abstraction 
 distance and angle between `Point` objects. Classes related to turtle animation in the backend
 internal API will depend on this class.
 
-`Step`
+`TurtleState`
 
-This class is part of the Model internal and external APIs and is at the next higher level of
-abstraction. It will contain attributes: `Point` startPostion, `Point` endPosition, `Vector`
-initialVector, `Vector` finalVector, double changeInMagnitude, double changeInAngle. A `Step` object
-represents a step, a change in distance or heading, the turtle has taken. This satisfies SLOGO 75
-and 76. To replay an animation, the View will only need to retrieve the list of Step objects for the
-turtle. To pause, play step forward, or step back in the animation, one will only need to trace the
-list of Step object.
+This is a class part of the external Model API used to represent an immutable state of the turtle. It will contain attributes Point `position` and double `angle`. Classes higher in abstraction level will depend on this class. It also serves to represent an animation step for animating the turtle's motion. 
+
+`TurtleStep`
+
+This is a class part of the Model internal and external API and is at the next higher level of abstraction. It will contain attributes: `TurtleState` initialState, `Vector` positionChange, and `double` angleChange. A `TurtleStep` object represents a step, a change in distance or heading, the turtle has taken in the animation. 
 
 `TurtleGeometry`
 
@@ -116,26 +101,12 @@ that the TurtleGeometry only performs operations on the more abstract classes `P
 
 `Turtle`
 
-This class will represent a turtle in the animation and is towards the top level of abstraction. It
-will depend on the more abstract classes `Point`, `Vector`, `Step`, `TurtleGeometry`. Attributes
-include the turtle's: int id, Point currentPosition, Point initialPosition, double heading,
-List<step> stepHistory. In the Model internal API, the methods `move(double distance)`
-and `rotate(double angle)` allow the turtle to update its position or heading. In the Model external
-API, user will be able to the get all the turtle's attributes as well as call public methods
-including: `getHeadingTowards(Point point), doStep(double length, double angle), stepForward(), 
-stepBack(), reset()`.
-These method signatures keep all implementation details encapsulated given that one is not able to
-read any data structures or classes involved at the bottom level of abstraction.
+This class will represent a turtle in the animation and is towards the top level of abstraction. It will depend on the more abstract classes `Point`, `Vector`, `TurtleState`, `TurtleStep`, `TurtleGeometry`. Attributes include the turtle's: int id, TurtleState state, List<TurtleStep> stepHistory. In the Model internal API, the methods `move(double distance)` and `rotate(double angle)` allow the turtle to update its position or heading. In the Model external API, user will be able to the get all the turtle's attributes as well as call public methods including: `doStep(double length, double angle), stepForward(), stepBack(), reset()`. These method signatures keep all implementation details encapsulated given that one is not able to read any data structures or classes involved at the bottom level of abstraction.
 
 `TurtleAnimator`
 
-This class will be public static and is at the top level of abstraction. It is for storing all
-parameters related to the animation environment. Attributes include the bounds of the animation
-window to be generated by the View, the graphic scaling factor, and the turtle(s) in the animation.
-As part of the Model internal API, it will contain a method `checkBounds()` to validate whether the
-turtle is within bound of the animation window after performing a `Step`. As part of the Model
-external API, this class will only return all its attributes, thereby encapsulating all the
-implementation details of the turtle animation from the user.
+This class will be public static and is at the top level of abstraction. It is for storing all parameters related to the animation environment. Attributes include the bounds of the animation window to be generated by the View, the graphic scaling factor, speed of animation, and a Map mapping turtle ids to the series of `TurtleStates` needed to create the turtle animation for a given step. As part of the Model external API, it will contain method `animateStep()` to calculate the series of `TurtleState` needed to animate the turtle smoothly over a `TurtleStep` (change in position or angle) at a certain animation speed. `animateSteps()` will store the result in a local Map variable that maps turtle id to the list of `TurtleStates` needed to smoothly animate the Turtle. This satisfies SLOGO 75 and 76. To replay, pause, play step forward, or step back in the animation, the View will only need to obtain list of the TurtleStates needed for a turtle at each step by calling `stepForward()` or `stepBackward()`.
+As part of the Model internal API, it will contain a method `checkBounds()` to validate whether the turtle is within bound of the animation window after performing a `TurtleStep`. 
 
 ## Design Considerations
 
