@@ -77,6 +77,14 @@ whether a `Turtle` is in bound after a `Step`.
 Overall, by encapsulating all the logic behind the turtle's animation in the backend external and
 internal APIs, the View will only need to call specific methods like `animateSteps()` and will
 receive the list of `TurtleStates` needed to smoothly animate the turtle view.
+Updating and processing the turtle animation will be handled by the external and internal Model API. 
+To keep track of the turtle's position and heading, we will implement a `Point` class and a `Vector` class as our bottom level of abstraction. The Point class will be used to track position while the Vector class will be used to track angle and magnitude, the turtle's displacement between steps. To calculate the turtle's next position or new heading, we will have a static protected class `TurtleGeometry`, handling all `Vector` and `Point` related operations. 
+Moving up the levels of abstraction, to represent a turtle's state, its position and heading, we will implement a `TurtleState` class. To then keep track of a turtle's sequence of steps, we will implement a `TurtleStep` class that contains attributes like initial `TurtleState`, change in position `Vector`, change in angle as well as whether the pen is down for that step.
+This will allow us to efficiently step forward or back in the animation, replay the animation, and change in the animation speed in the View. Moving further up the abstraction layers, we will implement a `Turtle` class, which will contain attributes storing the turtle's unique id (this is to allow to a possible future extension of having multiple turtles), initial state at the start of the animation (`TurtleState`), current state (`TurtleState`), and the sequence of `TurtleStep` it has taken. 
+Lastly, at the very top level of abstraction, we will have the static `TurtleAnimator` class which defines the current graphics scaling factor, the animation speed and the bounds of the animation window. It will also be responsible for generating the series of intermediate TurtleStates needed in order for a turtle to smoothly perform a step, a change in postion or angle. It will also check whether a `Turtle` is in bound after a `Step`. 
+Overall, by encapsulating all the logic behind the turtle's animation in the backend external and internal APIs, the View will only need to call specific methods like `animateSteps()` and will receive the list of `TurtleStates` needed to smoothly animate the turtle view. 
+
+![UML diagram](images/slogo_api_uml_version1.jpg "UML Diagram")
 
 ## Design Details
 
@@ -170,6 +178,30 @@ animation, the View will only need to obtain list of the TurtleStates needed for
 step by calling `stepForward()` or `stepBackward()`.
 As part of the Model internal API, it will contain a method `checkBounds()` to validate whether the
 turtle is within bound of the animation window after performing a `TurtleStep`.
+
+`Session`
+
+This public class will represent the IDE and command-running interface of the program. 
+It serves external API methods by acting as a middleman for Turtle and CommandPrompt.
+It will also contain command history info and contains some other functionality encapsulated within individual sessions.
+
+`CommandPrompt`
+
+This package-level class will handle running strings of code. 
+It does this by combining the functionality of the Tokenizer and Parser classes to compile the code
+into a list of Commands that can be run sequentially.
+
+`Command`
+
+This abstract package-level class will be the abstraction for any given command, which takes arguments,
+Turtles to act on, the Environment to resolve variables, etc. things needed to run commands.
+It sends messages to the given Turtles to do certain things or simply performs logic or math operations.
+
+`RunProgramException`
+
+This abstract public class will be an abstraction for any exception that occurs while running code
+and will contain debugging info such as line number and position the error occurred, the error type,
+and the error message.
 
 ## Design Considerations
 
