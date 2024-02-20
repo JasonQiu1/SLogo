@@ -1,0 +1,16 @@
+<command>
+  <name>minus</name>
+  <alias>~</alias>
+  <description>
+    Returns negative of the values of expr
+  </description>
+  <example>~ 10</example>
+  <help>
+    <parameters>
+      <parameter>expr: The first expression to negate</parameter>
+    </parameters>
+    <return>negative of the value of expr</return>
+  </help>
+  <parameters>1</parameters>
+  <implementation>MinusCommand</implementation>
+</command>

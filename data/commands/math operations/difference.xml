@@ -1,0 +1,17 @@
+<command>
+  <name>difference</name>
+  <alias>-</alias>
+  <description>
+    Returns difference of the values of expr1 and expr2
+  </description>
+  <example>- 10 5</example>
+  <help>
+    <parameters>
+      <parameter>expr1: The expression to subtract from</parameter>
+      <parameter>expr2: The expression to subtract</parameter>
+    </parameters>
+    <return>The difference of expr1 and expr2</return>
+  </help>
+  <parameters>2</parameters>
+  <implementation>DifferenceCommand</implementation>
+</command>
