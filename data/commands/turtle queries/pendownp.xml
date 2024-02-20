@@ -1,0 +1,13 @@
+<command>
+  <name>pendown?</name>
+  <alias>pendownp</alias>
+  <description>
+    Returns 1 if turtle's pen is down, 0 if it is up
+  </description>
+  <example>if pendown [fd 10]</example>
+  <help>
+    <return>1 if pen is down, 0 if pen is up</return>
+  </help>
+  <parameters>0</parameters>
+  <implementation>PenDown?Command</implementation>
+</command>

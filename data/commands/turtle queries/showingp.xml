@@ -1,0 +1,13 @@
+<command>
+  <name>showing?</name>
+  <alias>showingp</alias>
+  <description>
+    Returns 1 if turtle is showing, 0 if it is hiding
+  </description>
+  <example>if showing [fd 10]</example>
+  <help>
+    <return>1 if showing, 0 if hiding</return>
+  </help>
+  <parameters>0</parameters>
+  <implementation>Showing?Command</implementation>
+</command>
