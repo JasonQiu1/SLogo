@@ -84,6 +84,19 @@ This will allow us to efficiently step forward or back in the animation, replay 
 Lastly, at the very top level of abstraction, we will have the static `TurtleAnimator` class which defines the current graphics scaling factor, the animation speed and the bounds of the animation window. It will also be responsible for generating the series of intermediate TurtleStates needed in order for a turtle to smoothly perform a step, a change in postion or angle. It will also check whether a `Turtle` is in bound after a `Step`. 
 Overall, by encapsulating all the logic behind the turtle's animation in the backend external and internal APIs, the View will only need to call specific methods like `animateSteps()` and will receive the list of `TurtleStates` needed to smoothly animate the turtle view. 
 
+To run code, all the view needs to do is pass lines of code to the `run` external API method in `Session`,
+which will dispatch to the `run` internal API method in CommandPrompt, which will handle it all.
+`RunProgramException` exceptions may be thrown, which will should be caught by the caller in the view.
+It will contain debugging information such as error type, message, line number, and line position.
+
+Commands will be abstracted using the `Command` class and will all take a certain number of arguments
+and `Turtle`s to perform those commands on if needed.
+
+The view can also go backwards and forwards in history by using `undo` and `redo` in `Session` which will
+internally maintain both the command history and turtle step history so that they are always in sync.
+
+The view can get the command history and turtle step history of variable lengths from `Session` as well.
+
 ![UML diagram](images/slogo_api_uml_version1.jpg "UML Diagram")
 
 ## Design Details
@@ -205,7 +218,22 @@ and the error message.
 
 ## Design Considerations
 
-Session?
+We considered the possiblity for extension with simultaneous sessions (possibly represented as tabs in some main browser),
+leading us to create a `Session` class in the design, which also simplified the model's external API.
+
+Special types of exceptions under a superclass of `RunCommandException` for running commands were considered in case debugging information
+is needed in the change specification.
+
+`TurtleAnimator` was created to delegate the animation aspect of the program away from the view and into the model, 
+simplifying the view's complexity. It also handles any playback that the view requires after getting the step history of turtles from `Session`.
+
+`undo` and `redo` functionalities were included in `Session` so that the user can undo commands, which alters both command and turtle step history.
+Having this function in `Session` allows for both command history and turtle step history to stay in sync.
+
+In the consideration that there could possible be multiple turtles running at once in a single session:
+- `run` in `CommandPrompt` and `animateEachTurtlesStep` was extended to take a list of turtles instead
+- `Session` maintains a list of currently selected turtles
+- `Turtle` was extended to additionally hold an ID so that the user could select each one individually using commands
 
 ## Test Plan
 
@@ -262,6 +290,15 @@ correctly handles errors. Anticipated test scenarios for project features are li
       testing
     * Secondary: Help with front-end implementation as needed
 
-* Team Member #4
+* Team Member #4: Jason Qiu
+    * Primary: Implement tokenizer, parser, command evaluation, all commands, and session history functionality.
+    * Secondary: Help with design and implementation in other parts of the project if needed.
 
 ### Timeline
+#### By 2/25
+- Push up and merge all external API boilerplate classes and methods into main
+- Get minimally-implemented functionality for all parts done
+#### By 3/3
+- Fulfill full Basic specification on main
+#### By 3/8
+- Fulfill full Changed specification on main
