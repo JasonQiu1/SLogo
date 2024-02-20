@@ -1,0 +1,13 @@
+<command>
+  <name>clearscreen</name>
+  <alias>cs</alias>
+  <description>
+    Erases turtle's trails and sends it to the home position
+  </description>
+  <example>sc</example>
+  <help>
+    <return>The distance moved</return>
+  </help>
+  <parameters>0</parameters>
+  <implementation>ClearScreenCommand</implementation>
+</command>

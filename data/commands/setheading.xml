@@ -1,0 +1,17 @@
+<command>
+  <name>setheading</name>
+  <alias>seth</alias>
+  <description>
+    Turns turtle to an absolute heading
+    Returns number of degrees turned
+  </description>
+  <example>seth 120</example>
+  <help>
+    <parameters>
+      <parameter>heading: the absolute heading to turn to</parameter>
+    </parameters>
+    <return>The number of degrees turned</return>
+  </help>
+  <parameters>1</parameters>
+  <implementation>SetHeadingCommand</implementation>
+</command>

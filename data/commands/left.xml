@@ -1,0 +1,17 @@
+<command>
+  <name>left</name>
+  <alias>lt</alias>
+  <description>
+    Turns turtle counterclockwise by degrees angle
+    returns amount turtle turned (the value of degrees)
+  </description>
+  <example>lt 45</example>
+  <help>
+    <parameters>
+      <parameter>degrees: the degrees angle to turn counterclockwise</parameter>
+    </parameters>
+    <return>The amount turtle turned (the value of degrees)</return>
+  </help>
+  <parameters>1</parameters>
+  <implementation>LeftCommand</implementation>
+</command>
