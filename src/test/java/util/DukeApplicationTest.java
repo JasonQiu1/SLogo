@@ -12,8 +12,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
@@ -36,7 +38,7 @@ import org.testfx.util.WaitForAsyncUtils;
  */
 public class DukeApplicationTest extends ApplicationTest {
     // typical dialog box submit button text, perhaps should be a parameter?
-    private static final String SUBMIT = "OK";
+    public static final String DEFAULT_SUBMIT_BUTTON_TEXT = "OK";
 
 
     // standard steps for all test applications so factor out here
@@ -96,7 +98,15 @@ public class DukeApplicationTest extends ApplicationTest {
         simulateAction(t, () -> {
             t.clear();  // NOTE: not always a good assumption
             t.requestFocus();
-            write(text);
+            // System.out.println(t.isFocused());
+            t.appendText(text);
+            // FIXME: should be just this instead of the hack below :(
+            // write(text);
+            if (text.endsWith("\n") && t instanceof TextField) {
+                t.fireEvent(new KeyEvent(KeyEvent.KEY_PRESSED,
+                                             "\n", KeyCode.ENTER.toString(), KeyCode.ENTER,
+                                             false, false, false, false));
+            }
         });
     }
 
@@ -107,13 +117,13 @@ public class DukeApplicationTest extends ApplicationTest {
         int k = 0;
         for (Node field : lookup(".dialog-pane .text-field").queryAll()) {
             if (k < textInput.length) {
-                // input given text into dialog box textfield
+                // input given text into dialog box text field
                 writeInputTo((TextInputControl)field, textInput[k]);
                 k += 1;
             }
         }
         // look up resulting dialog's button based on its label
-        clickOn(lookup(SUBMIT).query());
+        clickOn(lookup(DEFAULT_SUBMIT_BUTTON_TEXT).query());
     }
 
 
@@ -159,9 +169,9 @@ public class DukeApplicationTest extends ApplicationTest {
     /**
      * Returns message displayed in currently displayed DialogBox
      */
-    protected String getDialogMessage () {
+    protected String getDialogMessage (String submitButtonText) {
         String message = ((Label)lookup(".dialog-pane .content").query()).getText();
-        clickOn(lookup(SUBMIT).query());
+        clickOn(lookup(submitButtonText).query());
         return message;
     }
 
