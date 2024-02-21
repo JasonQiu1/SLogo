@@ -14,7 +14,7 @@ public class GraphicsPage extends GeneralPage {
   }
 
   @Override
-  protected void setPage(Stage stage) {
+  public void setPage(double screenWidth, double screenHeight) {
 
   }
 
