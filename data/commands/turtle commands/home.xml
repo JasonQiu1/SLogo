@@ -1,0 +1,13 @@
+<command>
+  <name>home</name>
+  <alias>home</alias>
+  <description>
+    Moves turtle to the center of the screen (0 0)
+  </description>
+  <example>home</example>
+  <help>
+    <return>The distance moved</return>
+  </help>
+  <parameters>0</parameters>
+  <implementation>HomeCommand</implementation>
+</command>

@@ -1,0 +1,17 @@
+<command>
+  <name>right</name>
+  <alias>rt</alias>
+  <description>
+    Turns turtle clockwise by degrees angle
+    Returns amount turtle turned (the value of degrees)
+  </description>
+  <example>rt 45</example>
+  <help>
+    <parameters>
+      <parameter>degrees: the degrees angle to turn clockwise</parameter>
+    </parameters>
+    <return>The amount turtle turned (the value of degrees)</return>
+  </help>
+  <parameters>1</parameters>
+  <implementation>RightCommand</implementation>
+</command>

@@ -1,0 +1,13 @@
+<command>
+  <name>pendown</name>
+  <alias>pd</alias>
+  <description>
+    Puts pen down such that when the turtle moves, it leaves a trail
+  </description>
+  <example>pd</example>
+  <help>
+    <return>1</return>
+  </help>
+  <parameters>0</parameters>
+  <implementation>PenDownCommand</implementation>
+</command>
