@@ -1,7 +1,11 @@
 package View;
 
+import java.io.File;
+import java.nio.file.Path;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBase;
+import javafx.scene.control.CheckBox;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -9,22 +13,26 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
+import javafx.stage.FileChooser;
 
 public class UIButton {
-
-  private final Button button;
-  private final String ID;
-
   private static final Font SLOGO_BUTTON = Font.font("Verdana", FontWeight.MEDIUM, 15);
+  private final String ID;
+  private ButtonBase button;
 
-  public UIButton(String text, double positionX, double positionY) {
-    button = new Button(text);
+  public UIButton(String text, ButtonBase buttonType, double x, double y) {
     ID = text;
-    button.setLayoutX(positionX);
-    button.setLayoutY(positionY);
+    button = buttonType;
+    button.setText(text);
+    button.setFont(SLOGO_BUTTON);
+    button.setTextFill(Color.GREEN);
+    button.setLayoutX(x);
+    button.setLayoutY(y);
   }
 
-  public Button getButton() {
+  public ButtonBase getButton() {
     return (button);
   }
 
@@ -33,19 +41,23 @@ public class UIButton {
   }
 
   public void setSelectorClassic() {
-    button.setShape(new Rectangle( 400.0f, 400.0f));
-    button.setTextFill(Color.GREEN);
-    button.setFont(SLOGO_BUTTON);
-    button.setLayoutX(button.getLayoutX() - (button.getWidth())/2);
-    button.setLayoutY(button.getLayoutY() - (button.getHeight())/2);
+      button.setShape(new Rectangle(200.0f, 100.0f));
+      button.setMinSize(200, 100);
+      button.setMaxSize(400, 200);
   }
 
   public void setMenuClassic() {
     button.setShape(new Ellipse(200.0f, 120.0f, 150.0f, 80.f));
-    button.setTextFill(Color.GREEN);
-    button.setFont(SLOGO_BUTTON);
-    button.setLayoutX(button.getLayoutX() - (button.getWidth())/2);
-    button.setLayoutY(button.getLayoutY() - (button.getHeight())/2);
+  }
+
+  public void setCheckbox() {
+    button.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+      @Override
+      public void handle(MouseEvent event) {
+         button.arm();
+         System.out.println(button.isArmed());
+      }
+    });
   }
 
   public void addShadow() {
@@ -62,6 +74,39 @@ public class UIButton {
         });
   }
 
+  public void addFolderOpener(Stage stage, String folderName) {
+    FileChooser fc = getFileChooser(folderName);
+    button.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+      @Override
+      public void handle(MouseEvent event) {
+        File chosenFile = fc.showOpenDialog(stage);
+        if(chosenFile != null) {
+          System.out.println("File Chosen:" + chosenFile.getPath());
+        }
+      }
+    });
+  }
+
+  private static FileChooser getFileChooser(String folderName) {
+    FileChooser fc = new FileChooser();
+    fc.setTitle("Open Resource File");
+    String folder = Path.of("data" + File.separator + folderName).toString();
+    fc.setInitialDirectory(new File(folder));
+
+    if(folderName.equals("turtle_images")) {
+      fc.getExtensionFilters().addAll(
+          new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
+      );
+    } else if(folderName.equals("saved_files")) {
+      fc.getExtensionFilters().addAll(
+          new ExtensionFilter("XML Files", "*.xml")
+      );
+    }
+
+    return fc;
+  }
+
+
   public void addClickLink() {
     button.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
       @Override public void handle(MouseEvent e) {
@@ -75,6 +120,4 @@ public class UIButton {
       }
     });
   }
-
-
 }

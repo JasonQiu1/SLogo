@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBase;
+import javafx.scene.control.CheckBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -33,17 +35,19 @@ public abstract class GeneralPage {
   public abstract void setPage(double screenWidth, double screenHeight);
   public abstract Parent getPage();
 
-  public Collection<UIButton> createButtons(Map<String, double[]> buttonNamesAndPositions) {
+  public Collection<UIButton> createButtons(Map<String, double[]> buttonIDs, String typeName) {
     Set<UIButton> buttons = new HashSet<>();
-    for(String name : buttonNamesAndPositions.keySet()) {
-      double[] positions = buttonNamesAndPositions.get(name);
-      UIButton newButton = createButton(name, positions[0], positions[1]);
+    for(String name : buttonIDs.keySet()) {
+      double[] positions = buttonIDs.get(name);
+      ButtonBase type = typeName.equals("button") ? new Button() : new CheckBox();
+      UIButton newButton = createButton(name, positions[0], positions[1], type);
       buttons.add(newButton);
     }
     return buttons;
   }
 
-  private UIButton createButton(String text, double positionX, double positionY) {
-    return new UIButton(text, positionX, positionY);
+  private UIButton createButton(String text, double positionX, double positionY, ButtonBase type){
+    UIButton newButton = new UIButton(text, type, positionX, positionY);
+    return newButton;
   }
 }
