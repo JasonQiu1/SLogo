@@ -12,8 +12,6 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class GraphicsPage extends GeneralPage {
-
-  private static final Font RANDOM_FONT = Font.font("Verdana", FontWeight.BOLD, 35);
   private final Group root;
 
   public GraphicsPage(Stage stage) {
@@ -31,15 +29,37 @@ public class GraphicsPage extends GeneralPage {
     return root;
   }
 
+
   private void createGUI(double screenWidth, double screenHeight) {
     Collection<UIElement> UIElements = new HashSet<>();
 
+    UIElements.addAll(setupBoxes(screenWidth, screenHeight));
     UIElements.addAll(setupTextField(screenWidth, screenHeight));
     UIElements.addAll(setupButtons(screenWidth, screenHeight));
     UIElements.addAll(setupText(screenWidth, screenHeight));
     UIElements.addAll(setupCheckBoxes(screenWidth, screenHeight));
 
     styleUI(UIElements, root);
+  }
+
+  private Collection<UIElement> setupBoxes(double screenWidth, double screenHeight) {
+    Map<String, double[]> boxIDs = new HashMap<>();
+    boxIDs.put("BottomBox", new double[]{
+        screenWidth,
+        screenHeight - 1 * screenHeight / 8,
+        0,
+        6 * screenHeight / 8});
+    boxIDs.put("RightBox", new double[]{
+        screenWidth - 3 * screenWidth / 8,
+        screenHeight,
+        6 * screenWidth / 8,
+        0});
+    boxIDs.put("TurtleBox", new double[]{
+        200,
+        200,
+        0,
+        0});
+    return createElements(boxIDs, "region");
   }
 
   private Collection<UIElement> setupTextField(double screenWidth, double screenHeight) {
@@ -72,7 +92,10 @@ public class GraphicsPage extends GeneralPage {
     buttonIDs.put("4x", new double[]{6 * screenWidth / 8 + 60, 5 * screenHeight / 8});
     buttonIDs.put("Variables", new double[]{6 * screenWidth / 8 - 60, 5 * screenHeight / 8 + 40});
     buttonIDs.put("Play/Pause", new double[]{6 * screenWidth / 8 + 60, 5 * screenHeight / 8 + 40});
+    buttonIDs.put("Home", new double[]{6 * screenWidth / 8 - 60, screenHeight / 8 - 60});
+    buttonIDs.put("Reset", new double[]{6 * screenWidth / 8 + 60, screenHeight / 8 - 60});
     buttonIDs.put("Commands", new double[]{6 * screenWidth / 8 - 60, 5 * screenHeight / 8 + 80});
+    buttonIDs.put("History", new double[]{6 * screenWidth / 8 - 20, 1 * screenHeight / 8});
     buttonIDs.put("Help", new double[]{6 * screenWidth / 8 + 60, 5 * screenHeight / 8 + 80});
     buttonIDs.put("Load", new double[]{6 * screenWidth / 8 - 60, 7 * screenHeight / 8});
     buttonIDs.put("Save", new double[]{6 * screenWidth / 8 + 60, 7 * screenHeight / 8});

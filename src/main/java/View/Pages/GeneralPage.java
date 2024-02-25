@@ -3,6 +3,7 @@ package View.Pages;
 import View.UserInterface.UIButton;
 import View.UserInterface.UICheckBox;
 import View.UserInterface.UIElement;
+import View.UserInterface.UIRegion;
 import View.UserInterface.UIText;
 import View.UserInterface.UITextField;
 import java.util.Collection;
@@ -40,11 +41,23 @@ public abstract class GeneralPage {
       switch (element.getType().toLowerCase()) {
         case "button" -> loadButton((UIButton) element, element.getID());
         case "text" -> loadText((UIText) element, element.getID());
-        case "checkbox" -> loadBox((UICheckBox) element, element.getID());
+        case "checkbox" -> loadCheckBox((UICheckBox) element, element.getID());
         case "textfield" -> loadTextField((UITextField) element, element.getID());
+        case "region" -> loadRegion((UIRegion) element, element.getID());
         default -> throw new TypeNotPresentException(element.getType(), new Throwable());
       }
       root.getChildren().add(element.getElement());
+    }
+  }
+
+  private void loadRegion(UIRegion box, String ID) {
+    switch (ID) {
+      case "BottomBox", "TurtleBox", "RightBox" -> {
+        box.setBackgroundClassic();
+      }
+      default -> {
+        throw new TypeNotPresentException(ID, new Throwable());
+      }
     }
   }
 
@@ -74,15 +87,25 @@ public abstract class GeneralPage {
         button.setPausePlayClassic();
         // TODO: MAKE BUTTON PLAY/PAUSE SIMULATION
       }
+      case "Home" -> {
+        button.setHomeClassic();
+        button.addOpenSplash(myStage);
+      }
+      case "Reset" -> {
+        button.setResetClassic();
+        // TODO: MAKE BUTTON RESET SIMULATION
+      }
       case "1x", "2x", "3x", "4x" -> {
         button.setSpeedClassic();
+        // TODO: MAKE BUTTON CHANGE SIMULATION SPEED
       }
       case "R", "G", "B" -> {
         button.setPenClassic();
+        // TODO: MAKE BUTTON CHANGE SIMULATION COLOR
       }
-      case "Variables", "Commands" -> {
+      case "Variables", "Commands", "History" -> {
         button.setGUIClassic();
-        // TODO: MAKE BUTTON DISPLAY VARIABLES AND COMMAND
+        // TODO: MAKE BUTTON DISPLAY FOR VARIABLES, COMMANDS, AND HISTORY
       }
       default -> {
         throw new TypeNotPresentException(ID, new Throwable());
@@ -90,7 +113,7 @@ public abstract class GeneralPage {
     }
   }
 
-  private void loadBox(UICheckBox checkBox, String ID) {
+  private void loadCheckBox(UICheckBox checkBox, String ID) {
     switch (ID) {
       case "Light", "Dark" -> {
         checkBox.setThemeCheckBox();
@@ -99,7 +122,6 @@ public abstract class GeneralPage {
       case "BK/WH", "GN/BL", "PK/PR" -> {
         checkBox.setBackgroundCheckBox();
       }
-
       default -> {
         throw new TypeNotPresentException(ID, new Throwable());
       }
@@ -147,6 +169,9 @@ public abstract class GeneralPage {
       }
       case "textfield" -> {
         return new UITextField(ID, position[0], position[1]);
+      }
+      case "region" -> {
+        return new UIRegion(ID, position[0], position[1], position[2], position[3]);
       }
       default -> throw new TypeNotPresentException(type, new Throwable());
     }

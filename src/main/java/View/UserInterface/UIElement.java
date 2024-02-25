@@ -127,4 +127,13 @@ public class UIElement {
       }
     });
   }
+
+  public void addOpenSplash(Stage stage) {
+    UIBase.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+      @Override
+      public void handle(MouseEvent event) {
+        SlogoWindow window = new SlogoWindow(stage, "splash");
+      }
+    });
+  }
 }
