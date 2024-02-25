@@ -22,7 +22,7 @@ public class UIText extends UIElement {
     myText.setFont(SLOGO_FONT);
   }
 
-  public void setThemeClassic() {
+  public void setRegularClassic() {
     myText.setFont(THEME_FONT);
   }
 }

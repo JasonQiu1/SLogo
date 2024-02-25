@@ -47,23 +47,41 @@ public abstract class GeneralPage {
     }
   }
 
-  private void loadButton(UIButton element, String ID) {
+  private void loadButton(UIButton button, String ID) {
     switch (ID) {
       case "Turtle Selector" -> {
-        element.setSelectorClassic();
-        element.addFolderOpener(myStage, "turtle_images");
+        button.setSelectorClassic();
+        button.addFolderOpener(myStage, "turtle_images");
       }
       case "Load" -> {
-        element.setMenuClassic();
-        element.addFolderOpener(myStage, "saved_files");
+        button.setMenuClassic();
+        button.addFolderOpener(myStage, "saved_files");
+      }
+      case "Save" -> {
+        button.setMenuClassic();
+        button.addSaveFolder(myStage, "saved_files");
       }
       case "Create" -> {
-        element.setMenuClassic();
-        element.addOpenGUI(myStage);
+        button.setMenuClassic();
+        button.addOpenGUI(myStage);
       }
       case "Help" -> {
-        element.setMenuClassic();
-        // TODO: MAKE BUTTON JUMP TO SLOGO WIKI
+        button.setMenuClassic();
+        // TODO: MAKE BUTTON JUMP TO HELP PAGE
+      }
+      case "Play/Pause" -> {
+        button.setPausePlayClassic();
+        // TODO: MAKE BUTTON PLAY/PAUSE SIMULATION
+      }
+      case "1x","2x","3x","4x" -> {
+        button.setSpeedClassic();
+      }
+      case "R", "G", "B" -> {
+        button.setPenClassic();
+      }
+      case "Variables","Commands" -> {
+        button.setGUIClassic();
+        // TODO: MAKE BUTTON DISPLAY VARIABLES AND COMMAND
       }
       default -> {
         throw new TypeNotPresentException(ID, new Throwable());
@@ -88,8 +106,8 @@ public abstract class GeneralPage {
       case "SLOGO" -> {
         text.setSlogoClassic();
       }
-      case "Theme:" -> {
-        text.setThemeClassic();
+      case "Theme:", "Pen Colors:", "Speed:" -> {
+        text.setRegularClassic();
       }
       default -> {
         throw new TypeNotPresentException(ID, new Throwable());

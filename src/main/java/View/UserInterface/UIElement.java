@@ -104,4 +104,16 @@ public class UIElement {
     return fc;
   }
 
+  public void addSaveFolder(Stage stage, String folderName) {
+    FileChooser fc = getFileChooser(folderName);
+    UIBase.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+      @Override
+      public void handle(MouseEvent event) {
+        File chosenFile = fc.showSaveDialog(stage);
+        if (chosenFile != null) {
+          System.out.println("File Chosen:" + chosenFile.getPath());
+        }
+      }
+    });
+  }
 }

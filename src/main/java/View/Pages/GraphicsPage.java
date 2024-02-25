@@ -42,15 +42,32 @@ public class GraphicsPage extends GeneralPage {
   private void createTextBox(double screenWidth, double screenHeight) {
     Map<String, double[]> textFieldIDs = new HashMap<>();
     Map<String, double[]> buttonIDs = new HashMap<>();
+    Map<String, double[]> textIDs = new HashMap<>();
 
     Collection<UIElement> UIElements = new HashSet<>();
 
-
-
     textFieldIDs.put("Insert Command Here", new double[]{screenWidth / 8, 7 * screenHeight / 8});
+
+    buttonIDs.put("1x", new double[]{6 * screenWidth / 8 - 60, 5 * screenHeight / 8});
+    buttonIDs.put("2x", new double[]{6 * screenWidth / 8 - 20, 5 * screenHeight / 8});
+    buttonIDs.put("3x", new double[]{6 * screenWidth / 8 + 20, 5 * screenHeight / 8});
+    buttonIDs.put("4x", new double[]{6 * screenWidth / 8 + 60, 5 * screenHeight / 8});
+    buttonIDs.put("Variables", new double[]{6 * screenWidth / 8 - 60, 5 * screenHeight / 8 + 40});
+    buttonIDs.put("Play/Pause", new double[]{6 * screenWidth / 8 + 60, 5 * screenHeight / 8 + 40});
+    buttonIDs.put("Commands", new double[]{6 * screenWidth / 8 - 60, 5 * screenHeight / 8 + 80});
+    buttonIDs.put("Help", new double[]{6 * screenWidth / 8 + 60, 5 * screenHeight / 8 + 80});
+    buttonIDs.put("Load", new double[]{6 * screenWidth / 8 - 60, 7 * screenHeight / 8});
+    buttonIDs.put("Save", new double[]{6 * screenWidth / 8 + 60, 7 * screenHeight / 8});
+    buttonIDs.put("R", new double[]{6 * screenWidth / 8 - 60, 4 * screenHeight / 8});
+    buttonIDs.put("G", new double[]{6 * screenWidth / 8, 4 * screenHeight / 8});
+    buttonIDs.put("B", new double[]{6 * screenWidth / 8 + 60, 4 * screenHeight / 8});
+
+    textIDs.put("Speed:", new double[]{6 * screenWidth / 8 - 60, 5 * screenHeight / 8 - 10});
+    textIDs.put("Pen Colors:", new double[]{6 * screenWidth / 8 - 60, 4 * screenHeight / 8 - 10});
+
     UIElements.addAll(createElements(textFieldIDs, "textfield"));
-
-
+    UIElements.addAll(createElements(buttonIDs, "button"));
+    UIElements.addAll(createElements(textIDs, "text"));
 
     styleUI(UIElements, root);
   }

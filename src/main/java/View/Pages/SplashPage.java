@@ -52,10 +52,10 @@ public class SplashPage extends GeneralPage {
 
     Collection<UIElement> UIElements = new HashSet<>();
 
-    buttonIDs.put("Turtle Selector", new double[]{screenWidth / 2 - 95, screenHeight / 4});
-    buttonIDs.put("Create", new double[]{screenWidth / 4 - 30, 3 * screenHeight / 4});
-    buttonIDs.put("Load", new double[]{2 * screenWidth / 4 - 10, 3 * screenHeight / 4});
-    buttonIDs.put("Help", new double[]{3 * screenWidth / 4 + 10, 3 * screenHeight / 4});
+    buttonIDs.put("Turtle Selector", new double[]{screenWidth / 2 - 95, 2 * screenHeight / 8});
+    buttonIDs.put("Create", new double[]{screenWidth / 4 - 30, 5 * screenHeight / 8 });
+    buttonIDs.put("Load", new double[]{2 * screenWidth / 4 - 10, 5 * screenHeight / 8});
+    buttonIDs.put("Help", new double[]{3 * screenWidth / 4 + 10, 5 * screenHeight / 8});
 
     boxIDs.put("Light", new double[]{screenWidth / 4 - 40, 7 * screenHeight / 8});
     boxIDs.put("Dark", new double[]{screenWidth / 4 + 40, 7 * screenHeight / 8});
