@@ -13,6 +13,7 @@ public class UICheckBox extends UIElement {
     super(new CheckBox(text), text);
     myBox = (CheckBox) getElement();
     myBox.setTextFill(Color.GREEN);
+    myBox.toFront();
     setPosition(x, y);
   }
 

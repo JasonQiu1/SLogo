@@ -7,9 +7,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 public class UIButton extends UIElement {
+
   private static final String RESET_IMG = "/button_images/ResetButton.png";
   private static final String PAUSE_PLAY_IMG = "/button_images/PausePlayButton.png";
   private static final String HOME_IMG = "/button_images/HomeButton.png";
@@ -21,6 +21,7 @@ public class UIButton extends UIElement {
     myButton = (Button) getElement();
     myButton.setFont(getButtonFont());
     myButton.setTextFill(Color.GREEN);
+    myButton.toFront();
     setPosition(x, y);
     addShadow();
   }
@@ -58,10 +59,12 @@ public class UIButton extends UIElement {
     myButton.setShape(new Circle(15));
     createLogo(HOME_IMG, 15, 15);
   }
+
   public void setResetClassic() {
     myButton.setShape(new Circle(15));
     createLogo(RESET_IMG, 15, 15);
   }
+
   public void setPausePlayClassic() {
     myButton.setShape(new Ellipse(90.0f, 20.f));
     createLogo(PAUSE_PLAY_IMG, 20, 20);
@@ -75,8 +78,6 @@ public class UIButton extends UIElement {
     myButton.setText("");
     myButton.setGraphic(buttonView);
   }
-
-
 
 
   private void setColor() {

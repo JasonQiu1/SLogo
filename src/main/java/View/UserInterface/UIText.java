@@ -17,6 +17,7 @@ public class UIText extends UIElement {
     super(new Text(text), text);
     myText = (Text) getElement();
     myText.setFill(Color.GREEN);
+    myText.toFront();
     setPosition(x, y);
   }
 

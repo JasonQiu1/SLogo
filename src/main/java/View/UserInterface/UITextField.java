@@ -17,6 +17,7 @@ public class UITextField extends UIElement {
     super(new TextField(text), text);
     myTextBox = (TextField) getElement();
     myTextBox.setAlignment(Pos.BASELINE_LEFT);
+    myTextBox.toFront();
     setPosition(x, y);
   }
 
@@ -46,12 +47,14 @@ public class UITextField extends UIElement {
           case CONTROL, COMMAND -> controlPressed = true;
           case R -> {
             if (controlPressed) {
+              System.out.println(textCollector);
               textCollector.clear();
+              myTextBox.clear();
               indexTracker = 0;
             }
           }
           case ENTER -> {
-            textCollector.add(indexTracker, myTextBox.getText());
+            textCollector.add(myTextBox.getText());
             indexTracker++;
             myTextBox.clear();
           }
@@ -65,7 +68,8 @@ public class UITextField extends UIElement {
             if (indexTracker < textCollector.size() - 1) {
               ++indexTracker;
               myTextBox.setText(textCollector.get(indexTracker));
-            } else {
+            } else if (!myTextBox.getText().isEmpty()) {
+              ++indexTracker;
               myTextBox.setText("");
             }
           }

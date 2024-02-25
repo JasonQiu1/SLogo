@@ -1,17 +1,16 @@
 package View.Pages;
 
 import View.UserInterface.UIElement;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import javafx.scene.Group;
 import javafx.scene.Parent;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class GraphicsPage extends GeneralPage {
+
   private final Group root;
 
   public GraphicsPage(Stage stage) {
@@ -31,7 +30,7 @@ public class GraphicsPage extends GeneralPage {
 
 
   private void createGUI(double screenWidth, double screenHeight) {
-    Collection<UIElement> UIElements = new HashSet<>();
+    Collection<UIElement> UIElements = new ArrayList<>();
 
     UIElements.addAll(setupBoxes(screenWidth, screenHeight));
     UIElements.addAll(setupTextField(screenWidth, screenHeight));
@@ -46,19 +45,19 @@ public class GraphicsPage extends GeneralPage {
     Map<String, double[]> boxIDs = new HashMap<>();
     boxIDs.put("BottomBox", new double[]{
         screenWidth,
-        screenHeight - 1 * screenHeight / 8,
+        7 * screenHeight / 8 - 20,
         0,
-        6 * screenHeight / 8});
+        7 * screenHeight / 8 - 20});
     boxIDs.put("RightBox", new double[]{
-        screenWidth - 3 * screenWidth / 8,
+        3 * screenWidth / 8 + 20,
         screenHeight,
-        6 * screenWidth / 8,
+        5 * screenWidth / 8 - 20,
         0});
     boxIDs.put("TurtleBox", new double[]{
         200,
         200,
-        0,
-        0});
+        screenWidth / 8,
+        2 * screenHeight / 8});
     return createElements(boxIDs, "region");
   }
 
@@ -80,7 +79,7 @@ public class GraphicsPage extends GeneralPage {
     Map<String, double[]> textIDs = new HashMap<>();
     textIDs.put("Background:", new double[]{screenWidth / 8 - 20, screenHeight / 8 - 24});
     textIDs.put("Speed:", new double[]{6 * screenWidth / 8 - 60, 5 * screenHeight / 8 - 10});
-    textIDs.put("Pen Colors:", new double[]{6 * screenWidth / 8 - 60, 4 * screenHeight / 8 - 10});
+    textIDs.put("Pen Colors:", new double[]{6 * screenWidth / 8 - 45, 4 * screenHeight / 8 - 10});
     return createElements(textIDs, "text");
   }
 
