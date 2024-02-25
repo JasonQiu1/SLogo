@@ -19,10 +19,6 @@ public class UIButton extends UIElement {
     addShadow();
   }
 
-  public ButtonBase getButton() {
-    return (myButton);
-  }
-
   public void setSelectorClassic() {
     myButton.setShape(new Rectangle(200.0f, 100.0f));
     myButton.setMinSize(200, 100);
@@ -34,6 +30,4 @@ public class UIButton extends UIElement {
     myButton.setMinSize(15, 8);
     myButton.setMaxSize(150, 80);
   }
-
-
 }

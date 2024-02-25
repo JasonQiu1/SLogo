@@ -26,25 +26,6 @@ public class UIElement {
     myID = ID;
   }
 
-  private static FileChooser getFileChooser(String folderName) {
-    FileChooser fc = new FileChooser();
-    fc.setTitle("Open Resource File");
-    String folder = Path.of("data" + File.separator + folderName).toString();
-    fc.setInitialDirectory(new File(folder));
-
-    if (folderName.equals("turtle_images")) {
-      fc.getExtensionFilters().addAll(
-          new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
-      );
-    } else if (folderName.equals("saved_files")) {
-      fc.getExtensionFilters().addAll(
-          new ExtensionFilter("XML Files", "*.xml")
-      );
-    }
-
-    return fc;
-  }
-
   public Node getElement() {
     return UIBase;
   }
@@ -102,6 +83,25 @@ public class UIElement {
   protected void setPosition(double x, double y) {
     UIBase.setLayoutX(x - UIBase.getBoundsInLocal().getWidth() / 2);
     UIBase.setLayoutY(y - UIBase.getBoundsInLocal().getHeight() / 2);
+  }
+
+  private static FileChooser getFileChooser(String folderName) {
+    FileChooser fc = new FileChooser();
+    fc.setTitle("Open Resource File");
+    String folder = Path.of("data" + File.separator + folderName).toString();
+    fc.setInitialDirectory(new File(folder));
+
+    if (folderName.equals("turtle_images")) {
+      fc.getExtensionFilters().addAll(
+          new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
+      );
+    } else if (folderName.equals("saved_files")) {
+      fc.getExtensionFilters().addAll(
+          new ExtensionFilter("XML Files", "*.xml")
+      );
+    }
+
+    return fc;
   }
 
 }

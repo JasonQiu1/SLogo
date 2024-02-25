@@ -4,6 +4,7 @@ import View.UserInterface.UIButton;
 import View.UserInterface.UICheckBox;
 import View.UserInterface.UIElement;
 import View.UserInterface.UIText;
+import View.UserInterface.UITextField;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -20,12 +21,26 @@ public abstract class GeneralPage {
     myStage = stage;
   }
 
+  public abstract void setPage(double screenWidth, double screenHeight);
+
+  public abstract Parent getPage();
+
+  protected Collection<UIElement> createElements(Map<String, double[]> IDs, String type) {
+    Set<UIElement> elements = new HashSet<>();
+    for (String name : IDs.keySet()) {
+      double[] position = IDs.get(name);
+      UIElement newElement = createElement(type, name, position);
+      elements.add(newElement);
+    }
+    return elements;
+  }
   protected void styleUI(Collection<UIElement> UIElements, Group root) {
     for (UIElement element : UIElements) {
       switch (element.getType().toLowerCase()) {
         case "button" -> loadButton((UIButton) element, element.getID());
         case "text" -> loadText((UIText) element, element.getID());
         case "checkbox" -> loadBox((UICheckBox) element, element.getID());
+        case "textfield" -> loadTextField((UITextField) element, element.getID());
         default -> throw new TypeNotPresentException(element.getType(), new Throwable());
       }
       root.getChildren().add(element.getElement());
@@ -56,10 +71,10 @@ public abstract class GeneralPage {
     }
   }
 
-  private void loadBox(UICheckBox element, String ID) {
+  private void loadBox(UICheckBox checkBox, String ID) {
     switch (ID) {
       case "Light", "Dark" -> {
-        element.setCheckbox();
+        checkBox.setCheckbox();
         // TODO: MAKE BUTTON JUMP TO SLOGO WIKI
       }
       default -> {
@@ -68,13 +83,13 @@ public abstract class GeneralPage {
     }
   }
 
-  private void loadText(UIText element, String ID) {
+  private void loadText(UIText text, String ID) {
     switch (ID) {
       case "SLOGO" -> {
-        element.setSlogoClassic();
+        text.setSlogoClassic();
       }
       case "Theme:" -> {
-        element.setThemeClassic();
+        text.setThemeClassic();
       }
       default -> {
         throw new TypeNotPresentException(ID, new Throwable());
@@ -82,46 +97,32 @@ public abstract class GeneralPage {
     }
   }
 
-  protected Collection<UIElement> createElements(Map<String, double[]> IDs, String type) {
-    Set<UIElement> elements = new HashSet<>();
-    for (String name : IDs.keySet()) {
-      double[] position = IDs.get(name);
-      UIElement newElement = createElement(type, name, position);
-      elements.add(newElement);
+  private void loadTextField(UITextField textField, String ID) {
+    switch (ID) {
+      case "Insert Command Here" -> {
+        textField.setupTextBox();
+      }
+      default -> {
+        throw new TypeNotPresentException(ID, new Throwable());
+      }
     }
-    return elements;
   }
 
   private UIElement createElement(String type, String ID, double[] position) {
     switch (type) {
       case "button" -> {
-        return createButton(ID, position);
+        return new UIButton(ID, position[0], position[1]);
       }
       case "text" -> {
-        return createText(ID, position);
+        return new UIText(ID, position[0], position[1]);
       }
       case "checkbox" -> {
-        return createBox(ID, position);
+        return new UICheckBox(ID, position[0], position[1]);
+      }
+      case "textfield" -> {
+        return new UITextField(ID, position[0], position[1]);
       }
       default -> throw new TypeNotPresentException(type, new Throwable());
     }
   }
-
-  private UIButton createButton(String text, double[] position) {
-    return new UIButton(text, position[0], position[1]);
-  }
-
-  private UIText createText(String text, double[] position) {
-    return new UIText(text, position[0], position[1]);
-  }
-
-  private UICheckBox createBox(String text, double[] position) {
-    return new UICheckBox(text, position[0], position[1]);
-  }
-
-  public abstract void setPage(double screenWidth, double screenHeight);
-
-  public abstract Parent getPage();
-
-
 }
