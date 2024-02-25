@@ -16,7 +16,7 @@ public class UIButton extends UIElement {
   public UIButton(String text, double x, double y) {
     super(new Button(text), text);
     myButton = (Button) getElement();
-    myButton.setFont(getFont());
+    myButton.setFont(getButtonFont());
     myButton.setTextFill(Color.GREEN);
     setPosition(x, y);
     addShadow();
@@ -52,21 +52,17 @@ public class UIButton extends UIElement {
   }
 
   public void setPausePlayClassic() {
-    try {
-      Image img = new Image(PAUSE_PLAY_IMG);
-      ImageView pausePlay = new ImageView(img);
-      pausePlay.setFitHeight(20);
-      pausePlay.setFitWidth(20);
-      myButton.setText("");
-      myButton.setShape(new Ellipse(200.0f, 120.0f, 150.0f, 80.f));
-      myButton.setGraphic(pausePlay);
-
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    Image img = new Image(PAUSE_PLAY_IMG);
+    ImageView pausePlay = new ImageView(img);
+    pausePlay.setFitHeight(20);
+    pausePlay.setFitWidth(20);
+    myButton.setText("");
+    myButton.setShape(new Ellipse(200.0f, 120.0f, 150.0f, 80.f));
+    myButton.setGraphic(pausePlay);
   }
+
   private void setColor() {
-    switch(getID()) {
+    switch (getID()) {
       case "R" -> myButton.setTextFill(Color.RED);
       case "G" -> myButton.setTextFill(Color.GREEN);
       case "B" -> myButton.setTextFill(Color.BLUE);

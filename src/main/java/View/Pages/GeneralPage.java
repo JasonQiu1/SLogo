@@ -34,6 +34,7 @@ public abstract class GeneralPage {
     }
     return elements;
   }
+
   protected void styleUI(Collection<UIElement> UIElements, Group root) {
     for (UIElement element : UIElements) {
       switch (element.getType().toLowerCase()) {
@@ -73,13 +74,13 @@ public abstract class GeneralPage {
         button.setPausePlayClassic();
         // TODO: MAKE BUTTON PLAY/PAUSE SIMULATION
       }
-      case "1x","2x","3x","4x" -> {
+      case "1x", "2x", "3x", "4x" -> {
         button.setSpeedClassic();
       }
       case "R", "G", "B" -> {
         button.setPenClassic();
       }
-      case "Variables","Commands" -> {
+      case "Variables", "Commands" -> {
         button.setGUIClassic();
         // TODO: MAKE BUTTON DISPLAY VARIABLES AND COMMAND
       }
@@ -92,9 +93,13 @@ public abstract class GeneralPage {
   private void loadBox(UICheckBox checkBox, String ID) {
     switch (ID) {
       case "Light", "Dark" -> {
-        checkBox.setCheckbox();
+        checkBox.setThemeCheckBox();
         // TODO: MAKE BUTTON JUMP TO SLOGO WIKI
       }
+      case "BK/WH", "GN/BL", "PK/PR" -> {
+        checkBox.setBackgroundCheckBox();
+      }
+
       default -> {
         throw new TypeNotPresentException(ID, new Throwable());
       }
@@ -108,6 +113,9 @@ public abstract class GeneralPage {
       }
       case "Theme:", "Pen Colors:", "Speed:" -> {
         text.setRegularClassic();
+      }
+      case "Background:" -> {
+        text.setSmallerClassic();
       }
       default -> {
         throw new TypeNotPresentException(ID, new Throwable());

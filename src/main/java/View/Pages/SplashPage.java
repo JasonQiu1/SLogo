@@ -53,7 +53,7 @@ public class SplashPage extends GeneralPage {
     Collection<UIElement> UIElements = new HashSet<>();
 
     buttonIDs.put("Turtle Selector", new double[]{screenWidth / 2 - 95, 2 * screenHeight / 8});
-    buttonIDs.put("Create", new double[]{screenWidth / 4 - 30, 5 * screenHeight / 8 });
+    buttonIDs.put("Create", new double[]{screenWidth / 4 - 30, 5 * screenHeight / 8});
     buttonIDs.put("Load", new double[]{2 * screenWidth / 4 - 10, 5 * screenHeight / 8});
     buttonIDs.put("Help", new double[]{3 * screenWidth / 4 + 10, 5 * screenHeight / 8});
 

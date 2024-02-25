@@ -1,22 +1,14 @@
 package View.Pages;
 
 import View.UserInterface.UIElement;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class GraphicsPage extends GeneralPage {
@@ -31,7 +23,7 @@ public class GraphicsPage extends GeneralPage {
 
   @Override
   public void setPage(double screenWidth, double screenHeight) {
-    createTextBox(screenWidth, screenHeight);
+    createGUI(screenWidth, screenHeight);
   }
 
   @Override
@@ -39,15 +31,41 @@ public class GraphicsPage extends GeneralPage {
     return root;
   }
 
-  private void createTextBox(double screenWidth, double screenHeight) {
-    Map<String, double[]> textFieldIDs = new HashMap<>();
-    Map<String, double[]> buttonIDs = new HashMap<>();
-    Map<String, double[]> textIDs = new HashMap<>();
-
+  private void createGUI(double screenWidth, double screenHeight) {
     Collection<UIElement> UIElements = new HashSet<>();
 
-    textFieldIDs.put("Insert Command Here", new double[]{screenWidth / 8, 7 * screenHeight / 8});
+    UIElements.addAll(setupTextField(screenWidth, screenHeight));
+    UIElements.addAll(setupButtons(screenWidth, screenHeight));
+    UIElements.addAll(setupText(screenWidth, screenHeight));
+    UIElements.addAll(setupCheckBoxes(screenWidth, screenHeight));
 
+    styleUI(UIElements, root);
+  }
+
+  private Collection<UIElement> setupTextField(double screenWidth, double screenHeight) {
+    Map<String, double[]> textFieldIDs = new HashMap<>();
+    textFieldIDs.put("Insert Command Here", new double[]{screenWidth / 8, 7 * screenHeight / 8});
+    return createElements(textFieldIDs, "textfield");
+  }
+
+  private Collection<UIElement> setupCheckBoxes(double screenWidth, double screenHeight) {
+    Map<String, double[]> checkboxIDs = new HashMap<>();
+    checkboxIDs.put("BK/WH", new double[]{screenWidth / 8 + 30, screenHeight / 8 - 45});
+    checkboxIDs.put("GN/BL", new double[]{screenWidth / 8 + 105, screenHeight / 8 - 45});
+    checkboxIDs.put("PK/PR", new double[]{screenWidth / 8 + 180, screenHeight / 8 - 45});
+    return createElements(checkboxIDs, "checkbox");
+  }
+
+  private Collection<UIElement> setupText(double screenWidth, double screenHeight) {
+    Map<String, double[]> textIDs = new HashMap<>();
+    textIDs.put("Background:", new double[]{screenWidth / 8 - 20, screenHeight / 8 - 24});
+    textIDs.put("Speed:", new double[]{6 * screenWidth / 8 - 60, 5 * screenHeight / 8 - 10});
+    textIDs.put("Pen Colors:", new double[]{6 * screenWidth / 8 - 60, 4 * screenHeight / 8 - 10});
+    return createElements(textIDs, "text");
+  }
+
+  private Collection<UIElement> setupButtons(double screenWidth, double screenHeight) {
+    Map<String, double[]> buttonIDs = new HashMap<>();
     buttonIDs.put("1x", new double[]{6 * screenWidth / 8 - 60, 5 * screenHeight / 8});
     buttonIDs.put("2x", new double[]{6 * screenWidth / 8 - 20, 5 * screenHeight / 8});
     buttonIDs.put("3x", new double[]{6 * screenWidth / 8 + 20, 5 * screenHeight / 8});
@@ -61,17 +79,6 @@ public class GraphicsPage extends GeneralPage {
     buttonIDs.put("R", new double[]{6 * screenWidth / 8 - 60, 4 * screenHeight / 8});
     buttonIDs.put("G", new double[]{6 * screenWidth / 8, 4 * screenHeight / 8});
     buttonIDs.put("B", new double[]{6 * screenWidth / 8 + 60, 4 * screenHeight / 8});
-
-    textIDs.put("Speed:", new double[]{6 * screenWidth / 8 - 60, 5 * screenHeight / 8 - 10});
-    textIDs.put("Pen Colors:", new double[]{6 * screenWidth / 8 - 60, 4 * screenHeight / 8 - 10});
-
-    UIElements.addAll(createElements(textFieldIDs, "textfield"));
-    UIElements.addAll(createElements(buttonIDs, "button"));
-    UIElements.addAll(createElements(textIDs, "text"));
-
-    styleUI(UIElements, root);
+    return createElements(buttonIDs, "button");
   }
-
-
-
 }

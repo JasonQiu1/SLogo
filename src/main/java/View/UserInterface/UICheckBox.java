@@ -12,9 +12,16 @@ public class UICheckBox extends UIElement {
   public UICheckBox(String text, double x, double y) {
     super(new CheckBox(text), text);
     myBox = (CheckBox) getElement();
-    myBox.setFont(getFont());
     myBox.setTextFill(Color.GREEN);
     setPosition(x, y);
+  }
+
+  public void setThemeCheckBox() {
+    myBox.setFont(getThemeFont());
+  }
+
+  public void setBackgroundCheckBox() {
+    myBox.setFont(getBackgroundFont());
   }
 
   public void setCheckbox() {
@@ -26,4 +33,6 @@ public class UICheckBox extends UIElement {
       }
     });
   }
+
+
 }

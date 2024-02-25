@@ -15,7 +15,10 @@ import javafx.stage.Stage;
 
 public class UIElement {
 
-  private static final Font SLOGO_BUTTON = Font.font("Verdana", FontWeight.MEDIUM, 15);
+  private static final Font SLOGO_BTN = Font.font("Verdana", FontWeight.MEDIUM, 15);
+  private static final Font THEME_TXT = Font.font("Verdana", FontWeight.LIGHT, 15);
+  private static final Font BACKGROUND_TXT = Font.font("Verdana", FontWeight.LIGHT, 12);
+
   private final String myID;
   private final String myType;
   private final Node UIBase;
@@ -24,6 +27,25 @@ public class UIElement {
     UIBase = nodeType;
     myType = nodeType.getTypeSelector();
     myID = ID;
+  }
+
+  private static FileChooser getFileChooser(String folderName) {
+    FileChooser fc = new FileChooser();
+    fc.setTitle("Open Resource File");
+    String folder = Path.of("data" + File.separator + folderName).toString();
+    fc.setInitialDirectory(new File(folder));
+
+    if (folderName.equals("turtle_images")) {
+      fc.getExtensionFilters().addAll(
+          new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
+      );
+    } else if (folderName.equals("saved_files")) {
+      fc.getExtensionFilters().addAll(
+          new ExtensionFilter("XML Files", "*.xml")
+      );
+    }
+
+    return fc;
   }
 
   public Node getElement() {
@@ -76,32 +98,21 @@ public class UIElement {
     });
   }
 
-  protected Font getFont() {
-    return SLOGO_BUTTON;
+  protected Font getButtonFont() {
+    return SLOGO_BTN;
+  }
+
+  protected Font getThemeFont() {
+    return THEME_TXT;
+  }
+
+  protected Font getBackgroundFont() {
+    return BACKGROUND_TXT;
   }
 
   protected void setPosition(double x, double y) {
     UIBase.setLayoutX(x - UIBase.getBoundsInLocal().getWidth() / 2);
     UIBase.setLayoutY(y - UIBase.getBoundsInLocal().getHeight() / 2);
-  }
-
-  private static FileChooser getFileChooser(String folderName) {
-    FileChooser fc = new FileChooser();
-    fc.setTitle("Open Resource File");
-    String folder = Path.of("data" + File.separator + folderName).toString();
-    fc.setInitialDirectory(new File(folder));
-
-    if (folderName.equals("turtle_images")) {
-      fc.getExtensionFilters().addAll(
-          new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
-      );
-    } else if (folderName.equals("saved_files")) {
-      fc.getExtensionFilters().addAll(
-          new ExtensionFilter("XML Files", "*.xml")
-      );
-    }
-
-    return fc;
   }
 
   public void addSaveFolder(Stage stage, String folderName) {

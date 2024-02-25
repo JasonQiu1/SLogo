@@ -8,6 +8,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class UITextField extends UIElement {
+
   private final TextField myTextBox;
   private boolean controlPressed = false;
   private int indexTracker = 0;
@@ -31,7 +32,8 @@ public class UITextField extends UIElement {
         if (e.getCode().equals(KeyCode.CONTROL) || e.getCode().equals(KeyCode.COMMAND)) {
           controlPressed = false;
         }
-      }});
+      }
+    });
   }
 
   private void keyboardInputHandler() {
@@ -40,10 +42,10 @@ public class UITextField extends UIElement {
     myTextBox.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
       @Override
       public void handle(KeyEvent e) {
-        switch(e.getCode()) {
+        switch (e.getCode()) {
           case CONTROL, COMMAND -> controlPressed = true;
-          case R  -> {
-            if(controlPressed) {
+          case R -> {
+            if (controlPressed) {
               textCollector.clear();
               indexTracker = 0;
             }
@@ -54,7 +56,7 @@ public class UITextField extends UIElement {
             myTextBox.clear();
           }
           case UP -> {
-            if(!textCollector.isEmpty() && indexTracker > 0) {
+            if (!textCollector.isEmpty() && indexTracker > 0) {
               --indexTracker;
               myTextBox.setText(textCollector.get(indexTracker));
             }
@@ -68,6 +70,7 @@ public class UITextField extends UIElement {
             }
           }
         }
-      }});
+      }
+    });
   }
 }
