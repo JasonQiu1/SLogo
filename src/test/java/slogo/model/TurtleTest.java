@@ -5,12 +5,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.*;
 import org.junit.jupiter.api.*;
 import slogo.exception.model.turtle.InvalidPositionException;
-import slogo.model.api.turtle.Point;
-import slogo.model.api.turtle.Turtle;
-import slogo.model.api.turtle.TurtleAnimator;
-import slogo.model.api.turtle.TurtleState;
-import slogo.model.api.turtle.TurtleStep;
-import slogo.model.api.turtle.Vector;
+import slogo.model.turtle.Point;
+import slogo.model.turtle.Turtle;
+import slogo.model.turtle.TurtleAnimator;
+import slogo.model.turtle.TurtleState;
+import slogo.model.turtle.TurtleStep;
+import slogo.model.turtle.Vector;
 import util.DukeApplicationTest;
 
 public class TurtleTest extends DukeApplicationTest {

@@ -1,4 +1,4 @@
-package slogo.model.api.turtle;
+package slogo.model.turtle;
 
 public class Point {
   private double x;

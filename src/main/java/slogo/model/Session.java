@@ -2,7 +2,7 @@ package slogo.model;
 
 import java.util.*;
 import slogo.exception.model.RunSessionException;
-import slogo.model.api.turtle.TurtleStep;
+import slogo.model.turtle.TurtleStep;
 
 public class Session {
 

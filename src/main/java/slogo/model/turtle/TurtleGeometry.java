@@ -1,4 +1,4 @@
-package slogo.model.api.turtle;
+package slogo.model.turtle;
 
 public class TurtleGeometry {
   // heading = angle from vertical y-axis (all calculations use angle from horizontal x-axis)

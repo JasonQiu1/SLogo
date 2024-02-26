@@ -1,3 +1,3 @@
-package slogo.model.api.turtle;
+package slogo.model.turtle;
 
 public record TurtleStep(TurtleState initialState, Vector changeInPosition, double changeInAngle) { }

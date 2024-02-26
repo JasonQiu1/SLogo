@@ -1,4 +1,4 @@
-package slogo.model.api.turtle;
+package slogo.model.turtle;
 
 import java.util.*;
 import slogo.exception.model.turtle.InvalidPositionException;
