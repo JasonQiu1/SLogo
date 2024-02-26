@@ -11,7 +11,7 @@
       <parameter>expr2: The expression to subtract</parameter>
     </parameters>
     <return>The difference of expr1 and expr2</return>
-    <parameters>2</parameters>
+    <num_parameters>2</num_parameters>
     <implementation>DifferenceCommand</implementation>
   </help_entry>
 
@@ -26,7 +26,7 @@
       <parameter>expr: The first expression to negate</parameter>
     </parameters>
     <return>negative of the value of expr</return>
-    <parameters>1</parameters>
+    <num_parameters>1</num_parameters>
     <implementation>MinusCommand</implementation>
   </help_entry>
 
@@ -42,7 +42,7 @@
       <parameter>expr2: The second expression to multiply</parameter>
     </parameters>
     <return>The product of the values of expr1 and expr2</return>
-    <parameters>2</parameters>
+    <num_parameters>2</num_parameters>
     <implementation>ProductCommand</implementation>
   </help_entry>
 
@@ -58,7 +58,7 @@
       <parameter>expr2: The divisor</parameter>
     </parameters>
     <return>The quotient of the values of expr1 and expr2</return>
-    <parameters>2</parameters>
+    <num_parameters>2</num_parameters>
     <implementation>QuotientCommand</implementation>
   </help_entry>
 
@@ -73,7 +73,7 @@
       <parameter>max: The upwards, exclusive bound</parameter>
     </parameters>
     <return>random non-negative number strictly less than max</return>
-    <parameters>1</parameters>
+    <num_parameters>1</num_parameters>
     <implementation>RandomCommand</implementation>
   </help_entry>
 
@@ -89,7 +89,7 @@
       <parameter>expr2: The second expression to sum</parameter>
     </parameters>
     <return>The sum of expr1 and expr2</return>
-    <parameters>2</parameters>
+    <num_parameters>2</num_parameters>
     <implementation>SumCommand</implementation>
   </help_entry>
 </command_help>
