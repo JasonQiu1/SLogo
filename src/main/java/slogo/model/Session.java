@@ -1,18 +1,37 @@
 package slogo.model;
 
-import java.util.*;
-import slogo.exception.model.RunSessionException;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import slogo.model.coderunner.RunCodeError;
+import slogo.model.coderunner.SlogoCodeRunner;
+import slogo.model.turtle.Turtle;
 import slogo.model.turtle.TurtleStep;
 
+/**
+ * External API for the frontend to interact with the model. Responsible for running Slogo code and
+ * maintaining command history and turtle step history.
+ *
+ * @author Jason Qiu
+ */
 public class Session {
+
+  public Session() {
+    commandHistory = new ArrayList<Map<String, Map<String, String>>>();
+    turtles = new ArrayList<Turtle>();
+    codeRunner = new SlogoCodeRunner(turtles);
+    reset();
+  }
 
   /**
    * Runs lines of code, affecting command history and step history for each turtle.
    *
-   * @param linesOfCommands the raw code, with each line of code on a different element
-   * @throws RunSessionException when XXXXXX
+   * @param commands the raw code, with each line of code on a different element
+   * @throws RunCodeError when XXXXXX
    */
-  public void run(String[] linesOfCommands) throws RunSessionException {
+  public void run(String commands) throws RunCodeError {
+    return;
   }
 
   /**
@@ -21,11 +40,10 @@ public class Session {
    *
    * @param length the max length of command history to return. If -1, then return entire command
    *               history.
-   * @return an immutable map where the key is the command and the value is another map of metadata
+   * @return an immutable list of maps where the key is the command and the value is another map of metadata
    * such as wasSuccessful.
    */
-  public Map<String, Map<String, String>> getCommandHistory(int length) {
-
+  public List<Map<String, Map<String, String>>> getCommandHistory(int length) {
     return null;
   }
 
@@ -37,8 +55,7 @@ public class Session {
    *               step history of each turtle.
    * @return an immutable map where the key is the id of the turtle and a list of its step history
    */
-  public Map<String, List<TurtleStep>> getTurtlesStepHistory(int length) {
-
+  public Map<Integer, List<TurtleStep>> getTurtlesStepHistory(int length) {
     return null;
   }
 
@@ -48,8 +65,7 @@ public class Session {
    * @return an immutable map where the key is the variable name and the value is the integer stored
    * in the variable.
    */
-  public Map<String, Integer> getUserDefinedVariables() {
-    // TODO
+  public Map<String, Double> getVariables() {
     return null;
   }
 
@@ -95,5 +111,16 @@ public class Session {
     return false;
   }
 
+  /**
+   * Reinitializes the session to no history and only one turtle in the initial position.
+   */
+  public void reset() {
+    commandHistory.clear();
+    turtles.clear();
+    turtles.add(new Turtle());
+  }
 
+  private final List<Map<String, Map<String, String>>> commandHistory;
+  private final SlogoCodeRunner codeRunner;
+  private final List<Turtle> turtles;
 }
