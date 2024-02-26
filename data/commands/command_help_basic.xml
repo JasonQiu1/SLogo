@@ -1,0 +1,96 @@
+<command_help>
+  <help_entry>
+    <name>difference</name>
+    <alias>-</alias>
+    <description>
+      Returns difference of the values of expr1 and expr2
+    </description>
+    <example>- 10 5</example>
+    <parameters>
+      <parameter>expr1: The expression to subtract from</parameter>
+      <parameter>expr2: The expression to subtract</parameter>
+    </parameters>
+    <return>The difference of expr1 and expr2</return>
+    <parameters>2</parameters>
+    <implementation>DifferenceCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>minus</name>
+    <alias>~</alias>
+    <description>
+      Returns negative of the values of expr
+    </description>
+    <example>~ 10</example>
+    <parameters>
+      <parameter>expr: The first expression to negate</parameter>
+    </parameters>
+    <return>negative of the value of expr</return>
+    <parameters>1</parameters>
+    <implementation>MinusCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>product</name>
+    <alias>*</alias>
+    <description>
+      Returns product of the values of expr1 and expr2
+    </description>
+    <example>* 10 5</example>
+    <parameters>
+      <parameter>expr1: The first expression to multiply</parameter>
+      <parameter>expr2: The second expression to multiply</parameter>
+    </parameters>
+    <return>The product of the values of expr1 and expr2</return>
+    <parameters>2</parameters>
+    <implementation>ProductCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>quotient</name>
+    <alias>/</alias>
+    <description>
+      Returns quotient of the values of expr1 and expr2
+    </description>
+    <example>/ 10 5</example>
+    <parameters>
+      <parameter>expr1: The dividend</parameter>
+      <parameter>expr2: The divisor</parameter>
+    </parameters>
+    <return>The quotient of the values of expr1 and expr2</return>
+    <parameters>2</parameters>
+    <implementation>QuotientCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>random</name>
+    <alias>rand</alias>
+    <description>
+      Returns random non-negative number strictly less than max
+    </description>
+    <example>rand 10</example>
+    <parameters>
+      <parameter>max: The upwards, exclusive bound</parameter>
+    </parameters>
+    <return>random non-negative number strictly less than max</return>
+    <parameters>1</parameters>
+    <implementation>RandomCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>sum</name>
+    <alias>+</alias>
+    <description>
+      Returns sum of the values of expr1 and expr2
+    </description>
+    <example>+ 10 5</example>
+    <parameters>
+      <parameter>expr1: The first expression to sum</parameter>
+      <parameter>expr2: The second expression to sum</parameter>
+    </parameters>
+    <return>The sum of expr1 and expr2</return>
+    <parameters>2</parameters>
+    <implementation>SumCommand</implementation>
+  </help_entry>
+</command_help>
+

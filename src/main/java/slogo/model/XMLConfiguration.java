@@ -1,6 +1,8 @@
 package slogo.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,10 +18,13 @@ import slogo.exception.XMLException;
  */
 public class XMLConfiguration {
 
+  private final ArrayList<String> tagList;
+
   /**
    * Constructor for XmlConfig
    */
   public XMLConfiguration() {
+    tagList = createTagList();
   }
 
   /**
@@ -43,13 +48,11 @@ public class XMLConfiguration {
       for (int i = 0; i < nodeList.getLength(); i++) {
         Element element = (Element) nodeList.item(i);
 
-        NodeList commandList = element.getElementsByTagName("command");
-        String command = commandList.item(0).getTextContent();
+        String commandInfo = createCommandInfo(element);
 
-        NodeList helpDocList = element.getElementsByTagName("help_doc");
-        String helpDoc = helpDocList.item(0).getTextContent();
+        String helpDoc = createHelpDocumentation(element, commandInfo);
 
-        helpMap.put(command, helpDoc);
+        helpMap.put(commandInfo, helpDoc);
       }
       return helpMap;
     } catch (Exception e) {
@@ -76,5 +79,48 @@ public class XMLConfiguration {
    */
   void saveSession(Session session, String fileName) {
     //TODO: Implement method
+  }
+
+  private String createCommandInfo(Element element) {
+    NodeList commandList = element.getElementsByTagName("name");
+    String commandInfo = "name: " + commandList.item(0).getTextContent() + "\n";
+
+    commandInfo = commandInfo + "Parameter(s):";
+
+    NodeList parameterList = element.getElementsByTagName("parameters");
+
+    if (parameterList.getLength() == 0) {
+      commandInfo = commandInfo + "none";
+    } else {
+      for (int i = 0; i < parameterList.getLength(); i++) {
+        String parameter = parameterList.item(i).getTextContent();
+        commandInfo = commandInfo + parameter;
+        if (i != parameterList.getLength() - 1) {
+          commandInfo = commandInfo + ", ";
+        }
+      }
+    }
+    return commandInfo;
+  }
+
+  private String createHelpDocumentation(Element element, String commandInfo) {
+    String helpDoc = "";
+    for (String tagName : tagList) {
+      NodeList tagContentList = element.getElementsByTagName(tagName);
+      String tagContent = tagContentList.item(0).getTextContent();
+
+      helpDoc = helpDoc + tagName + ": " + tagContent + "\n";
+    }
+    helpDoc = commandInfo + "\n" + helpDoc;
+    return helpDoc;
+  }
+
+  private ArrayList<String> createTagList() {
+    ArrayList<String> tagList = new ArrayList<>();
+    tagList.add("alias");
+    tagList.add("description");
+    tagList.add("example");
+    tagList.add("return");
+    return tagList;
   }
 }
