@@ -82,9 +82,9 @@ public class XmlConfiguration {
 
   private String createCommandInfo(Element element) {
     NodeList commandList = element.getElementsByTagName("name");
-    String commandInfo = "name: " + commandList.item(0).getTextContent() + "\n";
+    String commandInfo = "name: " + commandList.item(0).getTextContent().trim() + "\n";
 
-    commandInfo = commandInfo + "Parameter(s):";
+    commandInfo = commandInfo + "Parameter(s): ";
 
     NodeList parameterList = element.getElementsByTagName("parameters");
 
@@ -92,7 +92,7 @@ public class XmlConfiguration {
       commandInfo = commandInfo + "none";
     } else {
       for (int i = 0; i < parameterList.getLength(); i++) {
-        String parameter = parameterList.item(i).getTextContent();
+        String parameter = parameterList.item(i).getTextContent().trim();
         commandInfo = commandInfo + parameter;
         if (i != parameterList.getLength() - 1) {
           commandInfo = commandInfo + ", ";
@@ -106,7 +106,7 @@ public class XmlConfiguration {
     String helpDoc = "";
     for (String tagName : tagList) {
       NodeList tagContentList = element.getElementsByTagName(tagName);
-      String tagContent = tagContentList.item(0).getTextContent();
+      String tagContent = tagContentList.item(0).getTextContent().trim();
 
       helpDoc = helpDoc + tagName + ": " + tagContent + "\n";
     }
