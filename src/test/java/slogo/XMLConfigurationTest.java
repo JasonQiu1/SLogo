@@ -8,6 +8,7 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.exception.XmlException;
+import slogo.model.Session;
 import slogo.model.XmlConfiguration;
 
 public class XMLConfigurationTest {
@@ -49,10 +50,26 @@ public class XMLConfigurationTest {
   }
 
   @Test
-  void testLoadSession() {
+  void testLoadSessionCreatesCorrectSession() {
+    //TODO: implement this
+    try {
+      Session session = xmlConfig.loadSession("test.file");
+    } catch (XmlException e) {
+      fail();
+    }
+  }
+
+  @Test
+  void testLoadSessionThrowsXMLExceptionForNonexistentFile() {
+    try {
+      Session session = xmlConfig.loadSession("nonexistent.file");
+    } catch (XmlException e) {
+      assertEquals(e.getMessage(), "Error parsing nonexistent.file");
+    }
   }
 
   @Test
   void testSaveSession() {
+    //TODO: implement this
   }
 }

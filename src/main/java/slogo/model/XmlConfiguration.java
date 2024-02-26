@@ -65,9 +65,19 @@ public class XmlConfiguration {
    * @param fileName The name of the XML file with saved session information
    * @return Session with state specified in XML file
    */
-  Session loadSession(String fileName) {
+  public Session loadSession(String fileName) throws XmlException {
     //TODO: Implement method
-    return null;
+    try {
+      DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+      DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+      Document doc = documentBuilder.parse(fileName);
+
+      Element root = doc.getDocumentElement();
+      root.normalize();
+      return null;
+    } catch (Exception e) {
+      throw new XmlException(fileName);
+    }
   }
 
   /**
@@ -77,6 +87,7 @@ public class XmlConfiguration {
    * @param fileName The name of the XML file to save the session information to
    */
   void saveSession(Session session, String fileName) {
+
     //TODO: Implement method
   }
 
