@@ -13,9 +13,9 @@ import javafx.stage.Stage;
 
 public class UIElement {
 
-  private final String myID;
-  private final String myType;
   private final Node UIBase;
+  private final String myID;
+  private String myType;
 
   public UIElement(Node nodeType, String ID) {
     UIBase = nodeType;
@@ -52,6 +52,10 @@ public class UIElement {
 
   public String getType() {
     return myType;
+  }
+
+  protected void setSpecialType(String type) {
+    myType = type;
   }
 
   public void addShadow() {

@@ -34,7 +34,8 @@ public class GraphicsPage extends GeneralPage {
 
     UIElements.addAll(setupBoxes(screenWidth, screenHeight));
     UIElements.addAll(setupTextField(screenWidth, screenHeight));
-    UIElements.addAll(setupButtons(screenWidth, screenHeight));
+    UIElements.addAll(setupInternalButtons(screenWidth, screenHeight));
+    UIElements.addAll(setupExternalButtons(screenWidth, screenHeight));
     UIElements.addAll(setupText(screenWidth, screenHeight));
     UIElements.addAll(setupCheckBoxes(screenWidth, screenHeight));
 
@@ -83,24 +84,32 @@ public class GraphicsPage extends GeneralPage {
     return createElements(textIDs, "text");
   }
 
-  private Collection<UIElement> setupButtons(double screenWidth, double screenHeight) {
-    Map<String, double[]> buttonIDs = new HashMap<>();
-    buttonIDs.put("1x", new double[]{6 * screenWidth / 8 - 60, 5 * screenHeight / 8});
-    buttonIDs.put("2x", new double[]{6 * screenWidth / 8 - 20, 5 * screenHeight / 8});
-    buttonIDs.put("3x", new double[]{6 * screenWidth / 8 + 20, 5 * screenHeight / 8});
-    buttonIDs.put("4x", new double[]{6 * screenWidth / 8 + 60, 5 * screenHeight / 8});
-    buttonIDs.put("Variables", new double[]{6 * screenWidth / 8 - 60, 5 * screenHeight / 8 + 40});
-    buttonIDs.put("Play/Pause", new double[]{6 * screenWidth / 8 + 60, 5 * screenHeight / 8 + 40});
-    buttonIDs.put("Home", new double[]{6 * screenWidth / 8 - 60, screenHeight / 8 - 60});
-    buttonIDs.put("Reset", new double[]{6 * screenWidth / 8 + 60, screenHeight / 8 - 60});
-    buttonIDs.put("Commands", new double[]{6 * screenWidth / 8 - 60, 5 * screenHeight / 8 + 80});
-    buttonIDs.put("History", new double[]{6 * screenWidth / 8 - 20, 1 * screenHeight / 8});
-    buttonIDs.put("Help", new double[]{6 * screenWidth / 8 + 60, 5 * screenHeight / 8 + 80});
-    buttonIDs.put("Load", new double[]{6 * screenWidth / 8 - 60, 7 * screenHeight / 8});
-    buttonIDs.put("Save", new double[]{6 * screenWidth / 8 + 60, 7 * screenHeight / 8});
-    buttonIDs.put("R", new double[]{6 * screenWidth / 8 - 60, 4 * screenHeight / 8});
-    buttonIDs.put("G", new double[]{6 * screenWidth / 8, 4 * screenHeight / 8});
-    buttonIDs.put("B", new double[]{6 * screenWidth / 8 + 60, 4 * screenHeight / 8});
-    return createElements(buttonIDs, "button");
+  private Collection<UIElement> setupInternalButtons(double screenWidth, double screenHeight) {
+    Map<String, double[]> intIDs = new HashMap<>();
+    intIDs.put("1x", new double[]{6 * screenWidth / 8 - 60, 5 * screenHeight / 8});
+    intIDs.put("2x", new double[]{6 * screenWidth / 8 - 20, 5 * screenHeight / 8});
+    intIDs.put("3x", new double[]{6 * screenWidth / 8 + 20, 5 * screenHeight / 8});
+    intIDs.put("4x", new double[]{6 * screenWidth / 8 + 60, 5 * screenHeight / 8});
+    intIDs.put("Play/Pause", new double[]{6 * screenWidth / 8 + 60, 5 * screenHeight / 8 + 40});
+    intIDs.put("Reset", new double[]{6 * screenWidth / 8 + 60, screenHeight / 8 - 60});
+
+    intIDs.put("R", new double[]{6 * screenWidth / 8 - 60, 4 * screenHeight / 8});
+    intIDs.put("G", new double[]{6 * screenWidth / 8, 4 * screenHeight / 8});
+    intIDs.put("B", new double[]{6 * screenWidth / 8 + 60, 4 * screenHeight / 8});
+
+    return createElements(intIDs, "internalbutton");
   }
+
+  private Collection<UIElement> setupExternalButtons(double screenWidth, double screenHeight) {
+    Map<String, double[]> extIDs = new HashMap<>();
+    extIDs.put("Help", new double[]{6 * screenWidth / 8 + 60, 5 * screenHeight / 8 + 80});
+    extIDs.put("Load", new double[]{6 * screenWidth / 8 - 60, 7 * screenHeight / 8});
+    extIDs.put("Save", new double[]{6 * screenWidth / 8 + 60, 7 * screenHeight / 8});
+    extIDs.put("Commands", new double[]{6 * screenWidth / 8 - 60, 5 * screenHeight / 8 + 80});
+    extIDs.put("History", new double[]{6 * screenWidth / 8 - 20, 1 * screenHeight / 8});
+    extIDs.put("Variables", new double[]{6 * screenWidth / 8 - 60, 5 * screenHeight / 8 + 40});
+    extIDs.put("Home", new double[]{6 * screenWidth / 8 - 60, screenHeight / 8 - 60});
+    return createElements(extIDs, "externalbutton");
+  }
+
 }

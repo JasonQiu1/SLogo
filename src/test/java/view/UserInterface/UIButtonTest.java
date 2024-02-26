@@ -2,7 +2,8 @@ package view.UserInterface;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import View.UserInterface.UIButton;
+import View.UserInterface.ExternalButton;
+import View.UserInterface.InternalButton;
 import javafx.scene.control.Button;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
@@ -12,8 +13,8 @@ import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
 class UIButtonTest extends DukeApplicationTest {
-
-  private UIButton testButton;
+  private ExternalButton testExternalButton;
+  private InternalButton testInternalButton;
   private String random;
   private double x;
   private double y;
@@ -23,15 +24,16 @@ class UIButtonTest extends DukeApplicationTest {
     random = "Random";
     x = 100;
     y = 100;
-    testButton = new UIButton(random, x, y);
+    testInternalButton = new InternalButton(random, x, y);
+    testExternalButton = new ExternalButton(random, x, y);
   }
 
   @Test
   void setSelectorClassicTest() {
     // Given: a UI button object
-    Button actual = (Button) testButton.getElement();
+    Button actual = (Button) testExternalButton.getElement();
     // When: a user calls the method setSelectorClassic on the UIButton
-    testButton.setSelectorClassic();
+    testExternalButton.setSelectorClassic();
 
     // Then: the button should now be a rectangular selector button
     // AND this button should have the default height:100 and width:200.
@@ -47,9 +49,9 @@ class UIButtonTest extends DukeApplicationTest {
   @Test
   void setMenuClassicTest() {
     // Given: a UI button object
-    Button actual = (Button) testButton.getElement();
+    Button actual = (Button) testExternalButton.getElement();
     // When: a user calls the method setMenuClassic on the UIButton
-    testButton.setMenuClassic();
+    testExternalButton.setMenuClassic();
 
     // Then: the button should now be a ellipse-shaped menu button
     // AND this button should have the default centerX:200, centerY:120
@@ -71,9 +73,9 @@ class UIButtonTest extends DukeApplicationTest {
   @Test
   void setSpeedClassicTest() {
     // Given: a UI button object
-    Button actual = (Button) testButton.getElement();
+    Button actual = (Button) testInternalButton.getElement();
     // When: a user calls the method setSpeedClassic on the UIButton
-    testButton.setSpeedClassic();
+    testInternalButton.setSpeedClassic();
 
     // Then: the button should now be a rectangular selector button
     // AND this button should have the default height:100 and width:200.
@@ -89,9 +91,9 @@ class UIButtonTest extends DukeApplicationTest {
   @Test
   void setGUIClassicTest() {
     // Given: a UI button object
-    Button actual = (Button) testButton.getElement();
+    Button actual = (Button) testInternalButton.getElement();
     // When: a user calls the method setGUIClassic on the UIButton
-    testButton.setGUIClassic();
+    testInternalButton.setGUIClassic();
 
     // Then: the button should now be a rectangular selector button
     // AND this button should have the default height:100 and width:200.
@@ -107,9 +109,9 @@ class UIButtonTest extends DukeApplicationTest {
   @Test
   void setPenClassicTest() {
     // Given: a UI button object
-    Button actual = (Button) testButton.getElement();
+    Button actual = (Button) testInternalButton.getElement();
     // When: a user calls the method setPenClassic on the UIButton
-    testButton.setPenClassic();
+    testInternalButton.setPenClassic();
 
     // Then: the button should now be a circle-shaped menu button
     // AND this button should have default radius: 20.0f.
@@ -123,9 +125,9 @@ class UIButtonTest extends DukeApplicationTest {
   @Test
   void setHomeClassicTest() {
     // Given: a UI button object
-    Button actual = (Button) testButton.getElement();
+    Button actual = (Button) testExternalButton.getElement();
     // When: a user calls the method setHomeClassic on the UIButton
-    testButton.setHomeClassic();
+    testExternalButton.setHomeClassic();
 
     // Then: the button should now be a circle-shaped menu button
     // AND this button should have default radius: 15.0f.
@@ -139,9 +141,9 @@ class UIButtonTest extends DukeApplicationTest {
   @Test
   void setResetClassicTest() {
     // Given: a UI button object
-    Button actual = (Button) testButton.getElement();
+    Button actual = (Button) testInternalButton.getElement();
     // When: a user calls the method setHomeClassic on the UIButton
-    testButton.setResetClassic();
+    testInternalButton.setResetClassic();
 
     // Then: the button should now be a circle-shaped menu button
     // AND this button should have default radius: 15.0f.
@@ -155,9 +157,9 @@ class UIButtonTest extends DukeApplicationTest {
   @Test
   void setPausePlayClassicTest() {
     // Given: a UI button object
-    Button actual = (Button) testButton.getElement();
+    Button actual = (Button) testInternalButton.getElement();
     // When: a user calls the method setMenuClassic on the UIButton
-    testButton.setPausePlayClassic();
+    testInternalButton.setPausePlayClassic();
 
     // Then: the button should now be a ellipse-shaped menu button
     // AND this button should have the default radiusX: 90.0f, radiusY: 20.f.

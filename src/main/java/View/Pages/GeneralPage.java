@@ -1,6 +1,7 @@
 package View.Pages;
 
-import View.UserInterface.UIButton;
+import View.UserInterface.ExternalButton;
+import View.UserInterface.InternalButton;
 import View.UserInterface.UICheckBox;
 import View.UserInterface.UIElement;
 import View.UserInterface.UIRegion;
@@ -39,7 +40,8 @@ public abstract class GeneralPage {
   protected void styleUI(Collection<UIElement> UIElements, Group root) {
     for (UIElement element : UIElements) {
       switch (element.getType().toLowerCase()) {
-        case "button" -> loadButton((UIButton) element, element.getID());
+        case "externalbutton" -> loadExternalButton((ExternalButton) element, element.getID());
+        case "internalbutton" -> loadInternalButton((InternalButton) element, element.getID());
         case "text" -> loadText((UIText) element, element.getID());
         case "checkbox" -> loadCheckBox((UICheckBox) element, element.getID());
         case "textfield" -> loadTextField((UITextField) element, element.getID());
@@ -47,6 +49,30 @@ public abstract class GeneralPage {
         default -> throw new TypeNotPresentException(element.getType(), new Throwable());
       }
       root.getChildren().add(element.getElement());
+    }
+  }
+
+  private void loadInternalButton(InternalButton button, String ID) {
+    switch (ID) {
+      case "Play/Pause" -> {
+        button.setPausePlayClassic();
+        // TODO: MAKE BUTTON PLAY/PAUSE SIMULATION
+      }
+      case "Reset" -> {
+        button.setResetClassic();
+        // TODO: MAKE BUTTON RESET SIMULATION
+      }
+      case "1x", "2x", "3x", "4x" -> {
+        button.setSpeedClassic();
+        // TODO: MAKE BUTTON CHANGE SIMULATION SPEED
+      }
+      case "R", "G", "B" -> {
+        button.setPenClassic();
+        // TODO: MAKE BUTTON CHANGE SIMULATION COLOR
+      }
+      default -> {
+        throw new TypeNotPresentException(ID, new Throwable());
+      }
     }
   }
 
@@ -61,7 +87,7 @@ public abstract class GeneralPage {
     }
   }
 
-  private void loadButton(UIButton button, String ID) {
+  private void loadExternalButton(ExternalButton button, String ID) {
     switch (ID) {
       case "Turtle Selector" -> {
         button.setSelectorClassic();
@@ -83,25 +109,9 @@ public abstract class GeneralPage {
         button.setMenuClassic();
         // TODO: MAKE BUTTON JUMP TO HELP PAGE
       }
-      case "Play/Pause" -> {
-        button.setPausePlayClassic();
-        // TODO: MAKE BUTTON PLAY/PAUSE SIMULATION
-      }
       case "Home" -> {
         button.setHomeClassic();
         button.addOpenSplash(myStage);
-      }
-      case "Reset" -> {
-        button.setResetClassic();
-        // TODO: MAKE BUTTON RESET SIMULATION
-      }
-      case "1x", "2x", "3x", "4x" -> {
-        button.setSpeedClassic();
-        // TODO: MAKE BUTTON CHANGE SIMULATION SPEED
-      }
-      case "R", "G", "B" -> {
-        button.setPenClassic();
-        // TODO: MAKE BUTTON CHANGE SIMULATION COLOR
       }
       case "Variables", "Commands", "History" -> {
         button.setGUIClassic();
@@ -146,20 +156,20 @@ public abstract class GeneralPage {
   }
 
   private void loadTextField(UITextField textField, String ID) {
-    switch (ID) {
-      case "Insert Command Here" -> {
-        textField.setupTextBox();
-      }
-      default -> {
-        throw new TypeNotPresentException(ID, new Throwable());
-      }
+    if (ID.equals("Insert Command Here")) {
+      textField.setupTextBox();
+    } else {
+      throw new TypeNotPresentException(ID, new Throwable());
     }
   }
 
   private UIElement createElement(String type, String ID, double[] position) {
     switch (type) {
-      case "button" -> {
-        return new UIButton(ID, position[0], position[1]);
+      case "internalbutton" -> {
+        return new InternalButton(ID, position[0], position[1]);
+      }
+      case "externalbutton" -> {
+        return new ExternalButton(ID, position[0], position[1]);
       }
       case "text" -> {
         return new UIText(ID, position[0], position[1]);
