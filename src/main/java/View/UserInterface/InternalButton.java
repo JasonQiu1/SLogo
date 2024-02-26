@@ -10,7 +10,6 @@ import javafx.scene.text.FontWeight;
 
 public class InternalButton extends UIButton {
 
-  private static final Font BTN_FONT = Font.font("Verdana", FontWeight.MEDIUM, 15);
   private static final String RESET_IMG = "/button_images/ResetButton.png";
   private static final String PAUSE_PLAY_IMG = "/button_images/PausePlayButton.png";
 

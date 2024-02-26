@@ -103,7 +103,7 @@ public abstract class GeneralPage {
       }
       case "Create" -> {
         button.setMenuClassic();
-        button.addOpenGUI(myStage);
+        button.addOpenPage(myStage, "graphics");
       }
       case "Help" -> {
         button.setMenuClassic();

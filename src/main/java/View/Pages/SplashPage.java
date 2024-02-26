@@ -14,13 +14,10 @@ import javafx.stage.Stage;
 
 public class SplashPage extends GeneralPage {
 
-
   private final Group root;
-  private final Stage stage;
 
   public SplashPage(Stage stage) {
     super(stage);
-    this.stage = stage;
     root = new Group();
   }
 

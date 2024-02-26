@@ -3,34 +3,24 @@ package slogo.model.turtle;
 import java.util.*;
 
 public class TurtleAnimator {
-  private TurtleState initialTurtleState;
-  private double height;
-  private double width;
+  public static final String RESOURCE_PACKAGE = "slogo.model.configuration";
+  private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(RESOURCE_PACKAGE);
+  private static final TurtleState INITIAL_TURTLE_STATE = new TurtleState(new Point(0.0,0.0), 0.0); // get from resource file
+  private static final double HEIGHT = Double.parseDouble(resourceBundle.getString("height")); // get from resource file
+  private static final double WIDTH = Double.parseDouble(resourceBundle.getString("width")); // get from resource file
   private double graphicsScalingFactor;
   private double speed;
 
-  public TurtleState getInitialTurtleState() {
-    return initialTurtleState;
+  public static TurtleState getInitialTurtleState() {
+    return INITIAL_TURTLE_STATE;
   }
 
-  public void setInitialTurtleState(TurtleState initialTurtleState) {
-    this.initialTurtleState = initialTurtleState;
+  public static double getHeight() {
+    return HEIGHT;
   }
 
-  public double getHeight() {
-    return height;
-  }
-
-  public void setHeight(double height) {
-    this.height = height;
-  }
-
-  public double getWidth() {
-    return width;
-  }
-
-  public void setWidth(double width) {
-    this.width = width;
+  public static double getWidth() {
+    return WIDTH;
   }
 
   public double getGraphicsScalingFactor() {

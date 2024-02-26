@@ -91,9 +91,9 @@ class UIButtonTest extends DukeApplicationTest {
   @Test
   void setGUIClassicTest() {
     // Given: a UI button object
-    Button actual = (Button) testInternalButton.getElement();
+    Button actual = (Button) testExternalButton.getElement();
     // When: a user calls the method setGUIClassic on the UIButton
-    testInternalButton.setGUIClassic();
+    testExternalButton.setGUIClassic();
 
     // Then: the button should now be a rectangular selector button
     // AND this button should have the default height:100 and width:200.
