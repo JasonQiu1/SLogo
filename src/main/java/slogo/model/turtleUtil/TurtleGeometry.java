@@ -1,14 +1,15 @@
-package slogo.model.turtle;
+package slogo.model.turtleUtil;
 
 import slogo.model.api.turtle.Point;
 import slogo.model.api.turtle.Vector;
 
 public class TurtleGeometry {
+  // heading = angle from vertical y-axis (all calculations use angle from horizontal x-axis)
   private Point origin;
-  protected static double calculateAngle(Vector v) {
+  public static double calculateAngle(Vector v) {
     return Math.sqrt(Math.pow(v.getDx(),2) + Math.pow(v.getDy(),2));
   }
-  protected static double calculateMagnitude(Vector v) {
+  public static double calculateMagnitude(Vector v) {
     return Math.atan(v.getDy()/v.getDx());
   }
   protected static Vector calculateXComponent(Vector v, double angle) {

@@ -1,7 +1,7 @@
 package slogo.model.coderunner;
 
 import java.util.List;
-import slogo.model.turtle.Turtle;
+import slogo.model.turtleUtil.Turtle;
 
 /**
  * Runs Slogo code, possibly modifying turtles.

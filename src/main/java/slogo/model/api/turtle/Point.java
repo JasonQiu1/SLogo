@@ -9,22 +9,9 @@ public class Point {
     this.y = y;
   }
 
-  public double getX() {
-    return x;
-  }
-
-  public void setX(double x) {
-    this.x = x;
-  }
-
-  public double getY() {
-    return y;
-  }
-
-  public void setY(double y) {
-    this.y = y;
-  }
-  public boolean equals(Point point) {
+  @Override
+  public boolean equals(Object obj) {
+    Point point = (Point) obj;
     return this.x == point.x && this.y == point.y;
   }
 }
