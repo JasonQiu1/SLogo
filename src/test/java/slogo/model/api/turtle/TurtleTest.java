@@ -1,4 +1,4 @@
-package slogo.model;
+package slogo.model.api.turtle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
