@@ -8,6 +8,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 public class UICheckBox extends UIElement {
+
   private static final Font THEME_TXT = Font.font("Verdana", FontWeight.LIGHT, 15);
   private static final Font BACKGROUND_TXT = Font.font("Verdana", FontWeight.LIGHT, 12);
   private final CheckBox myBox;
