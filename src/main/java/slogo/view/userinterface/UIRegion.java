@@ -1,4 +1,4 @@
-package View.UserInterface;
+package slogo.view.userinterface;
 
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;

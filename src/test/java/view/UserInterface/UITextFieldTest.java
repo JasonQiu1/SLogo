@@ -2,10 +2,8 @@ package view.UserInterface;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import View.UserInterface.UITextField;
-import javafx.scene.control.TextField;
+import slogo.view.userinterface.UITextField;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
 class UITextFieldTest extends DukeApplicationTest {

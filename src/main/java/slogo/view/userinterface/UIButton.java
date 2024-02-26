@@ -1,4 +1,4 @@
-package View.UserInterface;
+package slogo.view.userinterface;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;

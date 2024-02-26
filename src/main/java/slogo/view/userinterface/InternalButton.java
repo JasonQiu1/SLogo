@@ -1,12 +1,10 @@
-package View.UserInterface;
+package slogo.view.userinterface;
 
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
 public class InternalButton extends UIButton {
 

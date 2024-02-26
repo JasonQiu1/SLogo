@@ -1,8 +1,8 @@
-package View;
+package slogo.view;
 
-import View.Pages.GeneralPage;
-import View.Pages.GraphicsPage;
-import View.Pages.SplashPage;
+import slogo.view.pages.GeneralPage;
+import slogo.view.pages.GraphicsPage;
+import slogo.view.pages.SplashPage;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 

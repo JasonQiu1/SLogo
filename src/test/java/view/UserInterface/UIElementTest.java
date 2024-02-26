@@ -2,7 +2,7 @@ package view.UserInterface;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import View.UserInterface.UIElement;
+import slogo.view.userinterface.UIElement;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,4 +1,4 @@
-import View.SlogoWindow;
+import slogo.view.SlogoWindow;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

@@ -1,6 +1,6 @@
-package View.Pages;
+package slogo.view.pages;
 
-import View.UserInterface.UIElement;
+import slogo.view.userinterface.UIElement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;

@@ -1,6 +1,6 @@
-package View.UserInterface;
+package slogo.view.userinterface;
 
-import View.SlogoWindow;
+import slogo.view.SlogoWindow;
 import java.io.File;
 import java.nio.file.Path;
 import javafx.event.EventHandler;

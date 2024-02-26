@@ -2,7 +2,7 @@ package view.UserInterface;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import View.UserInterface.UIText;
+import slogo.view.userinterface.UIText;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;

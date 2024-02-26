@@ -1,4 +1,4 @@
-package View.UserInterface;
+package slogo.view.userinterface;
 
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;

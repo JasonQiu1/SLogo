@@ -2,8 +2,8 @@ package view.UserInterface;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import View.UserInterface.ExternalButton;
-import View.UserInterface.InternalButton;
+import slogo.view.userinterface.ExternalButton;
+import slogo.view.userinterface.InternalButton;
 import javafx.scene.control.Button;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;

@@ -1,12 +1,12 @@
-package View.Pages;
+package slogo.view.pages;
 
-import View.UserInterface.ExternalButton;
-import View.UserInterface.InternalButton;
-import View.UserInterface.UICheckBox;
-import View.UserInterface.UIElement;
-import View.UserInterface.UIRegion;
-import View.UserInterface.UIText;
-import View.UserInterface.UITextField;
+import slogo.view.userinterface.ExternalButton;
+import slogo.view.userinterface.InternalButton;
+import slogo.view.userinterface.UICheckBox;
+import slogo.view.userinterface.UIElement;
+import slogo.view.userinterface.UIRegion;
+import slogo.view.userinterface.UIText;
+import slogo.view.userinterface.UITextField;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;

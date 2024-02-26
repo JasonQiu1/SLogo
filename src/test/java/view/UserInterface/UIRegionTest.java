@@ -2,7 +2,7 @@ package view.UserInterface;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import View.UserInterface.UIRegion;
+import slogo.view.userinterface.UIRegion;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;

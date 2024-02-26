@@ -2,7 +2,7 @@ package view.UserInterface;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import View.UserInterface.UICheckBox;
+import slogo.view.userinterface.UICheckBox;
 import javafx.scene.control.CheckBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
