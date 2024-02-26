@@ -1,20 +1,20 @@
 package view.UserInterface;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import View.UserInterface.UIElement;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
 class UIElementTest extends DukeApplicationTest {
+
   private UIElement testUIElement;
   private Button testButton;
   private String ID;
+
   @BeforeEach
   void setUp() {
     ID = "Random";

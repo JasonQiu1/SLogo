@@ -1,10 +1,8 @@
 package view.UserInterface;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import View.UserInterface.UIRegion;
 import View.UserInterface.UIText;
-import javafx.scene.layout.Region;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -13,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
 class UITextTest extends DukeApplicationTest {
+
   private UIText testText;
 
   @BeforeEach

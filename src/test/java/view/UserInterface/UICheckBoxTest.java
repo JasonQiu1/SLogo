@@ -1,11 +1,9 @@
 package view.UserInterface;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import View.UserInterface.UICheckBox;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.shape.Ellipse;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
 class UICheckBoxTest extends DukeApplicationTest {
+
   private UICheckBox testCheckBox;
   private String random;
   private double x;

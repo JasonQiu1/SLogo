@@ -1,6 +1,6 @@
 package view.UserInterface;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import View.UserInterface.UIButton;
 import javafx.scene.control.Button;
@@ -12,10 +12,12 @@ import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
 class UIButtonTest extends DukeApplicationTest {
+
   private UIButton testButton;
   private String random;
   private double x;
   private double y;
+
   @BeforeEach
   void setUp() {
     random = "Random";
