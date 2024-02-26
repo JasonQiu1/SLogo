@@ -1,6 +1,7 @@
 package slogo.model.turtle;
 
 public class TurtleGeometry {
+  // heading = angle from vertical y-axis (all calculations use angle from horizontal x-axis)
   private Point origin;
   protected static double calculateAngle(Vector v) {
     return Math.sqrt(Math.pow(v.getDx(),2) + Math.pow(v.getDy(),2));

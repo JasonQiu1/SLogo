@@ -2,10 +2,11 @@ package slogo.model.turtle;
 
 import java.util.ArrayList;
 import java.util.List;
+import slogo.exception.model.turtle.InvalidPositionException;
 
 public class Turtle {
   private int id;
-  private TurtleState currentState;
+  private TurtleState currentState; // heading = angle from vertical y-axis (all calculations use angle from horizontal x-axis)
   private List<TurtleStep> stepHistory;
   private int currentPointInStepHistory;
 
@@ -20,24 +21,12 @@ public class Turtle {
     return id;
   }
 
-  public void setId(int id) {
-    this.id = id;
-  }
-
   public TurtleState getCurrentState() {
     return currentState;
   }
 
-  public void setCurrentState(TurtleState currentState) {
-    this.currentState = currentState;
-  }
-
   public List<TurtleStep> getStepHistory() {
     return stepHistory;
-  }
-
-  public void setStepHistory(List<TurtleStep> stepHistory) {
-    this.stepHistory = stepHistory;
   }
 
   // return the step turtle is currently on in its step history
@@ -52,25 +41,37 @@ public class Turtle {
   }
 
   // update turtle's position/heading and return turtle's final position/facing position (a point on the edge of screen)
-  public TurtleStep doStep (double length, double angle) {
-    // TODO
+  public TurtleStep doStep (double distance, double angle) {
+    TurtleState startingState = this.currentState;
+    move(distance);
+    rotate(angle);
     return null;
   }
 
   // return turtle's heading towards given point
-  public double getHeadingTowards(Point point) {
+//  public double getHeadingTowards(Point point) {
+//    // TODO
+//    return 0;
+//  }
+
+  public TurtleStep stepForward() {
     // TODO
-    return 0;
+    return null;
   }
 
-  public boolean stepForward() {
+  public TurtleStep stepBack() {
     // TODO
-    return false;
+    return null;
   }
 
-  public boolean stepBack() {
+  public TurtleStep setHeading (double degrees) {
     // TODO
-    return false;
+    return null;
+  }
+
+  public TurtleStep setPosition (Point position) throws InvalidPositionException {
+    // TODO
+    return null;
   }
 
   // reset position
@@ -78,11 +79,11 @@ public class Turtle {
     this.currentState = initialState;
   }
 
-  private void rotate(TurtleStep step) {
+  private void rotate(double angle) {
     // TODO
 
   }
-  private void move(TurtleStep step) {
+  private void move(double distance) {
     // TODO
 
   }
