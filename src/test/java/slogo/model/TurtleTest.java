@@ -3,11 +3,11 @@ package slogo.model;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.*;
-import slogo.model.turtle.Point;
+import slogo.model.api.turtle.Point;
 import slogo.model.turtle.Turtle;
-import slogo.model.turtle.TurtleState;
-import slogo.model.turtle.TurtleStep;
-import slogo.model.turtle.Vector;
+import slogo.model.api.turtle.TurtleState;
+import slogo.model.api.turtle.TurtleStep;
+import slogo.model.api.turtle.Vector;
 import util.DukeApplicationTest;
 
 public class TurtleTest extends DukeApplicationTest {

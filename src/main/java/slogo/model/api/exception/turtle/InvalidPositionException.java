@@ -1,4 +1,4 @@
-package slogo.exception.model.turtle;
+package slogo.model.api.exception.turtle;
 
 public class InvalidPositionException extends RuntimeException {
   /**

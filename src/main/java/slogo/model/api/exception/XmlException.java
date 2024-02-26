@@ -1,4 +1,4 @@
-package slogo.exception;
+package slogo.model.api.exception;
 
 /**
  * Custom exception class for handling exceptions when parsing XML files

@@ -1,13 +1,13 @@
-package slogo.model;
+package slogo.model.api;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import slogo.model.coderunner.RunCodeError;
+import slogo.model.api.exception.coderunner.RunCodeError;
+import slogo.model.api.turtle.TurtleStep;
 import slogo.model.coderunner.SlogoCodeRunner;
 import slogo.model.turtle.Turtle;
-import slogo.model.turtle.TurtleState;
-import slogo.model.turtle.TurtleStep;
+import slogo.model.api.turtle.TurtleState;
 
 /**
  * External API for the frontend to interact with the model. Responsible for running Slogo code and

@@ -1,5 +1,8 @@
 package slogo.model.turtle;
 
+import slogo.model.api.turtle.Point;
+import slogo.model.api.turtle.Vector;
+
 public class TurtleGeometry {
   private Point origin;
   protected static double calculateAngle(Vector v) {

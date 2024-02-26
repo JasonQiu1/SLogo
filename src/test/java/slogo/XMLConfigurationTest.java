@@ -7,9 +7,9 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import slogo.exception.XmlException;
-import slogo.model.Session;
-import slogo.model.XmlConfiguration;
+import slogo.model.api.exception.XmlException;
+import slogo.model.api.Session;
+import slogo.model.api.XmlConfiguration;
 
 public class XMLConfigurationTest {
 

@@ -2,6 +2,10 @@ package slogo.model.turtle;
 
 import java.util.ArrayList;
 import java.util.List;
+import slogo.model.api.turtle.Point;
+import slogo.model.api.turtle.TurtleAnimator;
+import slogo.model.api.turtle.TurtleState;
+import slogo.model.api.turtle.TurtleStep;
 
 public class Turtle {
   private int id;

@@ -1,4 +1,6 @@
-package slogo.model.turtle;
+package slogo.model.api.turtle;
+
+import slogo.model.turtle.TurtleGeometry;
 
 public class Vector {
   private double dx;

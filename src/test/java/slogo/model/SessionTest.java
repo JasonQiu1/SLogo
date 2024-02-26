@@ -11,10 +11,11 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import slogo.model.turtle.Point;
-import slogo.model.turtle.TurtleState;
-import slogo.model.turtle.TurtleStep;
-import slogo.model.turtle.Vector;
+import slogo.model.api.Session;
+import slogo.model.api.turtle.Point;
+import slogo.model.api.turtle.TurtleState;
+import slogo.model.api.turtle.TurtleStep;
+import slogo.model.api.turtle.Vector;
 
 class SessionTest {
 

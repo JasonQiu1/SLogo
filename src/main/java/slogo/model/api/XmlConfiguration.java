@@ -1,4 +1,4 @@
-package slogo.model;
+package slogo.model.api;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import slogo.exception.XmlException;
+import slogo.model.api.exception.XmlException;
 
 /**
  * The purpose of this class is to parse XML files for command help information and information

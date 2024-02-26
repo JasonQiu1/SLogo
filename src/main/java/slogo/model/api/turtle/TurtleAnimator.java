@@ -1,6 +1,7 @@
-package slogo.model.turtle;
+package slogo.model.api.turtle;
 
 import java.util.*;
+import slogo.model.turtle.Turtle;
 
 public class TurtleAnimator {
   public static final String RESOURCE_PACKAGE = "slogo.model.configuration";
