@@ -3,7 +3,7 @@ package slogo.exception;
 /**
  * Custom exception class for handling exceptions when parsing XML files
  */
-public class XMLException extends Exception {
+public class XmlException extends Exception {
 
   private final String fileName;
 
@@ -12,7 +12,7 @@ public class XMLException extends Exception {
    *
    * @param fileName The XML file name causing the exception
    */
-  public XMLException(String fileName) {
+  public XmlException(String fileName) {
     this.fileName = fileName;
   }
 

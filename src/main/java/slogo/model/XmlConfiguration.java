@@ -2,28 +2,27 @@ package slogo.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import slogo.exception.XMLException;
+import slogo.exception.XmlException;
 
 /**
  * The purpose of this class is to parse XML files for command help information and information
  * needed to load a session.  Additionally, this class will create XML files intended to save the
  * current state of a session.
  */
-public class XMLConfiguration {
+public class XmlConfiguration {
 
   private final ArrayList<String> tagList;
 
   /**
    * Constructor for XmlConfig
    */
-  public XMLConfiguration() {
+  public XmlConfiguration() {
     tagList = createTagList();
   }
 
@@ -33,7 +32,7 @@ public class XMLConfiguration {
    * @param fileName the name of the XML file
    * @return Command names mapped to help descriptions
    */
-  public Map<String, String> loadHelpFile(String fileName) throws XMLException {
+  public Map<String, String> loadHelpFile(String fileName) throws XmlException {
     Map<String, String> helpMap = new HashMap<>();
     try {
       DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -56,7 +55,7 @@ public class XMLConfiguration {
       }
       return helpMap;
     } catch (Exception e) {
-      throw new XMLException(fileName);
+      throw new XmlException(fileName);
     }
   }
 

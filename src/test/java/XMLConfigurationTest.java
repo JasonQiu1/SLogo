@@ -1,14 +1,14 @@
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import slogo.model.XMLConfiguration;
+import slogo.model.XmlConfiguration;
 
 public class XMLConfigurationTest {
 
-  private XMLConfiguration xmlConfig;
+  private XmlConfiguration xmlConfig;
   @BeforeEach
   void setup() {
-    xmlConfig = new XMLConfiguration();
+    xmlConfig = new XmlConfiguration();
   }
 
   @Test
