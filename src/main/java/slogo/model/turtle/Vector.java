@@ -6,6 +6,11 @@ public class Vector {
   private double magnitude; // length
   private double direction; // angle
 
+  public Vector(double dx, double dy) {
+    this.dx = dx;
+    this.dy = dy;
+  }
+
   public double getDx() {
     return dx;
   }

@@ -1,5 +1,6 @@
 package slogo.model.turtle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Turtle {
@@ -7,6 +8,13 @@ public class Turtle {
   private TurtleState currentState;
   private List<TurtleStep> stepHistory;
   private int currentPointInStepHistory;
+
+  public Turtle() {
+    this.id = 0;
+    this.currentState = TurtleAnimator.getInitialTurtleState();
+    this.stepHistory = new ArrayList<>();
+    this.currentPointInStepHistory= 0;
+  }
 
   public int getId() {
     return id;
