@@ -1,7 +1,7 @@
 package slogo.model;
 
 import java.util.*;
-import slogo.exception.RunSessionException;
+import slogo.exception.model.RunSessionException;
 import slogo.model.turtle.TurtleStep;
 
 public class Session {
@@ -38,6 +38,7 @@ public class Session {
    * @return an immutable map where the key is the id of the turtle and a list of its step history
    */
   public Map<String, List<TurtleStep>> getTurtlesStepHistory(int length) {
+
     return null;
   }
 
@@ -48,6 +49,7 @@ public class Session {
    * in the variable.
    */
   public Map<String, Integer> getUserDefinedVariables() {
+    // TODO
     return null;
   }
 

@@ -6,6 +6,13 @@ public class Vector {
   private double magnitude; // length
   private double direction; // angle
 
+  public Vector(double dx, double dy) {
+    this.dx = dx;
+    this.dy = dy;
+    this.magnitude = TurtleGeometry.calculateMagnitude(this);
+    this.direction = TurtleGeometry.calculateAngle(this);
+  }
+
   public double getDx() {
     return dx;
   }
@@ -36,6 +43,9 @@ public class Vector {
 
   public void setDirection(double direction) {
     this.direction = direction;
+  }
+  public boolean equals(Vector vector) {
+    return this.getMagnitude() == vector.getMagnitude() && this.getDirection() == vector.getDirection();
   }
 
 }
