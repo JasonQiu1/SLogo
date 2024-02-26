@@ -24,4 +24,7 @@ public class Point {
   public void setY(double y) {
     this.y = y;
   }
+  public boolean equals(Point point) {
+    return this.x == point.x && this.y == point.y;
+  }
 }
