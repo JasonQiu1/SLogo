@@ -8,7 +8,7 @@ import javafx.scene.text.Text;
 public class UIText extends UIElement {
 
   private static final Font SLOGO_FONT = Font.font("Verdana", FontWeight.BOLD, 35);
-  private static final Font THEME_FONT = Font.font("Verdana", FontWeight.MEDIUM, 15);
+  private static final Font MEDIUM_FONT = Font.font("Verdana", FontWeight.MEDIUM, 15);
   private static final Font SMALLER_FONT = Font.font("Verdana", FontWeight.MEDIUM, 12);
 
   private final Text myText;
@@ -26,7 +26,7 @@ public class UIText extends UIElement {
   }
 
   public void setRegularClassic() {
-    myText.setFont(THEME_FONT);
+    myText.setFont(MEDIUM_FONT);
   }
 
   public void setSmallerClassic() {

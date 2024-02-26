@@ -26,7 +26,7 @@ public class SlogoWindow {
     stage.show();
   }
 
-  public GeneralPage createPageType(String pageType) throws TypeNotPresentException {
+  private GeneralPage createPageType(String pageType) {
     switch (pageType.toLowerCase()) {
       case "graphics" -> {
         return new GraphicsPage(stage);

@@ -14,11 +14,6 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 public class UIElement {
-
-  private static final Font SLOGO_BTN = Font.font("Verdana", FontWeight.MEDIUM, 15);
-  private static final Font THEME_TXT = Font.font("Verdana", FontWeight.LIGHT, 15);
-  private static final Font BACKGROUND_TXT = Font.font("Verdana", FontWeight.LIGHT, 12);
-
   private final String myID;
   private final String myType;
   private final Node UIBase;
@@ -98,17 +93,6 @@ public class UIElement {
     });
   }
 
-  protected Font getButtonFont() {
-    return SLOGO_BTN;
-  }
-
-  protected Font getThemeFont() {
-    return THEME_TXT;
-  }
-
-  protected Font getBackgroundFont() {
-    return BACKGROUND_TXT;
-  }
 
   protected void setPosition(double x, double y) {
     UIBase.setLayoutX(x - UIBase.getBoundsInLocal().getWidth() / 2);

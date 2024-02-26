@@ -7,9 +7,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class UIButton extends UIElement {
-
+  private static final Font BTN_FONT = Font.font("Verdana", FontWeight.MEDIUM, 15);
   private static final String RESET_IMG = "/button_images/ResetButton.png";
   private static final String PAUSE_PLAY_IMG = "/button_images/PausePlayButton.png";
   private static final String HOME_IMG = "/button_images/HomeButton.png";
@@ -19,7 +21,7 @@ public class UIButton extends UIElement {
   public UIButton(String text, double x, double y) {
     super(new Button(text), text);
     myButton = (Button) getElement();
-    myButton.setFont(getButtonFont());
+    myButton.setFont(BTN_FONT);
     myButton.setTextFill(Color.GREEN);
     myButton.toFront();
     setPosition(x, y);
@@ -66,7 +68,7 @@ public class UIButton extends UIElement {
   }
 
   public void setPausePlayClassic() {
-    myButton.setShape(new Ellipse(90.0f, 20.f));
+    myButton.setShape(new Ellipse(90.0f, 20.0f));
     createLogo(PAUSE_PLAY_IMG, 20, 20);
   }
 
@@ -78,7 +80,6 @@ public class UIButton extends UIElement {
     myButton.setText("");
     myButton.setGraphic(buttonView);
   }
-
 
   private void setColor() {
     switch (getID()) {
