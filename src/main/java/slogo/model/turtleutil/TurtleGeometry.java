@@ -21,9 +21,7 @@ public class TurtleGeometry {
   protected static Vector getVectorBetweenTwoPoints(Point p1, Point p2) {
     double dx = p2.getX() - p1.getX();
     double dy = p2.getY() - p1.getY();
-    Vector res = new
-
-    return initialPosition;
+    return new Vector(dx, dy);
   }
   protected static Point calculateFinalPosition(Point initialPosition, double distance) {
 

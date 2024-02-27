@@ -23,10 +23,10 @@ public class Turtle {
   private TurtleState currentState; // heading = angle from vertical y-axis (all calculations use angle from horizontal x-axis)
   private List<TurtleStep> stepHistory;
   private int currentPointInStepHistory;
-  private static final String FORWARD_COMMAND = "fd";
-  private static final String ROTATE_COMMAND = "rt";
-  private static final String SET_HEADING_COMMAND = "setheading";
-  private static final String SET_XY_COMMAND = "setxy";
+  private static final String FORWARD_COMMAND = "FD";
+  private static final String ROTATE_COMMAND = "RT";
+  private static final String SET_HEADING_COMMAND = "SETHEADING";
+  private static final String SET_XY_COMMAND = "SETXY";
   private static final String DEFAULT_RESOURCE_PACKAGE = "slogo.model.";
   private ResourceBundle errorResourceBundle; // resource bundle for error handling messages
 
@@ -101,7 +101,11 @@ public class Turtle {
   private TurtleStep setHeading (double degrees) {
     TurtleStep step = new TurtleStep(this.currentState, new Vector(0,0), degrees);
 
+    // update history
+    this.stepHistory.add(step);
+    // update current state
     this.currentState = new TurtleState(this.currentState.position(), degrees);
+
     return step;
   }
 
@@ -111,10 +115,15 @@ public class Turtle {
         throw new InvalidPositionException(errorResourceBundle.getString("InvalidPosition"));
       }
     }
+
     Vector posChange = TurtleGeometry.getVectorBetweenTwoPoints(this.currentState.position(), position);
     TurtleStep step = new TurtleStep(this.currentState, posChange, 0);
 
+    // update history
+    this.stepHistory.add(step);
+    // update current state
     this.currentState = new TurtleState(position, this.currentState.heading());
+
     return step;
   }
 
