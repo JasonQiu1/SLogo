@@ -23,6 +23,9 @@ public class TurtleGeometry {
     double dy = p2.getY() - p1.getY();
     return new Vector(dx, dy);
   }
+  protected static double getAngleChange(double a1, double a2) {
+    return a2 - a1;
+  }
   protected static Point calculateFinalPosition(Point initialPosition, double distance) {
 
     return initialPosition;

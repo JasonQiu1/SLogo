@@ -99,12 +99,10 @@ public class Turtle {
   }
 
   private TurtleStep setHeading (double degrees) {
-    TurtleStep step = new TurtleStep(this.currentState, new Vector(0,0), degrees);
+    double angleChange = TurtleGeometry.getAngleChange(this.currentState.heading(), degrees);
+    TurtleStep step = new TurtleStep(this.currentState, new Vector(0,0), angleChange);
 
-    // update history
-    this.stepHistory.add(step);
-    // update current state
-    this.currentState = new TurtleState(this.currentState.position(), degrees);
+    updateStateAndHistory(step, this.currentState.position(), degrees);
 
     return step;
   }
@@ -119,12 +117,24 @@ public class Turtle {
     Vector posChange = TurtleGeometry.getVectorBetweenTwoPoints(this.currentState.position(), position);
     TurtleStep step = new TurtleStep(this.currentState, posChange, 0);
 
-    // update history
-    this.stepHistory.add(step);
-    // update current state
-    this.currentState = new TurtleState(position, this.currentState.heading());
+    updateStateAndHistory(step, position, this.currentState.heading());
 
     return step;
+  }
+
+  private TurtleStep rotate(double angle) {
+    double referenceAngle = angle % 360;
+    double newAngle = this.currentState.heading() + referenceAngle;
+
+    TurtleStep step = new TurtleStep(this.currentState, new Vector(0,0), referenceAngle);
+    updateStateAndHistory(step, this.currentState.position(), newAngle);
+
+    return step;
+
+  }
+  private TurtleStep move(double distance) {
+    // TODO
+
   }
 
   // reset position
@@ -132,16 +142,11 @@ public class Turtle {
     this.currentState = initialState;
   }
 
-  private TurtleStep rotate(double angle) {
-
-    // TODO
-
-
-
-  }
-  private TurtleStep move(double distance) {
-    // TODO
-
+  private void updateStateAndHistory(TurtleStep newStep, Point newPos, double newHeading) {
+    // update history
+    this.stepHistory.add(newStep);
+    // update current state
+    this.currentState = new TurtleState(newPos, newHeading);
   }
 
 }
