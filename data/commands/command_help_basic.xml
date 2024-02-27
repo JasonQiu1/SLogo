@@ -92,5 +92,253 @@
     <num_parameters>2</num_parameters>
     <implementation>SumCommand</implementation>
   </help_entry>
+
+  <help_entry>
+    <name>back</name>
+    <alias>bk</alias>
+    <description>
+      Moves turtle backward in its current heading by pixels distance
+      Returns distance turtle moved (the value of pixels)
+    </description>
+    <example>bk 10</example>
+    <parameters>
+      <parameter>pixels: the distance to move the turtle backwards</parameter>
+    </parameters>
+    <return>The distance the turtle moved (the value of pixels)</return>
+    <num_parameters>1</num_parameters>
+    <implementation>BackCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>clearscreen</name>
+    <alias>cs</alias>
+    <description>
+      Erases turtle's trails and sends it to the home position
+    </description>
+    <example>sc</example>
+    <return>The distance moved</return>
+    <num_parameters>0</num_parameters>
+    <implementation>ClearScreenCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>forward</name>
+    <alias>fd</alias>
+    <description>
+      Moves turtle forward in its current heading by pixels distance
+      Returns distance turtle moved (the value of pixels)
+    </description>
+    <example>fd 10</example>
+    <parameters>
+      <parameter>pixels: the distance to move the turtle forward</parameter>
+    </parameters>
+    <return>The distance the turtle moved (the value of pixels)</return>
+    <num_parameters>1</num_parameters>
+    <implementation>ForwardCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>hideturtle</name>
+    <alias>ht</alias>
+    <description>
+      Makes turtle invisible
+    </description>
+    <example>ht</example>
+    <return>0</return>
+    <num_parameters>0</num_parameters>
+    <implementation>HideTurtleCommand</implementation>
+  </help_entry>
+
+
+  <help_entry>
+    <name>home</name>
+    <alias>home</alias>
+    <description>
+      Moves turtle to the center of the screen (0 0)
+    </description>
+    <example>home</example>
+    <return>The distance moved</return>
+    <num_parameters>0</num_parameters>
+    <implementation>HomeCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>left</name>
+    <alias>lt</alias>
+    <description>
+      Turns turtle counterclockwise by degrees angle
+      returns amount turtle turned (the value of degrees)
+    </description>
+    <example>lt 45</example>
+    <parameters>
+      <parameter>degrees: the degrees angle to turn counterclockwise</parameter>
+    </parameters>
+    <return>The amount turtle turned (the value of degrees)</return>
+    <num_parameters>1</num_parameters>
+    <implementation>LeftCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>pendown</name>
+    <alias>pd</alias>
+    <description>
+      Puts pen down such that when the turtle moves, it leaves a trail
+    </description>
+    <example>pd</example>
+    <return>1</return>
+    <num_parameters>0</num_parameters>
+    <implementation>PenDownCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>penup</name>
+    <alias>pu</alias>
+    <description>
+      Puts pen up such that when the turtle moves, it does not leave a trail
+    </description>
+    <example>pu</example>
+    <return>0</return>
+    <num_parameters>0</num_parameters>
+    <implementation>PenUpCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>right</name>
+    <alias>rt</alias>
+    <description>
+      Turns turtle clockwise by degrees angle
+      Returns amount turtle turned (the value of degrees)
+    </description>
+    <example>rt 45</example>
+    <parameters>
+      <parameter>degrees: the degrees angle to turn clockwise</parameter>
+    </parameters>
+    <return>The amount turtle turned (the value of degrees)</return>
+    <num_parameters>1</num_parameters>
+    <implementation>RightCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>setheading</name>
+    <alias>seth</alias>
+    <description>
+      Turns turtle to an absolute heading
+      Returns number of degrees turned
+    </description>
+    <example>seth 120</example>
+    <parameters>
+      <parameter>heading: the absolute heading to turn to</parameter>
+    </parameters>
+    <return>The number of degrees turned</return>
+    <num_parameters>1</num_parameters>
+    <implementation>SetHeadingCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>setxy</name>
+    <alias>goto</alias>
+    <description>
+      Moves turtle to an absolute screen position, where (0, 0) is the center of the screen
+      Returns distance turtle moved
+    </description>
+    <example>goto 2 1</example>
+    <parameters>
+      <parameter>x: The x-coordinate of the point to move toe</parameter>
+      <parameter>y: the y-coordinate of the point to move to</parameter>
+    </parameters>
+    <return>The distance moved</return>
+    <num_parameters>2</num_parameters>
+    <implementation>SetXYCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>showturtle</name>
+    <alias>st</alias>
+    <description>
+      Makes turtle visible
+    </description>
+    <example>st</example>
+    <return>1</return>
+    <num_parameters>0</num_parameters>
+    <implementation>ShowTurtleCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>towards</name>
+    <alias>towards</alias>
+    <description>
+      Turns turtle to face the point (x, y), where (0, 0) is the center of the screen
+      Returns the number of degrees turtle turned
+    </description>
+    <example>towards 2 1</example>
+    <parameters>
+      <parameter>x: The x-coordinate of the point to face</parameter>
+      <parameter>y: the y-coordinate of the point to face</parameter>
+    </parameters>
+    <return>The number of degrees turned</return>
+    <num_parameters>2</num_parameters>
+    <implementation>TowardsCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>heading</name>
+    <alias>heading</alias>
+    <description>
+      Returns the turtle's heading in degrees
+    </description>
+    <example>set var heading</example>
+    <return>The heading in degrees</return>
+    <num_parameters>0</num_parameters>
+    <implementation>HeadingCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>pendown?</name>
+    <alias>pendownp</alias>
+    <description>
+      Returns 1 if turtle's pen is down, 0 if it is up
+    </description>
+    <example>if pendown [fd 10]</example>
+    <return>1 if pen is down, 0 if pen is up</return>
+    <num_parameters>0</num_parameters>
+    <implementation>PenDown?Command</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>showing?</name>
+    <alias>showingp</alias>
+    <description>
+      Returns 1 if turtle is showing, 0 if it is hiding
+    </description>
+    <example>if showing [fd 10]</example>
+    <return>1 if showing, 0 if hiding</return>
+    <num_parameters>0</num_parameters>
+    <implementation>Showing?Command</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>xcor</name>
+    <alias>xcor</alias>
+    <description>
+      Returns the turtle's X coordinate from the center of the screen
+    </description>
+    <example>set var xcor</example>
+    <return>The X coordinate from the center of the screen</return>
+    <num_parameters>0</num_parameters>
+    <implementation>XCorCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>ycor</name>
+    <alias>ycor</alias>
+    <description>
+      Returns the turtle's XY coordinate from the center of the screen
+    </description>
+    <example>set var ycor</example>
+    <return>The Y coordinate from the center of the screen</return>
+    <num_parameters>0</num_parameters>
+    <implementation>YCorCommand</implementation>
+  </help_entry>
+
 </command_help>
 
