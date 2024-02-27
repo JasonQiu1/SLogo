@@ -1,4 +1,4 @@
-package slogo.model.turtleUtil;
+package slogo.model.turtleutil;
 
 import slogo.model.api.turtle.Point;
 import slogo.model.api.turtle.Vector;
@@ -17,6 +17,13 @@ public class TurtleGeometry {
   }
   protected static Vector calculateYComponent(Vector v, double angle) {
     return new Vector(0, v.getMagnitude() * Math.sin(angle));
+  }
+  protected static Vector getVectorBetweenTwoPoints(Point p1, Point p2) {
+    double dx = p2.getX() - p1.getX();
+    double dy = p2.getY() - p1.getY();
+    Vector res = new
+
+    return initialPosition;
   }
   protected static Point calculateFinalPosition(Point initialPosition, double distance) {
 

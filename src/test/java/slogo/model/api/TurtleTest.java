@@ -1,4 +1,4 @@
-package slogo.model.api.turtle;
+package slogo.model.api;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -6,7 +6,12 @@ import java.util.*;
 import org.junit.jupiter.api.*;
 
 import slogo.model.api.exception.turtle.InvalidPositionException;
-import slogo.model.turtleUtil.Turtle;
+import slogo.model.api.turtle.Point;
+import slogo.model.api.turtle.TurtleAnimator;
+import slogo.model.api.turtle.TurtleState;
+import slogo.model.api.turtle.TurtleStep;
+import slogo.model.api.turtle.Vector;
+import slogo.model.turtleutil.Turtle;
 
 import util.DukeApplicationTest;
 
@@ -24,7 +29,7 @@ public class TurtleTest extends DukeApplicationTest {
     // fd 100
     TurtleStep step = myTurtle.doStep(100, 0);
     TurtleState expectedInitState = new TurtleState(new Point(0,0), 0);
-    Vector expectedPositionChange = new Vector(0, 100);
+    slogo.model.api.turtle.Vector expectedPositionChange = new slogo.model.api.turtle.Vector(0, 100);
     double expectedAngelChange = 0;
     TurtleStep expectedStep = new TurtleStep(expectedInitState, expectedPositionChange, expectedAngelChange);
     double Xf = 0;
@@ -44,7 +49,7 @@ public class TurtleTest extends DukeApplicationTest {
     // rt 36
     TurtleStep step = myTurtle.doStep(0, 36);
     TurtleState expectedInitState = new TurtleState(new Point(0,0), 0);
-    Vector expectedPositionChange = new Vector(0, 0);
+    slogo.model.api.turtle.Vector expectedPositionChange = new slogo.model.api.turtle.Vector(0, 0);
     double expectedAngelChange = 36;
     TurtleStep expectedStep = new TurtleStep(expectedInitState, expectedPositionChange, expectedAngelChange);
     double Xf = 0;
@@ -67,7 +72,7 @@ public class TurtleTest extends DukeApplicationTest {
     // step 1: fd 50
     TurtleState expectedInitState1 = new TurtleState(new Point(0,0), 0);
     myTurtle.doStep(50, 0);
-    Vector expectedPositionChange1 = new Vector(0, 50);
+    slogo.model.api.turtle.Vector expectedPositionChange1 = new slogo.model.api.turtle.Vector(0, 50);
     double expectedAngelChange1 = 0;
     TurtleStep expectedStep1 = new TurtleStep(expectedInitState1, expectedPositionChange1, expectedAngelChange1);
     expectedStepHistory.add(expectedStep1);
@@ -78,7 +83,7 @@ public class TurtleTest extends DukeApplicationTest {
     // step 2: rt 55
     TurtleState expectedInitState2 = myTurtle.getCurrentState();
     myTurtle.doStep(0, 55);
-    Vector expectedPositionChange2 = new Vector(0, 0);
+    slogo.model.api.turtle.Vector expectedPositionChange2 = new slogo.model.api.turtle.Vector(0, 0);
     double expectedAngelChange2 = 55;
     TurtleStep expectedStep2 = new TurtleStep(expectedInitState2, expectedPositionChange2, expectedAngelChange2);
     expectedStepHistory.add(expectedStep2);
@@ -87,7 +92,7 @@ public class TurtleTest extends DukeApplicationTest {
     // step 3: fd 100
     TurtleState expectedInitState3 = myTurtle.getCurrentState();
     myTurtle.doStep(100, 0);
-    Vector expectedPositionChange3 = new Vector(100*Math.sin(myTurtle.getCurrentState().heading()), 100*Math.cos(myTurtle.getCurrentState().heading()));
+    slogo.model.api.turtle.Vector expectedPositionChange3 = new slogo.model.api.turtle.Vector(100*Math.sin(myTurtle.getCurrentState().heading()), 100*Math.cos(myTurtle.getCurrentState().heading()));
     double expectedAngelChange3 = 0;
     TurtleStep expectedStep3 = new TurtleStep(expectedInitState3, expectedPositionChange3, expectedAngelChange3);
     expectedStepHistory.add(expectedStep3);
@@ -142,7 +147,7 @@ public class TurtleTest extends DukeApplicationTest {
     // step 3: fd 400
     TurtleState expectedInitState3 = myTurtle.getCurrentState();
     TurtleStep step3 = myTurtle.doStep(400, 0);
-    Vector expectedPositionChange3 = new Vector(400*Math.sin(myTurtle.getCurrentState().heading()), 400*Math.cos(myTurtle.getCurrentState().heading()));
+    slogo.model.api.turtle.Vector expectedPositionChange3 = new slogo.model.api.turtle.Vector(400*Math.sin(myTurtle.getCurrentState().heading()), 400*Math.cos(myTurtle.getCurrentState().heading()));
     double expectedAngelChange3 = 0;
     TurtleStep expectedStep = new TurtleStep(expectedInitState3, expectedPositionChange3, expectedAngelChange3);
 
@@ -248,7 +253,7 @@ public class TurtleTest extends DukeApplicationTest {
     TurtleStep forwardStep = myTurtle.stepForward();
 
     TurtleState expectedInitState = new TurtleState(new Point(0, 200), 150);
-    Vector expectedPositionChange = new Vector(-50*Math.sin(30), 50*Math.cos(30));
+    slogo.model.api.turtle.Vector expectedPositionChange = new slogo.model.api.turtle.Vector(-50*Math.sin(30), 50*Math.cos(30));
     double expectedAngelChange = 0;
     TurtleStep expectedStep = new TurtleStep(expectedInitState, expectedPositionChange, expectedAngelChange);
 
@@ -279,7 +284,7 @@ public class TurtleTest extends DukeApplicationTest {
     TurtleStep backwardStep = myTurtle.stepBack();
 
     TurtleState expectedInitState = new TurtleState(new Point(-25, 243.3012701892), 150);
-    Vector expectedPositionChange = new Vector(50*Math.sin(30), -50*Math.cos(30));
+    slogo.model.api.turtle.Vector expectedPositionChange = new slogo.model.api.turtle.Vector(50*Math.sin(30), -50*Math.cos(30));
     double expectedAngelChange = 0;
     TurtleStep expectedStep = new TurtleStep(expectedInitState, expectedPositionChange, expectedAngelChange);
 
@@ -302,7 +307,7 @@ public class TurtleTest extends DukeApplicationTest {
     TurtleStep step = myTurtle.setHeading(45);
 
     TurtleState expectedInitState = new TurtleState(new Point(0, 0), 235);
-    Vector expectedPositionChange = new Vector(0,0);
+    slogo.model.api.turtle.Vector expectedPositionChange = new slogo.model.api.turtle.Vector(0,0);
     double expectedAngelChange = -190;
     TurtleStep expectedStep = new TurtleStep(expectedInitState, expectedPositionChange, expectedAngelChange);
 
@@ -317,7 +322,7 @@ public class TurtleTest extends DukeApplicationTest {
     TurtleStep step = myTurtle.setPosition(new Point(45,45));
 
     TurtleState expectedInitState = new TurtleState(new Point(0, 60), 0);
-    Vector expectedPositionChange = new Vector(45,-15);
+    slogo.model.api.turtle.Vector expectedPositionChange = new slogo.model.api.turtle.Vector(45,-15);
     double expectedAngelChange = 0;
     TurtleStep expectedStep = new TurtleStep(expectedInitState, expectedPositionChange, expectedAngelChange);
 
@@ -352,7 +357,7 @@ public class TurtleTest extends DukeApplicationTest {
     Point initPos = new Point(0,0);
     double angle = 0;
     TurtleState initState = new TurtleState(initPos, angle);
-    Vector posChange = new Vector(0, 100);
+    slogo.model.api.turtle.Vector posChange = new slogo.model.api.turtle.Vector(0, 100);
     double angleChange = 0;
     TurtleStep step = new TurtleStep(initState, posChange, angleChange);
     Map<Integer, TurtleStep> turtles = new HashMap<>();
@@ -364,7 +369,7 @@ public class TurtleTest extends DukeApplicationTest {
     Point initPos = new Point(0,0);
     double angle = 0;
     TurtleState initState = new TurtleState(initPos, angle);
-    Vector posChange = new Vector(0, 0);
+    slogo.model.api.turtle.Vector posChange = new Vector(0, 0);
     double angleChange = 100;
     TurtleStep step = new TurtleStep(initState, posChange, angleChange);
     Map<Integer, TurtleStep> turtles = new HashMap<>();

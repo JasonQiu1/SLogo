@@ -1,7 +1,7 @@
 package slogo.model.api.turtle;
 
 import java.util.*;
-import slogo.model.turtleUtil.Turtle;
+import slogo.model.turtleutil.Turtle;
 import slogo.model.api.exception.turtle.InvalidPositionException;
 
 public class TurtleAnimator {
@@ -16,6 +16,7 @@ public class TurtleAnimator {
   private double frameDuration; // 1s --> dx = 1, dy = 1
   // double frameDuration = 1.0 / SECOND_DELAY_KEY; // Calculate the duration for the KeyFrame
   private Map<Integer, List<TurtleState>> intermediateStates;
+  public static String mode = "window";
 
   public TurtleAnimator() {
     this.graphicsScalingFactor = 1;
@@ -72,6 +73,7 @@ public class TurtleAnimator {
 
   // calculate the list of TurtleState needed to smoothly move the turtle for its given TurtleStep
   public static void animateSteps(Map<Integer, TurtleStep> eachTurtlesStep) {
+    // TODO
 
   }
   // return the list of TurtleState needed to smoothly move the turtle(s) a step forward in the animation
