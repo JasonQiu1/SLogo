@@ -23,10 +23,6 @@ public class Turtle {
   private TurtleState currentState; // heading = angle from vertical y-axis (all calculations use angle from horizontal x-axis)
   private List<TurtleStep> stepHistory;
   private int currentPointInStepHistory;
-  private static final String FORWARD_COMMAND = "FD";
-  private static final String ROTATE_COMMAND = "RT";
-  private static final String SET_HEADING_COMMAND = "SETHEADING";
-  private static final String SET_XY_COMMAND = "SETXY";
   private static final String DEFAULT_RESOURCE_PACKAGE = "slogo.model.";
   private ResourceBundle errorResourceBundle; // resource bundle for error handling messages
 
@@ -61,34 +57,16 @@ public class Turtle {
     this.currentPointInStepHistory = currentPointInStepHistory;
   }
 
-  // update turtle's position/heading and return turtle's final position/heading
-  public <T> TurtleStep doStep (String command, T value) throws UnsupportedTurtleCommandException {
-    switch (command) {
-      case FORWARD_COMMAND -> {
-        return move((double) value);
-      }
-      case ROTATE_COMMAND -> {
-        return rotate((double) value);
-      }
-      case SET_HEADING_COMMAND -> {
-        return setHeading((double) value);
-      }
-      case SET_XY_COMMAND -> {
-        return setXY((Point) value);
-      }
-      default -> throw new UnsupportedTurtleCommandException(errorResourceBundle.getString("UnsupportedTurtleCommand"));
-
-    }
-  }
-
   // return turtle's heading towards given point
-  public double getHeadingTowards(Point point) {
-    // TODO
-    return 0;
-  }
+//  public double getHeadingTowards(Point point) {
+//    // TODO
+//    return 0;
+//  }
 
   public TurtleStep stepForward() {
-    TurtleState startingState = this.currentState;
+    this.currentPointInStepHistory++;
+    TurtleStep step = this.stepHistory.get(currentPointInStepHistory);
+
 
     return null;
   }
@@ -98,7 +76,7 @@ public class Turtle {
     return null;
   }
 
-  private TurtleStep setHeading (double degrees) {
+  public TurtleStep setHeading (double degrees) {
     double angleChange = TurtleGeometry.getAngleChange(this.currentState.heading(), degrees);
     TurtleStep step = new TurtleStep(this.currentState, new Vector(0,0), angleChange);
 
@@ -107,7 +85,7 @@ public class Turtle {
     return step;
   }
 
-  private TurtleStep setXY (Point position) throws InvalidPositionException {
+  public TurtleStep setXY (Point position) throws InvalidPositionException {
     if (TurtleAnimator.mode.equals("window")) {
       if (position.getX() > TurtleAnimator.getWidth() / 2 || position.getY() > TurtleAnimator.getHeight() / 2 || position.getX() < - TurtleAnimator.getWidth() / 2 || position.getY() < - TurtleAnimator.getHeight() / 2) {
         throw new InvalidPositionException(errorResourceBundle.getString("InvalidPosition"));
@@ -122,29 +100,40 @@ public class Turtle {
     return step;
   }
 
-  private TurtleStep rotate(double angle) {
+  public TurtleStep rotate(double angle) {
     double referenceAngle = angle % 360;
-    double newAngle = this.currentState.heading() + referenceAngle;
+    double finalHeading = this.currentState.heading() + referenceAngle;
 
     TurtleStep step = new TurtleStep(this.currentState, new Vector(0,0), referenceAngle);
-    updateStateAndHistory(step, this.currentState.position(), newAngle);
+    updateStateAndHistory(step, this.currentState.position(), finalHeading);
 
     return step;
 
   }
   private TurtleStep move(double distance) {
-    // TODO
+    double dx = TurtleGeometry.calculateXComponent(distance, this.currentState.heading());
+    double dy = TurtleGeometry.calculateYComponent(distance, this.currentState.heading());
+    Vector posChange = new Vector(dx, dy);
+    Point finalPos = TurtleGeometry.calculateFinalPosition(this.currentState.position(), posChange);
+
+    TurtleStep step = new TurtleStep(this.currentState, posChange, 0);
+    updateStateAndHistory(step, finalPos, 0);
+
+    return step;
 
   }
 
-  // reset position
-  private void reset(TurtleState initialState) {
+  // reset turtle
+  public void reset(TurtleState initialState) {
+    this.stepHistory.clear();
+    this.currentPointInStepHistory = 0;
     this.currentState = initialState;
   }
 
   private void updateStateAndHistory(TurtleStep newStep, Point newPos, double newHeading) {
     // update history
     this.stepHistory.add(newStep);
+    this.currentPointInStepHistory++;
     // update current state
     this.currentState = new TurtleState(newPos, newHeading);
   }

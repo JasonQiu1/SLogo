@@ -12,11 +12,11 @@ public class TurtleGeometry {
   public static double calculateMagnitude(Vector v) {
     return Math.atan(v.getDy()/v.getDx());
   }
-  protected static Vector calculateXComponent(Vector v, double angle) {
-    return new Vector(v.getMagnitude() * Math.cos(angle), 0);
+  protected static double calculateXComponent(double magnitude, double angle) {
+    return magnitude * Math.cos(angle);
   }
-  protected static Vector calculateYComponent(Vector v, double angle) {
-    return new Vector(0, v.getMagnitude() * Math.sin(angle));
+  protected static double calculateYComponent(double magnitude, double angle) {
+    return magnitude * Math.sin(angle);
   }
   protected static Vector getVectorBetweenTwoPoints(Point p1, Point p2) {
     double dx = p2.getX() - p1.getX();
@@ -26,9 +26,11 @@ public class TurtleGeometry {
   protected static double getAngleChange(double a1, double a2) {
     return a2 - a1;
   }
-  protected static Point calculateFinalPosition(Point initialPosition, double distance) {
+  protected static Point calculateFinalPosition(Point initialPosition, Vector vector) {
+    double xFinal = initialPosition.getX() + vector.getDx();
+    double yFinal = initialPosition.getY() + vector.getDy();
 
-    return initialPosition;
+    return new Point(xFinal, yFinal);
   }
   protected static Point calculateFacingPosition(Point initialPosition, double angle) {
 
