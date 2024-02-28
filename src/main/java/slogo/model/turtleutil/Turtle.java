@@ -147,14 +147,13 @@ public class Turtle {
     // out of bound
     if (TurtleAnimator.mode.equals(TurtleAnimator.FENCE_MODE_KEY)) {
       intermediateSteps.add(fenceMove(currPos, dx, dy));
-      return intermediateSteps;
     }
-    if (TurtleAnimator.mode.equals(TurtleAnimator.WINDOW_MODE_KEY)) {
+    else if (TurtleAnimator.mode.equals(TurtleAnimator.WINDOW_MODE_KEY)) {
       intermediateSteps.add(normalMove(currPos, dx, dy));
-      return intermediateSteps;
     }
-
-    wrapMove(currPos, dx, dy, intermediateSteps);
+    else {
+      wrapMove(currPos, dx, dy, intermediateSteps);
+    }
 
     return intermediateSteps;
 
@@ -209,12 +208,12 @@ public class Turtle {
     }
 
     Vector posChange = new Vector(interDx, interDy);
-    Point finalPos = TurtleGeometry.calculateFinalPosition(this.currentState.position(), posChange);
+    Point finalPos = TurtleGeometry.calculateFinalPosition(currPos, posChange);
     TurtleStep step = new TurtleStep(this.currentState, posChange, 0);
     updateStateAndHistory(step, true, finalPos, 0);
     intermediateSteps.add(step);
 
-    wrapMove(currPos, dx-interDx, dy-interDy, intermediateSteps);
+    wrapMove(this.currentState.position(), dx-interDx, dy-interDy, intermediateSteps);
   }
 
   // reset turtle

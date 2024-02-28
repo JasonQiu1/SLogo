@@ -91,12 +91,6 @@ public class TurtleAnimator {
     for (Turtle turtle: turtles) turtle.reset(INITIAL_TURTLE_STATE);
   }
 
-  // check if turtle is within the animation window after a step
-  protected static boolean checkInBound(Point position) throws InvalidPositionException {
-    // TODO
-     return false;
-  }
-
   private static List<TurtleState> getMoveInterStates(Point initialPosition, double distance) {
     List<TurtleState> interStates = new ArrayList<>();
     double fps = 1 / frameDuration;
