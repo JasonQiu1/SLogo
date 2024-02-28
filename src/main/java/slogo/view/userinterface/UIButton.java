@@ -10,11 +10,24 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+/**
+ * Represents a basic button in the Slogo user interface.
+ * Extends the UIElement class.
+ *
+ * @author Jeremyah
+ */
 public class UIButton extends UIElement {
-
+  // Constants
   private static final Font BTN_FONT = Font.font("Verdana", FontWeight.MEDIUM, 15);
+  // Instance Variables
   private final Button myButton;
 
+  /**
+   * Constructor for UIButton.
+   * @param text The text to be displayed on the button.
+   * @param x The x-coordinate of the button's position.
+   * @param y The y-coordinate of the button's position.
+   */
   public UIButton(String text, double x, double y) {
     super(new Button(text), text);
     myButton = (Button) getElement();
@@ -34,6 +47,10 @@ public class UIButton extends UIElement {
     myButton.setText("");
     myButton.setGraphic(buttonView);
   }
+
+  /**
+   * Adds a shadow effect to the button when the mouse hovers over it.
+   */
 
   public void addShadow() {
     myButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
