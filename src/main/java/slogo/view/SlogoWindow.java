@@ -6,18 +6,32 @@ import slogo.view.pages.SplashPage;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Represents the main window of the Slogo application.
+ *
+ * @author Jeremyah Flowers
+ */
 public class SlogoWindow {
 
   private static final int HEIGHT = 600;
   private static final int WIDTH = 600;
   private final Stage stage;
 
+  /**
+   * Constructs a SlogoWindow with the given stage and type.
+   * @param stage the JavaFX stage associated with this window
+   * @param type the type of page to create initially
+   */
   public SlogoWindow(Stage stage, String type) {
     this.stage = stage;
     stage.setTitle("SLOGO");
     createNewWindow(type);
   }
 
+  /**
+   * Creates a new window with the specified type of page.
+   * @param type the type of page to create
+   */
   public void createNewWindow(String type) {
     GeneralPage page = createPageType(type);
     page.setPage(WIDTH, HEIGHT);
