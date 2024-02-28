@@ -14,7 +14,8 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 /**
- * Represents a button with various functionalities for the Slogo user interface.
+ * Represents a button with external functionalities (usually a link to some another area) for the
+ * Slogo user interface.
  * Extends the UIButton class.
  *
  * @author Jeremyah
