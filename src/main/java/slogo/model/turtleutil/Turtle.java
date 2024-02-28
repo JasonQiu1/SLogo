@@ -57,11 +57,19 @@ public class Turtle {
     this.currentPointInStepHistory = currentPointInStepHistory;
   }
 
-  // return turtle's heading towards given point
-//  public double getHeadingTowards(Point point) {
-//    // TODO
-//    return 0;
-//  }
+  public TurtleStep turnTowards(Point point) {
+
+    Vector reference = new Vector(0, 1); // vector representing vertical axis
+    Vector vectorToPoint = TurtleGeometry.getVectorBetweenTwoPoints(this.currentState.position(), point);
+    double angleChange = TurtleGeometry.getAngleBetweenTwoVectors(reference, vectorToPoint) - this.currentState.heading();
+    double finalHeading = this.currentState.heading() + angleChange;
+
+    TurtleStep step = new TurtleStep(this.currentState, new Vector(0,0), angleChange);
+    updateStateAndHistory(step, this.currentState.position(), finalHeading);
+
+    return step;
+  }
+
 
   public TurtleStep stepForward() {
     this.currentPointInStepHistory++;
