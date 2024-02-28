@@ -46,8 +46,10 @@ public class Vector {
   public void setDirection(double direction) {
     this.direction = direction;
   }
-  public boolean equals(Vector vector) {
-    return this.getMagnitude() == vector.getMagnitude() && this.getDirection() == vector.getDirection();
+  @Override
+  public boolean equals(Object obj) {
+    Vector v = (Vector) obj;
+    return this.getMagnitude() == v.getMagnitude() && this.getDirection() == v.getDirection();
   }
 
 }

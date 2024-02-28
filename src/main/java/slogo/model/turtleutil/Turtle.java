@@ -5,7 +5,6 @@ import java.util.List;
 
 import java.util.ResourceBundle;
 import slogo.model.api.exception.turtle.InvalidPositionException;
-import slogo.model.api.exception.UnsupportedTurtleCommandException;
 import slogo.model.api.turtle.Point;
 import slogo.model.api.turtle.TurtleAnimator;
 import slogo.model.api.turtle.TurtleState;
@@ -21,10 +20,10 @@ import slogo.model.api.turtle.Vector;
 public class Turtle {
   private int id;
   private TurtleState currentState; // heading = angle from vertical y-axis (all calculations use angle from horizontal x-axis)
-  private List<TurtleStep> stepHistory;
+  private final List<TurtleStepExtended> stepHistory;
   private int currentPointInStepHistory;
   private static final String DEFAULT_RESOURCE_PACKAGE = "slogo.model.";
-  private ResourceBundle errorResourceBundle; // resource bundle for error handling messages
+  private final ResourceBundle errorResourceBundle; // resource bundle for error handling messages
 
   public Turtle() {
     this.id = 0;
@@ -42,7 +41,7 @@ public class Turtle {
     return currentState;
   }
 
-  public List<TurtleStep> getStepHistory() {
+  public List<TurtleStepExtended> getStepHistory() {
     return stepHistory;
   }
 
@@ -65,14 +64,14 @@ public class Turtle {
     double finalHeading = this.currentState.heading() + angleChange;
 
     TurtleStep step = new TurtleStep(this.currentState, new Vector(0,0), angleChange);
-    updateStateAndHistory(step, this.currentState.position(), finalHeading);
+    updateStateAndHistory(step, false, this.currentState.position(), finalHeading);
 
     return step;
   }
 
   public TurtleStep stepForward() {
     this.currentPointInStepHistory++;
-    TurtleStep forwardStep = this.stepHistory.get(currentPointInStepHistory);
+    TurtleStepExtended forwardStep = this.stepHistory.get(currentPointInStepHistory);
 
     // update turtle state
     Point finalPos = TurtleGeometry.calculateFinalPosition(this.currentState.position(), forwardStep.changeInPosition());
@@ -83,7 +82,7 @@ public class Turtle {
   }
 
   public TurtleStep stepBack() {
-    TurtleStep currStep = this.stepHistory.get(currentPointInStepHistory);
+    TurtleStepExtended currStep = this.stepHistory.get(currentPointInStepHistory);
 
     // perform opposite position/heading change
     Vector oldPosChange = currStep.changeInPosition();
@@ -103,14 +102,14 @@ public class Turtle {
     double angleChange = TurtleGeometry.getAngleChange(this.currentState.heading(), degrees);
     TurtleStep step = new TurtleStep(this.currentState, new Vector(0,0), angleChange);
 
-    updateStateAndHistory(step, this.currentState.position(), degrees);
+    updateStateAndHistory(step, false, this.currentState.position(), degrees);
 
     return step;
   }
 
-  public TurtleStep setXY (Point position) throws InvalidPositionException {
-    if (TurtleAnimator.mode.equals("window")) {
-      if (position.getX() > TurtleAnimator.getWidth() / 2 || position.getY() > TurtleAnimator.getHeight() / 2 || position.getX() < - TurtleAnimator.getWidth() / 2 || position.getY() < - TurtleAnimator.getHeight() / 2) {
+  public TurtleStep setXY(Point position) throws InvalidPositionException {
+    if (TurtleAnimator.mode.equals(TurtleAnimator.FENCE_MODE_KEY)) {
+      if (position.getX() > TurtleAnimator.X_MAX || position.getY() > TurtleAnimator.Y_MAX || position.getX() < TurtleAnimator.X_MIN || position.getY() < TurtleAnimator.Y_MIN) {
         throw new InvalidPositionException(errorResourceBundle.getString("InvalidPosition"));
       }
     }
@@ -118,7 +117,7 @@ public class Turtle {
     Vector posChange = TurtleGeometry.getVectorBetweenTwoPoints(this.currentState.position(), position);
     TurtleStep step = new TurtleStep(this.currentState, posChange, 0);
 
-    updateStateAndHistory(step, position, this.currentState.heading());
+    updateStateAndHistory(step, false, position, this.currentState.heading());
 
     return step;
   }
@@ -128,7 +127,7 @@ public class Turtle {
     double finalHeading = this.currentState.heading() + referenceAngle;
 
     TurtleStep step = new TurtleStep(this.currentState, new Vector(0,0), referenceAngle);
-    updateStateAndHistory(step, this.currentState.position(), finalHeading);
+    updateStateAndHistory(step, false, this.currentState.position(), finalHeading);
 
     return step;
 
@@ -136,26 +135,60 @@ public class Turtle {
   public TurtleStep move(double distance) {
     double dx = TurtleGeometry.calculateXComponent(distance, this.currentState.heading());
     double dy = TurtleGeometry.calculateYComponent(distance, this.currentState.heading());
+    Point currPos = this.currentState.position();
+
+    // within bound
+    if (currPos.getX() + dx <= TurtleAnimator.X_MAX && currPos.getX() + dx >= TurtleAnimator.X_MIN && currPos.getY() + dy <= TurtleAnimator.Y_MAX && currPos.getY() + dy >= TurtleAnimator.Y_MIN) {
+      return normalMove(currPos, dx, dy);
+    }
+
+    // out of bound
+    if (TurtleAnimator.mode.equals(TurtleAnimator.FENCE_MODE_KEY)) {
+      return fenceMove(currPos, dx, dy);
+    }
+    if (TurtleAnimator.mode.equals(TurtleAnimator.WINDOW_MODE_KEY)) {
+      return windowMove(currPos, dx, dy);
+    }
+
+    return wrapMove(currPos, dx, dy);
+
+  }
+  private TurtleStep normalMove(Point currPos, double dx, double dy) {
+    Vector posChange = new Vector(dx, dy);
+    Point finalPos = TurtleGeometry.calculateFinalPosition(currPos, posChange);
+    TurtleStep step = new TurtleStep(this.currentState, posChange, 0);
+    updateStateAndHistory(step, false, finalPos, 0);
+    return step;
+  }
+  private TurtleStep fenceMove(Point currPos, double dx, double dy) {
+    if (currPos.getX() + dx > TurtleAnimator.X_MAX) {
+      dx = TurtleAnimator.X_MAX - currPos.getX();
+    }
+    else if (currPos.getX() + dx < TurtleAnimator.X_MIN) {
+      dx = currPos.getX() - TurtleAnimator.X_MIN;
+    }
+    else if (currPos.getY() + dy > TurtleAnimator.Y_MAX) {
+      dy = TurtleAnimator.Y_MAX - currPos.getY();
+    }
+    else {
+      dy = currPos.getY() - TurtleAnimator.Y_MIN;
+    }
     Vector posChange = new Vector(dx, dy);
     Point finalPos = TurtleGeometry.calculateFinalPosition(this.currentState.position(), posChange);
-
     TurtleStep step = new TurtleStep(this.currentState, posChange, 0);
-    updateStateAndHistory(step, finalPos, 0);
-
+    updateStateAndHistory(step, false, finalPos, 0);
     return step;
-
   }
 
   // reset turtle
   public void reset(TurtleState initialState) {
-    this.stepHistory.clear();
     this.currentPointInStepHistory = 0;
     this.currentState = initialState;
   }
 
-  private void updateStateAndHistory(TurtleStep newStep, Point newPos, double newHeading) {
+  private void updateStateAndHistory(TurtleStep newStep, boolean isCrossBorder, Point newPos, double newHeading) {
     // update history
-    this.stepHistory.add(newStep);
+    this.stepHistory.add(new TurtleStepExtended(newStep, isCrossBorder));
     this.currentPointInStepHistory++;
     // update current state
     this.currentState = new TurtleState(newPos, newHeading);
