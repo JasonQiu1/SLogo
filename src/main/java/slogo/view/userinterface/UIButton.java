@@ -14,7 +14,7 @@ import javafx.scene.text.FontWeight;
  * Represents a basic button in the Slogo user interface.
  * Extends the UIElement class.
  *
- * @author Jeremyah
+ * @author Jeremyah Flowers
  */
 public class UIButton extends UIElement {
   // Constants

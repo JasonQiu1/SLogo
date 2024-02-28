@@ -18,7 +18,7 @@ import javafx.stage.Stage;
  * Slogo user interface.
  * Extends the UIButton class.
  *
- * @author Jeremyah
+ * @author Jeremyah Flowers
  */
 public class ExternalButton extends UIButton {
 

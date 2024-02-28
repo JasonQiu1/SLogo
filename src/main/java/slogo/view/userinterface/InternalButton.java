@@ -11,7 +11,7 @@ import javafx.scene.shape.Rectangle;
  * for the Slogo user interface.
  * Extends the UIButton class.
  *
- * @author Jeremyah
+ * @author Jeremyah Flowers
  */
 public class InternalButton extends UIButton {
 
