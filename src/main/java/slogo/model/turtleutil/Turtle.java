@@ -147,7 +147,7 @@ public class Turtle {
       return fenceMove(currPos, dx, dy);
     }
     if (TurtleAnimator.mode.equals(TurtleAnimator.WINDOW_MODE_KEY)) {
-      return windowMove(currPos, dx, dy);
+      return normalMove(currPos, dx, dy);
     }
 
     return wrapMove(currPos, dx, dy);
@@ -178,6 +178,9 @@ public class Turtle {
     TurtleStep step = new TurtleStep(this.currentState, posChange, 0);
     updateStateAndHistory(step, false, finalPos, 0);
     return step;
+  }
+  private TurtleStep wrapMove(Point currPos, double dx, double dy) {
+
   }
 
   // reset turtle
