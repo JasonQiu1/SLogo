@@ -132,25 +132,31 @@ public class Turtle {
     return step;
 
   }
-  public TurtleStep move(double distance) {
+  public List<TurtleStep> move(double distance) {
     double dx = TurtleGeometry.calculateXComponent(distance, this.currentState.heading());
     double dy = TurtleGeometry.calculateYComponent(distance, this.currentState.heading());
     Point currPos = this.currentState.position();
+    List<TurtleStep> intermediateSteps = new ArrayList<>();
 
     // within bound
     if (currPos.getX() + dx <= TurtleAnimator.X_MAX && currPos.getX() + dx >= TurtleAnimator.X_MIN && currPos.getY() + dy <= TurtleAnimator.Y_MAX && currPos.getY() + dy >= TurtleAnimator.Y_MIN) {
-      return normalMove(currPos, dx, dy);
+      intermediateSteps.add(normalMove(currPos, dx, dy));
+      return intermediateSteps;
     }
 
     // out of bound
     if (TurtleAnimator.mode.equals(TurtleAnimator.FENCE_MODE_KEY)) {
-      return fenceMove(currPos, dx, dy);
+      intermediateSteps.add(fenceMove(currPos, dx, dy));
+      return intermediateSteps;
     }
     if (TurtleAnimator.mode.equals(TurtleAnimator.WINDOW_MODE_KEY)) {
-      return normalMove(currPos, dx, dy);
+      intermediateSteps.add(normalMove(currPos, dx, dy));
+      return intermediateSteps;
     }
 
-    return wrapMove(currPos, dx, dy);
+    wrapMove(currPos, dx, dy, intermediateSteps);
+
+    return intermediateSteps;
 
   }
   private TurtleStep normalMove(Point currPos, double dx, double dy) {
@@ -179,8 +185,36 @@ public class Turtle {
     updateStateAndHistory(step, false, finalPos, 0);
     return step;
   }
-  private TurtleStep wrapMove(Point currPos, double dx, double dy) {
+  // recursive method for out of bound move in WRAP mode
+  private void wrapMove(Point currPos, double dx, double dy, List<TurtleStep> intermediateSteps) {
+    if (currPos.getX() + dx < TurtleAnimator.X_MAX && currPos.getX() + dx < TurtleAnimator.X_MIN && currPos.getY() + dy > TurtleAnimator.Y_MAX && currPos.getY() + dy < TurtleAnimator.Y_MIN) {
+      intermediateSteps.add(normalMove(currPos, dx, dy)); // last step of a cross border step will have crossBorderIntermediateStep = false;
+      return;
+    }
 
+    double interDx = 0;
+    double interDy = 0;
+
+    if (currPos.getX() + dx > TurtleAnimator.X_MAX) {
+      interDx = TurtleAnimator.X_MAX - currPos.getX();
+    }
+    else if (currPos.getX() + dx < TurtleAnimator.X_MIN) {
+      interDx = currPos.getX() - TurtleAnimator.X_MIN;
+    }
+    else if (currPos.getY() + dy > TurtleAnimator.Y_MAX) {
+      interDy = TurtleAnimator.Y_MAX - currPos.getY();
+    }
+    else {
+      interDy = currPos.getY() - TurtleAnimator.Y_MIN;
+    }
+
+    Vector posChange = new Vector(interDx, interDy);
+    Point finalPos = TurtleGeometry.calculateFinalPosition(this.currentState.position(), posChange);
+    TurtleStep step = new TurtleStep(this.currentState, posChange, 0);
+    updateStateAndHistory(step, true, finalPos, 0);
+    intermediateSteps.add(step);
+
+    wrapMove(currPos, dx-interDx, dy-interDy, intermediateSteps);
   }
 
   // reset turtle
