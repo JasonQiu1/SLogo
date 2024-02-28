@@ -70,18 +70,33 @@ public class Turtle {
     return step;
   }
 
-
   public TurtleStep stepForward() {
     this.currentPointInStepHistory++;
-    TurtleStep step = this.stepHistory.get(currentPointInStepHistory);
+    TurtleStep forwardStep = this.stepHistory.get(currentPointInStepHistory);
 
+    // update turtle state
+    Point finalPos = TurtleGeometry.calculateFinalPosition(this.currentState.position(), forwardStep.changeInPosition());
+    double finalHeading = this.currentState.heading() + forwardStep.changeInAngle();
+    this.currentState = new TurtleState(finalPos, finalHeading);
 
-    return null;
+    return forwardStep;
   }
 
   public TurtleStep stepBack() {
-    // TODO
-    return null;
+    TurtleStep currStep = this.stepHistory.get(currentPointInStepHistory);
+
+    // perform opposite position/heading change
+    Vector oldPosChange = currStep.changeInPosition();
+    Vector updatedPosChange = new Vector(oldPosChange.getDx() * -1, oldPosChange.getDy() * -1);
+    TurtleStep backwardStep = new TurtleStep(this.currentState, updatedPosChange, -1 * currStep.changeInAngle());
+    this.currentPointInStepHistory--;
+
+    // update turtle state
+    Point finalPos = TurtleGeometry.calculateFinalPosition(this.currentState.position(), backwardStep.changeInPosition());
+    double finalHeading = this.currentState.heading() + backwardStep.changeInAngle();
+    this.currentState = new TurtleState(finalPos, finalHeading);
+
+    return backwardStep;
   }
 
   public TurtleStep setHeading (double degrees) {
@@ -118,7 +133,7 @@ public class Turtle {
     return step;
 
   }
-  private TurtleStep move(double distance) {
+  public TurtleStep move(double distance) {
     double dx = TurtleGeometry.calculateXComponent(distance, this.currentState.heading());
     double dy = TurtleGeometry.calculateYComponent(distance, this.currentState.heading());
     Vector posChange = new Vector(dx, dy);
