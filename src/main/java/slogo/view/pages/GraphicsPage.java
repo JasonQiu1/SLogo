@@ -9,20 +9,44 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 
+/**
+ * Represents the graphics page of the application.
+ * This page displays graphical elements and user interface controls for graphics-related
+ * functionality.
+ *
+ * @author Jeremyah Flowers
+ */
 public class GraphicsPage extends GeneralPage {
 
+  // Root group for all UI elements
   private final Group root;
 
+  /**
+   * Constructs a GraphicsPage object with the specified stage.
+   *
+   * @param stage The stage for the graphics page.
+   */
   public GraphicsPage(Stage stage) {
     super(stage);
     root = new Group();
   }
 
+  /**
+   * Sets up the graphics page with graphical elements and user interface controls.
+   *
+   * @param screenWidth  The width of the screen.
+   * @param screenHeight The height of the screen.
+   */
   @Override
   public void setPage(double screenWidth, double screenHeight) {
     createGUI(screenWidth, screenHeight);
   }
 
+  /**
+   * Retrieves the parent node containing all elements of the graphics page.
+   *
+   * @return The root node of the graphics page.
+   */
   @Override
   public Parent getPage() {
     return root;

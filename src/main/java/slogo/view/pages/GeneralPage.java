@@ -15,18 +15,50 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 
+
+/**
+ * The GeneralPage class represents a generic page in the SLogo application.
+ * It provides methods for setting up and managing UI elements on the page.
+ *
+ * @author Jeremyah Flowers
+ */
 public abstract class GeneralPage {
 
+  // Instance Variable
   private final Stage myStage;
+
+  /**
+   * Constructs a GeneralPage object with the specified stage.
+   *
+   * @param stage the JavaFX stage for the page
+   */
 
   public GeneralPage(Stage stage) {
     myStage = stage;
   }
 
+  /**
+   * Sets up the page layout based on the screen width and height.
+   *
+   * @param screenWidth  the width of the screen
+   * @param screenHeight the height of the screen
+   */
   public abstract void setPage(double screenWidth, double screenHeight);
 
+  /**
+   * Retrieves the JavaFX parent node representing the page.
+   *
+   * @return the parent node of the page
+   */
   public abstract Parent getPage();
 
+  /**
+   * Creates UI elements based on the provided IDs and type.
+   *
+   * @param IDs  a map containing element IDs and their positions
+   * @param type the type of UI element to create
+   * @return a collection of UI elements
+   */
   protected Collection<UIElement> createElements(Map<String, double[]> IDs, String type) {
     Set<UIElement> elements = new HashSet<>();
     for (String name : IDs.keySet()) {
@@ -37,6 +69,12 @@ public abstract class GeneralPage {
     return elements;
   }
 
+  /**
+   * Styles UI elements and adds them to the root group.
+   *
+   * @param UIElements a collection of UI elements to style
+   * @param root       the root group to add elements to
+   */
   protected void styleUI(Collection<UIElement> UIElements, Group root) {
     for (UIElement element : UIElements) {
       switch (element.getType().toLowerCase()) {

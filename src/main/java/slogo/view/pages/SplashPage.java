@@ -12,21 +12,45 @@ import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
+/**
+ * Represents the splash page of the application.
+ * This page serves as the initial screen displayed to the user upon launching the application.
+ * It contains menu buttons and a language selection box.
+ *
+ * @author Jeremyah Flowers
+ */
 public class SplashPage extends GeneralPage {
 
+  // Root group for all UI elements
   private final Group root;
 
+  /**
+   * Constructs a SplashPage object with the specified stage.
+   *
+   * @param stage The stage for the splash page.
+   */
   public SplashPage(Stage stage) {
     super(stage);
     root = new Group();
   }
 
+  /**
+   * Sets up the splash page with menu buttons and language selection box.
+   *
+   * @param screenWidth  The width of the screen.
+   * @param screenHeight The height of the screen.
+   */
   @Override
   public void setPage(double screenWidth, double screenHeight) {
     createMenuButtons(screenWidth, screenHeight);
     createLanguageBox(screenWidth, screenHeight);
   }
 
+  /**
+   * Retrieves the parent node containing all elements of the splash page.
+   *
+   * @return The root node of the splash page.
+   */
   @Override
   public Parent getPage() {
     return root;
