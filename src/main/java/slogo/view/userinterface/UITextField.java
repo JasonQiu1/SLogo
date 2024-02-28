@@ -7,12 +7,26 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * Represents a text field element in the user interface.
+ * This class provides methods to handle keyboard input and setup of the text field.
+ *
+ * @author Jeremyah Flowers
+ */
 public class UITextField extends UIElement {
 
+  // Instance Variables
   private final TextField myTextBox;
   private boolean controlPressed = false;
   private int indexTracker = 0;
 
+  /**
+   * Constructs a UITextField object with the specified initial text, x, and y coordinates.
+   *
+   * @param text The initial text to display in the text field.
+   * @param x    The x-coordinate of the text field's position.
+   * @param y    The y-coordinate of the text field's position.
+   */
   public UITextField(String text, double x, double y) {
     super(new TextField(text), text);
     myTextBox = (TextField) getElement();
@@ -21,6 +35,9 @@ public class UITextField extends UIElement {
     setPosition(x, y);
   }
 
+  /**
+   * Sets up event handlers for keyboard input and control key handling.
+   */
   public void setupTextBox() {
     keyboardInputHandler();
     controlHandler();
