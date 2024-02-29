@@ -69,33 +69,58 @@ public class Turtle {
     return step;
   }
 
-  public TurtleStep stepForward() {
+  public List<TurtleStep> stepForward() {
+    List<TurtleStep> steps = new ArrayList<>();
     this.currentPointInStepHistory++;
-    TurtleStepExtended forwardStep = this.stepHistory.get(currentPointInStepHistory);
+    // check if intermediate steps exists due to border crossing
+    while (this.stepHistory.get(currentPointInStepHistory).isCrossBorderIntermediateStep()) {
+      steps.add(updateTurtleStateWhenSteppingForward());
+    }
 
-    // update turtle state
-    Point finalPos = TurtleGeometry.calculateFinalPosition(this.currentState.position(), forwardStep.changeInPosition());
-    double finalHeading = this.currentState.heading() + forwardStep.changeInAngle();
-    this.currentState = new TurtleState(finalPos, finalHeading);
+    // step forward once
+    steps.add(updateTurtleStateWhenSteppingForward());
 
+    return steps;
+  }
+
+  private TurtleStep updateTurtleStateWhenSteppingForward() {
+    TurtleStep forwardStep = this.stepHistory.get(currentPointInStepHistory).getTurtleStep();
+
+    updateTurtleState(forwardStep);
+
+    this.currentPointInStepHistory++;
     return forwardStep;
   }
 
-  public TurtleStep stepBack() {
-    TurtleStepExtended currStep = this.stepHistory.get(currentPointInStepHistory);
+  public List<TurtleStep> stepBack() {
+    List<TurtleStep> steps = new ArrayList<>();
+    // step back once
+    steps.add(updateTurtleStateWhenSteppingBackward());
+    // check if intermediate steps exists due to border crossing
+    while (this.stepHistory.get(currentPointInStepHistory).isCrossBorderIntermediateStep()) {
+      steps.add(updateTurtleStateWhenSteppingBackward());
+    }
+    return steps;
+  }
+  private TurtleStep updateTurtleStateWhenSteppingBackward() {
+    TurtleStep currStep = this.stepHistory.get(currentPointInStepHistory).getTurtleStep();
 
     // perform opposite position/heading change
     Vector oldPosChange = currStep.changeInPosition();
     Vector updatedPosChange = new Vector(oldPosChange.getDx() * -1, oldPosChange.getDy() * -1);
     TurtleStep backwardStep = new TurtleStep(this.currentState, updatedPosChange, -1 * currStep.changeInAngle());
+
+    updateTurtleState(backwardStep);
+
     this.currentPointInStepHistory--;
-
-    // update turtle state
-    Point finalPos = TurtleGeometry.calculateFinalPosition(this.currentState.position(), backwardStep.changeInPosition());
-    double finalHeading = this.currentState.heading() + backwardStep.changeInAngle();
-    this.currentState = new TurtleState(finalPos, finalHeading);
-
     return backwardStep;
+  }
+
+  private void updateTurtleState(TurtleStep step) {
+    // update turtle state
+    Point finalPos = TurtleGeometry.calculateFinalPosition(this.currentState.position(), step.changeInPosition());
+    double finalHeading = this.currentState.heading() + step.changeInAngle();
+    this.currentState = new TurtleState(finalPos, finalHeading);
   }
 
   public TurtleStep setHeading (double degrees) {
@@ -221,6 +246,7 @@ public class Turtle {
     this.currentPointInStepHistory = 0;
     this.currentState = initialState;
   }
+
 
   private void updateStateAndHistory(TurtleStep newStep, boolean isCrossBorder, Point newPos, double newHeading) {
     // update history
