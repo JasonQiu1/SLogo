@@ -73,7 +73,7 @@ public class Turtle {
     List<TurtleStep> steps = new ArrayList<>();
     this.currentPointInStepHistory++;
     // check if intermediate steps exists due to border crossing
-    while (this.stepHistory.get(currentPointInStepHistory).isCrossBorderIntermediateStep()) {
+    while (this.stepHistory.get(currentPointInStepHistory).crossBorderIntermediateStep()) {
       steps.add(updateTurtleStateWhenSteppingForward());
     }
 
@@ -84,7 +84,7 @@ public class Turtle {
   }
 
   private TurtleStep updateTurtleStateWhenSteppingForward() {
-    TurtleStep forwardStep = this.stepHistory.get(currentPointInStepHistory).getTurtleStep();
+    TurtleStep forwardStep = this.stepHistory.get(currentPointInStepHistory).turtleStep();
 
     updateTurtleState(forwardStep);
 
@@ -97,13 +97,13 @@ public class Turtle {
     // step back once
     steps.add(updateTurtleStateWhenSteppingBackward());
     // check if intermediate steps exists due to border crossing
-    while (this.stepHistory.get(currentPointInStepHistory).isCrossBorderIntermediateStep()) {
+    while (this.stepHistory.get(currentPointInStepHistory).crossBorderIntermediateStep()) {
       steps.add(updateTurtleStateWhenSteppingBackward());
     }
     return steps;
   }
   private TurtleStep updateTurtleStateWhenSteppingBackward() {
-    TurtleStep currStep = this.stepHistory.get(currentPointInStepHistory).getTurtleStep();
+    TurtleStep currStep = this.stepHistory.get(currentPointInStepHistory).turtleStep();
 
     // perform opposite position/heading change
     Vector oldPosChange = currStep.changeInPosition();
