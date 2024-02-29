@@ -11,11 +11,12 @@ public class TurtleAnimator {
   public static final double X_MAX = 100; // get from resource file
   public static final double Y_MIN = -100; // get from resource file
   public static final double Y_MAX = 100; // get from resource file
+  private static final int MAX_SPEED = 10; // get from resource file
+  private static final int MIN_SPEED = 0; // get from resource file
   private static final double STANDARD_FPS = 24.0; // standard FPS for animations is 24
+  private static final double DEFAULT_SECONDS_PER_FRAME = 1.0; // standard FPS for animations is 24
   private double graphicsScalingFactor;
   private double speed;
-  private static double frameDuration;
-  private static double framesPerSecond;
   private static double secondsPerStep;
   private static Map<Integer, List<TurtleState>> intermediateStates;
   // WINDOW mode: The turtle can move past the edges of the screen, unbounded.
@@ -29,9 +30,8 @@ public class TurtleAnimator {
   public TurtleAnimator() {
     this.graphicsScalingFactor = 1;
     this.speed = 1;
-    this.frameDuration = 1.0 / STANDARD_FPS;
-    this.framesPerSecond = STANDARD_FPS;
-    this.intermediateStates = new HashMap<>();
+    intermediateStates = new HashMap<>();
+    secondsPerStep = DEFAULT_SECONDS_PER_FRAME;
     // set default mode: wrap
     mode = WRAP_MODE_KEY;
   }
@@ -56,10 +56,16 @@ public class TurtleAnimator {
   }
 
   public void setSpeed(double speed) {
-    // Calculate the duration for the KeyFrame
-    this.frameDuration = 1.0 / (speed * STANDARD_FPS);
-    this.framesPerSecond = speed * STANDARD_FPS;
     this.speed = speed;
+    if (speed == MAX_SPEED) {
+      secondsPerStep = 1 / STANDARD_FPS;
+    }
+    else if (speed == MIN_SPEED) {
+      secondsPerStep = 0;
+    }
+    else {
+      secondsPerStep = DEFAULT_SECONDS_PER_FRAME / speed;
+    }
   }
 
   // return the list of TurtleState needed to smoothly move the turtle for a given TurtleStep
@@ -105,9 +111,12 @@ public class TurtleAnimator {
   private static List<TurtleState> getMoveInterStates(TurtleState initState, Vector posChange) {
     List<TurtleState> interStates = new ArrayList<>();
     TurtleState currState = new TurtleState(initState.position(), initState.heading());
-    double totalFrames = secondsPerStep * framesPerSecond;
-    Vector posChangePerFrame = new Vector(posChange.getDx() / totalFrames, posChange.getDy() / totalFrames);
+    double totalFrames = secondsPerStep * STANDARD_FPS;
+    if (totalFrames == 0) {
+      return Collections.emptyList();
+    }
 
+    Vector posChangePerFrame = new Vector(posChange.getDx() / totalFrames, posChange.getDy() / totalFrames);
     for (int i = 0; i < totalFrames; i++) {
       Point newPos = TurtleGeometry.calculateFinalPosition(currState.position(), posChangePerFrame);
       currState = new TurtleState(newPos, initState.heading());
@@ -120,9 +129,12 @@ public class TurtleAnimator {
   private static List<TurtleState> getAngleInterStates(TurtleState initState, double angleChange) {
     List<TurtleState> interStates = new ArrayList<>();
     double currAngle = initState.heading();
-    double totalFrames = secondsPerStep * framesPerSecond;
-    double angleChangePerFrame = angleChange / totalFrames;
+    double totalFrames = secondsPerStep * STANDARD_FPS;
+    if (totalFrames == 0) {
+      return Collections.emptyList();
+    }
 
+    double angleChangePerFrame = angleChange / totalFrames;
     for (int i = 0; i < totalFrames; i++) {
       currAngle += angleChangePerFrame;
       TurtleState state = new TurtleState(new Point(0,0),currAngle);
