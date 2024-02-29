@@ -12,6 +12,7 @@ import slogo.view.userinterface.UIElement;
  */
 public abstract class UIController {
 
+  // Instance Variable
   private final Collection<UIElement> myElements;
 
   public UIController() {
