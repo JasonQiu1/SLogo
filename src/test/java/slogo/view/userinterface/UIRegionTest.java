@@ -2,7 +2,6 @@ package view.userinterface;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import slogo.view.userinterface.UIRegion;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -18,6 +17,7 @@ import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.view.userinterface.UIRegion;
 import util.DukeApplicationTest;
 
 class UIRegionTest extends DukeApplicationTest {

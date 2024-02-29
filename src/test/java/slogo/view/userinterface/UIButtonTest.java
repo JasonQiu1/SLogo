@@ -1,9 +1,7 @@
-package view.userinterface;
+package slogo.view.userinterface;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import slogo.view.userinterface.ExternalButton;
-import slogo.view.userinterface.InternalButton;
 import javafx.scene.control.Button;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
@@ -13,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
 class UIButtonTest extends DukeApplicationTest {
+
   private ExternalButton testExternalButton;
   private InternalButton testInternalButton;
   private String random;

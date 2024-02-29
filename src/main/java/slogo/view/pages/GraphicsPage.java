@@ -1,6 +1,5 @@
 package slogo.view.pages;
 
-import slogo.view.userinterface.UIElement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -8,21 +7,50 @@ import java.util.Map;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import slogo.view.controllers.GraphicsController;
+import slogo.view.userinterface.UIElement;
 
+/**
+ * Represents the graphics page of the application. This page displays graphical elements and user
+ * interface controls for graphics-related functionality.
+ *
+ * @author Jeremyah Flowers
+ */
 public class GraphicsPage extends GeneralPage {
 
+  // Root group for all UI elements
   private final Group root;
 
+  // PageBuilder to build page
+  private final PageBuilder myPageBuilder;
+
+  /**
+   * Constructs a GraphicsPage object with the specified stage.
+   *
+   * @param stage The stage for the graphics page.
+   */
   public GraphicsPage(Stage stage) {
-    super(stage);
+    super(stage, new GraphicsController());
     root = new Group();
+    myPageBuilder = new PageBuilder(stage);
   }
 
+  /**
+   * Sets up the graphics page with graphical elements and user interface controls.
+   *
+   * @param screenWidth  The width of the screen.
+   * @param screenHeight The height of the screen.
+   */
   @Override
   public void setPage(double screenWidth, double screenHeight) {
     createGUI(screenWidth, screenHeight);
   }
 
+  /**
+   * Retrieves the parent node containing all elements of the graphics page.
+   *
+   * @return The root node of the graphics page.
+   */
   @Override
   public Parent getPage() {
     return root;
@@ -39,7 +67,7 @@ public class GraphicsPage extends GeneralPage {
     UIElements.addAll(setupText(screenWidth, screenHeight));
     UIElements.addAll(setupCheckBoxes(screenWidth, screenHeight));
 
-    styleUI(UIElements, root);
+    myPageBuilder.styleUI(UIElements, root);
   }
 
   private Collection<UIElement> setupBoxes(double screenWidth, double screenHeight) {
@@ -64,7 +92,7 @@ public class GraphicsPage extends GeneralPage {
 
   private Collection<UIElement> setupTextField(double screenWidth, double screenHeight) {
     Map<String, double[]> textFieldIDs = new HashMap<>();
-    textFieldIDs.put("Insert Command Here", new double[]{screenWidth / 8, 7 * screenHeight / 8});
+    textFieldIDs.put("CommandLine", new double[]{screenWidth / 8, 7 * screenHeight / 8});
     return createElements(textFieldIDs, "textfield");
   }
 
