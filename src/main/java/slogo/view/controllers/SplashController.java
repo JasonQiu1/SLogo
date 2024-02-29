@@ -1,8 +1,6 @@
 package slogo.view.controllers;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 import javafx.scene.Node;
 import slogo.view.userinterface.UIElement;
 
@@ -58,9 +56,12 @@ public class SplashController extends UIController {
 
   private void updateElement(UIElement element) {
     switch (element.getID()) {
-      case "Light" -> { element.update(isLight()); }
-      case "Dark" -> { element.update(isDark()); }
-      default -> element.update(null);
+      case "Light" -> {
+        element.update(isLight());
+      }
+      case "Dark" -> {
+        element.update(isDark());
+      }
     }
   }
 

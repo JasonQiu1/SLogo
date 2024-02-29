@@ -11,7 +11,8 @@ import slogo.view.userinterface.UIElement;
  * @author Jeremyah Flowers
  */
 public abstract class UIController {
-  private Collection<UIElement> myElements;
+
+  private final Collection<UIElement> myElements;
 
   public UIController() {
     myElements = new ArrayList<>();
@@ -32,5 +33,7 @@ public abstract class UIController {
    */
   public abstract void notifyController(Node element);
 
-  protected Collection<UIElement> getMyElements() { return myElements; }
+  protected Collection<UIElement> getMyElements() {
+    return myElements;
+  }
 }

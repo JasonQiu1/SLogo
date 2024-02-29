@@ -17,9 +17,6 @@ public class GraphicsController extends UIController {
   private boolean blackWhiteFlag = true;
   private boolean greenBlueFlag = false;
 
-  public GraphicsController() {
-
-  }
 
   /**
    * Checks if the UI theme is set to black and white.
@@ -48,16 +45,6 @@ public class GraphicsController extends UIController {
     return !blackWhiteFlag && !greenBlueFlag;
   }
 
-  @Override
-  public void addElement(UIElement element) {
-
-  }
-
-  @Override
-  public void addAllElements(Collection<UIElement> elements) {
-
-  }
-
   /**
    * Notifies the graphics controller about changes in UI elements.
    *
@@ -71,14 +58,25 @@ public class GraphicsController extends UIController {
       case "PK/PR" -> setBackgroundPKPR();
       default -> throw new TypeNotPresentException(element.getId(), new Throwable());
     }
+    updateElements();
   }
 
-  public boolean notifyElement(Node element) {
-    switch (element.getId()) {
-      case "BK/WH" -> { return isBlackAndWhite(); }
-      case "GN/BL" -> { return isGreenAndBlue(); }
-      case "PK/PR" -> { return isPinkAndPurple(); }
-      default -> throw new TypeNotPresentException(element.getId(), new Throwable());
+  private void updateElements() {
+    Collection<UIElement> allElements = getMyElements();
+    allElements.forEach(this::updateElement);
+  }
+
+  private void updateElement(UIElement element) {
+    switch (element.getID()) {
+      case "BK/WH" -> {
+        element.update(isBlackAndWhite());
+      }
+      case "GN/BL" -> {
+        element.update(isGreenAndBlue());
+      }
+      case "PK/PR" -> {
+        element.update(isPinkAndPurple());
+      }
     }
   }
 
@@ -96,6 +94,4 @@ public class GraphicsController extends UIController {
     blackWhiteFlag = true;
     greenBlueFlag = false;
   }
-
-
 }
