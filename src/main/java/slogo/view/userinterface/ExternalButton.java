@@ -1,6 +1,5 @@
 package slogo.view.userinterface;
 
-import slogo.view.SlogoWindow;
 import java.io.File;
 import java.nio.file.Path;
 import javafx.event.EventHandler;
@@ -12,11 +11,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import slogo.view.SlogoWindow;
 
 /**
  * Represents a button with external functionalities (usually a link to some another area) for the
- * Slogo user interface.
- * Extends the UIButton class.
+ * Slogo user interface. Extends the UIButton class.
  *
  * @author Jeremyah Flowers
  */
@@ -29,9 +28,10 @@ public class ExternalButton extends UIButton {
 
   /**
    * Constructor for ExternalButton.
+   *
    * @param text The text to be displayed on the button.
-   * @param x The x-coordinate of the button's position.
-   * @param y The y-coordinate of the button's position.
+   * @param x    The x-coordinate of the button's position.
+   * @param y    The y-coordinate of the button's position.
    */
   public ExternalButton(String text, double x, double y) {
     super(text, x, y);
@@ -96,7 +96,8 @@ public class ExternalButton extends UIButton {
 
   /**
    * Adds functionality to save files to a specified folder.
-   * @param stage The stage where the button is placed.
+   *
+   * @param stage      The stage where the button is placed.
    * @param folderName The name of the folder where files will be saved.
    */
   public void addSaveFolder(Stage stage, String folderName) {
@@ -114,6 +115,7 @@ public class ExternalButton extends UIButton {
 
   /**
    * Adds functionality to open a splash window.
+   *
    * @param stage The stage where the button is placed.
    */
   public void addOpenSplash(Stage stage) {
@@ -127,7 +129,8 @@ public class ExternalButton extends UIButton {
 
   /**
    * Adds functionality to open files from a specified folder.
-   * @param stage The stage where the button is placed.
+   *
+   * @param stage      The stage where the button is placed.
    * @param folderName The name of the folder from which files will be opened.
    */
   public void addFolderOpener(Stage stage, String folderName) {
@@ -145,7 +148,8 @@ public class ExternalButton extends UIButton {
 
   /**
    * Adds functionality to open a specific page.
-   * @param stage The stage where the button is placed.
+   *
+   * @param stage    The stage where the button is placed.
    * @param pageType The type of page to be opened.
    */
   public void addOpenPage(Stage stage, String pageType) {

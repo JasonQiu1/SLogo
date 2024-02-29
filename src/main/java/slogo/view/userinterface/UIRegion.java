@@ -16,8 +16,7 @@ import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeType;
 
 /**
- * Represents a region in the Slogo user interface.
- * Extends the UIElement class.
+ * Represents a region in the Slogo user interface. Extends the UIElement class.
  *
  * @author Jeremyah Flowers
  */
@@ -28,11 +27,12 @@ public class UIRegion extends UIElement {
 
   /**
    * Constructor for UIRegion.
-   * @param ID The unique identifier for the region.
-   * @param width The width of the region.
+   *
+   * @param ID     The unique identifier for the region.
+   * @param width  The width of the region.
    * @param height The height of the region.
-   * @param x The x-coordinate of the region's position.
-   * @param y The y-coordinate of the region's position.
+   * @param x      The x-coordinate of the region's position.
+   * @param y      The y-coordinate of the region's position.
    */
   public UIRegion(String ID, double width, double height, double x, double y) {
     super(new Region(), ID);

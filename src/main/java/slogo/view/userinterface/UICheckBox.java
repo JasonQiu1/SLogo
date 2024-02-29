@@ -1,6 +1,5 @@
 package slogo.view.userinterface;
 
-import javafx.event.EventHandler;
 import javafx.scene.control.CheckBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -8,8 +7,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 /**
- * Represents a checkbox in the Slogo user interface.
- * Extends the UIElement class.
+ * Represents a checkbox in the Slogo user interface. Extends the UIElement class.
  *
  * @author Jeremyah Flowers
  */
@@ -25,9 +23,10 @@ public class UICheckBox extends UIElement {
 
   /**
    * Constructor for UICheckBox.
+   *
    * @param text The text to be displayed next to the checkbox.
-   * @param x The x-coordinate of the checkbox's position.
-   * @param y The y-coordinate of the checkbox's position.
+   * @param x    The x-coordinate of the checkbox's position.
+   * @param y    The y-coordinate of the checkbox's position.
    */
   public UICheckBox(String text, double x, double y) {
     super(new CheckBox(text), text);
@@ -53,12 +52,7 @@ public class UICheckBox extends UIElement {
   }
 
   private void setCheckbox() {
-    myBox.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-      @Override
-      public void handle(MouseEvent event) {
-        System.out.println(myBox.isArmed());
-      }
-    });
+    myBox.addEventHandler(MouseEvent.MOUSE_CLICKED, c -> sendSignal());
   }
 
 

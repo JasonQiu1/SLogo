@@ -8,8 +8,7 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * Represents a button with functionalities that only control internal states (no external links)
- * for the Slogo user interface.
- * Extends the UIButton class.
+ * for the Slogo user interface. Extends the UIButton class.
  *
  * @author Jeremyah Flowers
  */
@@ -24,9 +23,10 @@ public class InternalButton extends UIButton {
 
   /**
    * Constructor for InternalButton.
+   *
    * @param text The text to be displayed on the button.
-   * @param x The x-coordinate of the button's position.
-   * @param y The y-coordinate of the button's position.
+   * @param x    The x-coordinate of the button's position.
+   * @param y    The y-coordinate of the button's position.
    */
   public InternalButton(String text, double x, double y) {
     super(text, x, y);

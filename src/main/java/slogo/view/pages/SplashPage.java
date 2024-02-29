@@ -1,6 +1,5 @@
 package slogo.view.pages;
 
-import slogo.view.userinterface.UIElement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,11 +10,13 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
+import slogo.view.controllers.SplashController;
+import slogo.view.userinterface.UIElement;
 
 /**
- * Represents the splash page of the application.
- * This page serves as the initial screen displayed to the user upon launching the application.
- * It contains menu buttons and a language selection box.
+ * Represents the splash page of the application. This page serves as the initial screen displayed
+ * to the user upon launching the application. It contains menu buttons and a language selection
+ * box.
  *
  * @author Jeremyah Flowers
  */
@@ -24,14 +25,18 @@ public class SplashPage extends GeneralPage {
   // Root group for all UI elements
   private final Group root;
 
+  // PageBuilder to build page
+  private final PageBuilder myPageBuilder;
+
   /**
    * Constructs a SplashPage object with the specified stage.
    *
    * @param stage The stage for the splash page.
    */
   public SplashPage(Stage stage) {
-    super(stage);
+    super(stage, new SplashController());
     root = new Group();
+    myPageBuilder = new PageBuilder(stage);
   }
 
   /**
@@ -95,7 +100,7 @@ public class SplashPage extends GeneralPage {
     UIElements.addAll(setupExternalButtons(screenWidth, screenHeight));
     UIElements.addAll(setupCheckBoxes(screenWidth, screenHeight));
     UIElements.addAll(setupText(screenWidth, screenHeight));
-    styleUI(UIElements, root);
+    myPageBuilder.styleUI(UIElements, root);
   }
 
 }

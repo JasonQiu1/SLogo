@@ -6,8 +6,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 /**
- * Represents a text element in the user interface.
- * This class provides methods to customize the appearance and style of the text.
+ * Represents a text element in the user interface. This class provides methods to customize the
+ * appearance and style of the text.
  *
  * @author Jeremyah Flowers
  */
@@ -38,24 +38,22 @@ public class UIText extends UIElement {
   }
 
   /**
-   * Sets the font style to Slogo classic.
-   * This style is bold and larger for emphasis.
+   * Sets the font style to Slogo classic. This style is bold and larger for emphasis.
    */
   public void setSlogoClassic() {
     myText.setFont(SLOGO_FONT);
   }
 
   /**
-   * Sets the font style to regular classic.
-   * This style is medium-sized for general text display.
+   * Sets the font style to regular classic. This style is medium-sized for general text display.
    */
   public void setRegularClassic() {
     myText.setFont(MEDIUM_FONT);
   }
 
   /**
-   * Sets the font style to smaller classic.
-   * This style is smaller for displaying smaller text or labels.
+   * Sets the font style to smaller classic. This style is smaller for displaying smaller text or
+   * labels.
    */
   public void setSmallerClassic() {
     myText.setFont(SMALLER_FONT);

@@ -1,10 +1,10 @@
 package slogo.view;
 
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import slogo.view.pages.GeneralPage;
 import slogo.view.pages.GraphicsPage;
 import slogo.view.pages.SplashPage;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 /**
  * Represents the main window of the Slogo application.
@@ -19,8 +19,9 @@ public class SlogoWindow {
 
   /**
    * Constructs a SlogoWindow with the given stage and type.
+   *
    * @param stage the JavaFX stage associated with this window
-   * @param type the type of page to create initially
+   * @param type  the type of page to create initially
    */
   public SlogoWindow(Stage stage, String type) {
     this.stage = stage;
@@ -30,6 +31,7 @@ public class SlogoWindow {
 
   /**
    * Creates a new window with the specified type of page.
+   *
    * @param type the type of page to create
    */
   public void createNewWindow(String type) {

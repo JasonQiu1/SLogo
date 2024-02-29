@@ -8,8 +8,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 /**
- * Represents a text field element in the user interface.
- * This class provides methods to handle keyboard input and setup of the text field.
+ * Represents a text field element in the user interface. This class provides methods to handle
+ * keyboard input and setup of the text field.
  *
  * @author Jeremyah Flowers
  */
