@@ -62,8 +62,8 @@ public class TurtleAnimator {
     this.speed = speed;
   }
 
-  // calculate the list of TurtleState needed to smoothly move the turtle for its given TurtleStep
-  public static void animateSteps(Map<Integer, List<TurtleStep>> eachTurtlesStep) {
+  // return the list of TurtleState needed to smoothly move the turtle for a given TurtleStep
+  public static Map<Integer, List<TurtleState>> animateStep(Map<Integer, List<TurtleStep>> eachTurtlesStep) {
     for (int turtleId: eachTurtlesStep.keySet()) {
       List<TurtleStep> interSteps = eachTurtlesStep.get(turtleId);
       for (TurtleStep step: interSteps) {
@@ -76,23 +76,30 @@ public class TurtleAnimator {
         }
       }
     }
-
-
+    return intermediateStates;
   }
-  // return the list of TurtleState needed to smoothly move the turtle(s) a step forward in the animation
-  public static Map<Integer, List<TurtleState>> stepForward() {
-    // TODO
-    return null;
-  }
-  // return the list of TurtleState needed to smoothly move the turtle(s) a step backward in the animation
-  public static Map<Integer, List<TurtleState>> stepBackward() {
-    // TODO
-    return null;
+  // return the list of TurtleState needed to smoothly move the turtle(s) a step forward or backward in the animation
+  public static Map<Integer, List<TurtleState>> doStep(List<Turtle> turtles, boolean isForward) {
+    Map<Integer, List<TurtleStep>> eachTurtlesStep = new HashMap<>();
+    for (Turtle turtle: turtles) {
+      if (isForward) {
+        eachTurtlesStep.put(turtle.getId(), turtle.stepForward());
+      }
+      else {
+        eachTurtlesStep.put(turtle.getId(), turtle.stepBack());
+      }
+    }
+    return animateStep(eachTurtlesStep);
   }
 
   // reset turtles' state
-  public static void resetTurtles(List<Turtle> turtles) {
-    for (Turtle turtle: turtles) turtle.reset(INITIAL_TURTLE_STATE);
+  public static Map<Integer, List<TurtleState>> resetTurtles(List<Turtle> turtles) {
+    intermediateStates = new HashMap<>();
+    for (Turtle turtle: turtles) {
+      intermediateStates.put(turtle.getId(), List.of(INITIAL_TURTLE_STATE));
+      turtle.reset(INITIAL_TURTLE_STATE);
+    }
+    return intermediateStates;
   }
 
   private static List<TurtleState> getMoveInterStates(TurtleState initState, Vector posChange) {

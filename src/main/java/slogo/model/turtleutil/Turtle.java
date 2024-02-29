@@ -250,7 +250,7 @@ public class Turtle {
 
   private void updateStateAndHistory(TurtleStep newStep, boolean isCrossBorder, Point newPos, double newHeading) {
     // update history
-    this.stepHistory.add(new TurtleStepExtended(newStep, isCrossBorder));
+    this.stepHistory.add(currentPointInStepHistory+1, new TurtleStepExtended(newStep, isCrossBorder));
     this.currentPointInStepHistory++;
     // update current state
     this.currentState = new TurtleState(newPos, newHeading);
