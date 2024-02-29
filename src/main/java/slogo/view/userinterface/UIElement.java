@@ -13,7 +13,6 @@ public class UIElement {
 
   // Instance Variables
   private final Node myElement;
-  private final String myID;
   private UIController myController;
   private String myType;
 
@@ -22,12 +21,12 @@ public class UIElement {
    * Constructor for UIElement.
    *
    * @param nodeType The JavaFX node representing the UI element.
-   * @param ID       The unique identifier for the UI element.
+   * @param id       The unique identifier for the UI element.
    */
-  public UIElement(Node nodeType, String ID) {
+  public UIElement(Node nodeType, String id) {
     myElement = nodeType;
     myType = nodeType.getTypeSelector();
-    myID = ID;
+    myElement.setId(id);
   }
 
   /**
@@ -45,7 +44,7 @@ public class UIElement {
    * @return The unique identifier.
    */
   public String getID() {
-    return myID;
+    return myElement.getId();
   }
 
   /**

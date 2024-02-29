@@ -1,4 +1,4 @@
-package view.userinterface;
+package slogo.view.userinterface;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
