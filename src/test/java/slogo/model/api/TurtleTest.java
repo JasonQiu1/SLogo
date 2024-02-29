@@ -27,10 +27,10 @@ public class TurtleTest extends DukeApplicationTest {
   @Test
   void testNormalTurtleStepForward() {
     // fd 100
-    List<TurtleStep> step = myTurtle.move(100);
-    final TurtleState expectedInitState = new TurtleState(new Point(0,0), 0);
-    final Vector expectedPositionChange = new slogo.model.api.turtle.Vector(0, 100);
-    final double expectedAngelChange = 0;
+    TurtleStep step = myTurtle.doStep(100, 0);
+    TurtleState expectedInitState = new TurtleState(new Point(0,0), 0);
+    slogo.model.api.turtle.Vector expectedPositionChange = new slogo.model.api.turtle.Vector(0, 100);
+    double expectedAngelChange = 0;
     TurtleStep expectedStep = new TurtleStep(expectedInitState, expectedPositionChange, expectedAngelChange);
     double Xf = 0;
     double Yf = 100;
@@ -118,16 +118,16 @@ public class TurtleTest extends DukeApplicationTest {
 
   @Test
   void testComplexTurtleStep() {
-    myTurtle.move(50);
-    myTurtle.rotate(50);
-    myTurtle.move(115);
-    myTurtle.rotate(-36);
-    myTurtle.move(-75);
-    myTurtle.rotate(245);
-    myTurtle.move(200);
-    myTurtle.move(-39);
-    myTurtle.rotate(10);
-    myTurtle.move(50);
+    myTurtle.doStep(50, 0);
+    myTurtle.doStep(0, 50);
+    myTurtle.doStep(115, 0);
+    myTurtle.doStep(0, -36);
+    myTurtle.doStep(-75, 0);
+    myTurtle.doStep(0, 245);
+    myTurtle.doStep(200, 0);
+    myTurtle.doStep(-39, 0);
+    myTurtle.doStep(0, 10);
+    myTurtle.doStep(50, 0);
 
     double Xf = -138.0833925041;
     double Yf = 19.5555270658;
