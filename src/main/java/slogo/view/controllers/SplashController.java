@@ -2,6 +2,13 @@ package slogo.view.controllers;
 
 import javafx.scene.Node;
 
+/**
+ * SplashController class implements UIController interface to manage UI elements in the splash
+ * screen.
+ * It provides functionality to control the appearance of the splash screen UI.
+ *
+ * @author Jeremyah Flowers
+ */
 public class SplashController implements UIController {
 
   // Instance Variable
@@ -26,6 +33,11 @@ public class SplashController implements UIController {
   }
 
 
+  /**
+   * Notifies the splash controller about changes in UI elements.
+   *
+   * @param element the UI element that triggered the notification
+   */
   @Override
   public void notifyController(Node element) {
     switch (element.getId()) {
