@@ -2,7 +2,6 @@ package slogo.model.api.turtle;
 
 import java.util.*;
 import slogo.model.turtleutil.Turtle;
-import slogo.model.api.exception.turtle.InvalidPositionException;
 import slogo.model.turtleutil.TurtleGeometry;
 
 public class TurtleAnimator {
@@ -11,14 +10,15 @@ public class TurtleAnimator {
   public static final double X_MAX = 100; // get from resource file
   public static final double Y_MIN = -100; // get from resource file
   public static final double Y_MAX = 100; // get from resource file
-  private static final int MAX_SPEED = 10; // get from resource file
-  private static final int MIN_SPEED = 0; // get from resource file
-  private static final double STANDARD_FPS = 24.0; // standard FPS for animations is 24
-  private static final double DEFAULT_SECONDS_PER_FRAME = 1.0; // standard FPS for animations is 24
+  private static final double MAX_SPEED = 10; // get from resource file
+  private static final double MIN_SPEED = 0; // get from resource file
+  private static final double STANDARD_FPS = 24.0; // standard FPS for animations is 24 -  get from resource file
+  private static final double DEFAULT_SECONDS_PER_STEP = 1.0; //  get from resource file
   private double graphicsScalingFactor;
   private double speed;
-  private static double secondsPerStep;
-  private static Map<Integer, List<TurtleState>> intermediateStates;
+  private double secondsPerStep;
+  private int currentPointInIntermediateStates;
+  private final Map<Integer, List<TurtleState>> intermediateStates;
   // WINDOW mode: The turtle can move past the edges of the screen, unbounded.
   public static final String WINDOW_MODE_KEY = "window"; // get from resource file
   // FENCE mode: If the turtle attempts to move past the edge of the screen it will stop
@@ -31,7 +31,7 @@ public class TurtleAnimator {
     this.graphicsScalingFactor = 1;
     this.speed = 1;
     intermediateStates = new HashMap<>();
-    secondsPerStep = DEFAULT_SECONDS_PER_FRAME;
+    secondsPerStep = DEFAULT_SECONDS_PER_STEP;
     // set default mode: wrap
     mode = WRAP_MODE_KEY;
   }
@@ -64,16 +64,15 @@ public class TurtleAnimator {
       secondsPerStep = 0;
     }
     else {
-      secondsPerStep = DEFAULT_SECONDS_PER_FRAME / speed;
+      secondsPerStep = DEFAULT_SECONDS_PER_STEP / speed;
     }
   }
 
   // return the list of TurtleState needed to smoothly move the turtle for a given TurtleStep
-  public static Map<Integer, List<TurtleState>> animateStep(Map<Integer, List<TurtleStep>> eachTurtlesStep) {
+  public void animateStep(Map<Integer, List<TurtleStep>> eachTurtlesStep) {
     for (int turtleId: eachTurtlesStep.keySet()) {
       List<TurtleStep> interSteps = eachTurtlesStep.get(turtleId);
       for (TurtleStep step: interSteps) {
-        // given: initial state, changeInPos, changeInAngle
         if (step.changeInAngle() != 0) {
           intermediateStates.put(turtleId, getAngleInterStates(step.initialState(), step.changeInAngle()));
         }
@@ -82,33 +81,34 @@ public class TurtleAnimator {
         }
       }
     }
-    return intermediateStates;
   }
-  // return the list of TurtleState needed to smoothly move the turtle(s) a step forward or backward in the animation
-  public static Map<Integer, List<TurtleState>> doStep(List<Turtle> turtles, boolean isForward) {
-    Map<Integer, List<TurtleStep>> eachTurtlesStep = new HashMap<>();
-    for (Turtle turtle: turtles) {
-      if (isForward) {
-        eachTurtlesStep.put(turtle.getId(), turtle.stepForward());
-      }
-      else {
-        eachTurtlesStep.put(turtle.getId(), turtle.stepBack());
-      }
+  public Map<Integer, TurtleState> nextFrame() {
+    Map<Integer, TurtleState> frames = new HashMap<>();
+    for (Integer turtleId: intermediateStates.keySet()) {
+      List<TurtleState> states = intermediateStates.get(turtleId);
+      frames.put(turtleId, states.get(currentPointInIntermediateStates));
     }
-    return animateStep(eachTurtlesStep);
+    currentPointInIntermediateStates++;
+    return frames;
   }
 
-  // reset turtles' state
-  public static Map<Integer, List<TurtleState>> resetTurtles(List<Turtle> turtles) {
-    intermediateStates = new HashMap<>();
-    for (Turtle turtle: turtles) {
-      intermediateStates.put(turtle.getId(), List.of(INITIAL_TURTLE_STATE));
-      turtle.reset(INITIAL_TURTLE_STATE);
+  public Map<Integer, TurtleState> previousFrame() {
+    Map<Integer, TurtleState> frames = new HashMap<>();
+    currentPointInIntermediateStates--;
+    for (Integer turtleId: intermediateStates.keySet()) {
+      List<TurtleState> states = intermediateStates.get(turtleId);
+      frames.put(turtleId, states.get(currentPointInIntermediateStates));
     }
-    return intermediateStates;
+    return frames;
   }
 
-  private static List<TurtleState> getMoveInterStates(TurtleState initState, Vector posChange) {
+  // reset frame for replying animation and changing speed during animation
+  public Map<Integer, TurtleState> resetFrame() {
+    currentPointInIntermediateStates = 0;
+    return nextFrame();
+  }
+
+  private List<TurtleState> getMoveInterStates(TurtleState initState, Vector posChange) {
     List<TurtleState> interStates = new ArrayList<>();
     TurtleState currState = new TurtleState(initState.position(), initState.heading());
     double totalFrames = secondsPerStep * STANDARD_FPS;
@@ -117,6 +117,7 @@ public class TurtleAnimator {
     }
 
     Vector posChangePerFrame = new Vector(posChange.getDx() / totalFrames, posChange.getDy() / totalFrames);
+
     for (int i = 0; i < totalFrames; i++) {
       Point newPos = TurtleGeometry.calculateFinalPosition(currState.position(), posChangePerFrame);
       currState = new TurtleState(newPos, initState.heading());
@@ -126,7 +127,7 @@ public class TurtleAnimator {
     return interStates;
   }
 
-  private static List<TurtleState> getAngleInterStates(TurtleState initState, double angleChange) {
+  private List<TurtleState> getAngleInterStates(TurtleState initState, double angleChange) {
     List<TurtleState> interStates = new ArrayList<>();
     double currAngle = initState.heading();
     double totalFrames = secondsPerStep * STANDARD_FPS;
