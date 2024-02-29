@@ -232,25 +232,25 @@ public class TurtleTest extends DukeApplicationTest {
   @Test
   void testStepForward() {
     // step 1: fd 200
-    myTurtle.doStep(200, 0);
+    myTurtle.move(200);
 
     // step 2: rt 150
-    myTurtle.doStep(0, 150);
+    myTurtle.rotate(150);
 
     // step 3: fd -50
-    myTurtle.doStep(-50, 0);
+    myTurtle.move(-50);
 
     // step 4: rt 25
-    myTurtle.doStep(0, 25);
+    myTurtle.rotate(25);
 
     // step 5: fd 100
-    myTurtle.doStep(100, 0);
+    myTurtle.move(100);
 
     myTurtle.stepBack();
     myTurtle.stepBack();
     myTurtle.stepBack();
 
-    TurtleStep forwardStep = myTurtle.stepForward();
+    List<TurtleStep> forwardStep = myTurtle.stepForward();
 
     TurtleState expectedInitState = new TurtleState(new Point(0, 200), 150);
     slogo.model.api.turtle.Vector expectedPositionChange = new slogo.model.api.turtle.Vector(-50*Math.sin(30), 50*Math.cos(30));
