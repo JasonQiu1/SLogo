@@ -59,4 +59,8 @@ public class UIText extends UIElement {
     myText.setFont(SMALLER_FONT);
   }
 
+  @Override
+  public void update(Boolean value) {
+
+  }
 }

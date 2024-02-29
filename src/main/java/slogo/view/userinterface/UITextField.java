@@ -94,4 +94,9 @@ public class UITextField extends UIElement {
       }
     });
   }
+
+  @Override
+  public void update(Boolean value) {
+
+  }
 }

@@ -69,6 +69,7 @@ public abstract class GeneralPage {
       newElement.setController(myController);
       elements.add(newElement);
     }
+    myController.addAllElements(elements);
     return elements;
   }
 

@@ -1,5 +1,7 @@
 package slogo.view.userinterface;
 
+import java.util.EventListener;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import slogo.view.controllers.UIController;
 
@@ -9,7 +11,7 @@ import slogo.view.controllers.UIController;
  *
  * @author Jeremyah Flowers
  */
-public class UIElement {
+public abstract class UIElement {
 
   // Instance Variables
   private final Node myElement;
@@ -56,14 +58,12 @@ public class UIElement {
     return myType;
   }
 
-  public void setController(UIController controller) {
-    myController = controller;
-  }
+  public abstract void update(Boolean value);
 
+  public void setController(UIController controller) { myController = controller; }
   protected void sendSignal() {
     myController.notifyController(myElement);
   }
-
 
   protected void setSpecialType(String type) {
     myType = type;

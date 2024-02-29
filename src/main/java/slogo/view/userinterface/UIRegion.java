@@ -69,4 +69,8 @@ public class UIRegion extends UIElement {
     myRegion.setBorder(new Border(borderStroke));
   }
 
+  @Override
+  public void update(Boolean value) {
+
+  }
 }

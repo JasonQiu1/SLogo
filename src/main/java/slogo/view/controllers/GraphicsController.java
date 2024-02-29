@@ -1,6 +1,8 @@
 package slogo.view.controllers;
 
+import java.util.Collection;
 import javafx.scene.Node;
+import slogo.view.userinterface.UIElement;
 
 
 /**
@@ -9,11 +11,15 @@ import javafx.scene.Node;
  *
  * @author Jeremyah Flowers
  */
-public class GraphicsController implements UIController {
+public class GraphicsController extends UIController {
 
   // Instance Variables
   private boolean blackWhiteFlag = true;
   private boolean greenBlueFlag = false;
+
+  public GraphicsController() {
+
+  }
 
   /**
    * Checks if the UI theme is set to black and white.
@@ -42,6 +48,16 @@ public class GraphicsController implements UIController {
     return !blackWhiteFlag && !greenBlueFlag;
   }
 
+  @Override
+  public void addElement(UIElement element) {
+
+  }
+
+  @Override
+  public void addAllElements(Collection<UIElement> elements) {
+
+  }
+
   /**
    * Notifies the graphics controller about changes in UI elements.
    *
@@ -53,6 +69,16 @@ public class GraphicsController implements UIController {
       case "BK/WH" -> setBackgroundBKWH();
       case "GN/BL" -> setBackgroundGNBL();
       case "PK/PR" -> setBackgroundPKPR();
+      default -> throw new TypeNotPresentException(element.getId(), new Throwable());
+    }
+  }
+
+  public boolean notifyElement(Node element) {
+    switch (element.getId()) {
+      case "BK/WH" -> { return isBlackAndWhite(); }
+      case "GN/BL" -> { return isGreenAndBlue(); }
+      case "PK/PR" -> { return isPinkAndPurple(); }
+      default -> throw new TypeNotPresentException(element.getId(), new Throwable());
     }
   }
 
