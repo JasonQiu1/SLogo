@@ -1,9 +1,7 @@
 package view.userinterface;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import slogo.view.userinterface.UITextField;
 import org.junit.jupiter.api.BeforeEach;
+import slogo.view.userinterface.UITextField;
 import util.DukeApplicationTest;
 
 class UITextFieldTest extends DukeApplicationTest {

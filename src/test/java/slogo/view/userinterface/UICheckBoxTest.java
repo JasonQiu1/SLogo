@@ -2,12 +2,12 @@ package view.userinterface;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import slogo.view.userinterface.UICheckBox;
 import javafx.scene.control.CheckBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.view.userinterface.UICheckBox;
 import util.DukeApplicationTest;
 
 class UICheckBoxTest extends DukeApplicationTest {

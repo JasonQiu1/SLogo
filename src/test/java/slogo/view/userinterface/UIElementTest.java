@@ -2,11 +2,11 @@ package view.userinterface;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import slogo.view.userinterface.UIElement;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.view.userinterface.UIElement;
 import util.DukeApplicationTest;
 
 class UIElementTest extends DukeApplicationTest {

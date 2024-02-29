@@ -2,12 +2,12 @@ package view.userinterface;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import slogo.view.userinterface.UIText;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.view.userinterface.UIText;
 import util.DukeApplicationTest;
 
 class UITextTest extends DukeApplicationTest {

@@ -18,7 +18,9 @@ import util.DukeApplicationTest;
  * @author Jeremyah Flowers
  */
 public class SplashPageTest extends DukeApplicationTest {
+
   private SlogoWindow myView;
+
   // this method is run BEFORE EACH test to set up application in a fresh state
   @Override
   public void start(Stage stage) {
