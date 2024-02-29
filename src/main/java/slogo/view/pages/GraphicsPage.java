@@ -92,7 +92,7 @@ public class GraphicsPage extends GeneralPage {
 
   private Collection<UIElement> setupTextField(double screenWidth, double screenHeight) {
     Map<String, double[]> textFieldIDs = new HashMap<>();
-    textFieldIDs.put("Insert Command Here", new double[]{screenWidth / 8, 7 * screenHeight / 8});
+    textFieldIDs.put("CommandLine", new double[]{screenWidth / 8, 7 * screenHeight / 8});
     return createElements(textFieldIDs, "textfield");
   }
 
