@@ -1,6 +1,6 @@
-import slogo.view.SlogoWindow;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import slogo.view.SlogoWindow;
 
 public class Main extends Application {
 

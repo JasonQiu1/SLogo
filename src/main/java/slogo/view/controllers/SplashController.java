@@ -4,8 +4,7 @@ import javafx.scene.Node;
 
 /**
  * SplashController class implements UIController interface to manage UI elements in the splash
- * screen.
- * It provides functionality to control the appearance of the splash screen UI.
+ * screen. It provides functionality to control the appearance of the splash screen UI.
  *
  * @author Jeremyah Flowers
  */
