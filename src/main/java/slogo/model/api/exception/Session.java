@@ -1,13 +1,25 @@
+<<<<<<<< Updated upstream:src/main/java/slogo/model/api/Session.java
 package slogo.model.api;
+========
+package slogo.exception;
+>>>>>>>> Stashed changes:src/main/java/slogo/model/api/exception/Session.java
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+<<<<<<<< Updated upstream:src/main/java/slogo/model/api/Session.java
 import slogo.model.api.exception.coderunner.RunCodeError;
+import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
 import slogo.model.coderunner.SlogoCodeRunner;
 import slogo.model.turtleUtil.Turtle;
-import slogo.model.api.turtle.TurtleState;
+========
+import slogo.exception.model.coderunner.RunCodeError;
+import slogo.model.coderunner.SlogoCodeRunner;
+import slogo.model.turtle.Turtle;
+import slogo.exception.model.turtle.TurtleState;
+import slogo.exception.model.turtle.TurtleStep;
+>>>>>>>> Stashed changes:src/main/java/slogo/model/api/exception/Session.java
 
 /**
  * External API for the frontend to interact with the model. Responsible for running Slogo code and
@@ -49,12 +61,13 @@ public class Session {
   }
 
   /**
-   * Returns the current step history of a certain length for all turtles.
+   * Returns the current step history of a certain length for all turtles. May return more steps
+   * than maxLength. maxLength limits the number of commands, not number of steps.
    *
-   * @param maxLength the max length of step history to return. If 0, then return entire step
-   *                  history (including forward history). If positive, then return the backwards
-   *                  history up to length. If negative, then return the forwards history up to
-   *                  -length.
+   * @param maxLength the max length of the command history to return steps of. If 0, then return
+   *                  entire step history (including forward history). If positive, then return the
+   *                  backwards history up to length. If negative, then return the forwards history
+   *                  up to -length.
    * @return an immutable map where the key is the id of the turtle and a list of its step history
    */
   public Map<Integer, List<TurtleStep>> getTurtlesStepHistories(int maxLength) {
