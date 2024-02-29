@@ -2,6 +2,13 @@ package slogo.view.controllers;
 
 import javafx.scene.Node;
 
+
+/**
+ * GraphicsController class implements UIController interface to manage graphical UI elements.
+ * It provides functionality to control the appearance of the UI graphics.
+ *
+ * @author Jeremyah Flowers
+ */
 public class GraphicsController implements UIController {
 
   // Instance Variables
@@ -35,6 +42,11 @@ public class GraphicsController implements UIController {
     return !blackWhiteFlag && !greenBlueFlag;
   }
 
+  /**
+   * Notifies the graphics controller about changes in UI elements.
+   *
+   * @param element the UI element that triggered the notification
+   */
   @Override
   public void notifyController(Node element) {
     switch (element.getId()) {
