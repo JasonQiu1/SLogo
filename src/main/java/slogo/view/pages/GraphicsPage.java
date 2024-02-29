@@ -139,4 +139,5 @@ public class GraphicsPage extends GeneralPage {
     extIDs.put("Home", new double[]{6 * screenWidth / 8 - 60, screenHeight / 8 - 60});
     return createElements(extIDs, "externalbutton");
   }
+
 }
