@@ -88,7 +88,7 @@ public class SplashPage extends GeneralPage {
 
   private Collection<UIElement> setupExternalButtons(double screenWidth, double screenHeight) {
     Map<String, double[]> extIDs = new HashMap<>();
-    extIDs.put("Turtle Selector", new double[]{screenWidth / 2 - 95, 2 * screenHeight / 8});
+    extIDs.put("TurtleSelector", new double[]{screenWidth / 2 - 95, 2 * screenHeight / 8});
     extIDs.put("Create", new double[]{screenWidth / 4 - 30, 5 * screenHeight / 8});
     extIDs.put("Load", new double[]{2 * screenWidth / 4 - 10, 5 * screenHeight / 8});
     extIDs.put("Help", new double[]{3 * screenWidth / 4 + 10, 5 * screenHeight / 8});

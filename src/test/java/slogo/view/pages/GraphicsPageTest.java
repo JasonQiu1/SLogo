@@ -17,6 +17,12 @@ import org.junit.jupiter.api.Test;
 import slogo.view.SlogoWindow;
 import util.DukeApplicationTest;
 
+/**
+ * Contains JUnit test cases to verify the behavior of the methods in the GraphicsPage class.
+ *
+ * @author Jeremyah Flowers
+ */
+
 class GraphicsPageTest extends DukeApplicationTest {
 
   // keep only if needed to call application methods in tests
@@ -360,8 +366,6 @@ class GraphicsPageTest extends DukeApplicationTest {
       }
     }
   }
-
-
 
   @Nested
   @DisplayName("Unsuccessful Tests")

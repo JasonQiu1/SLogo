@@ -83,7 +83,7 @@ public class PageBuilder {
 
   private void loadExternalButton(ExternalButton button) {
     switch (button.getID()) {
-      case "Turtle Selector" -> {
+      case "TurtleSelector" -> {
         button.setSelectorClassic();
         button.addFolderOpener(myStage, "turtle_images");
       }
