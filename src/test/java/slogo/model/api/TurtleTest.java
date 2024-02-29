@@ -141,12 +141,12 @@ public class TurtleTest extends DukeApplicationTest {
   @Test
   void testWrapEdge() {
     // step 1: fd 100
-    myTurtle.doStep(100, 0);
+    myTurtle.move(100);
     // step 2: rt 75
-    myTurtle.doStep(0, 75);
+    myTurtle.rotate(5);
     // step 3: fd 400
     TurtleState expectedInitState3 = myTurtle.getCurrentState();
-    TurtleStep step3 = myTurtle.doStep(400, 0);
+    List<TurtleStep> step3 = myTurtle.move(400);
     slogo.model.api.turtle.Vector expectedPositionChange3 = new slogo.model.api.turtle.Vector(400*Math.sin(myTurtle.getCurrentState().heading()), 400*Math.cos(myTurtle.getCurrentState().heading()));
     double expectedAngelChange3 = 0;
     TurtleStep expectedStep = new TurtleStep(expectedInitState3, expectedPositionChange3, expectedAngelChange3);
