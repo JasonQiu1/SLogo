@@ -11,6 +11,12 @@ import slogo.view.userinterface.UIRegion;
 import slogo.view.userinterface.UIText;
 import slogo.view.userinterface.UITextField;
 
+/**
+ * The PageBuilder class is responsible for styling UI elements and adding them to the root group.
+ * It provides methods to style different types of UI elements based on their type and ID.
+ *
+ * @author Jeremyah Flowers
+ */
 public class PageBuilder {
 
   private final Stage myStage;
@@ -28,20 +34,20 @@ public class PageBuilder {
   protected void styleUI(Collection<UIElement> UIElements, Group root) {
     for (UIElement element : UIElements) {
       switch (element.getType().toLowerCase()) {
-        case "externalbutton" -> loadExternalButton((ExternalButton) element, element.getID());
-        case "internalbutton" -> loadInternalButton((InternalButton) element, element.getID());
-        case "text" -> loadText((UIText) element, element.getID());
-        case "checkbox" -> loadCheckBox((UICheckBox) element, element.getID());
-        case "textfield" -> loadTextField((UITextField) element, element.getID());
-        case "region" -> loadRegion((UIRegion) element, element.getID());
+        case "externalbutton" -> loadExternalButton((ExternalButton) element);
+        case "internalbutton" -> loadInternalButton((InternalButton) element);
+        case "text" -> loadText((UIText) element);
+        case "checkbox" -> loadCheckBox((UICheckBox) element);
+        case "textfield" -> loadTextField((UITextField) element);
+        case "region" -> loadRegion((UIRegion) element);
         default -> throw new TypeNotPresentException(element.getType(), new Throwable());
       }
       root.getChildren().add(element.getElement());
     }
   }
 
-  private void loadInternalButton(InternalButton button, String ID) {
-    switch (ID) {
+  private void loadInternalButton(InternalButton button) {
+    switch (button.getID()) {
       case "Play/Pause" -> {
         button.setPausePlayClassic();
         // TODO: MAKE BUTTON PLAY/PAUSE SIMULATION
@@ -59,24 +65,24 @@ public class PageBuilder {
         // TODO: MAKE BUTTON CHANGE SIMULATION COLOR
       }
       default -> {
-        throw new TypeNotPresentException(ID, new Throwable());
+        throw new TypeNotPresentException(button.getID(), new Throwable());
       }
     }
   }
 
-  private void loadRegion(UIRegion box, String ID) {
-    switch (ID) {
+  private void loadRegion(UIRegion box) {
+    switch (box.getID()) {
       case "BottomBox", "TurtleBox", "RightBox" -> {
         box.setBackgroundClassic();
       }
       default -> {
-        throw new TypeNotPresentException(ID, new Throwable());
+        throw new TypeNotPresentException(box.getID(), new Throwable());
       }
     }
   }
 
-  private void loadExternalButton(ExternalButton button, String ID) {
-    switch (ID) {
+  private void loadExternalButton(ExternalButton button) {
+    switch (button.getID()) {
       case "Turtle Selector" -> {
         button.setSelectorClassic();
         button.addFolderOpener(myStage, "turtle_images");
@@ -106,13 +112,13 @@ public class PageBuilder {
         // TODO: MAKE BUTTON DISPLAY FOR VARIABLES, COMMANDS, AND HISTORY
       }
       default -> {
-        throw new TypeNotPresentException(ID, new Throwable());
+        throw new TypeNotPresentException(button.getID(), new Throwable());
       }
     }
   }
 
-  private void loadCheckBox(UICheckBox checkBox, String ID) {
-    switch (ID) {
+  private void loadCheckBox(UICheckBox checkBox) {
+    switch (checkBox.getID()) {
       case "Light", "Dark" -> {
         checkBox.setThemeCheckBox();
         // TODO: MAKE BUTTON JUMP TO SLOGO WIKI
@@ -121,13 +127,13 @@ public class PageBuilder {
         checkBox.setBackgroundCheckBox();
       }
       default -> {
-        throw new TypeNotPresentException(ID, new Throwable());
+        throw new TypeNotPresentException(checkBox.getID(), new Throwable());
       }
     }
   }
 
-  private void loadText(UIText text, String ID) {
-    switch (ID) {
+  private void loadText(UIText text) {
+    switch (text.getID()) {
       case "SLOGO" -> {
         text.setSlogoClassic();
       }
@@ -138,16 +144,16 @@ public class PageBuilder {
         text.setSmallerClassic();
       }
       default -> {
-        throw new TypeNotPresentException(ID, new Throwable());
+        throw new TypeNotPresentException(text.getID(), new Throwable());
       }
     }
   }
 
-  private void loadTextField(UITextField textField, String ID) {
-    if (ID.equals("Insert Command Here")) {
+  private void loadTextField(UITextField textField) {
+    if (textField.getID().equals("Insert Command Here")) {
       textField.setupTextBox();
     } else {
-      throw new TypeNotPresentException(ID, new Throwable());
+      throw new TypeNotPresentException(textField.getID(), new Throwable());
     }
   }
 }
