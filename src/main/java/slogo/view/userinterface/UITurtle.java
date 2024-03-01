@@ -9,7 +9,7 @@ public class UITurtle extends UIElement {
 
   private static final int TURTLE_SIZE = 10;
   private final Circle myTurtle;
-  private String turtleImg = "/turtle_image/turtle_img01.png";
+  private final String turtleImg = "/turtle_image/turtle_img01.png";
 
   public UITurtle(String turtleID, double x, double y) {
     super(new Circle(TURTLE_SIZE), turtleID);
@@ -28,6 +28,7 @@ public class UITurtle extends UIElement {
   public void rotate(double degree) {
     myTurtle.setRotate(degree);
   }
+
   public void moveX(double x) {
     myTurtle.setLayoutX(myTurtle.getCenterX() + x);
   }

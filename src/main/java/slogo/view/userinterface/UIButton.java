@@ -1,9 +1,7 @@
 package slogo.view.userinterface;
 
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -62,7 +60,7 @@ public class UIButton extends UIElement {
   }
 
   public void setStatus(Boolean selected) {
-    if(selected) {
+    if (selected) {
       myButton.setOpacity(1.0f);
     } else {
       myButton.setOpacity(0.2f);

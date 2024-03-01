@@ -1,7 +1,5 @@
 package slogo.view.userinterface;
 
-import java.util.HashMap;
-import java.util.Map;
 import javafx.scene.Node;
 import slogo.view.listeners.UIListener;
 

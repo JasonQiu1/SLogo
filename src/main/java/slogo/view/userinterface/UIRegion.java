@@ -48,7 +48,7 @@ public class UIRegion extends UIElement {
    * Sets the classic background style for the region.
    */
   public void setBlackWhite() {
-    setBackground(Color.WHITE, Color.BLACK);
+    setBackground(Color.TRANSPARENT, Color.BLACK);
   }
 
   public void setGreenBlue() {

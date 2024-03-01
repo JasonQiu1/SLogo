@@ -4,7 +4,6 @@ import java.util.Collection;
 import slogo.view.userinterface.UICheckBox;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UIRegion;
-import slogo.view.userinterface.UITurtle;
 
 
 /**
@@ -45,7 +44,6 @@ public class BackgroundController extends UIController {
   private void updateElement(UIElement element) {
     switch (element.getID()) {
       case "TurtleBox" -> updateTurtleBox((UIRegion) element);
-      case "Turtle" -> updateTurtleColor((UITurtle) element);
       case "BK/WH" -> updateBKWHCheckbox((UICheckBox) element);
       case "GN/BL" -> updateGNBLCheckbox((UICheckBox) element);
       case "PK/PR" -> updatePKPRCheckbox((UICheckBox) element);
@@ -62,11 +60,6 @@ public class BackgroundController extends UIController {
 
   private void updateBKWHCheckbox(UICheckBox checkbox) {
     checkbox.updateSelect(blackWhiteFlag);
-  }
-
-
-  private void updateTurtleColor(UITurtle turtle) {
-    turtle.setIMG(BW_TURTLE);
   }
 
   private void setBackgroundPKPR() {

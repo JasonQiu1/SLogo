@@ -1,5 +1,6 @@
 package slogo.view.controllers;
 
+import java.util.Collection;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UITurtle;
 
@@ -12,16 +13,38 @@ import slogo.view.userinterface.UITurtle;
  */
 public class TurtleController extends UIController {
 
+  private double x;
+  private double y;
+  private double rotation;
+
   @Override
   public void notifyController(UIElement element) {
-    if (element.getType().equals("Turtle")) {
+    if (element.getType().equalsIgnoreCase("textfield")) {
+      setMovement();
+    }
+    updateElements();
+  }
+
+  private void updateElements() {
+    Collection<UIElement> allElements = getMyElements();
+    allElements.forEach(this::updateElement);
+  }
+
+  private void updateElement(UIElement element) {
+    if (element.getType().equalsIgnoreCase("turtle")) {
       changePosition((UITurtle) element);
     }
   }
 
+  private void setMovement() {
+    x = 0;
+    y = 0;
+    rotation = 0;
+  }
+
   private void changePosition(UITurtle turtle) {
-    turtle.moveX(10);
-    turtle.moveY(10);
-    turtle.rotate(30);
+    turtle.moveX(x);
+    turtle.moveY(y);
+    turtle.rotate(rotation);
   }
 }

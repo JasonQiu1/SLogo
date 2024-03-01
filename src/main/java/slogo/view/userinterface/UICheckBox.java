@@ -55,6 +55,8 @@ public class UICheckBox extends UIElement {
     myBox.addEventHandler(MouseEvent.MOUSE_CLICKED, c -> sendSignal());
   }
 
-  public void updateSelect(Boolean check) { myBox.setSelected(check); }
+  public void updateSelect(Boolean check) {
+    myBox.setSelected(check);
+  }
 
 }
