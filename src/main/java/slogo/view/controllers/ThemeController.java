@@ -1,7 +1,6 @@
 package slogo.view.controllers;
 
 import java.util.Collection;
-import javafx.scene.Node;
 import slogo.view.userinterface.UIElement;
 
 /**
@@ -10,7 +9,7 @@ import slogo.view.userinterface.UIElement;
  *
  * @author Jeremyah Flowers
  */
-public class SplashController extends UIController {
+public class ThemeController extends UIController {
 
   // Instance Variable
   private boolean lightFlag = true;
@@ -39,12 +38,12 @@ public class SplashController extends UIController {
    *
    * @param element the UI element that triggered the notification
    */
+
   @Override
-  public void notifyController(Node element) {
-    switch (element.getId()) {
+  public void notifyController(UIElement element) {
+    switch (element.getID()) {
       case "Light" -> setLightFlag();
       case "Dark" -> setDarkFlag();
-      default -> throw new TypeNotPresentException(element.getId(), new Throwable());
     }
     updateElements();
   }
@@ -57,10 +56,10 @@ public class SplashController extends UIController {
   private void updateElement(UIElement element) {
     switch (element.getID()) {
       case "Light" -> {
-        element.update(isLight());
+        element.update("Boolean", isLight());
       }
       case "Dark" -> {
-        element.update(isDark());
+        element.update("Boolean", isDark());
       }
     }
   }

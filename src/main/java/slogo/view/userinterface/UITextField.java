@@ -96,7 +96,7 @@ public class UITextField extends UIElement {
   }
 
   @Override
-  public void update(Boolean value) {
+  public void update(String type, Object value) {
 
   }
 }

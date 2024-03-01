@@ -2,7 +2,6 @@ package slogo.view.controllers;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import javafx.scene.Node;
 import slogo.view.userinterface.UIElement;
 
 /**
@@ -32,7 +31,7 @@ public abstract class UIController {
    *
    * @param element the UI element triggering the notification
    */
-  public abstract void notifyController(Node element);
+  public abstract void notifyController(UIElement element);
 
   protected Collection<UIElement> getMyElements() {
     return myElements;

@@ -10,7 +10,7 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
-import slogo.view.controllers.SplashController;
+import slogo.view.listeners.SplashListener;
 import slogo.view.userinterface.UIElement;
 
 /**
@@ -34,7 +34,7 @@ public class SplashPage extends GeneralPage {
    * @param stage The stage for the splash page.
    */
   public SplashPage(Stage stage) {
-    super(stage, new SplashController());
+    super(stage, new SplashListener());
     root = new Group();
     myPageBuilder = new PageBuilder(stage);
   }

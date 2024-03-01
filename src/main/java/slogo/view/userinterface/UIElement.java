@@ -1,7 +1,9 @@
 package slogo.view.userinterface;
 
+import java.util.HashMap;
+import java.util.Map;
 import javafx.scene.Node;
-import slogo.view.controllers.UIController;
+import slogo.view.listeners.UIListener;
 
 
 /**
@@ -13,9 +15,9 @@ public abstract class UIElement {
 
   // Instance Variables
   private final Node myElement;
-  private UIController myController;
+  private UIListener myListener;
+  private Map<String, String> additionalInformation;
   private String myType;
-
 
   /**
    * Constructor for UIElement.
@@ -56,14 +58,21 @@ public abstract class UIElement {
     return myType;
   }
 
-  public abstract void update(Boolean value);
+  public void setListener(UIListener listener) {
+    myListener = listener;
+  }
 
-  public void setController(UIController controller) {
-    myController = controller;
+  public Map<String, String> getAdditionalInformation() {
+    return new HashMap<>(additionalInformation);
+  }
+
+
+  protected void append(String type, String information) {
+    additionalInformation.put(type, information);
   }
 
   protected void sendSignal() {
-    myController.notifyController(myElement);
+    myListener.sendSignal(this);
   }
 
   protected void setSpecialType(String type) {
@@ -75,4 +84,5 @@ public abstract class UIElement {
     myElement.setLayoutY(y - myElement.getBoundsInLocal().getHeight() / 2);
   }
 
+  public abstract void update(String type, Object value);
 }

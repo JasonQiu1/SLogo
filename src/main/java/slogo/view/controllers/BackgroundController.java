@@ -1,7 +1,6 @@
 package slogo.view.controllers;
 
 import java.util.Collection;
-import javafx.scene.Node;
 import slogo.view.userinterface.UIElement;
 
 
@@ -11,7 +10,7 @@ import slogo.view.userinterface.UIElement;
  *
  * @author Jeremyah Flowers
  */
-public class GraphicsController extends UIController {
+public class BackgroundController extends UIController {
 
   // Instance Variables
   private boolean blackWhiteFlag = true;
@@ -51,12 +50,11 @@ public class GraphicsController extends UIController {
    * @param element the UI element that triggered the notification
    */
   @Override
-  public void notifyController(Node element) {
-    switch (element.getId()) {
+  public void notifyController(UIElement element) {
+    switch (element.getID()) {
       case "BK/WH" -> setBackgroundBKWH();
       case "GN/BL" -> setBackgroundGNBL();
       case "PK/PR" -> setBackgroundPKPR();
-      default -> throw new TypeNotPresentException(element.getId(), new Throwable());
     }
     updateElements();
   }
@@ -69,13 +67,13 @@ public class GraphicsController extends UIController {
   private void updateElement(UIElement element) {
     switch (element.getID()) {
       case "BK/WH" -> {
-        element.update(isBlackAndWhite());
+        element.update("Boolean", isBlackAndWhite());
       }
       case "GN/BL" -> {
-        element.update(isGreenAndBlue());
+        element.update("Boolean", isGreenAndBlue());
       }
       case "PK/PR" -> {
-        element.update(isPinkAndPurple());
+        element.update("Boolean", isPinkAndPurple());
       }
     }
   }

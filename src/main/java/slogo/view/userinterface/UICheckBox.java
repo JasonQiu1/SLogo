@@ -56,7 +56,9 @@ public class UICheckBox extends UIElement {
   }
 
   @Override
-  public void update(Boolean value) {
-    myBox.setSelected(value);
+  public void update(String type, Object value) {
+    if (type.equals("Boolean")) {
+      myBox.setSelected((Boolean) value);
+    }
   }
 }
