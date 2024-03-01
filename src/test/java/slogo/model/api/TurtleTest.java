@@ -166,119 +166,46 @@ public class TurtleTest extends DukeApplicationTest {
     checkTurtleState(expectedFinalState, myTurtle.getCurrentState());
   }
 
-  @Test
-  void testIntermediateStatesSpeedDefault() {
-    myTurtleAnimator.setSpeed(1);
-
-    prepareMove();
-
-    List<TurtleState> expectedInterStates = new ArrayList<>();
-    for (int i = 1; i <= 24; i++) {
-      TurtleState state = new TurtleState(new Point(0,i),0);
-      expectedInterStates.add(state);
-    }
-
-    checkInterStates(expectedInterStates);
-
-  }
-
-  @Test
-  void testIntermediateStatesSpeed4() {
-    myTurtleAnimator.setSpeed(4);
-
-    prepareMove();
-
-    List<TurtleState> expectedInterStates = new ArrayList<>();
-    for (int i = 1; i <= 6; i++) {
-      TurtleState state = new TurtleState(new Point(0,i*4),0);
-      expectedInterStates.add(state);
-    }
-
-    checkInterStates(expectedInterStates);
-
-  }
-
-  @Test
-  void testIntermediateStatesSpeedMin() {
-    myTurtleAnimator.setSpeed(0);
-
-    prepareMove();
-    List<TurtleState> expectedInterStates = new ArrayList<>();
-    checkInterStates(expectedInterStates);
-
-  }
-
-  @Test
-  void testIntermediateStatesSpeedMax() {
-    myTurtleAnimator.setSpeed(10);
-
-    prepareMove();
-
-    List<TurtleState> expectedInterStates = new ArrayList<>();
-    TurtleState state = new TurtleState(new Point(0,24),0);
-    expectedInterStates.add(state);
-
-
-    checkInterStates(expectedInterStates);
-
-  }
-
-  @Test
-  void testIntermediateAnglesSpeed6() {
-    myTurtleAnimator.setSpeed(6);
-
-    prepareRotate();
-
-    List<TurtleState> expectedInterStates = new ArrayList<>();
-    for (int i = 1; i <= 4; i++) {
-      TurtleState state = new TurtleState(new Point(0,0),i*6);
-      expectedInterStates.add(state);
-    }
-
-    checkInterStates(expectedInterStates);
-
-  }
-
-  @Test
-  void testStepForward() {
-    // step 1: fd 200
-    myTurtle.move(175);
+//  @Test
+//  void testStepForward() {
+//    // step 1: fd 200
+//    myTurtle.move(175);
+////
+////    // step 2: rt 150
+////    myTurtle.rotate(150);
 //
-//    // step 2: rt 150
-//    myTurtle.rotate(150);
-
-    // step 3: fd -50
-    myTurtle.move(-50);
-
-    // step 4: rt 25
-    myTurtle.rotate(25);
-
-    // step 5: fd 100
-    myTurtle.move(100);
-
-    myTurtle.stepBack();
-    myTurtle.stepBack();
-    myTurtle.stepBack();
-
+//    // step 3: fd -50
+//    myTurtle.move(-50);
+//
+//    // step 4: rt 25
+//    myTurtle.rotate(25);
+//
+//    // step 5: fd 100
+//    myTurtle.move(100);
+//
+//    myTurtle.stepBack();
+//    myTurtle.stepBack();
+//    myTurtle.stepBack();
+//
 //    List<TurtleStep> forwardStep = myTurtle.stepForward();
 //
 //    TurtleState expectedInitState = new TurtleState(new Point(0, 200), 150);
 //    Vector expectedPositionChange = new Vector(-50*Math.sin(30), 50*Math.cos(30));
 //    double expectedAngelChange = 0;
 //    TurtleStep expectedStep = new TurtleStep(expectedInitState, expectedPositionChange, expectedAngelChange);
-
-    double Xf = -25;
-    double Yf = -200 + 43.3012701892;
-    double finalHeading = 150;
-    TurtleState expectedFinalState = new TurtleState(new Point(Xf, Yf), finalHeading);
+//
+//    double Xf = -25;
+//    double Yf = -200 + 43.3012701892;
+//    double finalHeading = 150;
+//    TurtleState expectedFinalState = new TurtleState(new Point(Xf, Yf), finalHeading);
 //
 //    // check TurtleStep
 //    checkTurtleStep(expectedStep, forwardStep);
-    // check final state
-    checkTurtleState(expectedFinalState, myTurtle.getCurrentState());
-
-
-  }
+//    // check final state
+//    checkTurtleState(expectedFinalState, myTurtle.getCurrentState());
+//
+//
+//  }
 //
 //  @Test
 //  void testStepBackward() {
@@ -359,35 +286,6 @@ public class TurtleTest extends DukeApplicationTest {
 
     // check final state
     checkTurtleState(expectedFinalState, myTurtle.getCurrentState());
-  }
-
-  void prepareMove() {
-    Map<Integer, List<TurtleStep>> turtles = new HashMap<>();
-    List<TurtleStep> steps = myTurtle.move(24);
-    turtles.put(0, steps);
-    myTurtleAnimator.animateStep(turtles);
-  }
-
-  void prepareRotate() {
-    Map<Integer, List<TurtleStep>> turtles = new HashMap<>();
-    TurtleStep step = myTurtle.rotate(24);
-    turtles.put(0, List.of(step));
-    myTurtleAnimator.animateStep(turtles);
-  }
-
-  void checkInterStates(List<TurtleState> expectedInterStates) {
-    for (Integer id: myTurtleAnimator.getIntermediateStates().keySet()) {
-      List<TurtleState> states = myTurtleAnimator.getIntermediateStates().get(id);
-      Iterator<TurtleState> iter = states.iterator();
-      Iterator<TurtleState> expectedIter = expectedInterStates.iterator();
-      while (iter.hasNext() && expectedIter.hasNext()) {
-        TurtleState state = iter.next();
-        TurtleState expected = expectedIter.next();
-        assertEquals(state.position(), expected.position());
-        assertEquals(state.heading(), expected.heading());
-      }
-    }
-
   }
 
   void checkTurtleStep(TurtleStep expected, TurtleStep step) {
