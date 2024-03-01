@@ -61,7 +61,7 @@ public class UIButton extends UIElement {
     myButton.setGraphic(buttonView);
   }
 
-  public void setPenStatus(Boolean selected) {
+  public void setStatus(Boolean selected) {
     if(selected) {
       myButton.setOpacity(1.0f);
     } else {

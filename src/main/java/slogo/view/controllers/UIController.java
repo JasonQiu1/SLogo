@@ -2,6 +2,7 @@ package slogo.view.controllers;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import slogo.view.userinterface.UIButton;
 import slogo.view.userinterface.UIElement;
 
 /**
@@ -35,5 +36,9 @@ public abstract class UIController {
 
   protected Collection<UIElement> getMyElements() {
     return myElements;
+  }
+
+  protected void selectButton(UIButton button, boolean flag) {
+    button.setStatus(flag);
   }
 }

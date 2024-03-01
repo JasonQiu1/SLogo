@@ -1,10 +1,6 @@
 package slogo.view.controllers;
 
 import java.util.Collection;
-import javafx.geometry.Insets;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
 import slogo.view.userinterface.UICheckBox;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UIRegion;
@@ -18,6 +14,7 @@ import slogo.view.userinterface.UITurtle;
  * @author Jeremyah Flowers
  */
 public class BackgroundController extends UIController {
+
   private static final String BW_TURTLE = "/turtle_image/turtle_img01.jpg";
 
 
@@ -88,9 +85,9 @@ public class BackgroundController extends UIController {
   }
 
   private void updateTurtleBox(UIRegion region) {
-    if(blackWhiteFlag) {
+    if (blackWhiteFlag) {
       region.setBlackWhite();
-    } else if(greenBlueFlag) {
+    } else if (greenBlueFlag) {
       region.setGreenBlue();
     } else {
       region.setPinkPurple();

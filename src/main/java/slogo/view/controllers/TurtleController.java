@@ -1,6 +1,5 @@
 package slogo.view.controllers;
 
-import slogo.model.turtleUtil.Turtle;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UITurtle;
 
@@ -15,7 +14,7 @@ public class TurtleController extends UIController {
 
   @Override
   public void notifyController(UIElement element) {
-    if(element.getType().equals("Turtle")) {
+    if (element.getType().equals("Turtle")) {
       changePosition((UITurtle) element);
     }
   }

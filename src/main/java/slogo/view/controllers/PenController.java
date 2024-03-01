@@ -41,19 +41,15 @@ public class PenController extends UIController {
   private void updateElement(UIElement element) {
     switch (element.getID()) {
       case "R" -> {
-        selectPen((UIButton) element, redFlag);
+        selectButton((UIButton) element, redFlag);
       }
       case "G" -> {
-        selectPen((UIButton) element, greenFlag);
+        selectButton((UIButton) element, greenFlag);
       }
       case "B" -> {
-        selectPen((UIButton) element, blueFlag);
+        selectButton((UIButton) element, blueFlag);
       }
     }
-  }
-
-  private void selectPen(UIButton pen, boolean flag) {
-    pen.setPenStatus(flag);
   }
 
   private void setPenR() {
