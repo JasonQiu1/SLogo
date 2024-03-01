@@ -16,11 +16,10 @@ import util.DukeApplicationTest;
 
 public class TurtleTest extends DukeApplicationTest {
   private Turtle myTurtle;
-  private TurtleAnimator myTurtleAnimator;
+
   @BeforeEach
   void setup () {
     myTurtle = new Turtle();
-    myTurtleAnimator = new TurtleAnimator();
   }
 
   @Test
