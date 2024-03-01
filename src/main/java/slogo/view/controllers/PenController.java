@@ -14,7 +14,7 @@ import slogo.view.userinterface.UIElement;
 public class PenController extends UIController {
 
   // Instance Variables
-  private boolean redFlag = true;
+  private boolean redFlag = false;
   private boolean greenFlag = false;
   private boolean blueFlag = false;
 
@@ -53,20 +53,14 @@ public class PenController extends UIController {
   }
 
   private void setPenR() {
-    redFlag = true;
-    greenFlag = false;
-    blueFlag = false;
+    redFlag = !redFlag;
   }
 
   private void setPenG() {
-    redFlag = false;
-    greenFlag = true;
-    blueFlag = false;
+    greenFlag = !greenFlag;
   }
 
   private void setPenB() {
-    redFlag = false;
-    greenFlag = false;
-    blueFlag = true;
+    blueFlag = !blueFlag;
   }
 }
