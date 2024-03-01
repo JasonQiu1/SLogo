@@ -6,16 +6,25 @@ import slogo.model.api.turtle.Vector;
 public class TurtleGeometry {
   // heading = angle from vertical y-axis (all calculations use angle from horizontal x-axis)
   public static double calculateAngle(Vector v) {
-    return Math.sqrt(Math.pow(v.getDx(),2) + Math.pow(v.getDy(),2));
+    if (v.getDy() == 0 || v.getDx() == 0) return 0;
+    return Math.toDegrees(Math.atan(v.getDx()/v.getDy())); // angle from vertical
   }
   public static double calculateMagnitude(Vector v) {
-    return Math.atan(v.getDy()/v.getDx());
+    return Math.sqrt(Math.pow(v.getDx(),2) + Math.pow(v.getDy(),2));
+  }
+  public static double calculateYComponentGivenXComponentAngle(double x, double angle) {
+    double newMagnitude = x / Math.sin(Math.toRadians(angle));
+    return newMagnitude * Math.cos(Math.toRadians(angle));
+  }
+  public static double calculateXComponentGivenYComponentAngle(double y, double angle) {
+    double newMagnitude = y / Math.cos(Math.toRadians(angle));
+    return newMagnitude * Math.sin(Math.toRadians(angle));
   }
   protected static double calculateXComponent(double magnitude, double angle) {
-    return magnitude * Math.cos(angle);
+    return magnitude * Math.sin(Math.toRadians(angle));
   }
   protected static double calculateYComponent(double magnitude, double angle) {
-    return magnitude * Math.sin(angle);
+    return magnitude * Math.cos(Math.toRadians(angle));
   }
   protected static Vector getVectorBetweenTwoPoints(Point p1, Point p2) {
     double dx = p2.getX() - p1.getX();

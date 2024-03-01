@@ -6,10 +6,10 @@ import slogo.model.turtleutil.TurtleGeometry;
 
 public class TurtleAnimator {
   private static final TurtleState INITIAL_TURTLE_STATE = new TurtleState(new Point(0.0,0.0), 0.0); // get from resource file
-  public static final double X_MIN = -100; // get from resource file
-  public static final double X_MAX = 100; // get from resource file
-  public static final double Y_MIN = -100; // get from resource file
-  public static final double Y_MAX = 100; // get from resource file
+  public static final double X_MIN = -200; // get from resource file
+  public static final double X_MAX = 200; // get from resource file
+  public static final double Y_MIN = -200; // get from resource file
+  public static final double Y_MAX = 200; // get from resource file
   private static final double MAX_SPEED = 10; // get from resource file
   private static final double MIN_SPEED = 0; // get from resource file
   private static final double STANDARD_FPS = 24.0; // standard FPS for animations is 24 -  get from resource file
@@ -112,10 +112,6 @@ public class TurtleAnimator {
     List<TurtleState> interStates = new ArrayList<>();
     TurtleState currState = new TurtleState(initState.position(), initState.heading());
     double totalFrames = secondsPerStep * STANDARD_FPS;
-    if (totalFrames == 0) {
-      return Collections.emptyList();
-    }
-
     Vector posChangePerFrame = new Vector(posChange.getDx() / totalFrames, posChange.getDy() / totalFrames);
 
     for (int i = 0; i < totalFrames; i++) {
@@ -131,11 +127,8 @@ public class TurtleAnimator {
     List<TurtleState> interStates = new ArrayList<>();
     double currAngle = initState.heading();
     double totalFrames = secondsPerStep * STANDARD_FPS;
-    if (totalFrames == 0) {
-      return Collections.emptyList();
-    }
-
     double angleChangePerFrame = angleChange / totalFrames;
+
     for (int i = 0; i < totalFrames; i++) {
       currAngle += angleChangePerFrame;
       TurtleState state = new TurtleState(new Point(0,0),currAngle);
