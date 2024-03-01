@@ -11,7 +11,7 @@ public class RunCodeError extends RuntimeException {
   private final int _lineNumber;
   private final String _line;
 
-  RunCodeError(ErrorType errorType, String errorMessageKey, int lineNumber, String line) {
+  public RunCodeError(ErrorType errorType, String errorMessageKey, int lineNumber, String line) {
     super(errorMessageKey);
     _errorType = errorType;
     _lineNumber = lineNumber;
