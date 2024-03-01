@@ -345,24 +345,22 @@ public class TurtleTest extends DukeApplicationTest {
 //    assertThrows(InvalidPositionException.class, () -> myTurtle.setPosition(new Point(400,400)));
 //  }
 //
-//  @Test
-//  void testResetTurtle() {
-//    myTurtle.doStep(50, 0);
-//    myTurtle.doStep(0, 65);
-//    myTurtle.doStep(-200, 0);
-//    List<Turtle> turtles = new ArrayList<>();
-//    turtles.add(myTurtle);
-//    TurtleAnimator.resetTurtles(turtles);
-//
-//    double Xf = 0;
-//    double Yf = 0;
-//    double finalHeading = 0;
-//    TurtleState expectedFinalState = new TurtleState(new Point(Xf, Yf), finalHeading);
-//
-//    // check final state
-//    checkTurtleState(expectedFinalState, myTurtle.getCurrentState());
-//  }
-//
+  @Test
+  void testResetTurtle() {
+    myTurtle.move(50);
+    myTurtle.rotate(65);
+    myTurtle.move(-200);
+    myTurtle.reset(TurtleAnimator.getInitialTurtleState());
+
+    double Xf = 0;
+    double Yf = 0;
+    double finalHeading = 0;
+    TurtleState expectedFinalState = new TurtleState(new Point(Xf, Yf), finalHeading);
+
+    // check final state
+    checkTurtleState(expectedFinalState, myTurtle.getCurrentState());
+  }
+
   void prepareMove() {
     Map<Integer, List<TurtleStep>> turtles = new HashMap<>();
     List<TurtleStep> steps = myTurtle.move(24);
