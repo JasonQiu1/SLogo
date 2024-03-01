@@ -11,12 +11,11 @@ import slogo.view.listeners.UIListener;
  *
  * @author Jeremyah Flowers
  */
-public abstract class UIElement {
+public class UIElement {
 
   // Instance Variables
   private final Node myElement;
   private UIListener myListener;
-  private Map<String, String> additionalInformation;
   private String myType;
 
   /**
@@ -62,15 +61,6 @@ public abstract class UIElement {
     myListener = listener;
   }
 
-  public Map<String, String> getAdditionalInformation() {
-    return new HashMap<>(additionalInformation);
-  }
-
-
-  protected void append(String type, String information) {
-    additionalInformation.put(type, information);
-  }
-
   protected void sendSignal() {
     myListener.sendSignal(this);
   }
@@ -84,5 +74,4 @@ public abstract class UIElement {
     myElement.setLayoutY(y - myElement.getBoundsInLocal().getHeight() / 2);
   }
 
-  public abstract void update(String type, Object value);
 }

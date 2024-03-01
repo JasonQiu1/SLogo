@@ -23,6 +23,8 @@ public class UIButton extends UIElement {
   // Instance Variables
   private final Button myButton;
 
+  private String myPath;
+
   /**
    * Constructor for UIButton.
    *
@@ -50,10 +52,6 @@ public class UIButton extends UIElement {
     myButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> myButton.setEffect(null));
   }
 
-  @Override
-  public void update(String type, Object value) {
-  }
-
   protected void createLogo(String imgPath, double width, double height) {
     Image img = new Image(imgPath);
     ImageView buttonView = new ImageView(img);
@@ -62,4 +60,22 @@ public class UIButton extends UIElement {
     myButton.setText("");
     myButton.setGraphic(buttonView);
   }
+
+  public void setPenStatus(Boolean selected) {
+    if(selected) {
+      myButton.setOpacity(1.0f);
+    } else {
+      myButton.setOpacity(0.2f);
+    }
+  }
+
+  public String getMyPath() {
+    return myPath;
+  }
+
+  protected void setMyPath(String path) {
+    myPath = path;
+  }
+
+
 }

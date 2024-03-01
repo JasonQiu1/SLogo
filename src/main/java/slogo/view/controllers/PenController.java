@@ -1,6 +1,7 @@
 package slogo.view.controllers;
 
 import java.util.Collection;
+import slogo.view.userinterface.UIButton;
 import slogo.view.userinterface.UIElement;
 
 
@@ -16,34 +17,6 @@ public class PenController extends UIController {
   private boolean redFlag = true;
   private boolean greenFlag = false;
   private boolean blueFlag = false;
-
-
-  /**
-   * Checks if the UI theme is set to black and white.
-   *
-   * @return true if the UI theme is black and white, false otherwise
-   */
-  public boolean isRed() {
-    return redFlag;
-  }
-
-  /**
-   * Checks if the UI theme is set to green and blue.
-   *
-   * @return true if the UI theme is green and blue, false otherwise
-   */
-  public boolean isGreen() {
-    return greenFlag;
-  }
-
-  /**
-   * Checks if the UI theme is set to pink and purple.
-   *
-   * @return true if the UI theme is pink and purple, false otherwise
-   */
-  public boolean isBlue() {
-    return blueFlag;
-  }
 
   /**
    * Notifies the graphics controller about changes in UI elements.
@@ -68,15 +41,19 @@ public class PenController extends UIController {
   private void updateElement(UIElement element) {
     switch (element.getID()) {
       case "R" -> {
-        element.update("Boolean", isRed());
+        selectPen((UIButton) element, redFlag);
       }
       case "G" -> {
-        element.update("Boolean", isBlue());
+        selectPen((UIButton) element, greenFlag);
       }
       case "B" -> {
-        element.update("Boolean", isGreen());
+        selectPen((UIButton) element, blueFlag);
       }
     }
+  }
+
+  private void selectPen(UIButton pen, boolean flag) {
+    pen.setPenStatus(flag);
   }
 
   private void setPenR() {

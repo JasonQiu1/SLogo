@@ -13,15 +13,16 @@ import slogo.view.userinterface.UITurtle;
  */
 public class TurtleController extends UIController {
 
-  private UITurtle turtle;
   @Override
   public void notifyController(UIElement element) {
-    turtle = (UITurtle) element;
+    if(element.getType().equals("Turtle")) {
+      changePosition((UITurtle) element);
+    }
   }
 
-  private void changePosition(UIElement turtle) {
-    turtle.update("X", 10);
-    turtle.update("Y", 10);
-    turtle.update("Heading", 30);
+  private void changePosition(UITurtle turtle) {
+    turtle.moveX(10);
+    turtle.moveY(10);
+    turtle.rotate(30);
   }
 }

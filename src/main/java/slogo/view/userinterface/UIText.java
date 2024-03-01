@@ -60,8 +60,4 @@ public class UIText extends UIElement {
     myText.setFont(SMALLER_FONT);
   }
 
-  @Override
-  public void update(String type, Object value) {
-
-  }
 }

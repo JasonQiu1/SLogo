@@ -1,6 +1,8 @@
 package slogo.view.userinterface;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
@@ -17,6 +19,7 @@ public class UITextField extends UIElement {
 
   // Instance Variables
   private final TextField myTextBox;
+  private List<String> textCollector;
   private boolean controlPressed = false;
   private int indexTracker = 0;
 
@@ -29,6 +32,7 @@ public class UITextField extends UIElement {
    */
   public UITextField(String text, double x, double y) {
     super(new TextField(text), text);
+    textCollector = new ArrayList<>();
     myTextBox = (TextField) getElement();
     myTextBox.setAlignment(Pos.BASELINE_LEFT);
     myTextBox.toFront();
@@ -44,18 +48,21 @@ public class UITextField extends UIElement {
   }
 
   private void controlHandler() {
-    myTextBox.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
-      @Override
-      public void handle(KeyEvent e) {
-        if (e.getCode().equals(KeyCode.CONTROL) || e.getCode().equals(KeyCode.COMMAND)) {
-          controlPressed = false;
-        }
+    myTextBox.addEventHandler(KeyEvent.KEY_RELEASED, e -> {
+      if (isModifier(e.getCode())) {
+        controlPressed = false;
       }
     });
+
   }
 
+  private boolean isModifier(KeyCode code) {
+    return code.equals(KeyCode.CONTROL) || code.equals(KeyCode.COMMAND);
+  }
+
+
   private void keyboardInputHandler() {
-    ArrayList<String> textCollector = new ArrayList<>();
+    textCollector = new ArrayList<>();
 
     myTextBox.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
       @Override
@@ -64,10 +71,7 @@ public class UITextField extends UIElement {
           case CONTROL, COMMAND -> controlPressed = true;
           case R -> {
             if (controlPressed) {
-              System.out.println(textCollector);
-              textCollector.clear();
-              myTextBox.clear();
-              indexTracker = 0;
+              sendSignal();
             }
           }
           case ENTER -> {
@@ -95,8 +99,12 @@ public class UITextField extends UIElement {
     });
   }
 
-  @Override
-  public void update(String type, Object value) {
-
+  private Collection<String> getText() {
+    List<String> text = new ArrayList<>(textCollector);
+    textCollector.clear();
+    myTextBox.clear();
+    indexTracker = 0;
+    return text;
   }
+
 }

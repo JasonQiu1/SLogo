@@ -1,7 +1,14 @@
 package slogo.view.controllers;
 
 import java.util.Collection;
+import javafx.geometry.Insets;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
+import slogo.view.userinterface.UICheckBox;
 import slogo.view.userinterface.UIElement;
+import slogo.view.userinterface.UIRegion;
+import slogo.view.userinterface.UITurtle;
 
 
 /**
@@ -11,38 +18,12 @@ import slogo.view.userinterface.UIElement;
  * @author Jeremyah Flowers
  */
 public class BackgroundController extends UIController {
+  private static final String BW_TURTLE = "/turtle_image/turtle_img01.jpg";
+
 
   // Instance Variables
   private boolean blackWhiteFlag = true;
   private boolean greenBlueFlag = false;
-
-
-  /**
-   * Checks if the UI theme is set to black and white.
-   *
-   * @return true if the UI theme is black and white, false otherwise
-   */
-  public boolean isBlackAndWhite() {
-    return blackWhiteFlag;
-  }
-
-  /**
-   * Checks if the UI theme is set to green and blue.
-   *
-   * @return true if the UI theme is green and blue, false otherwise
-   */
-  public boolean isGreenAndBlue() {
-    return greenBlueFlag;
-  }
-
-  /**
-   * Checks if the UI theme is set to pink and purple.
-   *
-   * @return true if the UI theme is pink and purple, false otherwise
-   */
-  public boolean isPinkAndPurple() {
-    return !blackWhiteFlag && !greenBlueFlag;
-  }
 
   /**
    * Notifies the graphics controller about changes in UI elements.
@@ -66,16 +47,29 @@ public class BackgroundController extends UIController {
 
   private void updateElement(UIElement element) {
     switch (element.getID()) {
-      case "BK/WH" -> {
-        element.update("Boolean", isBlackAndWhite());
-      }
-      case "GN/BL" -> {
-        element.update("Boolean", isGreenAndBlue());
-      }
-      case "PK/PR" -> {
-        element.update("Boolean", isPinkAndPurple());
-      }
+      case "TurtleBox" -> updateTurtleBox((UIRegion) element);
+      case "Turtle" -> updateTurtleColor((UITurtle) element);
+      case "BK/WH" -> updateBKWHCheckbox((UICheckBox) element);
+      case "GN/BL" -> updateGNBLCheckbox((UICheckBox) element);
+      case "PK/PR" -> updatePKPRCheckbox((UICheckBox) element);
     }
+  }
+
+  private void updatePKPRCheckbox(UICheckBox checkbox) {
+    checkbox.updateSelect(!blackWhiteFlag && !greenBlueFlag);
+  }
+
+  private void updateGNBLCheckbox(UICheckBox checkbox) {
+    checkbox.updateSelect(greenBlueFlag);
+  }
+
+  private void updateBKWHCheckbox(UICheckBox checkbox) {
+    checkbox.updateSelect(blackWhiteFlag);
+  }
+
+
+  private void updateTurtleColor(UITurtle turtle) {
+    turtle.setIMG(BW_TURTLE);
   }
 
   private void setBackgroundPKPR() {
@@ -91,5 +85,15 @@ public class BackgroundController extends UIController {
   private void setBackgroundBKWH() {
     blackWhiteFlag = true;
     greenBlueFlag = false;
+  }
+
+  private void updateTurtleBox(UIRegion region) {
+    if(blackWhiteFlag) {
+      region.setBlackWhite();
+    } else if(greenBlueFlag) {
+      region.setGreenBlue();
+    } else {
+      region.setPinkPurple();
+    }
   }
 }

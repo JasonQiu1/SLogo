@@ -47,9 +47,21 @@ public class UIRegion extends UIElement {
   /**
    * Sets the classic background style for the region.
    */
-  public void setBackgroundClassic() {
+  public void setBlackWhite() {
+    setBackground(Color.WHITE, Color.BLACK);
+  }
 
-    BackgroundFill fill = new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY);
+  public void setGreenBlue() {
+    setBackground(Color.GREEN, Color.BLUE);
+  }
+
+  public void setPinkPurple() {
+    setBackground(Color.PINK, Color.PURPLE);
+  }
+
+  private void setBackground(Color background, Color border) {
+    //TODO: change background
+    BackgroundFill fill = new BackgroundFill(background, CornerRadii.EMPTY, Insets.EMPTY);
     myRegion.setBackground(new Background(fill));
 
     BorderStrokeStyle borderStrokeStyle = new BorderStrokeStyle(
@@ -61,7 +73,7 @@ public class UIRegion extends UIElement {
         null);
 
     BorderStroke borderStroke = new BorderStroke(
-        Color.BLACK,
+        border,
         borderStrokeStyle,
         new CornerRadii(0),
         new BorderWidths(1));
@@ -69,8 +81,5 @@ public class UIRegion extends UIElement {
     myRegion.setBorder(new Border(borderStroke));
   }
 
-  @Override
-  public void update(String type, Object value) {
 
-  }
 }

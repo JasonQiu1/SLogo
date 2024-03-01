@@ -103,6 +103,7 @@ public class ExternalButton extends UIButton {
     FileChooser fc = getFileChooser(folderName);
     myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
       String filePath = fc.showSaveDialog(stage).getPath();
+      setMyPath(filePath);
       sendSignal();
     });
   }
@@ -118,7 +119,7 @@ public class ExternalButton extends UIButton {
     FileChooser fc = getFileChooser(folderName);
     myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
       String filePath = fc.showOpenDialog(stage).getPath();
-      append("SelectedTurtle", filePath);
+      setMyPath(filePath);
       sendSignal();
     });
   }

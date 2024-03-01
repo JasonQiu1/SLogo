@@ -79,7 +79,7 @@ public class PageBuilder {
   private void loadRegion(UIRegion box) {
     switch (box.getID()) {
       case "BottomBox", "TurtleBox", "RightBox" -> {
-        box.setBackgroundClassic();
+        box.setBlackWhite();
       }
       default -> {
         throw new TypeNotPresentException(box.getID(), new Throwable());

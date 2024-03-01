@@ -1,6 +1,7 @@
 package slogo.view.controllers;
 
 import java.util.Collection;
+import slogo.view.userinterface.UICheckBox;
 import slogo.view.userinterface.UIElement;
 
 /**
@@ -13,25 +14,6 @@ public class ThemeController extends UIController {
 
   // Instance Variable
   private boolean lightFlag = true;
-
-
-  /**
-   * Checks if the UI theme is set to light. m
-   *
-   * @return true if the UI theme is light, false otherwise
-   */
-  public boolean isLight() {
-    return lightFlag;
-  }
-
-  /**
-   * Checks if the UI theme is set to dark.
-   *
-   * @return true if the UI theme is dark, false otherwise
-   */
-  public boolean isDark() {
-    return !lightFlag;
-  }
 
   /**
    * Notifies the splash controller about changes in UI elements.
@@ -55,13 +37,13 @@ public class ThemeController extends UIController {
 
   private void updateElement(UIElement element) {
     switch (element.getID()) {
-      case "Light" -> {
-        element.update("Boolean", isLight());
-      }
-      case "Dark" -> {
-        element.update("Boolean", isDark());
-      }
+      case "Light" -> setTheme((UICheckBox) element, lightFlag);
+      case "Dark" -> setTheme((UICheckBox) element, !lightFlag);
     }
+  }
+
+  private void setTheme(UICheckBox checkbox, boolean flag) {
+    checkbox.updateSelect(flag);
   }
 
   private void setDarkFlag() {

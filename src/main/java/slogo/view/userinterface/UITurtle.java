@@ -9,7 +9,7 @@ public class UITurtle extends UIElement {
 
   private static final int TURTLE_SIZE = 10;
   private final Circle myTurtle;
-  private String turtleImg = "/turtle_image/turtle_img01.jpg";
+  private String turtleImg = "/turtle_image/turtle_img01.png";
 
   public UITurtle(String turtleID, double x, double y) {
     super(new Circle(TURTLE_SIZE), turtleID);
@@ -20,20 +20,24 @@ public class UITurtle extends UIElement {
     setPosition(x, y);
   }
 
-  @Override
-  public void update(String type, Object value) {
-    switch (type) {
-      case "X" -> myTurtle.setLayoutX((Double) value);
-      case "Y" -> myTurtle.setLayoutY((Double) value);
-      case "Heading" -> myTurtle.setRotate((Double) value);
-      case "IMAGE" -> {
-        turtleImg = (String) value;
-        setupTurtle();
-      }
-    }
-  }
 
   public void setupTurtle() {
     myTurtle.setFill(new ImagePattern(new Image(turtleImg)));
   }
+
+  public void rotate(double degree) {
+    myTurtle.setRotate(degree);
+  }
+  public void moveX(double x) {
+    myTurtle.setLayoutX(myTurtle.getCenterX() + x);
+  }
+
+  public void moveY(double y) {
+    myTurtle.setLayoutY(myTurtle.getCenterY() + y);
+  }
+
+  public void setIMG(String path) {
+    myTurtle.setFill(new ImagePattern(new Image(path)));
+  }
+
 }
