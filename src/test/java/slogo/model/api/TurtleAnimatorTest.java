@@ -125,7 +125,6 @@ public class TurtleAnimatorTest {
   }
 
 
-
   void prepareMove() {
     Map<Integer, List<TurtleStep>> turtles = new HashMap<>();
     List<TurtleStep> steps = myTurtle.move(24);

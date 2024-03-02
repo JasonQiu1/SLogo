@@ -18,6 +18,7 @@ public class TurtleAnimator {
   private double speed;
   private double secondsPerStep;
   private int currentPointInIntermediateStates;
+  private int numIntermediateStates;
   private final Map<Integer, List<TurtleState>> intermediateStates;
   // WINDOW mode: The turtle can move past the edges of the screen, unbounded.
   public static final String WINDOW_MODE_KEY = "window"; // get from resource file
@@ -84,6 +85,9 @@ public class TurtleAnimator {
   }
   public Map<Integer, TurtleState> nextFrame() {
     Map<Integer, TurtleState> frames = new HashMap<>();
+    if (currentPointInIntermediateStates == this.numIntermediateStates) {
+      return frames;
+    }
     for (Integer turtleId: intermediateStates.keySet()) {
       List<TurtleState> states = intermediateStates.get(turtleId);
       frames.put(turtleId, states.get(currentPointInIntermediateStates));
@@ -94,11 +98,15 @@ public class TurtleAnimator {
 
   public Map<Integer, TurtleState> previousFrame() {
     Map<Integer, TurtleState> frames = new HashMap<>();
-    currentPointInIntermediateStates--;
+    currentPointInIntermediateStates -= 2;
+    if (currentPointInIntermediateStates < 0) {
+      return frames;
+    }
     for (Integer turtleId: intermediateStates.keySet()) {
       List<TurtleState> states = intermediateStates.get(turtleId);
       frames.put(turtleId, states.get(currentPointInIntermediateStates));
     }
+    currentPointInIntermediateStates++;
     return frames;
   }
 
@@ -120,6 +128,8 @@ public class TurtleAnimator {
       interStates.add(currState);
     }
 
+    this.numIntermediateStates = interStates.size();
+
     return interStates;
   }
 
@@ -134,6 +144,8 @@ public class TurtleAnimator {
       TurtleState state = new TurtleState(new Point(0,0),currAngle);
       interStates.add(state);
     }
+
+    this.numIntermediateStates = interStates.size();
 
     return interStates;
   }
