@@ -22,7 +22,7 @@ public class Turtle {
   private TurtleState currentState; // heading = angle from vertical y-axis (all calculations use angle from horizontal x-axis)
   private final List<TurtleStepExtended> stepHistory;
   private int currentPointInStepHistory;
-  private static final String DEFAULT_RESOURCE_PACKAGE = "resources/slogo/model/";
+  private static final String DEFAULT_RESOURCE_PACKAGE = "slogo.model.";
   private final ResourceBundle errorResourceBundle = null; // resource bundle for error handling messages
 
   public Turtle() {
@@ -30,7 +30,7 @@ public class Turtle {
     this.currentState = TurtleAnimator.getInitialTurtleState();
     this.stepHistory = new ArrayList<>();
     this.currentPointInStepHistory= 0;
-   // this.errorResourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ErrorsEnglish.properties");
+//    this.errorResourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ErrorsEnglish");
   }
 
   public int getId() {
@@ -58,10 +58,9 @@ public class Turtle {
 
   public TurtleStep turnTowards(Point point) {
 
-    Vector reference = new Vector(0, 1); // vector representing vertical axis
     Vector vectorToPoint = TurtleGeometry.getVectorBetweenTwoPoints(this.currentState.position(), point);
-    double angleChange = TurtleGeometry.getAngleBetweenTwoVectors(reference, vectorToPoint) - this.currentState.heading();
-    double finalHeading = this.currentState.heading() + angleChange;
+    double angleChange = vectorToPoint.getDirection() - this.currentState.heading();
+    double finalHeading = vectorToPoint.getDirection();
 
     TurtleStep step = new TurtleStep(this.currentState, new Vector(0,0), angleChange);
     updateStateAndHistory(step, false, this.currentState.position(), finalHeading);
@@ -71,7 +70,6 @@ public class Turtle {
 
   public List<TurtleStep> stepForward() {
     List<TurtleStep> steps = new ArrayList<>();
-    this.currentPointInStepHistory++;
     // check if intermediate steps exists due to border crossing
     while (this.stepHistory.get(currentPointInStepHistory).crossBorderIntermediateStep()) {
       steps.add(updateTurtleStateWhenSteppingForward());
@@ -105,11 +103,17 @@ public class Turtle {
   private TurtleStep updateTurtleStateWhenSteppingBackward() {
     this.currentPointInStepHistory--;
     TurtleStep currStep = this.stepHistory.get(currentPointInStepHistory).turtleStep();
+    TurtleStep backwardStep;
 
     // perform opposite position/heading change
-    Vector oldPosChange = currStep.changeInPosition();
-    Vector updatedPosChange = new Vector(oldPosChange.getDx() * -1, oldPosChange.getDy() * -1);
-    TurtleStep backwardStep = new TurtleStep(this.currentState, updatedPosChange, -1 * currStep.changeInAngle());
+    if (currStep.changeInAngle() != 0) {
+      backwardStep = new TurtleStep(this.currentState, currStep.changeInPosition(), -1 * currStep.changeInAngle());
+    }
+    else {
+      Vector oldPosChange = currStep.changeInPosition();
+      Vector updatedPosChange = new Vector(oldPosChange.getDx() * -1, oldPosChange.getDy() * -1);
+      backwardStep = new TurtleStep(this.currentState, updatedPosChange, currStep.changeInAngle());
+    }
 
     updateTurtleState(backwardStep);
 
@@ -135,7 +139,7 @@ public class Turtle {
   public TurtleStep setXY(Point position) throws InvalidPositionException {
 
     if (position.getX() > TurtleAnimator.X_MAX || position.getY() > TurtleAnimator.Y_MAX || position.getX() < TurtleAnimator.X_MIN || position.getY() < TurtleAnimator.Y_MIN) {
-      throw new InvalidPositionException(errorResourceBundle.getString("InvalidPosition"));
+      throw new InvalidPositionException(errorResourceBundle.getString("INVALID_POSITION"));
     }
 
     Vector posChange = TurtleGeometry.getVectorBetweenTwoPoints(this.currentState.position(), position);
