@@ -169,46 +169,50 @@ public class TurtleTest extends DukeApplicationTest {
     checkTurtleState(expectedFinalState, myTurtle.getCurrentState());
   }
 
-//  @Test
-//  void testStepForward() {
-//    // step 1: fd 200
-//    myTurtle.move(175);
-////
-////    // step 2: rt 150
-////    myTurtle.rotate(150);
-//
-//    // step 3: fd -50
-//    myTurtle.move(-50);
-//
-//    // step 4: rt 25
-//    myTurtle.rotate(25);
-//
-//    // step 5: fd 100
-//    myTurtle.move(100);
-//
-//    myTurtle.stepBack();
-//    myTurtle.stepBack();
-//    myTurtle.stepBack();
-//
-//    List<TurtleStep> forwardStep = myTurtle.stepForward();
-//
-//    TurtleState expectedInitState = new TurtleState(new Point(0, 200), 150);
-//    Vector expectedPositionChange = new Vector(-50*Math.sin(30), 50*Math.cos(30));
-//    double expectedAngelChange = 0;
-//    TurtleStep expectedStep = new TurtleStep(expectedInitState, expectedPositionChange, expectedAngelChange);
-//
-//    double Xf = -25;
-//    double Yf = -200 + 43.3012701892;
-//    double finalHeading = 150;
-//    TurtleState expectedFinalState = new TurtleState(new Point(Xf, Yf), finalHeading);
-//
-//    // check TurtleStep
-//    checkTurtleStep(expectedStep, forwardStep);
-//    // check final state
-//    checkTurtleState(expectedFinalState, myTurtle.getCurrentState());
-//
-//
-//  }
+  @Test
+  void testStepForward() {
+    // step 1: fd 175
+    myTurtle.move(175);
+
+    // step 2: fd 200
+    myTurtle.move(200);
+
+    // step 3: rt 25
+    myTurtle.rotate(25);
+
+    // step 4: fd 100
+    myTurtle.move(100);
+
+    // step 5: bk 50
+    myTurtle.move(-50);
+
+    // take 2 steps back
+    myTurtle.stepBack();
+    myTurtle.stepBack();
+
+    // take 1 step forward
+    List<TurtleStep> forwardSteps = myTurtle.stepForward();
+
+    TurtleState expectedInitState = new TurtleState(new Point(0, -25), 25);
+    Vector expectedPositionChange = new Vector(100 * Math.sin(Math.toRadians(25)), 100 * Math.cos(Math.toRadians(25)));
+    double expectedAngelChange = 0;
+    TurtleStep expectedStep = new TurtleStep(expectedInitState, expectedPositionChange, expectedAngelChange);
+
+    double Xf = 100 * Math.sin(Math.toRadians(25));
+    double Yf = -25 + 100 * Math.cos(Math.toRadians(25));
+    double finalHeading = 25;
+    TurtleState expectedFinalState = new TurtleState(new Point(Xf, Yf), finalHeading);
+
+    for (TurtleStep step: forwardSteps) {
+      // check TurtleStep
+      checkTurtleStep(expectedStep, step);
+    }
+
+    // check final state
+    checkTurtleState(expectedFinalState, myTurtle.getCurrentState());
+
+
+  }
 //
 //  @Test
 //  void testStepBackward() {

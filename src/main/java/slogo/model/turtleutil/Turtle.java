@@ -71,7 +71,6 @@ public class Turtle {
 
   public List<TurtleStep> stepForward() {
     List<TurtleStep> steps = new ArrayList<>();
-    this.currentPointInStepHistory++;
     // check if intermediate steps exists due to border crossing
     while (this.stepHistory.get(currentPointInStepHistory).crossBorderIntermediateStep()) {
       steps.add(updateTurtleStateWhenSteppingForward());
@@ -79,6 +78,8 @@ public class Turtle {
 
     // step forward once
     steps.add(updateTurtleStateWhenSteppingForward());
+
+    this.currentPointInStepHistory++;
 
     return steps;
   }
