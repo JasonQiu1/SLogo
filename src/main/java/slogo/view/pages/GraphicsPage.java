@@ -60,6 +60,7 @@ public class GraphicsPage extends GeneralPage {
   private void createGUI(double screenWidth, double screenHeight) {
     Collection<UIElement> UIElements = new ArrayList<>();
 
+    UIElements.addAll(setupBackground(screenWidth, screenHeight));
     UIElements.addAll(setupBoxes(screenWidth, screenHeight));
     UIElements.addAll(setupTextField(screenWidth, screenHeight));
     UIElements.addAll(setupInternalButtons(screenWidth, screenHeight));
@@ -69,6 +70,16 @@ public class GraphicsPage extends GeneralPage {
     UIElements.addAll(setupTurtle(screenWidth, screenHeight));
 
     myPageBuilder.styleUI(UIElements, root);
+  }
+
+  private Collection<UIElement> setupBackground(double screenWidth, double screenHeight) {
+    Map<String, double[]> boxIDs = new HashMap<>();
+    boxIDs.put("BackgroundTheme", new double[]{
+        screenWidth,
+        screenHeight,
+        0,
+        0});
+    return createElements(boxIDs, "region");
   }
 
   private Collection<UIElement> setupBoxes(double screenWidth, double screenHeight) {

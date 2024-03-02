@@ -74,6 +74,4 @@ public class UIButton extends UIElement {
   protected void setMyPath(String path) {
     myPath = path;
   }
-
-
 }

@@ -29,4 +29,6 @@ public class SplashListener implements UIListener {
   public void passElementsToController(Collection<UIElement> elements) {
     myThemeController.addAllElements(elements);
   }
+
+
 }

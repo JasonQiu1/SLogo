@@ -71,6 +71,25 @@ public class SplashPage extends GeneralPage {
     root.getChildren().add(languages);
   }
 
+  private void createMenuButtons(double screenWidth, double screenHeight) {
+    Collection<UIElement> UIElements = new ArrayList<>();
+    UIElements.addAll(setupBoxes(screenWidth, screenHeight));
+    UIElements.addAll(setupExternalButtons(screenWidth, screenHeight));
+    UIElements.addAll(setupCheckBoxes(screenWidth, screenHeight));
+    UIElements.addAll(setupText(screenWidth, screenHeight));
+    myPageBuilder.styleUI(UIElements, root);
+  }
+
+  private Collection<UIElement> setupBoxes(double screenWidth, double screenHeight) {
+    Map<String, double[]> boxIDs = new HashMap<>();
+    boxIDs.put("BackgroundTheme", new double[]{
+        screenWidth,
+        screenHeight,
+        0,
+        0});
+    return createElements(boxIDs, "region");
+  }
+
   private Collection<UIElement> setupText(double screenWidth, double screenHeight) {
     Map<String, double[]> textIDs = new HashMap<>();
     textIDs.put("SLOGO", new double[]{screenWidth / 2 - 40, screenHeight / 8});
@@ -94,13 +113,4 @@ public class SplashPage extends GeneralPage {
     extIDs.put("Help", new double[]{3 * screenWidth / 4 + 10, 5 * screenHeight / 8});
     return createElements(extIDs, "externalbutton");
   }
-
-  private void createMenuButtons(double screenWidth, double screenHeight) {
-    Collection<UIElement> UIElements = new ArrayList<>();
-    UIElements.addAll(setupExternalButtons(screenWidth, screenHeight));
-    UIElements.addAll(setupCheckBoxes(screenWidth, screenHeight));
-    UIElements.addAll(setupText(screenWidth, screenHeight));
-    myPageBuilder.styleUI(UIElements, root);
-  }
-
 }

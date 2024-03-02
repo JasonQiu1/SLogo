@@ -1,7 +1,15 @@
 package slogo.view.controllers;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Document;
 import slogo.view.userinterface.UIButton;
 import slogo.view.userinterface.UIElement;
 
@@ -17,6 +25,20 @@ public abstract class UIController {
 
   public UIController() {
     myElements = new ArrayList<>();
+  }
+
+  protected static void writeXml(Document doc, OutputStream output) throws TransformerException {
+
+    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+    Transformer transformer = transformerFactory.newTransformer();
+
+    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+    DOMSource source = new DOMSource(doc);
+    StreamResult result = new StreamResult(output);
+
+    transformer.transform(source, result);
+
   }
 
   public void addElement(UIElement element) {

@@ -1,5 +1,6 @@
 package slogo.view.userinterface;
 
+import java.io.File;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -14,6 +15,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeType;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
 
 /**
  * Represents a region in the Slogo user interface. Extends the UIElement class.
@@ -22,6 +25,7 @@ import javafx.scene.shape.StrokeType;
  */
 public class UIRegion extends UIElement {
 
+  public static final String THEME_XML = "data/saved_files/theme.xml";
   // Instance Variables
   private final Region myRegion;
 
@@ -44,11 +48,46 @@ public class UIRegion extends UIElement {
     setPosition(x, y);
   }
 
+  private static String findTheme() {
+    try {
+      File file = new File(THEME_XML);
+      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+      return doc.getElementsByTagName("BackgroundTheme").item(0).getTextContent();
+
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    return "light";
+  }
+
   /**
    * Sets the classic background style for the region.
    */
+
+  public void setupRegion() {
+    String theme = findTheme();
+    if (theme.equalsIgnoreCase("light")) {
+      setWhiteBlack();
+    } else {
+      setBlackWhite();
+    }
+  }
+
+  public void setupBackground() {
+    String theme = findTheme();
+    if (theme.equalsIgnoreCase("light")) {
+      setBlackWhite();
+    } else {
+      setWhiteBlack();
+    }
+  }
+
   public void setBlackWhite() {
-    setBackground(Color.TRANSPARENT, Color.BLACK);
+    setBackground(Color.WHITE, Color.BLACK);
+  }
+
+  public void setWhiteBlack() {
+    setBackground(Color.BLACK, Color.WHITE);
   }
 
   public void setGreenBlue() {
@@ -60,7 +99,6 @@ public class UIRegion extends UIElement {
   }
 
   private void setBackground(Color background, Color border) {
-    //TODO: change background
     BackgroundFill fill = new BackgroundFill(background, CornerRadii.EMPTY, Insets.EMPTY);
     myRegion.setBackground(new Background(fill));
 
@@ -80,6 +118,5 @@ public class UIRegion extends UIElement {
 
     myRegion.setBorder(new Border(borderStroke));
   }
-
 
 }

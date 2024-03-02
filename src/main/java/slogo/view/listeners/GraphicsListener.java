@@ -5,6 +5,7 @@ import slogo.view.controllers.BackgroundController;
 import slogo.view.controllers.PenController;
 import slogo.view.controllers.SpeedController;
 import slogo.view.controllers.TextFieldController;
+import slogo.view.controllers.ThemeController;
 import slogo.view.controllers.TurtleController;
 import slogo.view.userinterface.UIElement;
 
@@ -22,6 +23,7 @@ public class GraphicsListener implements UIListener {
   private final SpeedController mySpeedController;
   private final PenController myPenController;
   private final TextFieldController myTextFieldController;
+  private final ThemeController myThemeController;
 
   public GraphicsListener() {
     myBackgroundController = new BackgroundController();
@@ -29,6 +31,7 @@ public class GraphicsListener implements UIListener {
     myTurtleController = new TurtleController();
     mySpeedController = new SpeedController();
     myPenController = new PenController();
+    myThemeController = new ThemeController();
   }
 
   @Override
@@ -45,7 +48,11 @@ public class GraphicsListener implements UIListener {
   public void passElementsToController(Collection<UIElement> elements) {
     for (UIElement element : elements) {
       switch (element.getType().toLowerCase()) {
-        case "checkbox", "region" -> passToBackground(element);
+        case "checkbox" -> passToBackground(element);
+        case "region" -> {
+          passToBackground(element);
+          passToTheme(element);
+        }
         case "turtle" -> passToTurtle(element);
         case "textfield" -> {
           passToTextField(element);
@@ -56,11 +63,16 @@ public class GraphicsListener implements UIListener {
     }
   }
 
+
   private void handleButtonElement(UIElement element) {
     switch (element.getID()) {
       case "1x", "2x", "3x", "4x" -> mySpeedController.notifyController(element);
       case "R", "G", "B" -> myPenController.notifyController(element);
     }
+  }
+
+  private void passToTheme(UIElement element) {
+    myThemeController.addElement(element);
   }
 
   private void passButtonElement(UIElement element) {
