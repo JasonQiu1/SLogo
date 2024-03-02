@@ -1,6 +1,6 @@
 package slogo.model.api.turtle;
 
-import slogo.model.turtleUtil.TurtleGeometry;
+import slogo.model.turtleutil.TurtleGeometry;
 
 public class Vector {
   private double dx;
@@ -46,8 +46,19 @@ public class Vector {
   public void setDirection(double direction) {
     this.direction = direction;
   }
-  public boolean equals(Vector vector) {
-    return this.getMagnitude() == vector.getMagnitude() && this.getDirection() == vector.getDirection();
+  @Override
+  public boolean equals(Object other) {
+    if (this == other) {
+      return true;
+    }
+    if (other == null) {
+      return false;
+    }
+    if (getClass() != other.getClass()) {
+      return false;
+    }
+    Vector otherVector = (Vector) other;
+    return this.getMagnitude() == otherVector.getMagnitude() && this.getDirection() == otherVector.getDirection();
   }
 
 }
