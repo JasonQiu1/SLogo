@@ -108,6 +108,22 @@ public class TurtleAnimatorTest {
 
   }
 
+  @Test
+  void testPreviousFrame() {
+    prepareMove();
+    myTurtleAnimator.nextFrame();
+    myTurtleAnimator.nextFrame();
+    myTurtleAnimator.nextFrame();
+    myTurtleAnimator.nextFrame();
+    Map<Integer, TurtleState> nextFrame = myTurtleAnimator.previousFrame();
+    TurtleState expectedNextFrame = new TurtleState(new Point(0,3),0);
+    Map<Integer, TurtleState> expectedFrames = new HashMap<>();
+    expectedFrames.put(0,expectedNextFrame);
+
+    checkFrame(nextFrame, expectedFrames);
+
+  }
+
 
 
   void prepareMove() {

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.*;
 import org.junit.jupiter.api.*;
 
+import slogo.model.api.exception.turtle.InvalidPositionException;
 import slogo.model.api.turtle.Point;
 import slogo.model.api.turtle.TurtleAnimator;
 import slogo.model.api.turtle.TurtleState;
@@ -16,15 +17,18 @@ import util.DukeApplicationTest;
 
 public class TurtleTest extends DukeApplicationTest {
   private Turtle myTurtle;
+  private TurtleAnimator myTurtleAnimator;
 
   @BeforeEach
   void setup () {
     myTurtle = new Turtle();
+    myTurtleAnimator = new TurtleAnimator();
+
   }
 
   @Test
   void testNormalTurtleStepForward() {
-    // fd 100
+    // fd 50
     List<TurtleStep> steps = myTurtle.move(50);
     final TurtleState expectedInitState = new TurtleState(new Point(0,0), 0);
     final Vector expectedPositionChange = new slogo.model.api.turtle.Vector(0, 50);
@@ -265,12 +269,12 @@ public class TurtleTest extends DukeApplicationTest {
     // check TurtleStep
     checkTurtleStep(expectedStep, step);
   }
-//
-//  @Test
-//  void testSetInvalidPosition() {
-//    assertThrows(InvalidPositionException.class, () -> myTurtle.setPosition(new Point(400,400)));
-//  }
-//
+
+  @Test
+  void testSetInvalidPosition() {
+    assertThrows(InvalidPositionException.class, () -> myTurtle.setXY(new Point(400,400)));
+  }
+
   @Test
   void testResetTurtle() {
     myTurtle.move(50);

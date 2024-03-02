@@ -22,15 +22,15 @@ public class Turtle {
   private TurtleState currentState; // heading = angle from vertical y-axis (all calculations use angle from horizontal x-axis)
   private final List<TurtleStepExtended> stepHistory;
   private int currentPointInStepHistory;
-  private static final String DEFAULT_RESOURCE_PACKAGE = "slogo.model.";
-  private final ResourceBundle errorResourceBundle = null; // resource bundle for error handling messages
+  private static final String DEFAULT_RESOURCE_PACKAGE = "resources/slogo/model/";
+  private final ResourceBundle errorResourceBundle; // resource bundle for error handling messages
 
   public Turtle() {
     this.id = 0;
     this.currentState = TurtleAnimator.getInitialTurtleState();
     this.stepHistory = new ArrayList<>();
     this.currentPointInStepHistory= 0;
-    // this.errorResourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ErrorsEnglish");
+    this.errorResourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ErrorsEnglish.properties");
   }
 
   public int getId() {
@@ -133,10 +133,9 @@ public class Turtle {
   }
 
   public TurtleStep setXY(Point position) throws InvalidPositionException {
-    if (TurtleAnimator.mode.equals(TurtleAnimator.FENCE_MODE_KEY)) {
-      if (position.getX() > TurtleAnimator.X_MAX || position.getY() > TurtleAnimator.Y_MAX || position.getX() < TurtleAnimator.X_MIN || position.getY() < TurtleAnimator.Y_MIN) {
-        throw new InvalidPositionException(errorResourceBundle.getString("InvalidPosition"));
-      }
+
+    if (position.getX() > TurtleAnimator.X_MAX || position.getY() > TurtleAnimator.Y_MAX || position.getX() < TurtleAnimator.X_MIN || position.getY() < TurtleAnimator.Y_MIN) {
+      throw new InvalidPositionException(errorResourceBundle.getString("InvalidPosition"));
     }
 
     Vector posChange = TurtleGeometry.getVectorBetweenTwoPoints(this.currentState.position(), position);
