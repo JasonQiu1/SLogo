@@ -26,11 +26,6 @@ class ExpressionClassGenerator {
               Expression left
               Expression right
               
-              Logical
-              Token operator
-              Expression left
-              Expression right
-              
               Unary
               Token operator
               Expression right

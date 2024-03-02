@@ -16,8 +16,6 @@ abstract class Expression {
 
     double visitBinary(Binary expression);
 
-    double visitLogical(Logical expression);
-
     double visitUnary(Unary expression);
 
     double visitVariable(Variable expression);
@@ -61,36 +59,6 @@ abstract class Expression {
     @Override
     double accept(Visitor visitor) {
       return visitor.visitBinary(this);
-    }
-
-    Token getOperator() {
-      return operator;
-    }
-
-    Expression getLeft() {
-      return left;
-    }
-
-    Expression getRight() {
-      return right;
-    }
-
-    private final Token operator;
-    private final Expression left;
-    private final Expression right;
-  }
-
-  static class Logical extends Expression {
-
-    Logical(Token operator, Expression left, Expression right) {
-      this.operator = operator;
-      this.left = left;
-      this.right = right;
-    }
-
-    @Override
-    double accept(Visitor visitor) {
-      return visitor.visitLogical(this);
     }
 
     Token getOperator() {
