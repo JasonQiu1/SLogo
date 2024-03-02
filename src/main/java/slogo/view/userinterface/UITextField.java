@@ -99,7 +99,7 @@ public class UITextField extends UIElement {
     });
   }
 
-  private Collection<String> getText() {
+  public Collection<String> getText() {
     List<String> text = new ArrayList<>(textCollector);
     textCollector.clear();
     myTextBox.clear();

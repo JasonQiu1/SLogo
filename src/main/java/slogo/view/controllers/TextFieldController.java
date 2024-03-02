@@ -2,22 +2,14 @@ package slogo.view.controllers;
 
 import java.util.Collection;
 import slogo.view.userinterface.UIElement;
+import slogo.view.userinterface.UITextField;
 
 public class TextFieldController extends UIController {
-
+  private String[] preparedText;
   @Override
   public void notifyController(UIElement element) {
-    updateElements();
+    UITextField textField = (UITextField) element;
+    Collection<String> newestText =  textField.getText();
   }
 
-  private void updateElements() {
-    Collection<UIElement> allElements = getMyElements();
-    allElements.forEach(this::updateElement);
-  }
-
-  private void updateElement(UIElement element) {
-    if (element.getType().equalsIgnoreCase("textfield")) {
-
-    }
-  }
 }
