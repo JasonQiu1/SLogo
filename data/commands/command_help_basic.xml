@@ -3,15 +3,15 @@
     <name>difference</name>
     <alias>-</alias>
     <description>
-      Returns difference of the values of expr1 and expr2
+      Calculates the difference of the values of expr1 and expr2
     </description>
-    <example>- 10 5</example>
+    <example>- 10 5 (returns 5)</example>
     <parameters>
       <parameter>expr1: The expression to subtract from</parameter>
       <parameter>expr2: The expression to subtract</parameter>
     </parameters>
     <return>The difference of expr1 and expr2</return>
-    <parameters>2</parameters>
+    <num_parameters>2</num_parameters>
     <implementation>DifferenceCommand</implementation>
   </help_entry>
 
@@ -19,14 +19,14 @@
     <name>minus</name>
     <alias>~</alias>
     <description>
-      Returns negative of the values of expr
+      Negates the values of expr
     </description>
-    <example>~ 10</example>
+    <example>~ 10 (returns -10)</example>
     <parameters>
       <parameter>expr: The first expression to negate</parameter>
     </parameters>
     <return>negative of the value of expr</return>
-    <parameters>1</parameters>
+    <num_parameters>1</num_parameters>
     <implementation>MinusCommand</implementation>
   </help_entry>
 
@@ -34,15 +34,15 @@
     <name>product</name>
     <alias>*</alias>
     <description>
-      Returns product of the values of expr1 and expr2
+      Multiplies the values of expr1 and expr2
     </description>
-    <example>* 10 5</example>
+    <example>* 10 5 (returns 50)</example>
     <parameters>
       <parameter>expr1: The first expression to multiply</parameter>
       <parameter>expr2: The second expression to multiply</parameter>
     </parameters>
     <return>The product of the values of expr1 and expr2</return>
-    <parameters>2</parameters>
+    <num_parameters>2</num_parameters>
     <implementation>ProductCommand</implementation>
   </help_entry>
 
@@ -50,15 +50,15 @@
     <name>quotient</name>
     <alias>/</alias>
     <description>
-      Returns quotient of the values of expr1 and expr2
+      Divides the values of expr1 and expr2
     </description>
-    <example>/ 10 5</example>
+    <example>/ 10 5 (returns 2)</example>
     <parameters>
       <parameter>expr1: The dividend</parameter>
       <parameter>expr2: The divisor</parameter>
     </parameters>
     <return>The quotient of the values of expr1 and expr2</return>
-    <parameters>2</parameters>
+    <num_parameters>2</num_parameters>
     <implementation>QuotientCommand</implementation>
   </help_entry>
 
@@ -66,14 +66,14 @@
     <name>random</name>
     <alias>rand</alias>
     <description>
-      Returns random non-negative number strictly less than max
+      Generates random non-negative number strictly less than max
     </description>
-    <example>rand 10</example>
+    <example>rand 10 (could return 4)</example>
     <parameters>
       <parameter>max: The upwards, exclusive bound</parameter>
     </parameters>
     <return>random non-negative number strictly less than max</return>
-    <parameters>1</parameters>
+    <num_parameters>1</num_parameters>
     <implementation>RandomCommand</implementation>
   </help_entry>
 
@@ -81,17 +81,481 @@
     <name>sum</name>
     <alias>+</alias>
     <description>
-      Returns sum of the values of expr1 and expr2
+      Adds the values of expr1 and expr2
     </description>
-    <example>+ 10 5</example>
+    <example>+ 10 5 (returns 15)</example>
     <parameters>
       <parameter>expr1: The first expression to sum</parameter>
       <parameter>expr2: The second expression to sum</parameter>
     </parameters>
     <return>The sum of expr1 and expr2</return>
-    <parameters>2</parameters>
+    <num_parameters>2</num_parameters>
     <implementation>SumCommand</implementation>
   </help_entry>
 
+<<<<<<< HEAD
+=======
+  <help_entry>
+    <name>back</name>
+    <alias>bk</alias>
+    <description>
+      Moves turtle backward in its current heading by pixels distance
+    </description>
+    <example>bk 10 (returns 10)</example>
+    <parameters>
+      <parameter>pixels: the distance to move the turtle backwards</parameter>
+    </parameters>
+    <return>The distance the turtle moved (the value of pixels)</return>
+    <num_parameters>1</num_parameters>
+    <implementation>BackCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>clearscreen</name>
+    <alias>cs</alias>
+    <description>
+      Erases turtle's trails and sends it to the home position
+    </description>
+    <example>sc</example>
+    <return>The distance moved</return>
+    <num_parameters>0</num_parameters>
+    <implementation>ClearScreenCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>forward</name>
+    <alias>fd</alias>
+    <description>
+      Moves turtle forward in its current heading by pixels distance
+    </description>
+    <example>fd 10 (returns 10)</example>
+    <parameters>
+      <parameter>pixels: the distance to move the turtle forward</parameter>
+    </parameters>
+    <return>The distance the turtle moved (the value of pixels)</return>
+    <num_parameters>1</num_parameters>
+    <implementation>ForwardCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>hideturtle</name>
+    <alias>ht</alias>
+    <description>
+      Makes turtle invisible
+    </description>
+    <example>ht (returns 0)</example>
+    <return>0</return>
+    <num_parameters>0</num_parameters>
+    <implementation>HideTurtleCommand</implementation>
+  </help_entry>
+
+
+  <help_entry>
+    <name>home</name>
+    <alias>home</alias>
+    <description>
+      Moves turtle to the center of the screen (0 0)
+    </description>
+    <example>home</example>
+    <return>The distance moved</return>
+    <num_parameters>0</num_parameters>
+    <implementation>HomeCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>left</name>
+    <alias>lt</alias>
+    <description>
+      Turns turtle counterclockwise by degrees angle
+    </description>
+    <example>lt 45 (returns 45)</example>
+    <parameters>
+      <parameter>degrees: the degrees angle to turn counterclockwise</parameter>
+    </parameters>
+    <return>The amount turtle turned (the value of degrees)</return>
+    <num_parameters>1</num_parameters>
+    <implementation>LeftCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>pendown</name>
+    <alias>pd</alias>
+    <description>
+      Puts pen down such that when the turtle moves, it leaves a trail
+    </description>
+    <example>pd (returns 1)</example>
+    <return>1</return>
+    <num_parameters>0</num_parameters>
+    <implementation>PenDownCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>penup</name>
+    <alias>pu</alias>
+    <description>
+      Puts pen up such that when the turtle moves, it does not leave a trail
+    </description>
+    <example>pu (returns 0)</example>
+    <return>0</return>
+    <num_parameters>0</num_parameters>
+    <implementation>PenUpCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>right</name>
+    <alias>rt</alias>
+    <description>
+      Turns turtle clockwise by degrees angle
+    </description>
+    <example>rt 45 (returns 45)</example>
+    <parameters>
+      <parameter>degrees: the degrees angle to turn clockwise</parameter>
+    </parameters>
+    <return>The amount turtle turned (the value of degrees)</return>
+    <num_parameters>1</num_parameters>
+    <implementation>RightCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>setheading</name>
+    <alias>seth</alias>
+    <description>
+      Turns turtle to an absolute heading
+    </description>
+    <example>seth 120</example>
+    <parameters>
+      <parameter>heading: the absolute heading to turn to</parameter>
+    </parameters>
+    <return>The number of degrees turned</return>
+    <num_parameters>1</num_parameters>
+    <implementation>SetHeadingCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>setxy</name>
+    <alias>goto</alias>
+    <description>
+      Moves turtle to an absolute screen position, where (0, 0) is the center of the screen
+    </description>
+    <example>goto 2 1</example>
+    <parameters>
+      <parameter>x: The x-coordinate of the point to move toe</parameter>
+      <parameter>y: the y-coordinate of the point to move to</parameter>
+    </parameters>
+    <return>The distance moved</return>
+    <num_parameters>2</num_parameters>
+    <implementation>SetXYCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>showturtle</name>
+    <alias>st</alias>
+    <description>
+      Makes turtle visible
+    </description>
+    <example>st (returns 1)</example>
+    <return>1</return>
+    <num_parameters>0</num_parameters>
+    <implementation>ShowTurtleCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>towards</name>
+    <alias>towards</alias>
+    <description>
+      Turns turtle to face the point (x, y), where (0, 0) is the center of the screen
+    </description>
+    <example>towards 2 1</example>
+    <parameters>
+      <parameter>x: The x-coordinate of the point to face</parameter>
+      <parameter>y: The y-coordinate of the point to face</parameter>
+    </parameters>
+    <return>The number of degrees turned</return>
+    <num_parameters>2</num_parameters>
+    <implementation>TowardsCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>heading</name>
+    <alias>heading</alias>
+    <description>
+      Returns the turtle's heading in degrees
+    </description>
+    <example>set var heading</example>
+    <return>The heading in degrees</return>
+    <num_parameters>0</num_parameters>
+    <implementation>HeadingCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>pendown?</name>
+    <alias>pendownp</alias>
+    <description>
+      Determines if pen is down
+    </description>
+    <example>if pendown [fd 10]</example>
+    <return>1 if pen is down, 0 if pen is up</return>
+    <num_parameters>0</num_parameters>
+    <implementation>PenDown?Command</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>showing?</name>
+    <alias>showingp</alias>
+    <description>
+      Determines if turtle is showing
+    </description>
+    <example>if showing [fd 10]</example>
+    <return>1 if showing, 0 if hiding</return>
+    <num_parameters>0</num_parameters>
+    <implementation>Showing?Command</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>xcor</name>
+    <alias>xcor</alias>
+    <description>
+      Determines the turtle's x-coordinate
+    </description>
+    <example>set var xcor</example>
+    <return>The X coordinate from the center of the screen</return>
+    <num_parameters>0</num_parameters>
+    <implementation>XCorCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>ycor</name>
+    <alias>ycor</alias>
+    <description>
+      Determines the turtle's y-coordinate
+    </description>
+    <example>set var ycor</example>
+    <return>The Y coordinate from the center of the screen</return>
+    <num_parameters>0</num_parameters>
+    <implementation>YCorCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>equal?</name>
+    <alias>==</alias>
+    <description>
+      Determines if the value of expr1 and the value of expr2 are equal
+    </description>
+    <example>== 3 0 (returns 0)</example>
+    <parameters>
+      <parameter>expr1: The first expression to check for equality</parameter>
+      <parameter>expr2: The second expression to check for equality</parameter>
+    </parameters>
+    <return>1 if the values are equal, 0 if they are not</return>
+    <num_parameters>2</num_parameters>
+    <implementation>EqualsCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>less?</name>
+    <alias>&lt;</alias>
+    <description>
+      Determines if the value of expr1 is strictly less than the value of expr2
+    </description>
+    <example>&lt; 3 0 (returns 0)</example>
+    <parameters>
+      <parameter>expr1: The expression to evaluate for being lesser</parameter>
+      <parameter>expr2: The expression to compare against</parameter>
+    </parameters>
+    <return>1 if expr1 is strictly less than expr2, 0 if expr1 is greater than or equal to expr2
+    </return>
+    <num_parameters>2</num_parameters>
+    <implementation>LessCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>greater?</name>
+    <alias>&gt;</alias>
+    <description>
+      Determines if the value of expr1 is strictly greater than the value of expr2
+    </description>
+    <example>&gt; 3 0 (returns 1)</example>
+    <parameters>
+      <parameter>expr1: The expression to evaluate for being greater</parameter>
+      <parameter>expr2: The expression to compare against</parameter>
+    </parameters>
+    <return>1 if expr1 is strictly greater than expr2, 0 if expr1 is less than or equal to expr2
+    </return>
+    <num_parameters>2</num_parameters>
+    <implementation>GreaterCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>and</name>
+    <alias>and</alias>
+    <description>
+      Determines if test1 and test2 are both non-zero
+    </description>
+    <example>and &gt; 3 0 == 5 5 (returns 1)</example>
+    <parameters>
+      <parameter>test1: The first test to evaluate</parameter>
+      <parameter>test2: The second test to evaluate</parameter>
+    </parameters>
+    <return>1 if test1 and test2 are both non-zero, 0 if test1 or test2 is zero
+    </return>
+    <num_parameters>2</num_parameters>
+    <implementation>AndCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>or</name>
+    <alias>0r</alias>
+    <description>
+      Determines if test1 or test2 are non-zero
+    </description>
+    <example>or &gt; 0 3 == 5 5 (returns 1)</example>
+    <parameters>
+      <parameter>test1: The first test to evaluate</parameter>
+      <parameter>test2: The second test to evaluate</parameter>
+    </parameters>
+    <return>1 if test1 or test2 is non-zero, 0 if test1 and test2 are both zero
+    </return>
+    <num_parameters>2</num_parameters>
+    <implementation>OrCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>make</name>
+    <alias>set</alias>
+    <description>
+      Assigns the value of expr to variable, creating the variable if necessary
+    </description>
+    <example>set var 5 (returns 5)</example>
+    <parameters>
+      <parameter>variable: the variable to set</parameter>
+      <parameter>expr: the value to set the variable to</parameter>
+    </parameters>
+    <return>expr</return>
+    <num_parameters>2</num_parameters>
+    <implementation>MakeCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>repeat</name>
+    <alias>repeat</alias>
+    <description>
+      Runs command(s) given in the list the value of expr number of times
+      (NOTE, the value of the current iteration, starting at 1, is automatically assigned to the
+      variable repcount so that it can be accessed by the command(s))
+    </description>
+    <example>repeat 2 [fd 10 lt 10] (returns 10)</example>
+    <parameters>
+      <parameter>expr: The number of times to execute the command</parameter>
+      <parameter>[Command(s)]: The commands to be executed</parameter>
+    </parameters>
+    <return>The value of the final command executed (or 0 if no commands are executed)</return>
+    <num_parameters>2</num_parameters>
+    <implementation>RepeatCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>dotimes</name>
+    <alias>dotimes</alias>
+    <description>
+      Runs command(s) for each value specified in the range, i.e., from (1 - limit) inclusive
+      (NOTE, variable is assigned to each succeeding value so that it can be accessed by the
+      command(s))
+    </description>
+    <example>dotimes [i 5] [fd i lt i] (returns 5)</example>
+    <parameters>
+      <parameter>[variable limit]: The variable name to be assigned to each succeeding value in the
+        range and the upper limit of the range (inclusive)
+      </parameter>
+      <parameter>[Command(s)]: The commands to be executed</parameter>
+    </parameters>
+    <return>Returns the value of the final command executed (or 0 if no commands are executed)
+    </return>
+    <num_parameters>2</num_parameters>
+    <implementation>DoTimesCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>for</name>
+    <alias>for</alias>
+    <description>
+      Runs command(s) for each value specified in the range, i.e., from (start - end), going by
+      increment
+      (NOTE, variable is assigned to each succeeding value so that it can be accessed by the
+      command(s))
+    </description>
+    <example>for [i 0 10 1] [fd i lt i] (returns 9)</example>
+    <parameters>
+      <parameter>[variable start end increment]: The variable name to be assigned to each succeeding
+        value in the range, the value to start, the amount to increment by, and the value to end
+      </parameter>
+      <parameter>[Command(s)]: The commands to be executed</parameter>
+    </parameters>
+    <return>Returns the value of the final command executed (or 0 if no commands are executed)
+    </return>
+    <num_parameters>2</num_parameters>
+    <implementation>ForCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>if</name>
+    <alias>if</alias>
+    <description>
+      If expr is not 0, runs the command(s) given in the list
+    </description>
+    <example>if [3 == 3] [fd 10 lt 10] (returns 10)</example>
+    <parameters>
+      <parameter>expr: The expression to be evaluated for comparison against zero</parameter>
+      <parameter>[Command(s)]: The commands to be executed</parameter>
+    </parameters>
+    <return>Returns the value of the final command executed (or 0 if no commands are executed)
+    </return>
+    <num_parameters>2</num_parameters>
+    <implementation>IfCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>ifelse</name>
+    <alias>ifelse</alias>
+    <description>
+      If expr is not 0, runs the trueCommand(s) given in the first list, otherwise runs the
+      falseCommand(s) given in the second list
+    </description>
+    <example>ifelse [3 == 2] [fd 10 lt 10] [fd 5 lt 5] (returns 5)</example>
+    <parameters>
+      <parameter>expr: The expression to be evaluated for comparison against zero</parameter>
+      <parameter>[trueCommand(s)]: The commands to be executed if the expr is non-zero</parameter>
+      <parameter>[falseCommand(s)]: The commands to be executed if the expr is equal to zero
+      </parameter>
+    </parameters>
+    <return>Returns the value of the final command executed (or 0 if no commands are executed)
+    </return>
+    <num_parameters>3</num_parameters>
+    <implementation>IfElseCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>to</name>
+    <alias>to</alias>
+    <description>
+      Assigns command(s) given in the second list to commandName using variable(s) given in first
+      list as parameters
+      When commandName is used later in a program, any given values are assigned to variables that
+      can be accessed when the command list is run and the value of the final command executed is
+      returned (or 0 if no commands are executed)
+    </description>
+    <example>to moveAndTurn [x] [fd x lt x] (returns 1)</example>
+    <parameters>
+      <parameter>commandName: The name of the user-defined command</parameter>
+      <parameter>[variable(s)]: Parameters for the user-defined command</parameter>
+      <parameter>[command(s)]: Commands to be executed when user defined command is called
+      </parameter>
+    </parameters>
+    <return>Returns 1 if command is successfully defined, otherwise 0
+    </return>
+    <num_parameters>3</num_parameters>
+    <implementation>ToCommand</implementation>
+  </help_entry>
+
+>>>>>>> main
 </command_help>
 
