@@ -44,13 +44,13 @@ public class ThemeController extends UIController {
 
   private void updateElement(UIElement element) {
     switch (element.getID()) {
-      case "Light" -> setTheme((UICheckBox) element, lightFlag);
-      case "Dark" -> setTheme((UICheckBox) element, !lightFlag);
+      case "Light" -> setCheckBoxTheme((UICheckBox) element, lightFlag);
+      case "Dark" -> setCheckBoxTheme((UICheckBox) element, !lightFlag);
       case "BackgroundTheme" -> updateBackgroundTheme((UIRegion) element);
     }
   }
 
-  private void setTheme(UICheckBox checkbox, boolean flag) {
+  private void setCheckBoxTheme(UICheckBox checkbox, boolean flag) {
     checkbox.updateSelect(flag);
   }
 

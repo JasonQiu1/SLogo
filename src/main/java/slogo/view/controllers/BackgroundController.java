@@ -14,9 +14,6 @@ import slogo.view.userinterface.UIRegion;
  */
 public class BackgroundController extends UIController {
 
-  private static final String BW_TURTLE = "/turtle_image/turtle_img01.jpg";
-
-
   // Instance Variables
   private boolean blackWhiteFlag = true;
   private boolean greenBlueFlag = false;

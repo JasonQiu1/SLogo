@@ -64,15 +64,6 @@ public class UIRegion extends UIElement {
    * Sets the classic background style for the region.
    */
 
-  public void setupRegion() {
-    String theme = findTheme();
-    if (theme.equalsIgnoreCase("light")) {
-      setWhiteBlack();
-    } else {
-      setBlackWhite();
-    }
-  }
-
   public void setupBackground() {
     String theme = findTheme();
     if (theme.equalsIgnoreCase("light")) {

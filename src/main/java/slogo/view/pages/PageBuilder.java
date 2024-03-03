@@ -78,10 +78,7 @@ public class PageBuilder {
 
   private void loadRegion(UIRegion box) {
     switch (box.getID()) {
-      case "BottomBox", "RightBox" -> {
-        box.setupRegion();
-      }
-      case "BackgroundTheme", "TurtleBox" -> {
+      case "BackgroundTheme", "TurtleBox", "BottomBox", "RightBox" -> {
         box.setupBackground();
       }
       default -> {

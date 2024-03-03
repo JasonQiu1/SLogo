@@ -6,8 +6,6 @@ import slogo.view.userinterface.UITextField;
 
 public class TextFieldController extends UIController {
 
-  private String[] preparedText;
-
   @Override
   public void notifyController(UIElement element) {
     UITextField textField = (UITextField) element;
