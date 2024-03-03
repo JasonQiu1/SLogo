@@ -2,7 +2,6 @@ package slogo.view.userinterface;
 
 import java.io.File;
 import java.nio.file.Path;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
@@ -102,30 +101,13 @@ public class ExternalButton extends UIButton {
    */
   public void addSaveFolder(Stage stage, String folderName) {
     FileChooser fc = getFileChooser(folderName);
-    myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-      @Override
-      public void handle(MouseEvent event) {
-        File chosenFile = fc.showSaveDialog(stage);
-        if (chosenFile != null) {
-          System.out.println("File Chosen:" + chosenFile.getPath());
-        }
-      }
+    myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+      String filePath = fc.showSaveDialog(stage).getPath();
+      setMyPath(filePath);
+      sendSignal();
     });
   }
 
-  /**
-   * Adds functionality to open a splash window.
-   *
-   * @param stage The stage where the button is placed.
-   */
-  public void addOpenSplash(Stage stage) {
-    myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-      @Override
-      public void handle(MouseEvent event) {
-        SlogoWindow window = new SlogoWindow(stage, "splash");
-      }
-    });
-  }
 
   /**
    * Adds functionality to open files from a specified folder.
@@ -135,14 +117,10 @@ public class ExternalButton extends UIButton {
    */
   public void addFolderOpener(Stage stage, String folderName) {
     FileChooser fc = getFileChooser(folderName);
-    myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-      @Override
-      public void handle(MouseEvent event) {
-        File chosenFile = fc.showOpenDialog(stage);
-        if (chosenFile != null) {
-          System.out.println("File Chosen:" + chosenFile.getPath());
-        }
-      }
+    myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+      String filePath = fc.showOpenDialog(stage).getPath();
+      setMyPath(filePath);
+      sendSignal();
     });
   }
 
@@ -153,11 +131,6 @@ public class ExternalButton extends UIButton {
    * @param pageType The type of page to be opened.
    */
   public void addOpenPage(Stage stage, String pageType) {
-    myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-      @Override
-      public void handle(MouseEvent event) {
-        SlogoWindow window = new SlogoWindow(stage, pageType);
-      }
-    });
+    myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, c -> new SlogoWindow(stage, pageType));
   }
 }

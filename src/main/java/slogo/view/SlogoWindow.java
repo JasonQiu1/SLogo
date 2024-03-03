@@ -16,6 +16,7 @@ public class SlogoWindow {
   private static final int HEIGHT = 600;
   private static final int WIDTH = 600;
   private final Stage stage;
+  private final String myTheme = "light";
 
   /**
    * Constructs a SlogoWindow with the given stage and type.

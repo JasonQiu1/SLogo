@@ -7,7 +7,7 @@ import java.util.Map;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
-import slogo.view.controllers.GraphicsController;
+import slogo.view.listeners.GraphicsListener;
 import slogo.view.userinterface.UIElement;
 
 /**
@@ -30,7 +30,7 @@ public class GraphicsPage extends GeneralPage {
    * @param stage The stage for the graphics page.
    */
   public GraphicsPage(Stage stage) {
-    super(stage, new GraphicsController());
+    super(stage, new GraphicsListener());
     root = new Group();
     myPageBuilder = new PageBuilder(stage);
   }
@@ -60,14 +60,26 @@ public class GraphicsPage extends GeneralPage {
   private void createGUI(double screenWidth, double screenHeight) {
     Collection<UIElement> UIElements = new ArrayList<>();
 
+    UIElements.addAll(setupBackground(screenWidth, screenHeight));
     UIElements.addAll(setupBoxes(screenWidth, screenHeight));
     UIElements.addAll(setupTextField(screenWidth, screenHeight));
     UIElements.addAll(setupInternalButtons(screenWidth, screenHeight));
     UIElements.addAll(setupExternalButtons(screenWidth, screenHeight));
     UIElements.addAll(setupText(screenWidth, screenHeight));
     UIElements.addAll(setupCheckBoxes(screenWidth, screenHeight));
+    UIElements.addAll(setupTurtle(screenWidth, screenHeight));
 
     myPageBuilder.styleUI(UIElements, root);
+  }
+
+  private Collection<UIElement> setupBackground(double screenWidth, double screenHeight) {
+    Map<String, double[]> boxIDs = new HashMap<>();
+    boxIDs.put("BackgroundTheme", new double[]{
+        screenWidth,
+        screenHeight,
+        0,
+        0});
+    return createElements(boxIDs, "region");
   }
 
   private Collection<UIElement> setupBoxes(double screenWidth, double screenHeight) {
@@ -83,9 +95,9 @@ public class GraphicsPage extends GeneralPage {
         5 * screenWidth / 8 - 20,
         0});
     boxIDs.put("TurtleBox", new double[]{
-        200,
-        200,
-        screenWidth / 8,
+        300,
+        300,
+        screenWidth / 8 - 50,
         2 * screenHeight / 8});
     return createElements(boxIDs, "region");
   }
@@ -138,6 +150,12 @@ public class GraphicsPage extends GeneralPage {
     extIDs.put("Variables", new double[]{6 * screenWidth / 8 - 60, 5 * screenHeight / 8 + 40});
     extIDs.put("Home", new double[]{6 * screenWidth / 8 - 60, screenHeight / 8 - 60});
     return createElements(extIDs, "externalbutton");
+  }
+
+  private Collection<UIElement> setupTurtle(double screenWidth, double screenHeight) {
+    Map<String, double[]> turtleIDs = new HashMap<>();
+    turtleIDs.put("Turtle_00", new double[]{screenWidth / 8 + 100, 4 * screenHeight / 8});
+    return createElements(turtleIDs, "turtle");
   }
 
 }

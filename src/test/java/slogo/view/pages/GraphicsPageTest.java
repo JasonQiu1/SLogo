@@ -1,6 +1,7 @@
 package slogo.view.pages;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -112,35 +113,47 @@ class GraphicsPageTest extends DukeApplicationTest {
     void testBlackAndWhite() {
       // given a checkbox for "Black and White" theme
       CheckBox checkbox1 = lookup("BK/WH").query();
+      CheckBox checkbox2 = lookup("GN/BL").query();
+      CheckBox checkbox3 = lookup("PK/PR").query();
 
       // when clicking on the checkbox
       clickOn(checkbox1);
 
       // then the checkbox should be selected
       assertTrue(checkbox1.isSelected());
+      assertFalse(checkbox2.isSelected());
+      assertFalse(checkbox3.isSelected());
     }
 
     @Test
     void testGreenAndBlue() {
       // given a checkbox for "Green and Blue" theme
+      CheckBox checkbox1 = lookup("BK/WH").query();
       CheckBox checkbox2 = lookup("GN/BL").query();
+      CheckBox checkbox3 = lookup("PK/PR").query();
 
       // when clicking on the checkbox
       clickOn(checkbox2);
 
       // then the checkbox should be selected
+      assertFalse(checkbox1.isSelected());
       assertTrue(checkbox2.isSelected());
+      assertFalse(checkbox3.isSelected());
     }
 
     @Test
     void testPinkAndPurple() {
       // given a checkbox for "Pink and Purple" theme
+      CheckBox checkbox1 = lookup("BK/WH").query();
+      CheckBox checkbox2 = lookup("GN/BL").query();
       CheckBox checkbox3 = lookup("PK/PR").query();
 
       // when clicking on the checkbox
       clickOn(checkbox3);
 
       // then the checkbox should be selected
+      assertFalse(checkbox1.isSelected());
+      assertFalse(checkbox2.isSelected());
       assertTrue(checkbox3.isSelected());
     }
   }

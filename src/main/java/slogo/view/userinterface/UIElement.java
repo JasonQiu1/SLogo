@@ -1,7 +1,7 @@
 package slogo.view.userinterface;
 
 import javafx.scene.Node;
-import slogo.view.controllers.UIController;
+import slogo.view.listeners.UIListener;
 
 
 /**
@@ -13,9 +13,8 @@ public class UIElement {
 
   // Instance Variables
   private final Node myElement;
-  private UIController myController;
+  private UIListener myListener;
   private String myType;
-
 
   /**
    * Constructor for UIElement.
@@ -56,14 +55,13 @@ public class UIElement {
     return myType;
   }
 
-  public void setController(UIController controller) {
-    myController = controller;
+  public void setListener(UIListener listener) {
+    myListener = listener;
   }
 
   protected void sendSignal() {
-    myController.notifyController(myElement);
+    myListener.sendSignal(this);
   }
-
 
   protected void setSpecialType(String type) {
     myType = type;
@@ -73,5 +71,6 @@ public class UIElement {
     myElement.setLayoutX(x - myElement.getBoundsInLocal().getWidth() / 2);
     myElement.setLayoutY(y - myElement.getBoundsInLocal().getHeight() / 2);
   }
+
 
 }

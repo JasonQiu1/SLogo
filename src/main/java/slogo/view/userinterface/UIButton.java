@@ -1,6 +1,5 @@
 package slogo.view.userinterface;
 
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -22,6 +21,8 @@ public class UIButton extends UIElement {
   // Instance Variables
   private final Button myButton;
 
+  private String myPath;
+
   /**
    * Constructor for UIButton.
    *
@@ -40,6 +41,15 @@ public class UIButton extends UIElement {
   }
 
 
+  /**
+   * Adds a shadow effect to the button when the mouse hovers over it.
+   */
+
+  public void addShadow() {
+    myButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> myButton.setEffect(new DropShadow()));
+    myButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> myButton.setEffect(null));
+  }
+
   protected void createLogo(String imgPath, double width, double height) {
     Image img = new Image(imgPath);
     ImageView buttonView = new ImageView(img);
@@ -49,23 +59,19 @@ public class UIButton extends UIElement {
     myButton.setGraphic(buttonView);
   }
 
-  /**
-   * Adds a shadow effect to the button when the mouse hovers over it.
-   */
+  public void setStatus(Boolean selected) {
+    if (selected) {
+      myButton.setOpacity(1.0f);
+    } else {
+      myButton.setOpacity(0.2f);
+    }
+  }
 
-  public void addShadow() {
-    myButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
-      @Override
-      public void handle(MouseEvent e) {
-        myButton.setEffect(new DropShadow());
-      }
-    });
+  public String getMyPath() {
+    return myPath;
+  }
 
-    myButton.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
-      @Override
-      public void handle(MouseEvent e) {
-        myButton.setEffect(null);
-      }
-    });
+  protected void setMyPath(String path) {
+    myPath = path;
   }
 }

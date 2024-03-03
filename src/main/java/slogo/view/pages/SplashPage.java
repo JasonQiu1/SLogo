@@ -10,14 +10,8 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
-import slogo.view.controllers.SplashController;
-import slogo.view.userinterface.ExternalButton;
-import slogo.view.userinterface.InternalButton;
-import slogo.view.userinterface.UICheckBox;
+import slogo.view.listeners.SplashListener;
 import slogo.view.userinterface.UIElement;
-import slogo.view.userinterface.UIRegion;
-import slogo.view.userinterface.UIText;
-import slogo.view.userinterface.UITextField;
 
 /**
  * Represents the splash page of the application. This page serves as the initial screen displayed
@@ -33,7 +27,6 @@ public class SplashPage extends GeneralPage {
 
   // PageBuilder to build page
   private final PageBuilder myPageBuilder;
-  private Collection<UIElement> UIElements = new ArrayList<>();
 
 
   /**
@@ -42,7 +35,7 @@ public class SplashPage extends GeneralPage {
    * @param stage The stage for the splash page.
    */
   public SplashPage(Stage stage) {
-    super(stage, new SplashController());
+    super(stage, new SplashListener());
     root = new Group();
     myPageBuilder = new PageBuilder(stage);
   }
@@ -80,6 +73,25 @@ public class SplashPage extends GeneralPage {
     myPageBuilder.loadLanguageSelection(languages);
   }
 
+  private void createMenuButtons(double screenWidth, double screenHeight) {
+    Collection<UIElement> UIElements = new ArrayList<>();
+    UIElements.addAll(setupBoxes(screenWidth, screenHeight));
+    UIElements.addAll(setupExternalButtons(screenWidth, screenHeight));
+    UIElements.addAll(setupCheckBoxes(screenWidth, screenHeight));
+    UIElements.addAll(setupText(screenWidth, screenHeight));
+    myPageBuilder.styleUI(UIElements, root);
+  }
+
+  private Collection<UIElement> setupBoxes(double screenWidth, double screenHeight) {
+    Map<String, double[]> boxIDs = new HashMap<>();
+    boxIDs.put("BackgroundTheme", new double[]{
+        screenWidth,
+        screenHeight,
+        0,
+        0});
+    return createElements(boxIDs, "region");
+  }
+
   private Collection<UIElement> setupText(double screenWidth, double screenHeight) {
     Map<String, double[]> textIDs = new HashMap<>();
     textIDs.put("SLOGO", new double[]{screenWidth / 2 - 40, screenHeight / 8});
@@ -102,36 +114,5 @@ public class SplashPage extends GeneralPage {
     extIDs.put("Load", new double[]{2 * screenWidth / 4 - 10, 5 * screenHeight / 8});
     extIDs.put("Help", new double[]{3 * screenWidth / 4 + 10, 5 * screenHeight / 8});
     return createElements(extIDs, "externalbutton");
-  }
-
-  private void createMenuButtons(double screenWidth, double screenHeight) {
-    UIElements = new ArrayList<>();
-    UIElements.addAll(setupExternalButtons(screenWidth, screenHeight));
-    UIElements.addAll(setupCheckBoxes(screenWidth, screenHeight));
-    UIElements.addAll(setupText(screenWidth, screenHeight));
-    myPageBuilder.styleUI(UIElements, root);
-  }
-
-  private void translate(){
-    for (UIElement currElement: UIElements){
-      String type = currElement.getType();
-      switch (type) {
-        case "internalbutton" -> {InternalButton button = (UIButton)currElement;}
-        case "externalbutton" -> {
-          return new ExternalButton(ID, position[0], position[1]);
-        }
-        case "text" -> {
-          return new UIText(ID, position[0], position[1]);
-        }
-        case "checkbox" -> {
-          return new UICheckBox(ID, position[0], position[1]);
-        }
-        case "textfield" -> {
-          return new UITextField(ID, position[0], position[1]);
-        }
-        default -> {}
-        }
-      }
-    }
   }
 }
