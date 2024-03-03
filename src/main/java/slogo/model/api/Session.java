@@ -6,7 +6,7 @@ import java.util.Map;
 import slogo.model.api.exception.coderunner.RunCodeError;
 import slogo.model.api.turtle.TurtleStep;
 import slogo.model.coderunner.SlogoCodeRunner;
-import slogo.model.turtleUtil.Turtle;
+import slogo.model.turtleutil.Turtle;
 import slogo.model.api.turtle.TurtleState;
 
 /**
