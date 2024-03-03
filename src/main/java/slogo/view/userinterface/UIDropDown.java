@@ -22,22 +22,11 @@ public class UIDropDown extends UIElement {
   }
 
   private void setDropDown() {
-    myComboBox.setOnAction(event -> {
-      sendSignal();
+    myComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+      if (newValue != null) {
+        sendSignal();
+      }
     });
-  }
-
-  /**
-   * Sets text of drop down menu and options
-   *
-   * @param text       display text of drop down menu
-   * @param newOptions display text of drop down options
-   */
-  public void setText(String text, List<String> newOptions) {
-    myComboBox.setPromptText(text);
-    ObservableList<String> options = myComboBox.getItems();
-    options.clear();
-    options.addAll(newOptions);
   }
 
 }

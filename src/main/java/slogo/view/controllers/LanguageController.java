@@ -1,7 +1,11 @@
 package slogo.view.controllers;
 
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -36,19 +40,21 @@ public class LanguageController extends UIController {
   public void notifyController(UIElement element) {
     UIDropDown dropDown = (UIDropDown) element;
     String selectedLanguage = dropDown.getValue();
-    switch (selectedLanguage.toLowerCase()) {
-      case "spanish":
-        setSpanishFlag();
-        break;
-      case "french":
-        setFrenchFlag();
-        break;
-      default:
-        setEnglishFlag();
-        break;
+    if (selectedLanguage != null) {
+      switch (selectedLanguage.toLowerCase()) {
+        case "spanish/española/espagnol":
+          setSpanishFlag();
+          break;
+        case "french/francés/français":
+          setFrenchFlag();
+          break;
+        default:
+          setEnglishFlag();
+          break;
+      }
+      updateLanguageFile();
+      updateElements();
     }
-    updateLanguageFile();
-    updateElements();
   }
 
   private void updateElements() {
@@ -74,8 +80,6 @@ public class LanguageController extends UIController {
       case "checkbox" -> {
         UICheckBox checkBox = (UICheckBox) element;
         checkBox.setText(LanguageManager.translate(languageFlag, checkBox.getID()));
-      }
-      default -> {
       }
     }
   }

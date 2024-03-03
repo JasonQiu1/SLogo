@@ -76,12 +76,14 @@ public class SplashPage extends GeneralPage {
 
   private void createLanguageDropDown(double screenWidth, double screenHeight) {
     ObservableList<String> languageOptions =
-        FXCollections.observableArrayList("English", "Spanish", "French");
+        FXCollections.observableArrayList("English/Inglés/Anglais",
+            "Spanish/Española/Espagnol", "French/Francés/Français");
     double[] position = new double[2];
     position[0] = (3 * screenWidth / 4 - 40);
     position[1] = (7 * screenHeight / 8);
 
-    root.getChildren().add(createDropDown("Languages", languageOptions, position).getElement());
+    root.getChildren()
+        .add(createDropDown("Languages/Idiomas/Langues", languageOptions, position).getElement());
   }
 
   private Collection<UIElement> setupBoxes(double screenWidth, double screenHeight) {
