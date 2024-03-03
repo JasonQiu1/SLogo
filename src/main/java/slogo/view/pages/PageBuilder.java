@@ -1,13 +1,13 @@
 package slogo.view.pages;
 
+import java.rmi.server.UID;
 import java.util.Collection;
 import javafx.scene.Group;
-import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
-import slogo.model.LanguageManager;
 import slogo.view.userinterface.ExternalButton;
 import slogo.view.userinterface.InternalButton;
 import slogo.view.userinterface.UICheckBox;
+import slogo.view.userinterface.UIDropDown;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UIRegion;
 import slogo.view.userinterface.UIText;
@@ -47,55 +47,6 @@ public class PageBuilder {
         default -> throw new TypeNotPresentException(element.getType(), new Throwable());
       }
       root.getChildren().add(element.getElement());
-    }
-  }
-
-  /**
-   * Translates UI when language is selected
-   *
-   * @param languages drop down of available languages
-   */
-  protected void loadLanguageSelection(ComboBox<String> languages) {
-    languages.setOnAction(event -> {
-      String selectedLanguage = languages.getValue();
-      switch (selectedLanguage) {
-        case "spanish":
-          //set spanish flag
-          break;
-        case "french":
-          //set french flag
-          break;
-        default:
-          //set english flag
-          break;
-      }
-      //translate page
-    });
-  }
-
-  protected void translate(Collection<UIElement> UIElements) {
-    for (UIElement currElement : UIElements) {
-      String type = currElement.getType();
-      switch (type) {
-        case "internalbutton" -> {
-          InternalButton button = (InternalButton) currElement;
-          button.setText(LanguageManager.translate("", button.getID()));
-        }
-        case "externalbutton" -> {
-          ExternalButton button = (ExternalButton) currElement;
-          //button.setText(LanguageManager.translate("", button.getID()));
-        }
-        case "text" -> {
-          UIText text = (UIText) currElement;
-          //text.setText(LanguageManager.translate("", text.getID()));
-        }
-        case "checkbox" -> {
-          UICheckBox checkBox = (UICheckBox) currElement;
-          //checkBox.setText(LanguageManager.translate("", checkBox.getID()));
-        }
-        default -> {
-        }
-      }
     }
   }
 

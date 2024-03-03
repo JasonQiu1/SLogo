@@ -25,14 +25,15 @@ public class LanguageManager {
    * @param language the desired language
    * @return the translated text
    */
-  public static String translate(String text, String language) {
-    String sanitizedKey = text.replaceAll("\\s+", "_");
-    switch (language) {
+  public static String translate(String language, String text) {
+    String sanitizedKey = text.trim().replaceAll("\\s+", "_").
+        replaceAll(":", "");
+    switch (language.toLowerCase()) {
       case "spanish" -> {
         return spanishResourceBundle.getString(sanitizedKey);
       }
       case "french" -> {
-        return frenchResourceBundle.getString(sanitizedKey);
+      return frenchResourceBundle.getString(sanitizedKey);
       }
       default -> {
         return englishResourceBundle.getString(sanitizedKey);

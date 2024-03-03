@@ -31,7 +31,6 @@ public class InternalButton extends UIButton {
   public InternalButton(String text, double x, double y) {
     super(text, x, y);
     myButton = (Button) getElement();
-    myButton.setOnMouseClicked(e -> sendSignal());
     setSpecialType("internalbutton");
   }
 
@@ -68,15 +67,6 @@ public class InternalButton extends UIButton {
     createLogo(PAUSE_PLAY_IMG, 20, 20);
   }
 
-  /**
-   * Sets text of button
-   *
-   * @param text displayed text of button
-   */
-  public void setText(String text) {
-    myButton.setText(text);
-  }
-
   private void setColor() {
     switch (getID()) {
       case "R" -> myButton.setTextFill(Color.RED);
@@ -84,5 +74,4 @@ public class InternalButton extends UIButton {
       case "B" -> myButton.setTextFill(Color.BLUE);
     }
   }
-
 }

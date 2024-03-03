@@ -74,4 +74,13 @@ public class UIButton extends UIElement {
   protected void setMyPath(String path) {
     myPath = path;
   }
+
+  /**
+   * Sets text of button
+   *
+   * @param text displayed text of button
+   */
+  public void setText(String text) {
+    myButton.setText(text);
+  }
 }

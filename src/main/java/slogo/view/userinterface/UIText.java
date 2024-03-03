@@ -60,4 +60,13 @@ public class UIText extends UIElement {
     myText.setFont(SMALLER_FONT);
   }
 
+  /**
+   * Sets display text
+   *
+   * @param text displayed text
+   */
+  public void setText(String text) {
+    myText.setText(text);
+  }
+
 }

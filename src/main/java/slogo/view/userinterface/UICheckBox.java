@@ -59,4 +59,12 @@ public class UICheckBox extends UIElement {
     myBox.setSelected(check);
   }
 
+  /**
+   * Sets text of checkbox
+   *
+   * @param text displayed text of checkbox
+   */
+  public void setText(String text) {
+    myBox.setText(text);
+  }
 }
