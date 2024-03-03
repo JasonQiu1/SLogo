@@ -1,8 +1,12 @@
 package slogo.model.api;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -18,6 +22,7 @@ import slogo.model.api.exception.XmlException;
 public class XmlConfiguration {
 
   private final ArrayList<String> tagList;
+  private final String commandTag = "command";
 
   /**
    * Constructor for XmlConfig
@@ -73,7 +78,16 @@ public class XmlConfiguration {
 
       Element root = doc.getDocumentElement();
       root.normalize();
-      return null;
+
+      NodeList commandList = root.getElementsByTagName(commandTag);
+      Session newSession = new Session();
+
+      for (int currIndex = 0; currIndex < commandList.getLength(); currIndex++) {
+        newSession.run(commandList.item(currIndex).getTextContent());
+      }
+
+      return newSession;
+
     } catch (Exception e) {
       throw new XmlException(fileName);
     }
@@ -85,9 +99,61 @@ public class XmlConfiguration {
    * @param session  The session to be saved
    * @param fileName The name of the XML file to save the session information to
    */
-  void saveSession(Session session, String fileName) {
+  void saveSession(Session session, String fileName) throws XmlException {
+    try {
+      DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+      DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
-    //TODO: Implement method
+      Document document = documentBuilder.newDocument();
+      Element root = document.createElement("session");
+      document.appendChild(root);
+
+      Element commandHistory = document.createElement("command_history");
+      root.appendChild(commandHistory);
+
+      for (Map<String, Map<String, String>> commandMap : session.getCommandHistory(0)) {
+        for (Entry<String, Map<String, String>> command : commandMap.entrySet()) {
+          createCommandEntry(command, document, commandHistory);
+        }
+      }
+
+      File file = new File(fileName + ".xml");
+      FileOutputStream fos = new FileOutputStream(file);
+      javax.xml.transform.TransformerFactory.newInstance().newTransformer()
+          .transform(new javax.xml.transform.dom.DOMSource(document),
+              new javax.xml.transform.stream.StreamResult(fos));
+      fos.close();
+    } catch (Exception e) {
+      throw new XmlException(fileName);
+    }
+  }
+
+  private void createCommandEntry(Entry<String, Map<String, String>> command, Document document,
+      Element commandHistory) {
+    Element commandEntry = document.createElement("command_entry");
+    commandHistory.appendChild(commandEntry);
+
+    Element commandElement = document.createElement(commandTag);
+    commandElement.setTextContent(command.getKey());
+    commandEntry.appendChild(commandElement);
+
+    Element metaDatEntryElement = document.createElement("meta_data_entry");
+    commandEntry.appendChild(metaDatEntryElement);
+
+    for (Entry<String, String> metaData : command.getValue().entrySet()) {
+      createMetaDataEntry(metaData, document, metaDatEntryElement);
+    }
+  }
+
+  private void createMetaDataEntry(Entry<String, String> metaData, Document document,
+      Element metaDataEntryElement) {
+    Element metaDataTitle = document.createElement("meta_data_title");
+    metaDataTitle.setTextContent(metaData.getKey());
+    metaDataEntryElement.appendChild(metaDataTitle);
+
+    Element metaDataContent = document.createElement("meta_data_content");
+    metaDataContent.setTextContent(metaData.getValue());
+    metaDataEntryElement.appendChild(metaDataContent);
   }
 
   private String createCommandInfo(Element element) {
