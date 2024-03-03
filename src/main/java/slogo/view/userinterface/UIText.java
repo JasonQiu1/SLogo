@@ -1,9 +1,13 @@
 package slogo.view.userinterface;
 
+import java.io.File;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import slogo.model.LanguageManager;
 
 /**
  * Represents a text element in the user interface. This class provides methods to customize the
@@ -35,6 +39,7 @@ public class UIText extends UIElement {
     myText = (Text) getElement();
     myText.setFill(Color.GREEN);
     myText.toFront();
+    myText.setText(LanguageManager.translate(getLanguage(), text));
     setPosition(x, y);
   }
 
@@ -68,5 +73,4 @@ public class UIText extends UIElement {
   public void setText(String text) {
     myText.setText(text);
   }
-
 }

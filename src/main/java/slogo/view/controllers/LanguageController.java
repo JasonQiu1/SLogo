@@ -1,6 +1,10 @@
 package slogo.view.controllers;
 
+import java.io.FileOutputStream;
 import java.util.Collection;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import slogo.model.LanguageManager;
 import slogo.view.userinterface.ExternalButton;
 import slogo.view.userinterface.InternalButton;
@@ -11,11 +15,17 @@ import slogo.view.userinterface.UIText;
 
 public class LanguageController extends UIController {
 
+  public static final String LANGUAGE_XML = "data/saved_files/language.xml";
+  public static final String LANGUAGE_TAG = "Language";
   private String languageFlag = "english";
   private static final String ENGLISH = "english";
   private static final String SPANISH = "spanish";
   private static final String FRENCH = "french";
 
+  public LanguageController() {
+    super();
+    updateLanguageFile();
+  }
 
   /**
    * Notifies the splash controller about changes in UI elements.
@@ -37,6 +47,7 @@ public class LanguageController extends UIController {
         setEnglishFlag();
         break;
     }
+    updateLanguageFile();
     updateElements();
   }
 
@@ -81,5 +92,16 @@ public class LanguageController extends UIController {
     languageFlag = FRENCH;
   }
 
-
+  private void updateLanguageFile() {
+    try {
+      FileOutputStream file = new FileOutputStream(LANGUAGE_XML);
+      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+      Element backgroundTheme = doc.createElement(LANGUAGE_TAG);
+      backgroundTheme.setTextContent(languageFlag);
+      doc.appendChild(backgroundTheme);
+      writeXml(doc, file);
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+  }
 }

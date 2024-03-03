@@ -13,9 +13,9 @@ public class LanguageManager {
 
   // Static block to initialize the resource bundle
   static {
-    englishResourceBundle = ResourceBundle.getBundle("translations");
-    spanishResourceBundle = ResourceBundle.getBundle("translations_spanish");
-    frenchResourceBundle = ResourceBundle.getBundle("translations_french");
+    englishResourceBundle = ResourceBundle.getBundle("Translations/translations");
+    spanishResourceBundle = ResourceBundle.getBundle("Translations/translations_spanish");
+    frenchResourceBundle = ResourceBundle.getBundle("Translations/translations_french");
   }
 
   /**
@@ -33,7 +33,7 @@ public class LanguageManager {
         return spanishResourceBundle.getString(sanitizedKey);
       }
       case "french" -> {
-      return frenchResourceBundle.getString(sanitizedKey);
+        return frenchResourceBundle.getString(sanitizedKey);
       }
       default -> {
         return englishResourceBundle.getString(sanitizedKey);

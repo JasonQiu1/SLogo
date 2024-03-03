@@ -1,6 +1,12 @@
 package slogo.view.userinterface;
 
+import static slogo.view.controllers.LanguageController.LANGUAGE_TAG;
+import static slogo.view.controllers.LanguageController.LANGUAGE_XML;
+
+import java.io.File;
 import javafx.scene.Node;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
 import slogo.view.listeners.UIListener;
 
 
@@ -70,6 +76,18 @@ public class UIElement {
   protected void setPosition(double x, double y) {
     myElement.setLayoutX(x - myElement.getBoundsInLocal().getWidth() / 2);
     myElement.setLayoutY(y - myElement.getBoundsInLocal().getHeight() / 2);
+  }
+
+  protected String getLanguage(){
+      try {
+        File file = new File(LANGUAGE_XML);
+        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+        return doc.getElementsByTagName(LANGUAGE_TAG).item(0).getTextContent();
+
+      } catch (Exception e) {
+        System.out.println(e);
+      }
+      return "english";
   }
 
 
