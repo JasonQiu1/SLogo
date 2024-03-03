@@ -44,7 +44,7 @@ public class PageBuilder {
         case "textfield" -> loadTextField((UITextField) element);
         case "region" -> loadRegion((UIRegion) element);
         case "turtle" -> loadTurtle((UITurtle) element);
-        default -> throw new TypeNotPresentException(element.getType(), new Throwable());
+        //default -> throw new TypeNotPresentException(element.getType(), new Throwable());
       }
       root.getChildren().add(element.getElement());
     }

@@ -66,7 +66,6 @@ public class XmlConfiguration {
    * @return Session with state specified in XML file
    */
   public Session loadSession(String fileName) throws XmlException {
-    //TODO: Implement method
     try {
       DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
       DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();

@@ -26,6 +26,7 @@ public class LanguageController extends UIController {
   private static final String SPANISH = "spanish";
   private static final String FRENCH = "french";
 
+
   public LanguageController() {
     super();
     updateLanguageFile();
