@@ -28,6 +28,8 @@ public class SplashPage extends GeneralPage {
 
   // PageBuilder to build page
   private final PageBuilder myPageBuilder;
+  private final SplashListener myListener;
+
 
   /**
    * Constructs a SplashPage object with the specified stage.
@@ -36,6 +38,7 @@ public class SplashPage extends GeneralPage {
    */
   public SplashPage(Stage stage) {
     super(stage, new SplashListener());
+    myListener = (SplashListener) getListener();
     root = new Group();
     myPageBuilder = new PageBuilder(stage);
   }
@@ -49,7 +52,7 @@ public class SplashPage extends GeneralPage {
   @Override
   public void setPage(double screenWidth, double screenHeight) {
     createMenuButtons(screenWidth, screenHeight);
-    createLanguageBox(screenWidth, screenHeight);
+    createLanguageDropDown(screenWidth, screenHeight);
   }
 
   /**
@@ -62,23 +65,26 @@ public class SplashPage extends GeneralPage {
     return root;
   }
 
-  private void createLanguageBox(double screenWidth, double screenHeight) {
-    ObservableList<String> languageOptions =
-        FXCollections.observableArrayList("English", "Spanish", "French");
-    ComboBox<String> languages = new ComboBox<>(languageOptions);
-    languages.setLayoutX(3 * screenWidth / 4 - 40);
-    languages.setLayoutY(7 * screenHeight / 8);
-    languages.setPromptText("Languages");
-    root.getChildren().add(languages);
-  }
-
   private void createMenuButtons(double screenWidth, double screenHeight) {
     Collection<UIElement> UIElements = new ArrayList<>();
     UIElements.addAll(setupBoxes(screenWidth, screenHeight));
     UIElements.addAll(setupExternalButtons(screenWidth, screenHeight));
     UIElements.addAll(setupCheckBoxes(screenWidth, screenHeight));
     UIElements.addAll(setupText(screenWidth, screenHeight));
+    myListener.passElementsToController(UIElements);
     myPageBuilder.styleUI(UIElements, root);
+  }
+
+  private void createLanguageDropDown(double screenWidth, double screenHeight) {
+    ObservableList<String> languageOptions =
+        FXCollections.observableArrayList("English/Inglés/Anglais",
+            "Spanish/Española/Espagnol", "French/Francés/Français");
+    double[] position = new double[2];
+    position[0] = (3 * screenWidth / 4 - 40);
+    position[1] = (7 * screenHeight / 8);
+
+    root.getChildren()
+        .add(createDropDown("Languages/Idiomas/Langues", languageOptions, position).getElement());
   }
 
   private Collection<UIElement> setupBoxes(double screenWidth, double screenHeight) {

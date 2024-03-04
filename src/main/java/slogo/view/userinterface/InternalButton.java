@@ -33,7 +33,6 @@ public class InternalButton extends UIButton {
   public InternalButton(String text, double x, double y) {
     super(text, x, y);
     myButton = (Button) getElement();
-    myButton.setOnMouseClicked(e -> sendSignal());
     setSpecialType("internalbutton");
   }
 

@@ -8,6 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import slogo.model.LanguageManager;
 
 /**
  * Represents a basic button in the Slogo user interface. Extends the UIElement class.
@@ -38,6 +39,7 @@ public class UIButton extends UIElement {
     myButton.setFont(BTN_FONT);
     myButton.setTextFill(Color.GREEN);
     myButton.toFront();
+    setText(LanguageManager.translate(getLanguage(), text));
     setPosition(x, y);
     addShadow();
   }
@@ -96,5 +98,14 @@ public class UIButton extends UIElement {
    */
   protected void setMyPath(String path) {
     myPath = path;
+  }
+
+  /**
+   * Sets text of button
+   *
+   * @param text displayed text of button
+   */
+  public void setText(String text) {
+    myButton.setText(text);
   }
 }

@@ -4,12 +4,14 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import slogo.view.listeners.UIListener;
 import slogo.view.userinterface.ExternalButton;
 import slogo.view.userinterface.InternalButton;
 import slogo.view.userinterface.UICheckBox;
+import slogo.view.userinterface.UIDropDown;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UIRegion;
 import slogo.view.userinterface.UIText;
@@ -73,6 +75,16 @@ public abstract class GeneralPage {
     }
     myListener.passElementsToController(elements);
     return elements;
+  }
+
+  protected UIElement createDropDown(String ID, ObservableList<String> options, double[] position) {
+    UIDropDown dropDown = new UIDropDown(ID, options, position[0], position[1]);
+    dropDown.setListener(myListener);
+    return dropDown;
+  }
+
+  protected UIListener getListener(){
+    return myListener;
   }
 
   private UIElement createElement(String type, String ID, double[] position) {

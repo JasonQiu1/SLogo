@@ -1,6 +1,7 @@
 package slogo.view.listeners;
 
 import java.util.Collection;
+import slogo.view.controllers.LanguageController;
 import slogo.view.controllers.ThemeController;
 import slogo.view.controllers.TurtleController;
 import slogo.view.userinterface.UIElement;
@@ -15,13 +16,14 @@ public class SplashListener implements UIListener {
 
   private final ThemeController myThemeController;
   private final TurtleController myTurtleController;
-
+  private final LanguageController myLanguageController;
   /**
    * Constructor for SplashListener.
    */
   public SplashListener() {
     myThemeController = new ThemeController();
     myTurtleController = new TurtleController();
+    myLanguageController = new LanguageController();
   }
 
   /**
@@ -34,6 +36,7 @@ public class SplashListener implements UIListener {
     switch (element.getType().toLowerCase()) {
       case "checkbox" -> myThemeController.notifyController(element);
       case "button" -> myTurtleController.notifyController(element);
+      case "combobox" -> myLanguageController.notifyController(element);
     }
   }
 
@@ -46,5 +49,6 @@ public class SplashListener implements UIListener {
   public void passElementsToController(Collection<UIElement> elements) {
     myThemeController.addAllElements(elements);
     myTurtleController.addAllElements(elements);
+    myLanguageController.addAllElements(elements);
   }
 }
