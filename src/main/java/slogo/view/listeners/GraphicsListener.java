@@ -4,7 +4,6 @@ import java.util.Collection;
 import slogo.view.controllers.BackgroundController;
 import slogo.view.controllers.PenController;
 import slogo.view.controllers.SpeedController;
-import slogo.view.controllers.TextFieldController;
 import slogo.view.controllers.ThemeController;
 import slogo.view.controllers.TurtleController;
 import slogo.view.userinterface.UIElement;
@@ -22,12 +21,10 @@ public class GraphicsListener implements UIListener {
   private final TurtleController myTurtleController;
   private final SpeedController mySpeedController;
   private final PenController myPenController;
-  private final TextFieldController myTextFieldController;
   private final ThemeController myThemeController;
 
   public GraphicsListener() {
     myBackgroundController = new BackgroundController();
-    myTextFieldController = new TextFieldController();
     myTurtleController = new TurtleController();
     mySpeedController = new SpeedController();
     myPenController = new PenController();
@@ -38,8 +35,7 @@ public class GraphicsListener implements UIListener {
   public void sendSignal(UIElement element) {
     switch (element.getType().toLowerCase()) {
       case "checkbox" -> myBackgroundController.notifyController(element);
-      case "turtle" -> myTurtleController.notifyController(element);
-      case "textfield" -> myTextFieldController.notifyController(element);
+      case "turtle", "textfield" -> myTurtleController.notifyController(element);
       case "internalbutton", "externalbutton" -> handleButtonElement(element);
     }
   }
@@ -49,16 +45,13 @@ public class GraphicsListener implements UIListener {
     for (UIElement element : elements) {
       switch (element.getType().toLowerCase()) {
         case "checkbox" -> passToBackground(element);
+        case "internalbutton" -> passButtonElement(element);
         case "region" -> {
           passToBackground(element);
           passToTheme(element);
         }
-        case "turtle" -> passToTurtle(element);
-        case "textfield" -> {
-          passToTextField(element);
-          passToTurtle(element);
-        }
-        case "internalbutton" -> passButtonElement(element);
+        case "turtle", "textfield" -> passToTurtle(element);
+
       }
     }
   }
@@ -88,10 +81,6 @@ public class GraphicsListener implements UIListener {
 
   private void passToTurtle(UIElement element) {
     myTurtleController.addElement(element);
-  }
-
-  private void passToTextField(UIElement element) {
-    myTextFieldController.addElement(element);
   }
 
   private void passToSpeed(UIElement element) {

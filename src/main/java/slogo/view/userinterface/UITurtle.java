@@ -3,12 +3,21 @@ package slogo.view.userinterface;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
+import slogo.model.api.turtle.Point;
+import slogo.model.api.turtle.TurtleAnimator;
+import slogo.model.api.turtle.TurtleState;
+import slogo.model.api.turtle.TurtleStep;
+import slogo.model.api.turtle.Vector;
 
 public class UITurtle extends UIElement {
 
@@ -16,15 +25,23 @@ public class UITurtle extends UIElement {
   private static final String TURTLE_XML = "src/main/resources/turtle_image/selected_turtle.xml";
   private static final String DEFAULT_TURTLE = "turtle_image/turtle_img01.png";
   private static final String IMG_DIR = "turtle_image/";
-
+  public final TurtleAnimator ANIMATOR;
   private final Circle myTurtle;
-
+  private double dx = 0;
+  private double dy = 0;
+  private double dr = 0;
+  private double x = 0;
+  private double y = 0;
+  private double rotation = 0;
 
   public UITurtle(String turtleID, double x, double y) {
     super(new Circle(TURTLE_SIZE), turtleID);
     myTurtle = (Circle) getElement();
     myTurtle.setFill(Color.BLACK);
     myTurtle.toFront();
+    ANIMATOR = new TurtleAnimator();
+    this.x = x;
+    this.y = y;
     setSpecialType("Turtle");
     setPosition(x, y);
   }
@@ -50,20 +67,40 @@ public class UITurtle extends UIElement {
     }
   }
 
-  public void rotate(double degree) {
-    myTurtle.setRotate(degree);
+  public void updatePosition() {
+    x += dx;
+    y += dy;
+    rotation += dr;
+    myTurtle.setLayoutX(x);
+    myTurtle.setLayoutY(y);
+    myTurtle.setRotate(rotation);
   }
 
-  public void moveX(double x) {
-    myTurtle.setLayoutX(myTurtle.getCenterX() + x);
+  public void createAnimation(double newX, double newY, double newHeading) {
+    Map<Integer, List<TurtleStep>> eachTurtlesStep = new HashMap<>();
+
+    Point point = new Point(x, y);
+    TurtleState state = new TurtleState(point, rotation);
+    Vector changePosition = new Vector(newX, newY);
+
+    TurtleStep step = new TurtleStep(state, changePosition, newHeading);
+    List<TurtleStep> steps = new ArrayList<>(List.of(step));
+    eachTurtlesStep.put(0, steps);
+
+    ANIMATOR.animateStep(eachTurtlesStep);
+    animateTurtle();
   }
 
-  public void moveY(double y) {
-    myTurtle.setLayoutY(myTurtle.getCenterY() + y);
-  }
+  private void animateTurtle() {
+    Map<Integer, TurtleState> nextState = ANIMATOR.nextFrame();
+    for (Integer index : nextState.keySet()) {
+      TurtleState state = nextState.get(index);
+      double heading = state.heading();
+      Point position = state.position();
 
-  public void setIMG(String path) {
-    myTurtle.setFill(new ImagePattern(new Image(path)));
+      dx = position.getX();
+      dy = position.getY();
+      dr = heading;
+    }
   }
-
 }

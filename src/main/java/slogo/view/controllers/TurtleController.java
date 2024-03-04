@@ -3,6 +3,7 @@ package slogo.view.controllers;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Collection;
+import java.util.InputMismatchException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -10,6 +11,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import slogo.view.userinterface.UIButton;
 import slogo.view.userinterface.UIElement;
+import slogo.view.userinterface.UITextField;
 import slogo.view.userinterface.UITurtle;
 
 
@@ -22,19 +24,65 @@ import slogo.view.userinterface.UITurtle;
 public class TurtleController extends UIController {
 
   public static final String TURTLE_XML = "src/main/resources/selected_turtle.xml";
-
-  private double x;
-  private double y;
-  private double rotation;
+  private String lastText = "";
+  private double nextY, nextHeading;
 
   @Override
   public void notifyController(UIElement element) {
     switch (element.getType().toLowerCase()) {
-      case "textField" -> setMovement();
+      case "textfield" -> setMovement((UITextField) element);
       case "button" -> handleButtonInput((UIButton) element);
     }
     updateElements();
   }
+
+  private void setMovement(UITextField textField) {
+    String[] newestText = textField.getText();
+    for (String newText : newestText) {
+      parseTxt(newText);
+    }
+  }
+
+  private void parseTxt(String text) {
+    switch (text) {
+      case "fd" -> nextY = 1;
+      case "bk" -> nextY = -1;
+      case "rt" -> nextHeading = 1;
+      case "lt" -> nextHeading = -1;
+      default -> setNumeric(text);
+    }
+    lastText = text;
+  }
+
+  private void setNumeric(String text) {
+    if (isNumeric(text)) {
+      double parsedNumber = Double.parseDouble(text);
+      switch (lastText) {
+        case "fd", "bk" -> {
+          nextY *= parsedNumber;
+        }
+        case "rt", "lt" -> {
+          nextHeading *= parsedNumber;
+        }
+      }
+    } else {
+      throw new InputMismatchException(
+          "Command not found. Please read help documentation or try again.");
+    }
+  }
+
+  private boolean isNumeric(String str) {
+    if (str == null) {
+      return false;
+    }
+    try {
+      double d = Double.parseDouble(str);
+    } catch (NumberFormatException e) {
+      return false;
+    }
+    return true;
+  }
+
 
   private void updateElements() {
     Collection<UIElement> allElements = getMyElements();
@@ -42,13 +90,12 @@ public class TurtleController extends UIController {
   }
 
   private void handleButtonInput(UIButton button) {
-    switch (button.getID()) {
-      case "TurtleSelector" -> saveTurtleSelection(button.getMyPath());
+    if (button.getID().equals("TurtleSelector")) {
+      saveTurtleSelection(button.getMyPath());
     }
   }
 
   private void saveTurtleSelection(String path) {
-
     try {
       FileOutputStream file = new FileOutputStream(TURTLE_XML);
       Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
@@ -62,22 +109,14 @@ public class TurtleController extends UIController {
   }
 
   private void updateElement(UIElement element) {
-    if (element.getType().equalsIgnoreCase("turtle")) {
-      changePosition((UITurtle) element);
+    switch (element.getType().toLowerCase()) {
+      case "textfield" -> setMovement((UITextField) element);
+      case "turtle" -> changePosition((UITurtle) element);
     }
   }
 
-  private void setMovement() {
-    x = 0;
-    y = 0;
-    rotation = 0;
-  }
-
   private void changePosition(UITurtle turtle) {
-    turtle.moveX(x);
-    turtle.moveY(y);
-    turtle.rotate(rotation);
+    turtle.createAnimation(0, nextY, nextHeading);
+    turtle.updatePosition();
   }
-
-
 }

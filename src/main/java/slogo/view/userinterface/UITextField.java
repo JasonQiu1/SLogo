@@ -1,7 +1,7 @@
 package slogo.view.userinterface;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -99,8 +99,13 @@ public class UITextField extends UIElement {
     });
   }
 
-  public Collection<String> getText() {
-    List<String> text = new ArrayList<>(textCollector);
+  public String[] getText() {
+    List<String> parsedStrings = new ArrayList<>();
+    textCollector.forEach(string -> parsedStrings.addAll(Arrays.asList(string.split(" "))));
+
+    int size = parsedStrings.size();
+    String[] text = parsedStrings.toArray(new String[size]);
+
     textCollector.clear();
     myTextBox.clear();
     indexTracker = 0;

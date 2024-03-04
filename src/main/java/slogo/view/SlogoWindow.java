@@ -2,6 +2,7 @@ package slogo.view;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import slogo.model.api.turtle.TurtleAnimator;
 import slogo.view.pages.GeneralPage;
 import slogo.view.pages.GraphicsPage;
 import slogo.view.pages.SplashPage;
@@ -41,6 +42,7 @@ public class SlogoWindow {
 
     stage.setScene(new Scene(page.getPage(), WIDTH, HEIGHT));
     stage.show();
+    TurtleAnimator animator = new TurtleAnimator();
   }
 
   private GeneralPage createPageType(String pageType) {
@@ -56,4 +58,5 @@ public class SlogoWindow {
       }
     }
   }
+
 }
