@@ -1,22 +1,28 @@
 package slogo.view.userinterface;
 
+import java.io.File;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import slogo.model.LanguageManager;
 
 /**
  * Represents a text element in the user interface. This class provides methods to customize the
- * appearance and style of the text.
+ * appearance and style of the text. It includes methods to set the font style to Slogo classic,
+ * regular classic, and smaller classic.
  *
  * @author Jeremyah Flowers
  */
 public class UIText extends UIElement {
 
   // Constants
-  private static final Font SLOGO_FONT = Font.font("Verdana", FontWeight.BOLD, 35);
-  private static final Font MEDIUM_FONT = Font.font("Verdana", FontWeight.MEDIUM, 15);
-  private static final Font SMALLER_FONT = Font.font("Verdana", FontWeight.MEDIUM, 12);
+  private static final String FONT_FAMILY = "Verdana";
+  private static final Font SLOGO_FONT = Font.font(FONT_FAMILY, FontWeight.BOLD, 35);
+  private static final Font MEDIUM_FONT = Font.font(FONT_FAMILY, FontWeight.MEDIUM, 15);
+  private static final Font SMALLER_FONT = Font.font(FONT_FAMILY, FontWeight.MEDIUM, 12);
 
 
   // Instance Variable
@@ -34,6 +40,7 @@ public class UIText extends UIElement {
     myText = (Text) getElement();
     myText.setFill(Color.GREEN);
     myText.toFront();
+    myText.setText(LanguageManager.translate(getLanguage(), text));
     setPosition(x, y);
   }
 
@@ -59,4 +66,22 @@ public class UIText extends UIElement {
     myText.setFont(SMALLER_FONT);
   }
 
+  /**
+   * Sets the font style to error classic.  This style is large and dark-colored for displaying
+   * error messages.
+   */
+  public void setErrorClassic() {
+    myText.setFont(SLOGO_FONT);
+    myText.setFill(Color.BLACK);
+  }
+
+
+  /**
+   * Sets display text
+   *
+   * @param text displayed text
+   */
+  public void setText(String text) {
+    myText.setText(text);
+  }
 }

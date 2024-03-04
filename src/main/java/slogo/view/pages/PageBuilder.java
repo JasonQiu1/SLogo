@@ -10,10 +10,12 @@ import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UIRegion;
 import slogo.view.userinterface.UIText;
 import slogo.view.userinterface.UITextField;
+import slogo.view.userinterface.UITurtle;
 
 /**
  * The PageBuilder class is responsible for styling UI elements and adding them to the root group.
- * It provides methods to style different types of UI elements based on their type and ID.
+ * It provides methods to style different types of UI elements based on their type and ID. It
+ * encapsulates the logic for setting up various UI elements and their functionalities.
  *
  * @author Jeremyah Flowers
  */
@@ -21,6 +23,11 @@ public class PageBuilder {
 
   private final Stage myStage;
 
+  /**
+   * Constructs a PageBuilder object with the specified stage.
+   *
+   * @param stage The stage for the page builder.
+   */
   public PageBuilder(Stage stage) {
     myStage = stage;
   }
@@ -40,10 +47,15 @@ public class PageBuilder {
         case "checkbox" -> loadCheckBox((UICheckBox) element);
         case "textfield" -> loadTextField((UITextField) element);
         case "region" -> loadRegion((UIRegion) element);
+        case "turtle" -> loadTurtle((UITurtle) element);
         default -> throw new TypeNotPresentException(element.getType(), new Throwable());
       }
       root.getChildren().add(element.getElement());
     }
+  }
+
+  private void loadTurtle(UITurtle turtle) {
+    turtle.setupTurtle();
   }
 
   private void loadInternalButton(InternalButton button) {
@@ -72,8 +84,8 @@ public class PageBuilder {
 
   private void loadRegion(UIRegion box) {
     switch (box.getID()) {
-      case "BottomBox", "TurtleBox", "RightBox" -> {
-        box.setBackgroundClassic();
+      case "BackgroundTheme", "TurtleBox", "BottomBox", "RightBox" -> {
+        box.setupBackground();
       }
       default -> {
         throw new TypeNotPresentException(box.getID(), new Throwable());
@@ -101,11 +113,11 @@ public class PageBuilder {
       }
       case "Help" -> {
         button.setMenuClassic();
-        // TODO: MAKE BUTTON JUMP TO HELP PAGE
+        button.addOpenPage(myStage, "help");
       }
       case "Home" -> {
         button.setHomeClassic();
-        button.addOpenSplash(myStage);
+        button.addOpenPage(myStage, "splash");
       }
       case "Variables", "Commands", "History" -> {
         button.setGUIClassic();
@@ -134,7 +146,7 @@ public class PageBuilder {
 
   private void loadText(UIText text) {
     switch (text.getID()) {
-      case "SLOGO" -> {
+      case "SLOGO", "Help" -> {
         text.setSlogoClassic();
       }
       case "Theme:", "Pen Colors:", "Speed:" -> {
@@ -142,6 +154,9 @@ public class PageBuilder {
       }
       case "Background:" -> {
         text.setSmallerClassic();
+      }
+      case "Error" -> {
+        text.setErrorClassic();
       }
       default -> {
         throw new TypeNotPresentException(text.getID(), new Throwable());

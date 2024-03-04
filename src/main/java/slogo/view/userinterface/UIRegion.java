@@ -1,5 +1,6 @@
 package slogo.view.userinterface;
 
+import java.io.File;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -14,14 +15,19 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeType;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
 
 /**
  * Represents a region in the Slogo user interface. Extends the UIElement class.
+ * It provides methods to set up the background and border styles for the region.
+ * It also contains methods to read theme settings from an XML file.
  *
  * @author Jeremyah Flowers
  */
 public class UIRegion extends UIElement {
 
+  public static final String THEME_XML = "data/saved_files/theme.xml";
   // Instance Variables
   private final Region myRegion;
 
@@ -45,11 +51,47 @@ public class UIRegion extends UIElement {
   }
 
   /**
-   * Sets the classic background style for the region.
+   * Sets up the background style for the region based on the current theme setting.
    */
-  public void setBackgroundClassic() {
+  public void setupBackground() {
+    String theme = findTheme();
+    if (theme.equalsIgnoreCase("light")) {
+      setBlackWhite();
+    } else {
+      setWhiteBlack();
+    }
+  }
 
-    BackgroundFill fill = new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY);
+  /**
+   * Sets the background and border styles for the region to black and white.
+   */
+  public void setBlackWhite() {
+    setBackground(Color.WHITE, Color.BLACK);
+  }
+
+  /**
+   * Sets the background and border styles for the region to white and black.
+   */
+  public void setWhiteBlack() {
+    setBackground(Color.BLACK, Color.WHITE);
+  }
+
+  /**
+   * Sets the background and border styles for the region to green and blue.
+   */
+  public void setGreenBlue() {
+    setBackground(Color.GREEN, Color.BLUE);
+  }
+
+  /**
+   * Sets the background and border styles for the region to pink and purple.
+   */
+  public void setPinkPurple() {
+    setBackground(Color.PINK, Color.PURPLE);
+  }
+
+  private void setBackground(Color background, Color border) {
+    BackgroundFill fill = new BackgroundFill(background, CornerRadii.EMPTY, Insets.EMPTY);
     myRegion.setBackground(new Background(fill));
 
     BorderStrokeStyle borderStrokeStyle = new BorderStrokeStyle(
@@ -61,12 +103,24 @@ public class UIRegion extends UIElement {
         null);
 
     BorderStroke borderStroke = new BorderStroke(
-        Color.BLACK,
+        border,
         borderStrokeStyle,
         new CornerRadii(0),
         new BorderWidths(1));
 
     myRegion.setBorder(new Border(borderStroke));
+  }
+
+  private static String findTheme() {
+    try {
+      File file = new File(THEME_XML);
+      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+      return doc.getElementsByTagName("BackgroundTheme").item(0).getTextContent();
+
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    return "light";
   }
 
 }

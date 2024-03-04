@@ -4,39 +4,43 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
-import slogo.view.controllers.UIController;
+import slogo.view.listeners.UIListener;
 import slogo.view.userinterface.ExternalButton;
 import slogo.view.userinterface.InternalButton;
 import slogo.view.userinterface.UICheckBox;
+import slogo.view.userinterface.UIDropDown;
 import slogo.view.userinterface.UIElement;
+import slogo.view.userinterface.UIListView;
 import slogo.view.userinterface.UIRegion;
 import slogo.view.userinterface.UIText;
 import slogo.view.userinterface.UITextField;
-
+import slogo.view.userinterface.UITurtle;
 
 /**
  * The GeneralPage class represents a generic page in the SLogo application. It provides methods for
- * setting up and managing UI elements on the page.
+ * setting up and managing UI elements on the page. It serves as a base class for specific page
+ * implementations.
  *
- * @author Jeremyah Flowers
+ * @author Jeremyah Flowers, Jordan Haytaian
  */
 public abstract class GeneralPage {
 
   // Instance Variable
   private final Stage myStage;
-  private final UIController myController;
+  private final UIListener myListener;
 
   /**
-   * Constructs a GeneralPage object with the specified stage.
+   * Constructs a GeneralPage object with the specified stage and UI listener.
    *
-   * @param stage the JavaFX stage for the page
+   * @param stage    the JavaFX stage for the page
+   * @param listener the UI listener for handling UI events
    */
-
-  public GeneralPage(Stage stage, UIController controller) {
+  public GeneralPage(Stage stage, UIListener listener) {
     myStage = stage;
-    myController = controller;
+    myListener = listener;
   }
 
   /**
@@ -59,17 +63,43 @@ public abstract class GeneralPage {
    *
    * @param IDs  a map containing element IDs and their positions
    * @param type the type of UI element to create
-   * @return a collection of UI elements
+   * @return a collection of created UI elements
    */
   protected Collection<UIElement> createElements(Map<String, double[]> IDs, String type) {
     Set<UIElement> elements = new HashSet<>();
     for (String name : IDs.keySet()) {
       double[] position = IDs.get(name);
       UIElement newElement = createElement(type, name, position);
-      newElement.setController(myController);
+      newElement.setListener(myListener);
       elements.add(newElement);
     }
+    myListener.passElementsToController(elements);
     return elements;
+  }
+
+  /**
+   * Creates UI List Elements based on the ID
+   *
+   * @param ID       Identifying tag of list element
+   * @param options  Options to be included in list
+   * @param position X and Y coordinates
+   * @return Created UI Element
+   */
+  protected UIElement createListElement(String ID, ObservableList<String> options,
+      double[] position) {
+    switch (ID.toLowerCase()) {
+      case "languages/idiomas/langues" -> {
+        UIDropDown dropDown = new UIDropDown(ID, options, position[0], position[1]);
+        dropDown.setListener(myListener);
+        return dropDown;
+      }
+      case "commands" -> {
+        UIListView listView = new UIListView(ID, options, position[0], position[1]);
+        listView.setListener(myListener);
+        return listView;
+      }
+      default -> throw new TypeNotPresentException(ID, new Throwable());
+    }
   }
 
   private UIElement createElement(String type, String ID, double[] position) {
@@ -88,6 +118,9 @@ public abstract class GeneralPage {
       }
       case "textfield" -> {
         return new UITextField(ID, position[0], position[1]);
+      }
+      case "turtle" -> {
+        return new UITurtle(ID, position[0], position[1]);
       }
       case "region" -> {
         return new UIRegion(ID, position[0], position[1], position[2], position[3]);

@@ -2,12 +2,16 @@ package slogo.view;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import slogo.model.api.turtle.TurtleAnimator;
 import slogo.view.pages.GeneralPage;
 import slogo.view.pages.GraphicsPage;
+import slogo.view.pages.HelpPage;
 import slogo.view.pages.SplashPage;
 
 /**
  * Represents the main window of the Slogo application.
+ * Manages the creation of different types of pages within the application.
+ * Extends the Stage class.
  *
  * @author Jeremyah Flowers
  */
@@ -40,6 +44,7 @@ public class SlogoWindow {
 
     stage.setScene(new Scene(page.getPage(), WIDTH, HEIGHT));
     stage.show();
+    TurtleAnimator animator = new TurtleAnimator();
   }
 
   private GeneralPage createPageType(String pageType) {
@@ -50,9 +55,13 @@ public class SlogoWindow {
       case "splash" -> {
         return new SplashPage(stage);
       }
+      case "help" -> {
+        return new HelpPage(stage);
+      }
       default -> {
         throw new TypeNotPresentException(pageType, new Throwable("Not Found"));
       }
     }
   }
+
 }

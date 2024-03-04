@@ -5,13 +5,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import slogo.model.LanguageManager;
 
 /**
  * Represents a checkbox in the Slogo user interface. Extends the UIElement class.
+ * It encapsulates methods to set up and customize the appearance and behavior of checkboxes
+ * in the Slogo user interface.
  *
  * @author Jeremyah Flowers
  */
-
 public class UICheckBox extends UIElement {
 
   // Constants
@@ -33,6 +35,7 @@ public class UICheckBox extends UIElement {
     myBox = (CheckBox) getElement();
     myBox.setTextFill(Color.GREEN);
     myBox.toFront();
+    setText(LanguageManager.translate(getLanguage(), text));
     setCheckbox();
     setPosition(x, y);
   }
@@ -55,5 +58,21 @@ public class UICheckBox extends UIElement {
     myBox.addEventHandler(MouseEvent.MOUSE_CLICKED, c -> sendSignal());
   }
 
+  /**
+   * Updates the selection state of the checkbox.
+   *
+   * @param check True to set the checkbox as selected, false otherwise.
+   */
+  public void updateSelect(Boolean check) {
+    myBox.setSelected(check);
+  }
 
+  /**
+   * Sets text of checkbox
+   *
+   * @param text displayed text of checkbox
+   */
+  public void setText(String text) {
+    myBox.setText(text);
+  }
 }
