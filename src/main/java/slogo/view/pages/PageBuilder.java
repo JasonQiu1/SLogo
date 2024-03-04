@@ -115,7 +115,7 @@ public class PageBuilder {
       }
       case "Help" -> {
         button.setMenuClassic();
-        // TODO: MAKE BUTTON JUMP TO HELP PAGE
+        button.addOpenPage(myStage, "help");
       }
       case "Home" -> {
         button.setHomeClassic();
@@ -148,7 +148,7 @@ public class PageBuilder {
 
   private void loadText(UIText text) {
     switch (text.getID()) {
-      case "SLOGO" -> {
+      case "SLOGO", "Help" -> {
         text.setSlogoClassic();
       }
       case "Theme:", "Pen Colors:", "Speed:" -> {

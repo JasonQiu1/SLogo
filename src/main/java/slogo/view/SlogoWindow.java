@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 import slogo.model.api.turtle.TurtleAnimator;
 import slogo.view.pages.GeneralPage;
 import slogo.view.pages.GraphicsPage;
+import slogo.view.pages.HelpPage;
 import slogo.view.pages.SplashPage;
 
 /**
@@ -53,6 +54,9 @@ public class SlogoWindow {
       }
       case "splash" -> {
         return new SplashPage(stage);
+      }
+      case "help" -> {
+        return new HelpPage(stage);
       }
       default -> {
         throw new TypeNotPresentException(pageType, new Throwable("Not Found"));

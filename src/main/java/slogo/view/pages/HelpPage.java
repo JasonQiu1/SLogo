@@ -9,6 +9,7 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import slogo.model.api.XmlConfiguration;
+import slogo.view.listeners.HelpListener;
 import slogo.view.userinterface.UIElement;
 
 public class HelpPage extends GeneralPage {
@@ -19,7 +20,7 @@ public class HelpPage extends GeneralPage {
   // PageBuilder to build page
   private final PageBuilder myPageBuilder;
   private final XmlConfiguration myXmlConfig;
-  private final Map<String, String> helpMap;
+  //private final Map<String, String> helpMap;
 
 
   /**
@@ -28,12 +29,11 @@ public class HelpPage extends GeneralPage {
    * @param stage The stage for the help page.
    */
   public HelpPage(Stage stage) {
-    //super(stage, new SplashListener());
-    //myListener = (SplashListener) getListener();
+    super(stage, new HelpListener());
     root = new Group();
     myPageBuilder = new PageBuilder(stage);
     myXmlConfig = new XmlConfiguration();
-    helpMap = myXmlConfig.loadHelpFile();
+    //helpMap = myXmlConfig.loadHelpFile();
 
   }
 
@@ -60,7 +60,7 @@ public class HelpPage extends GeneralPage {
 
   private void createCommandButtons(double screenWidth, double screenHeight) {
     Collection<UIElement> UIElements = new ArrayList<>();
-    UIElements.addAll(setupExternalButtons(screenWidth, screenHeight));
+    //UIElements.addAll(setupExternalButtons(screenWidth, screenHeight));
     UIElements.addAll(setupText(screenWidth, screenHeight));
     myPageBuilder.styleUI(UIElements, root);
   }
@@ -71,12 +71,12 @@ public class HelpPage extends GeneralPage {
     return createElements(textIDs, "text");
   }
 
-  private Collection<UIElement> setupExternalButtons(double screenWidth, double screenHeight) {
-    Map<String, double[]> extIDs = new HashMap<>();
-    for (Entry<String, String> command : helpMap.entrySet()) {
-      extIDs.put(command.getKey(), new double[]{screenWidth});
-    }
-    return createElements(extIDs, "externalbutton");
-  }
+//  private Collection<UIElement> setupExternalButtons(double screenWidth, double screenHeight) {
+//    Map<String, double[]> extIDs = new HashMap<>();
+//    for (Entry<String, String> command : helpMap.entrySet()) {
+//      extIDs.put(command.getKey(), new double[]{screenWidth});
+//    }
+//    return createElements(extIDs, "externalbutton");
+//  }
 
 }
