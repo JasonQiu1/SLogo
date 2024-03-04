@@ -19,7 +19,7 @@ import slogo.view.userinterface.UIElement;
  * box.
  * It encapsulates methods to set up menu buttons, language selection box, and other UI elements.
  *
- * @author Jeremyah Flowers
+ * @author Jeremyah Flowers, Jordan Haytaian
  */
 public class SplashPage extends GeneralPage {
 
@@ -28,7 +28,6 @@ public class SplashPage extends GeneralPage {
 
   // PageBuilder to build page
   private final PageBuilder myPageBuilder;
-  private final SplashListener myListener;
 
 
   /**
@@ -38,7 +37,6 @@ public class SplashPage extends GeneralPage {
    */
   public SplashPage(Stage stage) {
     super(stage, new SplashListener());
-    myListener = (SplashListener) getListener();
     root = new Group();
     myPageBuilder = new PageBuilder(stage);
   }
@@ -71,7 +69,6 @@ public class SplashPage extends GeneralPage {
     UIElements.addAll(setupExternalButtons(screenWidth, screenHeight));
     UIElements.addAll(setupCheckBoxes(screenWidth, screenHeight));
     UIElements.addAll(setupText(screenWidth, screenHeight));
-    myListener.passElementsToController(UIElements);
     myPageBuilder.styleUI(UIElements, root);
   }
 

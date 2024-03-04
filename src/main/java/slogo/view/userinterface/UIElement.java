@@ -10,11 +10,10 @@ import org.w3c.dom.Document;
 import slogo.view.listeners.UIListener;
 
 /**
- * Represents a basic UI element in the Slogo user interface.
- * It encapsulates methods to retrieve information about the UI element,
- * set up listeners, and send signals to listeners.
+ * Represents a basic UI element in the Slogo user interface. It encapsulates methods to retrieve
+ * information about the UI element, set up listeners, and send signals to listeners.
  *
- * @author Jeremyah Flowers
+ * @author Jeremyah Flowers, Jordan Haytaian
  */
 public class UIElement {
 
@@ -98,15 +97,19 @@ public class UIElement {
     myElement.setLayoutY(y - myElement.getBoundsInLocal().getHeight() / 2);
   }
 
-  protected String getLanguage(){
-      try {
-        File file = new File(LANGUAGE_XML);
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
-        return doc.getElementsByTagName(LANGUAGE_TAG).item(0).getTextContent();
+  /**
+   * Gets the current user-selected language of the application with english as default
+   *
+   * @return the current user-selected language
+   */
+  protected String getLanguage() {
+    try {
+      File file = new File(LANGUAGE_XML);
+      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+      return doc.getElementsByTagName(LANGUAGE_TAG).item(0).getTextContent();
 
-      } catch (Exception e) {
-        System.out.println(e);
-      }
+    } catch (Exception e) {
       return "english";
+    }
   }
 }

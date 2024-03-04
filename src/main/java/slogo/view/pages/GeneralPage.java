@@ -24,7 +24,7 @@ import slogo.view.userinterface.UITurtle;
  * setting up and managing UI elements on the page. It serves as a base class for specific page
  * implementations.
  *
- * @author Jeremyah Flowers
+ * @author Jeremyah Flowers, Jordan Haytaian
  */
 public abstract class GeneralPage {
 
@@ -77,6 +77,14 @@ public abstract class GeneralPage {
     return elements;
   }
 
+  /**
+   * Creates UI List Elements based on the ID
+   *
+   * @param ID       Identifying tag of list element
+   * @param options  Options to be included in list
+   * @param position X and Y coordinates
+   * @return Created UI Element
+   */
   protected UIElement createListElement(String ID, ObservableList<String> options,
       double[] position) {
     switch (ID.toLowerCase()) {
@@ -92,11 +100,6 @@ public abstract class GeneralPage {
       }
       default -> throw new TypeNotPresentException(ID, new Throwable());
     }
-  }
-
-
-  protected UIListener getListener() {
-    return myListener;
   }
 
   private UIElement createElement(String type, String ID, double[] position) {

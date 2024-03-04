@@ -1,13 +1,11 @@
 package slogo.view.pages;
 
-import java.rmi.server.UID;
 import java.util.Collection;
 import javafx.scene.Group;
 import javafx.stage.Stage;
 import slogo.view.userinterface.ExternalButton;
 import slogo.view.userinterface.InternalButton;
 import slogo.view.userinterface.UICheckBox;
-import slogo.view.userinterface.UIDropDown;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UIRegion;
 import slogo.view.userinterface.UIText;
@@ -16,8 +14,8 @@ import slogo.view.userinterface.UITurtle;
 
 /**
  * The PageBuilder class is responsible for styling UI elements and adding them to the root group.
- * It provides methods to style different types of UI elements based on their type and ID.
- * It encapsulates the logic for setting up various UI elements and their functionalities.
+ * It provides methods to style different types of UI elements based on their type and ID. It
+ * encapsulates the logic for setting up various UI elements and their functionalities.
  *
  * @author Jeremyah Flowers
  */
@@ -50,7 +48,7 @@ public class PageBuilder {
         case "textfield" -> loadTextField((UITextField) element);
         case "region" -> loadRegion((UIRegion) element);
         case "turtle" -> loadTurtle((UITurtle) element);
-        //default -> throw new TypeNotPresentException(element.getType(), new Throwable());
+        default -> throw new TypeNotPresentException(element.getType(), new Throwable());
       }
       root.getChildren().add(element.getElement());
     }

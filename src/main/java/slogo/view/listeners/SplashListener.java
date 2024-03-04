@@ -10,7 +10,7 @@ import slogo.view.userinterface.UIElement;
  * SplashListener class implements UIListener interface to handle UI events on the splash screen.
  * It manages UI elements related to the splash screen.
  *
- * @author Jeremyah Flowers
+ * @author Jeremyah Flowers, Jordan Haytaian
  */
 public class SplashListener implements UIListener {
 

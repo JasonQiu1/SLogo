@@ -9,18 +9,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Parent;
-import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import slogo.model.api.XmlConfiguration;
 import slogo.view.listeners.HelpListener;
 import slogo.view.userinterface.UIElement;
 
+/**
+ * Represents the help page of the application. This page displays command names and parameters in a
+ * click-able list. It extends the GeneralPage class to inherit common page functionalities.
+ *
+ * @author Jordan Haytaian
+ */
 public class HelpPage extends GeneralPage {
 
-  // Root group for all UI elements
   private final Group root;
-
-  // PageBuilder to build page
   private final PageBuilder myPageBuilder;
   private final XmlConfiguration myXmlConfig;
   private final Map<String, String> helpMap;
@@ -42,7 +44,7 @@ public class HelpPage extends GeneralPage {
   }
 
   /**
-   * Sets up the splash page with menu buttons and language selection box.
+   * Sets up the help page with title and list view
    *
    * @param screenWidth  The width of the screen.
    * @param screenHeight The height of the screen.

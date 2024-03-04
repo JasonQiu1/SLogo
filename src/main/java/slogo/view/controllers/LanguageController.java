@@ -1,11 +1,7 @@
 package slogo.view.controllers;
 
 import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -17,6 +13,11 @@ import slogo.view.userinterface.UIDropDown;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UIText;
 
+/**
+ * LanguageController class implements UIController interface to manage language translations.
+ *
+ * @author Jordan Haytaian
+ */
 public class LanguageController extends UIController {
 
   public static final String LANGUAGE_XML = "data/saved_files/language.xml";
@@ -37,7 +38,6 @@ public class LanguageController extends UIController {
    *
    * @param element the UI element that triggered the notification
    */
-
   public void notifyController(UIElement element) {
     UIDropDown dropDown = (UIDropDown) element;
     String selectedLanguage = dropDown.getValue();
