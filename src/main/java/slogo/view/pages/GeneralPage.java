@@ -13,16 +13,16 @@ import slogo.view.userinterface.InternalButton;
 import slogo.view.userinterface.UICheckBox;
 import slogo.view.userinterface.UIDropDown;
 import slogo.view.userinterface.UIElement;
+import slogo.view.userinterface.UIListView;
 import slogo.view.userinterface.UIRegion;
 import slogo.view.userinterface.UIText;
 import slogo.view.userinterface.UITextField;
 import slogo.view.userinterface.UITurtle;
 
-
 /**
  * The GeneralPage class represents a generic page in the SLogo application. It provides methods for
- * setting up and managing UI elements on the page.
- * It serves as a base class for specific page implementations.
+ * setting up and managing UI elements on the page. It serves as a base class for specific page
+ * implementations.
  *
  * @author Jeremyah Flowers
  */
@@ -35,7 +35,7 @@ public abstract class GeneralPage {
   /**
    * Constructs a GeneralPage object with the specified stage and UI listener.
    *
-   * @param stage the JavaFX stage for the page
+   * @param stage    the JavaFX stage for the page
    * @param listener the UI listener for handling UI events
    */
   public GeneralPage(Stage stage, UIListener listener) {
@@ -61,7 +61,7 @@ public abstract class GeneralPage {
   /**
    * Creates UI elements based on the provided IDs and type.
    *
-   * @param IDs a map containing element IDs and their positions
+   * @param IDs  a map containing element IDs and their positions
    * @param type the type of UI element to create
    * @return a collection of created UI elements
    */
@@ -77,13 +77,25 @@ public abstract class GeneralPage {
     return elements;
   }
 
-  protected UIElement createDropDown(String ID, ObservableList<String> options, double[] position) {
-    UIDropDown dropDown = new UIDropDown(ID, options, position[0], position[1]);
-    dropDown.setListener(myListener);
-    return dropDown;
+  protected UIElement createListElement(String ID, ObservableList<String> options,
+      double[] position) {
+    switch (ID.toLowerCase()) {
+      case "languages/idiomas/langues" -> {
+        UIDropDown dropDown = new UIDropDown(ID, options, position[0], position[1]);
+        dropDown.setListener(myListener);
+        return dropDown;
+      }
+      case "commands" -> {
+        UIListView listView = new UIListView(ID, options, position[0], position[1]);
+        listView.setListener(myListener);
+        return listView;
+      }
+      default -> throw new TypeNotPresentException(ID, new Throwable());
+    }
   }
 
-  protected UIListener getListener(){
+
+  protected UIListener getListener() {
     return myListener;
   }
 

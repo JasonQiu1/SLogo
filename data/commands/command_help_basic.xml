@@ -93,8 +93,6 @@
     <implementation>SumCommand</implementation>
   </help_entry>
 
-<<<<<<< HEAD
-=======
   <help_entry>
     <name>back</name>
     <alias>bk</alias>
@@ -556,6 +554,5 @@
     <implementation>ToCommand</implementation>
   </help_entry>
 
->>>>>>> main
 </command_help>
 

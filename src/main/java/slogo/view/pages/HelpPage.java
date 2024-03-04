@@ -5,8 +5,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Parent;
+import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import slogo.model.api.XmlConfiguration;
 import slogo.view.listeners.HelpListener;
@@ -20,7 +23,8 @@ public class HelpPage extends GeneralPage {
   // PageBuilder to build page
   private final PageBuilder myPageBuilder;
   private final XmlConfiguration myXmlConfig;
-  //private final Map<String, String> helpMap;
+  private final Map<String, String> helpMap;
+  private final String helpFile = "data/commands/command_help_basic.xml";
 
 
   /**
@@ -33,7 +37,7 @@ public class HelpPage extends GeneralPage {
     root = new Group();
     myPageBuilder = new PageBuilder(stage);
     myXmlConfig = new XmlConfiguration();
-    //helpMap = myXmlConfig.loadHelpFile();
+    helpMap = myXmlConfig.loadHelpFile(helpFile);
 
   }
 
@@ -45,7 +49,9 @@ public class HelpPage extends GeneralPage {
    */
   @Override
   public void setPage(double screenWidth, double screenHeight) {
-    createCommandButtons(screenWidth, screenHeight);
+    Collection<UIElement> UIElements = new ArrayList<>(setupText(screenWidth, screenHeight));
+    myPageBuilder.styleUI(UIElements, root);
+    setUpCommandList(screenWidth, screenHeight);
   }
 
   /**
@@ -58,12 +64,6 @@ public class HelpPage extends GeneralPage {
     return root;
   }
 
-  private void createCommandButtons(double screenWidth, double screenHeight) {
-    Collection<UIElement> UIElements = new ArrayList<>();
-    //UIElements.addAll(setupExternalButtons(screenWidth, screenHeight));
-    UIElements.addAll(setupText(screenWidth, screenHeight));
-    myPageBuilder.styleUI(UIElements, root);
-  }
 
   private Collection<UIElement> setupText(double screenWidth, double screenHeight) {
     Map<String, double[]> textIDs = new HashMap<>();
@@ -71,12 +71,17 @@ public class HelpPage extends GeneralPage {
     return createElements(textIDs, "text");
   }
 
-//  private Collection<UIElement> setupExternalButtons(double screenWidth, double screenHeight) {
-//    Map<String, double[]> extIDs = new HashMap<>();
-//    for (Entry<String, String> command : helpMap.entrySet()) {
-//      extIDs.put(command.getKey(), new double[]{screenWidth});
-//    }
-//    return createElements(extIDs, "externalbutton");
-//  }
+  private void setUpCommandList(double screenWidth, double screenHeight) {
+    double[] position = new double[2];
+    position[0] = (100);
+    position[1] = (100);
+
+    ObservableList<String> commands = FXCollections.observableArrayList();
+    for (Entry<String, String> command : helpMap.entrySet()) {
+      commands.add(command.getKey());
+    }
+    root.getChildren().add(createListElement("commands", commands, position).getElement());
+
+  }
 
 }

@@ -84,7 +84,7 @@ public class SplashPage extends GeneralPage {
     position[1] = (7 * screenHeight / 8);
 
     root.getChildren()
-        .add(createDropDown("Languages/Idiomas/Langues", languageOptions, position).getElement());
+        .add(createListElement("Languages/Idiomas/Langues", languageOptions, position).getElement());
   }
 
   private Collection<UIElement> setupBoxes(double screenWidth, double screenHeight) {
