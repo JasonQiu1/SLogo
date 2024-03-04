@@ -155,6 +155,9 @@ public class PageBuilder {
       case "Background:" -> {
         text.setSmallerClassic();
       }
+      case "Error" -> {
+        text.setErrorClassic();
+      }
       default -> {
         throw new TypeNotPresentException(text.getID(), new Throwable());
       }

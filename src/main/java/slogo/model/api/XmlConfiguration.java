@@ -36,7 +36,7 @@ public class XmlConfiguration {
    * @param fileName the name of the XML file
    * @return Command names mapped to help descriptions
    */
-  public Map<String, String> loadHelpFile(String fileName){
+  public Map<String, String> loadHelpFile(String fileName) throws XmlException {
     Map<String, String> helpMap = new HashMap<>();
     try {
       DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -59,10 +59,8 @@ public class XmlConfiguration {
       }
       return helpMap;
     } catch (Exception e) {
-      //throw new XmlException(fileName);
-      //TODO: Excpetion handling
+      throw new XmlException(fileName);
     }
-    return null;
   }
 
   /**

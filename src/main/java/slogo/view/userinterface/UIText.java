@@ -11,8 +11,8 @@ import slogo.model.LanguageManager;
 
 /**
  * Represents a text element in the user interface. This class provides methods to customize the
- * appearance and style of the text.
- * It includes methods to set the font style to Slogo classic, regular classic, and smaller classic.
+ * appearance and style of the text. It includes methods to set the font style to Slogo classic,
+ * regular classic, and smaller classic.
  *
  * @author Jeremyah Flowers
  */
@@ -65,6 +65,16 @@ public class UIText extends UIElement {
   public void setSmallerClassic() {
     myText.setFont(SMALLER_FONT);
   }
+
+  /**
+   * Sets the font style to error classic.  This style is large and dark-colored for displaying
+   * error messages.
+   */
+  public void setErrorClassic() {
+    myText.setFont(SLOGO_FONT);
+    myText.setFill(Color.BLACK);
+  }
+
 
   /**
    * Sets display text

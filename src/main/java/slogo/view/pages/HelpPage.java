@@ -11,6 +11,7 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import slogo.model.api.XmlConfiguration;
+import slogo.model.api.exception.XmlException;
 import slogo.view.listeners.HelpListener;
 import slogo.view.userinterface.UIElement;
 
@@ -21,13 +22,10 @@ import slogo.view.userinterface.UIElement;
  * @author Jordan Haytaian
  */
 public class HelpPage extends GeneralPage {
-
   private final Group root;
   private final PageBuilder myPageBuilder;
   private final XmlConfiguration myXmlConfig;
-  private final Map<String, String> helpMap;
   private final String helpFile = "data/commands/command_help_basic.xml";
-
 
   /**
    * Constructs a HelpPage object with the specified stage.
@@ -39,8 +37,6 @@ public class HelpPage extends GeneralPage {
     root = new Group();
     myPageBuilder = new PageBuilder(stage);
     myXmlConfig = new XmlConfiguration();
-    helpMap = myXmlConfig.loadHelpFile(helpFile);
-
   }
 
   /**
@@ -51,7 +47,7 @@ public class HelpPage extends GeneralPage {
    */
   @Override
   public void setPage(double screenWidth, double screenHeight) {
-    Collection<UIElement> UIElements = new ArrayList<>(setupText(screenWidth, screenHeight));
+    Collection<UIElement> UIElements = new ArrayList<>(setupTitleText(screenWidth, screenHeight));
     myPageBuilder.styleUI(UIElements, root);
     setUpCommandList(screenWidth, screenHeight);
   }
@@ -67,22 +63,35 @@ public class HelpPage extends GeneralPage {
   }
 
 
-  private Collection<UIElement> setupText(double screenWidth, double screenHeight) {
+  private Collection<UIElement> setupTitleText(double screenWidth, double screenHeight) {
     Map<String, double[]> textIDs = new HashMap<>();
     textIDs.put("Help", new double[]{screenWidth / 2 - 40, screenHeight / 8});
     return createElements(textIDs, "text");
   }
 
-  private void setUpCommandList(double screenWidth, double screenHeight) {
-    double[] position = new double[2];
-    position[0] = (100);
-    position[1] = (100);
+  private Collection<UIElement> setupExceptionText(double screenWidth, double screenHeight) {
+    Map<String, double[]> textIDs = new HashMap<>();
+    textIDs.put("Error", new double[]{screenWidth / 2 - 40, screenHeight / 2});
+    return createElements(textIDs, "text");
+  }
 
-    ObservableList<String> commands = FXCollections.observableArrayList();
-    for (Entry<String, String> command : helpMap.entrySet()) {
-      commands.add(command.getKey());
+  private void setUpCommandList(double screenWidth, double screenHeight) {
+    try {
+      Map<String, String> helpMap = myXmlConfig.loadHelpFile(helpFile);
+      double[] position = new double[2];
+      position[0] = (100);
+      position[1] = (100);
+
+      ObservableList<String> commands = FXCollections.observableArrayList();
+      for (Entry<String, String> command : helpMap.entrySet()) {
+        commands.add(command.getKey());
+      }
+      root.getChildren().add(createListElement("commands", commands, position).getElement());
+    } catch (XmlException e) {
+      Collection<UIElement> UIElements = new ArrayList<>(
+          setupExceptionText(screenWidth, screenHeight));
+      myPageBuilder.styleUI(UIElements, root);
     }
-    root.getChildren().add(createListElement("commands", commands, position).getElement());
 
   }
 
