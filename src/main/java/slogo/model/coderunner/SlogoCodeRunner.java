@@ -1,8 +1,8 @@
 package slogo.model.coderunner;
 
 import java.util.List;
-import slogo.model.command.Forward;
-import slogo.model.command.Right;
+import slogo.model.command.library.Forward;
+import slogo.model.command.library.Right;
 import slogo.model.turtleutil.Turtle;
 
 /**

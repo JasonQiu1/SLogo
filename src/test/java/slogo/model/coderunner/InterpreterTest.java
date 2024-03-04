@@ -13,8 +13,8 @@ import slogo.model.api.exception.coderunner.RunCodeError;
 import slogo.model.coderunner.Expression.Binary;
 import slogo.model.coderunner.Expression.Number;
 import slogo.model.coderunner.Expression.Unary;
-import slogo.model.command.Forward;
-import slogo.model.command.Right;
+import slogo.model.command.library.Forward;
+import slogo.model.command.library.Right;
 import slogo.model.turtleutil.Turtle;
 
 class InterpreterTest {
