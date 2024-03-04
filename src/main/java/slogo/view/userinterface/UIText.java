@@ -14,9 +14,10 @@ import javafx.scene.text.Text;
 public class UIText extends UIElement {
 
   // Constants
-  private static final Font SLOGO_FONT = Font.font("Verdana", FontWeight.BOLD, 35);
-  private static final Font MEDIUM_FONT = Font.font("Verdana", FontWeight.MEDIUM, 15);
-  private static final Font SMALLER_FONT = Font.font("Verdana", FontWeight.MEDIUM, 12);
+  private static final String FONT_FAMILY = "Verdana";
+  private static final Font SLOGO_FONT = Font.font(FONT_FAMILY, FontWeight.BOLD, 35);
+  private static final Font MEDIUM_FONT = Font.font(FONT_FAMILY, FontWeight.MEDIUM, 15);
+  private static final Font SMALLER_FONT = Font.font(FONT_FAMILY, FontWeight.MEDIUM, 12);
 
 
   // Instance Variable

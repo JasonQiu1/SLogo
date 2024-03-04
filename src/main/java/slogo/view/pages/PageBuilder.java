@@ -10,6 +10,7 @@ import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UIRegion;
 import slogo.view.userinterface.UIText;
 import slogo.view.userinterface.UITextField;
+import slogo.view.userinterface.UITurtle;
 
 /**
  * The PageBuilder class is responsible for styling UI elements and adding them to the root group.
@@ -40,10 +41,15 @@ public class PageBuilder {
         case "checkbox" -> loadCheckBox((UICheckBox) element);
         case "textfield" -> loadTextField((UITextField) element);
         case "region" -> loadRegion((UIRegion) element);
+        case "turtle" -> loadTurtle((UITurtle) element);
         default -> throw new TypeNotPresentException(element.getType(), new Throwable());
       }
       root.getChildren().add(element.getElement());
     }
+  }
+
+  private void loadTurtle(UITurtle turtle) {
+    turtle.setupTurtle();
   }
 
   private void loadInternalButton(InternalButton button) {
@@ -72,8 +78,8 @@ public class PageBuilder {
 
   private void loadRegion(UIRegion box) {
     switch (box.getID()) {
-      case "BottomBox", "TurtleBox", "RightBox" -> {
-        box.setBackgroundClassic();
+      case "BackgroundTheme", "TurtleBox", "BottomBox", "RightBox" -> {
+        box.setupBackground();
       }
       default -> {
         throw new TypeNotPresentException(box.getID(), new Throwable());
@@ -105,7 +111,7 @@ public class PageBuilder {
       }
       case "Home" -> {
         button.setHomeClassic();
-        button.addOpenSplash(myStage);
+        button.addOpenPage(myStage, "splash");
       }
       case "Variables", "Commands", "History" -> {
         button.setGUIClassic();
