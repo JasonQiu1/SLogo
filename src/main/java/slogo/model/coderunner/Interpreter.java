@@ -125,12 +125,15 @@ public class Interpreter implements Visitor {
     }
 
     List<String> parameters = command.getParameters();
+    Environment previousEnvironment = currentEnvironment;
     currentEnvironment = new Environment(currentEnvironment);
     for (int i = 0; i < arity; i++) {
       currentEnvironment.setVariable(parameters.get(i), arguments.get(i));
     }
 
-    return command.applyAll(selectedTurtles, this, arguments);
+    double result = command.applyAll(selectedTurtles, this, arguments);
+    currentEnvironment = previousEnvironment;
+    return result;
   }
 
   @Override

@@ -26,7 +26,7 @@ class SessionTest {
   }
 
   @ParameterizedTest
-  @ValueSource(strings = {"fd 100"})
+  @ValueSource(strings = {"fd 50 rt 90", "fd 50 fd 0 rt 90", "fd 5 rt 2 fd 2 fd 43 rt 88"})
   void run_SimpleCommands(String command) {
 //  GIVEN one turtle at (0,0) heading 0deg
 //  WHEN run(command)
@@ -34,7 +34,7 @@ class SessionTest {
     Map<Integer, TurtleState> actual = _session.getTurtlesCurrentStates();
 
 //  THEN one turtle at (0,50) heading 90deg
-    Map<Integer, TurtleState> expected = Map.of(0, new TurtleState(new Point(0, 50), 0));
+    Map<Integer, TurtleState> expected = Map.of(0, new TurtleState(new Point(0, 50), 90));
     assertEquals(expected, actual);
   }
 

@@ -19,10 +19,10 @@ import slogo.model.turtleutil.Turtle;
 public class Session {
 
   public Session() {
-    commandHistory = new ArrayList<Map<String, Map<String, String>>>();
-    turtles = new ArrayList<Turtle>();
-    codeRunner = new SlogoCodeRunner(turtles);
+    commandHistory = new ArrayList<>();
+    turtles = new ArrayList<>();
     reset();
+    codeRunner = new SlogoCodeRunner(turtles);
   }
 
   /**
