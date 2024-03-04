@@ -3,6 +3,7 @@ package slogo.model.api.turtle;
 import slogo.model.turtleutil.TurtleGeometry;
 
 public class Vector {
+
   private double dx;
   private double dy;
   private double magnitude; // length
@@ -46,6 +47,7 @@ public class Vector {
   public void setDirection(double direction) {
     this.direction = direction;
   }
+
   @Override
   public boolean equals(Object other) {
     if (this == other) {
@@ -58,7 +60,8 @@ public class Vector {
       return false;
     }
     Vector otherVector = (Vector) other;
-    return this.getMagnitude() == otherVector.getMagnitude() && this.getDirection() == otherVector.getDirection();
+    return this.getMagnitude() == otherVector.getMagnitude()
+        && this.getDirection() == otherVector.getDirection();
   }
 
 }

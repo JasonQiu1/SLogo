@@ -3,6 +3,7 @@ package slogo.model.coderunner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,9 @@ import slogo.model.api.exception.coderunner.RunCodeError;
 import slogo.model.coderunner.Expression.Binary;
 import slogo.model.coderunner.Expression.Number;
 import slogo.model.coderunner.Expression.Unary;
+import slogo.model.command.Forward;
+import slogo.model.command.Right;
+import slogo.model.turtleutil.Turtle;
 
 class InterpreterTest {
 
@@ -19,7 +23,12 @@ class InterpreterTest {
 
   @BeforeEach
   void setup() {
-    interpreter = new Interpreter();
+    Environment global = new Environment(null);
+    Token library = new Token(TokenType.COMMAND, "library", -1, "library command");
+    global.defineCommand("forward", new Forward(library));
+    global.defineCommand("right", new Right(library));
+
+    interpreter = new Interpreter(global, List.of(new Turtle()));
   }
 
   @ParameterizedTest

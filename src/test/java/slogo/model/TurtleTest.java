@@ -1,26 +1,29 @@
 package slogo.model;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.*;
-import slogo.exception.model.turtle.Point;
-import slogo.model.turtle.Turtle;
-import slogo.exception.model.turtle.TurtleState;
-import slogo.exception.model.turtle.TurtleStep;
-import slogo.exception.model.turtle.Vector;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import slogo.model.api.turtle.Point;
+import slogo.model.api.turtle.TurtleState;
+import slogo.model.api.turtle.TurtleStep;
+import slogo.model.api.turtle.Vector;
+import slogo.model.turtleutil.Turtle;
 import util.DukeApplicationTest;
 
 public class TurtleTest extends DukeApplicationTest {
+
   private Turtle myTurtle;
+
   @BeforeEach
-  void setup () {
+  void setup() {
     myTurtle = new Turtle();
   }
 
   @Test
   void testNormalTurtleStepForward() {
-    TurtleStep result = myTurtle.doStep(100, 0);
-    TurtleState expectedInitState = new TurtleState(new Point(0,0), 0);
+    TurtleStep result = myTurtle.move(100).get(0);
+    TurtleState expectedInitState = new TurtleState(new Point(0, 0), 0);
     Vector expectedPositionChange = new Vector(0, 100);
     double expectedAngelChange = 0;
 
@@ -32,8 +35,8 @@ public class TurtleTest extends DukeApplicationTest {
 
   @Test
   void testNormalTurtleStepRotate() {
-    TurtleStep result = myTurtle.doStep(0, 36);
-    TurtleState expectedInitState = new TurtleState(new Point(0,0), 0);
+    TurtleStep result = myTurtle.rotate(36);
+    TurtleState expectedInitState = new TurtleState(new Point(0, 0), 0);
     Vector expectedPositionChange = new Vector(0, 100);
     double expectedAngelChange = 36;
 
@@ -82,8 +85,6 @@ public class TurtleTest extends DukeApplicationTest {
   void testSetInvalidPosition() {
 
   }
-
-
 
 
 }

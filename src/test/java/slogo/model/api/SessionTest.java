@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import slogo.model.api.Session;
 import slogo.model.api.turtle.Point;
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
@@ -24,6 +23,19 @@ class SessionTest {
   @BeforeEach
   void setUp() {
     _session = new Session();
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"fd 100"})
+  void run_SimpleCommands(String command) {
+//  GIVEN one turtle at (0,0) heading 0deg
+//  WHEN run(command)
+    _session.run(command);
+    Map<Integer, TurtleState> actual = _session.getTurtlesCurrentStates();
+
+//  THEN one turtle at (0,50) heading 90deg
+    Map<Integer, TurtleState> expected = Map.of(0, new TurtleState(new Point(0, 50), 0));
+    assertEquals(expected, actual);
   }
 
   @ParameterizedTest

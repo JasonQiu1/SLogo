@@ -39,4 +39,9 @@ public class Point {
     Point otherPoint = (Point) other;
     return this.x == otherPoint.x && this.y == otherPoint.y;
   }
+
+  @Override
+  public String toString() {
+    return "(" + x + "," + y + ")";
+  }
 }

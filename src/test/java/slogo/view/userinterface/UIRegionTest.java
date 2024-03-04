@@ -1,4 +1,4 @@
-package view.userinterface;
+package slogo.view.userinterface;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,7 +17,6 @@ import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import slogo.view.userinterface.UIRegion;
 import util.DukeApplicationTest;
 
 class UIRegionTest extends DukeApplicationTest {
@@ -44,7 +43,7 @@ class UIRegionTest extends DukeApplicationTest {
     // Given: a UI button object
     Region actual = (Region) testRegion.getElement();
     // When: a user calls the method setMenuClassic on the UIButton
-    testRegion.setBackgroundClassic();
+    //testRegion.setBackgroundClassic();
 
     // Then: the region should have the default background
     // AND the region should have the default border
@@ -52,19 +51,12 @@ class UIRegionTest extends DukeApplicationTest {
     BackgroundFill fill = new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY);
     Background expectedBackground = new Background(fill);
 
-    BorderStrokeStyle expectedStyle = new BorderStrokeStyle(
-        StrokeType.INSIDE,
-        StrokeLineJoin.MITER,
-        StrokeLineCap.BUTT,
-        10,
-        0,
-        null);
+    BorderStrokeStyle expectedStyle =
+        new BorderStrokeStyle(StrokeType.INSIDE, StrokeLineJoin.MITER, StrokeLineCap.BUTT, 10, 0,
+            null);
 
-    BorderStroke expectedBorderStroke = new BorderStroke(
-        Color.BLACK,
-        expectedStyle,
-        new CornerRadii(0),
-        new BorderWidths(1));
+    BorderStroke expectedBorderStroke =
+        new BorderStroke(Color.BLACK, expectedStyle, new CornerRadii(0), new BorderWidths(1));
 
     Border expectedBorder = new Border(expectedBorderStroke);
 

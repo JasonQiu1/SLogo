@@ -1,5 +1,6 @@
 package slogo.model.coderunner;
 
+import java.util.Map;
 import slogo.model.api.exception.coderunner.ErrorType;
 import slogo.model.api.exception.coderunner.RunCodeError;
 
@@ -9,6 +10,10 @@ import slogo.model.api.exception.coderunner.RunCodeError;
  * @author Jason Qiu
  */
 class Lexer {
+
+  private static final Map<String, TokenType> keywordMap =
+      Map.of("make", TokenType.MAKE, "repeat", TokenType.REPEAT, "dotimes", TokenType.DOTIMES,
+          "for", TokenType.FOR, "if", TokenType.IF, "ifelse", TokenType.IFELSE, "to", TokenType.TO);
 
   Lexer(String commands) {
     if (commands == null) {
@@ -20,7 +25,7 @@ class Lexer {
     lines = input.split("\n");
   }
 
-  Token nextToken() {
+  Token nextToken() throws RunCodeError {
     while (isWhiteSpace()) {
       consume();
     }
@@ -73,11 +78,11 @@ class Lexer {
         // aggregates
         if (currentChar == ':' && isAlpha()) {
           consume();
-          yield createToken(TokenType.VARIABLE, identifier());
+          yield createToken(TokenType.VARIABLE, name());
         } else if (isNumeric(currentChar)) {
           yield number();
         } else if (isAlpha(currentChar)) {
-          yield createToken(TokenType.COMMAND, identifier());
+          yield identifier();
         }
         throw new RunCodeError(ErrorType.TOKENIZE, "invalidToken", lineNumber, currentLine());
       }
@@ -130,12 +135,17 @@ class Lexer {
     return createToken(TokenType.NUMBER, Double.parseDouble(getAggregateString()) * sign);
   }
 
-  private String identifier() {
+  private String name() {
     setAggregateCursorIdxBefore();
     while (isAlpha()) {
       consume();
     }
     return getAggregateString();
+  }
+
+  private Token identifier() {
+    String name = name();
+    return createToken(keywordMap.getOrDefault(name, TokenType.COMMAND), name);
   }
 
   private String getAggregateString() {

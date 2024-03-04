@@ -1,6 +1,8 @@
 package slogo.model.coderunner;
 
 import java.util.List;
+import slogo.model.command.Forward;
+import slogo.model.command.Right;
 import slogo.model.turtleutil.Turtle;
 
 /**
@@ -16,6 +18,7 @@ public class SlogoCodeRunner {
    * @param turtles reference to the original list of turtles, which may be modified in-place.
    */
   public SlogoCodeRunner(List<Turtle> turtles) {
+    interpreter = new Interpreter(loadLibraryEnvironment(), turtles);
   }
 
   /**
@@ -24,6 +27,20 @@ public class SlogoCodeRunner {
    * @param commands the string of commands to execute.
    */
   public void run(String commands) {
-    return;
+    interpreter.interpret(new Parser(new Lexer(commands)));
+  }
+
+  private final Interpreter interpreter;
+
+  private Environment loadLibraryEnvironment() {
+    Environment libraryEnvironment = new Environment(null);
+    Token libraryToken = new Token(TokenType.COMMAND, "library", -1, "library command");
+
+    libraryEnvironment.defineCommand("forward", new Forward(libraryToken));
+    libraryEnvironment.defineCommand("fd", new Forward(libraryToken));
+    libraryEnvironment.defineCommand("right", new Right(libraryToken));
+    libraryEnvironment.defineCommand("rt", new Right(libraryToken));
+
+    return libraryEnvironment;
   }
 }
