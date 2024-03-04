@@ -34,12 +34,11 @@ public class SlogoCodeRunner {
 
   private Environment loadLibraryEnvironment() {
     Environment libraryEnvironment = new Environment(null);
-    Token libraryToken = new Token(TokenType.COMMAND, "library", -1, "library command");
 
-    libraryEnvironment.defineCommand("forward", new Forward(libraryToken));
-    libraryEnvironment.defineCommand("fd", new Forward(libraryToken));
-    libraryEnvironment.defineCommand("right", new Right(libraryToken));
-    libraryEnvironment.defineCommand("rt", new Right(libraryToken));
+    libraryEnvironment.defineCommand("forward", new Forward());
+    libraryEnvironment.defineCommand("fd", new Forward());
+    libraryEnvironment.defineCommand("right", new Right());
+    libraryEnvironment.defineCommand("rt", new Right());
 
     return libraryEnvironment;
   }

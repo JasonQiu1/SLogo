@@ -30,8 +30,10 @@ public class Interpreter implements Visitor {
     this.globalEnvironment = globalEnvironment;
     this.currentEnvironment = this.globalEnvironment;
     this.turtles = turtles;
-    this.selectedTurtles = new ArrayList<Turtle>();
-    selectedTurtles.addAll(turtles);
+    this.selectedTurtles = new ArrayList<>();
+    for (Turtle turtle : turtles) {
+      selectedTurtles.add(new CodeTurtle(turtle));
+    }
   }
 
   public void interpret(Parser parser) {
@@ -154,7 +156,7 @@ public class Interpreter implements Visitor {
     if (!(next instanceof Block)) {
       throw Util.createError("expectedCommandBody", expression.getName());
     }
-    Command command = new UserCommand(expression.getName(), parameters, (Block) next);
+    Command command = new UserCommand(parameters, (Block) next);
     currentEnvironment.defineCommand((String) expression.getName().literal(), command);
     return 1;
   }
@@ -171,7 +173,7 @@ public class Interpreter implements Visitor {
   private final Environment globalEnvironment;
   private Environment currentEnvironment;
   private final List<Turtle> turtles;
-  private final List<Turtle> selectedTurtles;
+  private final List<CodeTurtle> selectedTurtles;
   private Parser currentParser;
 
   private double booleanToDouble(boolean bool) {

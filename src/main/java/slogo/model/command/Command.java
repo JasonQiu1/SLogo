@@ -2,9 +2,9 @@ package slogo.model.command;
 
 import java.util.List;
 import slogo.model.api.exception.coderunner.RunCodeError;
+import slogo.model.coderunner.CodeTurtle;
 import slogo.model.coderunner.Interpreter;
 import slogo.model.coderunner.Token;
-import slogo.model.turtleutil.Turtle;
 
 /**
  * An abstract command.
@@ -21,23 +21,20 @@ public abstract class Command {
     return parameters.size();
   }
 
-  public abstract double apply(Turtle target, Interpreter interpreter, List<Double> arguments)
+  public abstract double apply(CodeTurtle target, Interpreter interpreter, List<Double> arguments)
       throws RunCodeError;
 
-  public double applyAll(List<Turtle> targets, Interpreter interpreter, List<Double> arguments)
+  public double applyAll(List<CodeTurtle> targets, Interpreter interpreter, List<Double> arguments)
       throws RunCodeError {
     double ret = 0;
-    for (Turtle target : targets) {
+    for (CodeTurtle target : targets) {
       ret = apply(target, interpreter, arguments);
     }
     return ret;
   }
 
-  protected Command(Token name, List<String> parameters) {
-    this.name = name;
+  protected Command(List<String> parameters) {
     this.parameters = parameters;
   }
-
-  private final Token name;
   private final List<String> parameters;
 }

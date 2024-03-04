@@ -2,9 +2,9 @@ package slogo.model.command;
 
 import java.util.List;
 import slogo.model.api.exception.coderunner.RunCodeError;
+import slogo.model.coderunner.CodeTurtle;
 import slogo.model.coderunner.Interpreter;
 import slogo.model.coderunner.Token;
-import slogo.model.turtleutil.Turtle;
 
 /**
  * A command that only sends messages to the interpreter.
@@ -14,10 +14,10 @@ import slogo.model.turtleutil.Turtle;
 public abstract class InterpreterCommand extends Command {
 
   @Override
-  public abstract double apply(Turtle turtle, Interpreter interpreter, List<Double> arguments)
+  public abstract double apply(CodeTurtle turtle, Interpreter interpreter, List<Double> arguments)
       throws RunCodeError;
 
-  protected InterpreterCommand(Token name, List<String> parameters) {
-    super(name, parameters);
+  protected InterpreterCommand(List<String> parameters) {
+    super(parameters);
   }
 }

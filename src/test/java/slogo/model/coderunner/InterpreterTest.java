@@ -24,9 +24,8 @@ class InterpreterTest {
   @BeforeEach
   void setup() {
     Environment global = new Environment(null);
-    Token library = new Token(TokenType.COMMAND, "library", -1, "library command");
-    global.defineCommand("forward", new Forward(library));
-    global.defineCommand("right", new Right(library));
+    global.defineCommand("forward", new Forward());
+    global.defineCommand("right", new Right());
 
     interpreter = new Interpreter(global, List.of(new Turtle()));
   }
