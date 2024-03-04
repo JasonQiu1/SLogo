@@ -20,6 +20,8 @@ import org.w3c.dom.Document;
 
 /**
  * Represents a region in the Slogo user interface. Extends the UIElement class.
+ * It provides methods to set up the background and border styles for the region.
+ * It also contains methods to read theme settings from an XML file.
  *
  * @author Jeremyah Flowers
  */
@@ -48,22 +50,9 @@ public class UIRegion extends UIElement {
     setPosition(x, y);
   }
 
-  private static String findTheme() {
-    try {
-      File file = new File(THEME_XML);
-      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
-      return doc.getElementsByTagName("BackgroundTheme").item(0).getTextContent();
-
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return "light";
-  }
-
   /**
-   * Sets the classic background style for the region.
+   * Sets up the background style for the region based on the current theme setting.
    */
-
   public void setupBackground() {
     String theme = findTheme();
     if (theme.equalsIgnoreCase("light")) {
@@ -73,18 +62,30 @@ public class UIRegion extends UIElement {
     }
   }
 
+  /**
+   * Sets the background and border styles for the region to black and white.
+   */
   public void setBlackWhite() {
     setBackground(Color.WHITE, Color.BLACK);
   }
 
+  /**
+   * Sets the background and border styles for the region to white and black.
+   */
   public void setWhiteBlack() {
     setBackground(Color.BLACK, Color.WHITE);
   }
 
+  /**
+   * Sets the background and border styles for the region to green and blue.
+   */
   public void setGreenBlue() {
     setBackground(Color.GREEN, Color.BLUE);
   }
 
+  /**
+   * Sets the background and border styles for the region to pink and purple.
+   */
   public void setPinkPurple() {
     setBackground(Color.PINK, Color.PURPLE);
   }
@@ -108,6 +109,18 @@ public class UIRegion extends UIElement {
         new BorderWidths(1));
 
     myRegion.setBorder(new Border(borderStroke));
+  }
+
+  private static String findTheme() {
+    try {
+      File file = new File(THEME_XML);
+      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+      return doc.getElementsByTagName("BackgroundTheme").item(0).getTextContent();
+
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    return "light";
   }
 
 }

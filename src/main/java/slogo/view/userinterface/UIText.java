@@ -8,6 +8,7 @@ import javafx.scene.text.Text;
 /**
  * Represents a text element in the user interface. This class provides methods to customize the
  * appearance and style of the text.
+ * It includes methods to set the font style to Slogo classic, regular classic, and smaller classic.
  *
  * @author Jeremyah Flowers
  */

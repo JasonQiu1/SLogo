@@ -8,10 +8,11 @@ import javafx.scene.text.FontWeight;
 
 /**
  * Represents a checkbox in the Slogo user interface. Extends the UIElement class.
+ * It encapsulates methods to set up and customize the appearance and behavior of checkboxes
+ * in the Slogo user interface.
  *
  * @author Jeremyah Flowers
  */
-
 public class UICheckBox extends UIElement {
 
   // Constants
@@ -55,6 +56,11 @@ public class UICheckBox extends UIElement {
     myBox.addEventHandler(MouseEvent.MOUSE_CLICKED, c -> sendSignal());
   }
 
+  /**
+   * Updates the selection state of the checkbox.
+   *
+   * @param check True to set the checkbox as selected, false otherwise.
+   */
   public void updateSelect(Boolean check) {
     myBox.setSelected(check);
   }

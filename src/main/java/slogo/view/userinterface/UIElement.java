@@ -3,9 +3,10 @@ package slogo.view.userinterface;
 import javafx.scene.Node;
 import slogo.view.listeners.UIListener;
 
-
 /**
  * Represents a basic UI element in the Slogo user interface.
+ * It encapsulates methods to retrieve information about the UI element,
+ * set up listeners, and send signals to listeners.
  *
  * @author Jeremyah Flowers
  */
@@ -55,22 +56,39 @@ public class UIElement {
     return myType;
   }
 
+  /**
+   * Sets the listener for the UI element.
+   *
+   * @param listener The listener to set.
+   */
   public void setListener(UIListener listener) {
     myListener = listener;
   }
 
+  /**
+   * Sends a signal to the listener associated with the UI element.
+   */
   protected void sendSignal() {
     myListener.sendSignal(this);
   }
 
+  /**
+   * Sets the special type of the UI element.
+   *
+   * @param type The special type to set.
+   */
   protected void setSpecialType(String type) {
     myType = type;
   }
 
+  /**
+   * Sets the position of the UI element.
+   *
+   * @param x The x-coordinate of the position.
+   * @param y The y-coordinate of the position.
+   */
   protected void setPosition(double x, double y) {
     myElement.setLayoutX(x - myElement.getBoundsInLocal().getWidth() / 2);
     myElement.setLayoutY(y - myElement.getBoundsInLocal().getHeight() / 2);
   }
-
-
 }

@@ -15,6 +15,7 @@ import slogo.view.userinterface.UITurtle;
 /**
  * The PageBuilder class is responsible for styling UI elements and adding them to the root group.
  * It provides methods to style different types of UI elements based on their type and ID.
+ * It encapsulates the logic for setting up various UI elements and their functionalities.
  *
  * @author Jeremyah Flowers
  */
@@ -22,6 +23,11 @@ public class PageBuilder {
 
   private final Stage myStage;
 
+  /**
+   * Constructs a PageBuilder object with the specified stage.
+   *
+   * @param stage The stage for the page builder.
+   */
   public PageBuilder(Stage stage) {
     myStage = stage;
   }

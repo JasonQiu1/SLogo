@@ -15,6 +15,8 @@ import slogo.view.SlogoWindow;
 /**
  * Represents a button with external functionalities (usually a link to some another area) for the
  * Slogo user interface. Extends the UIButton class.
+ * It encapsulates methods to set up various types of external buttons with specific appearances
+ * and functionalities.
  *
  * @author Jeremyah Flowers
  */
@@ -36,26 +38,6 @@ public class ExternalButton extends UIButton {
     super(text, x, y);
     myButton = (Button) getElement();
     setSpecialType("externalbutton");
-  }
-
-
-  private static FileChooser getFileChooser(String folderName) {
-    FileChooser fc = new FileChooser();
-    fc.setTitle("Open Resource File");
-    String folder = Path.of("data" + File.separator + folderName).toString();
-    fc.setInitialDirectory(new File(folder));
-
-    if (folderName.equals("turtle_images")) {
-      fc.getExtensionFilters().addAll(
-          new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
-      );
-    } else if (folderName.equals("saved_files")) {
-      fc.getExtensionFilters().addAll(
-          new ExtensionFilter("XML Files", "*.xml")
-      );
-    }
-
-    return fc;
   }
 
   /**
@@ -132,5 +114,24 @@ public class ExternalButton extends UIButton {
    */
   public void addOpenPage(Stage stage, String pageType) {
     myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, c -> new SlogoWindow(stage, pageType));
+  }
+
+  private static FileChooser getFileChooser(String folderName) {
+    FileChooser fc = new FileChooser();
+    fc.setTitle("Open Resource File");
+    String folder = Path.of("data" + File.separator + folderName).toString();
+    fc.setInitialDirectory(new File(folder));
+
+    if (folderName.equals("turtle_images")) {
+      fc.getExtensionFilters().addAll(
+          new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
+      );
+    } else if (folderName.equals("saved_files")) {
+      fc.getExtensionFilters().addAll(
+          new ExtensionFilter("XML Files", "*.xml")
+      );
+    }
+
+    return fc;
   }
 }

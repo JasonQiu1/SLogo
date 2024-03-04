@@ -4,10 +4,9 @@ import java.util.Collection;
 import slogo.view.userinterface.UIButton;
 import slogo.view.userinterface.UIElement;
 
-
 /**
- * GraphicsController class implements UIController interface to manage graphical UI elements. It
- * provides functionality to control the appearance of the UI graphics.
+ * SpeedController class implements UIController interface to manage speed UI elements. It
+ * provides functionality to control the speed of the animation.
  *
  * @author Jeremyah Flowers
  */
@@ -20,7 +19,7 @@ public class SpeedController extends UIController {
   private boolean fourFlag = false;
 
   /**
-   * Notifies the graphics controller about changes in UI elements.
+   * Notifies the speed controller about changes in UI elements.
    *
    * @param element the UI element that triggered the notification
    */
@@ -34,6 +33,8 @@ public class SpeedController extends UIController {
     }
     updateElements();
   }
+
+  // Private helper methods
 
   private void updateElements() {
     Collection<UIElement> allElements = getMyElements();
@@ -85,4 +86,3 @@ public class SpeedController extends UIController {
     fourFlag = false;
   }
 }
-

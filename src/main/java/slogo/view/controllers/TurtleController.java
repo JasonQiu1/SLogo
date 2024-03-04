@@ -14,19 +14,24 @@ import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UITextField;
 import slogo.view.userinterface.UITurtle;
 
-
 /**
- * GraphicsController class implements UIController interface to manage graphical UI elements. It
- * provides functionality to control the appearance of the UI graphics.
+ * TurtleController class implements UIController interface to manage turtle UI elements. It
+ * provides functionality to control the movement and appearance of the turtle.
  *
  * @author Jeremyah Flowers
  */
 public class TurtleController extends UIController {
 
+  // Instance Variables
   public static final String TURTLE_XML = "src/main/resources/selected_turtle.xml";
   private String lastText = "";
   private double nextY, nextHeading;
 
+  /**
+   * Notifies the turtle controller about changes in UI elements.
+   *
+   * @param element the UI element that triggered the notification
+   */
   @Override
   public void notifyController(UIElement element) {
     switch (element.getType().toLowerCase()) {
@@ -35,6 +40,8 @@ public class TurtleController extends UIController {
     }
     updateElements();
   }
+
+  // Private helper methods
 
   private void setMovement(UITextField textField) {
     String[] newestText = textField.getText();
@@ -82,7 +89,6 @@ public class TurtleController extends UIController {
     }
     return true;
   }
-
 
   private void updateElements() {
     Collection<UIElement> allElements = getMyElements();

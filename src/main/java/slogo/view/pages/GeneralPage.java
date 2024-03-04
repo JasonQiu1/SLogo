@@ -20,6 +20,7 @@ import slogo.view.userinterface.UITurtle;
 /**
  * The GeneralPage class represents a generic page in the SLogo application. It provides methods for
  * setting up and managing UI elements on the page.
+ * It serves as a base class for specific page implementations.
  *
  * @author Jeremyah Flowers
  */
@@ -30,11 +31,11 @@ public abstract class GeneralPage {
   private final UIListener myListener;
 
   /**
-   * Constructs a GeneralPage object with the specified stage.
+   * Constructs a GeneralPage object with the specified stage and UI listener.
    *
    * @param stage the JavaFX stage for the page
+   * @param listener the UI listener for handling UI events
    */
-
   public GeneralPage(Stage stage, UIListener listener) {
     myStage = stage;
     myListener = listener;
@@ -58,9 +59,9 @@ public abstract class GeneralPage {
   /**
    * Creates UI elements based on the provided IDs and type.
    *
-   * @param IDs  a map containing element IDs and their positions
+   * @param IDs a map containing element IDs and their positions
    * @param type the type of UI element to create
-   * @return a collection of UI elements
+   * @return a collection of created UI elements
    */
   protected Collection<UIElement> createElements(Map<String, double[]> IDs, String type) {
     Set<UIElement> elements = new HashSet<>();

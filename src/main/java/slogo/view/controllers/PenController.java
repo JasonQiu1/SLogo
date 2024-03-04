@@ -4,10 +4,9 @@ import java.util.Collection;
 import slogo.view.userinterface.UIButton;
 import slogo.view.userinterface.UIElement;
 
-
 /**
- * GraphicsController class implements UIController interface to manage graphical UI elements. It
- * provides functionality to control the appearance of the UI graphics.
+ * PenController class implements UIController interface to manage pen color UI elements. It
+ * provides functionality to control the color of the pen.
  *
  * @author Jeremyah Flowers
  */
@@ -19,7 +18,7 @@ public class PenController extends UIController {
   private boolean blueFlag = false;
 
   /**
-   * Notifies the graphics controller about changes in UI elements.
+   * Notifies the pen controller about changes in UI elements.
    *
    * @param element the UI element that triggered the notification
    */
@@ -32,6 +31,8 @@ public class PenController extends UIController {
     }
     updateElements();
   }
+
+  // Private helper methods
 
   private void updateElements() {
     Collection<UIElement> allElements = getMyElements();

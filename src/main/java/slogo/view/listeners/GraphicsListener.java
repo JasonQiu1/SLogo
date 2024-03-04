@@ -8,10 +8,9 @@ import slogo.view.controllers.ThemeController;
 import slogo.view.controllers.TurtleController;
 import slogo.view.userinterface.UIElement;
 
-
 /**
- * GraphicsController class implements UIController interface to manage graphical UI elements. It
- * provides functionality to control the appearance of the UI graphics.
+ * GraphicsListener class implements UIListener interface to handle UI events and pass them to
+ * respective controllers. It manages UI elements related to graphics.
  *
  * @author Jeremyah Flowers
  */
@@ -23,6 +22,9 @@ public class GraphicsListener implements UIListener {
   private final PenController myPenController;
   private final ThemeController myThemeController;
 
+  /**
+   * Constructor for GraphicsListener.
+   */
   public GraphicsListener() {
     myBackgroundController = new BackgroundController();
     myTurtleController = new TurtleController();
@@ -31,6 +33,11 @@ public class GraphicsListener implements UIListener {
     myThemeController = new ThemeController();
   }
 
+  /**
+   * Sends a signal to the appropriate controller based on the UI element type.
+   *
+   * @param element the UI element triggering the signal
+   */
   @Override
   public void sendSignal(UIElement element) {
     switch (element.getType().toLowerCase()) {
@@ -40,6 +47,11 @@ public class GraphicsListener implements UIListener {
     }
   }
 
+  /**
+   * Passes UI elements to their respective controllers for processing.
+   *
+   * @param elements the collection of UI elements to pass
+   */
   @Override
   public void passElementsToController(Collection<UIElement> elements) {
     for (UIElement element : elements) {
@@ -51,11 +63,11 @@ public class GraphicsListener implements UIListener {
           passToTheme(element);
         }
         case "turtle", "textfield" -> passToTurtle(element);
-
       }
     }
   }
 
+  // Private helper methods
 
   private void handleButtonElement(UIElement element) {
     switch (element.getID()) {
@@ -90,5 +102,4 @@ public class GraphicsListener implements UIListener {
   private void passToPen(UIElement element) {
     myPenController.addElement(element);
   }
-
 }

@@ -13,6 +13,7 @@ import slogo.view.userinterface.UIElement;
 /**
  * Represents the graphics page of the application. This page displays graphical elements and user
  * interface controls for graphics-related functionality.
+ * It extends the GeneralPage class to inherit common page functionalities.
  *
  * @author Jeremyah Flowers
  */
@@ -157,5 +158,4 @@ public class GraphicsPage extends GeneralPage {
     turtleIDs.put("Turtle_00", new double[]{screenWidth / 8 + 100, 4 * screenHeight / 8});
     return createElements(turtleIDs, "turtle");
   }
-
 }

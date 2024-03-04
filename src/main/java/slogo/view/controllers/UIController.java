@@ -15,6 +15,8 @@ import slogo.view.userinterface.UIElement;
 
 /**
  * UIController interface defines methods to manage UI elements and update UI themes.
+ * It provides functionality to handle UI elements and themes.
+ * This interface serves as a base for various UI controllers.
  *
  * @author Jeremyah Flowers
  */
@@ -23,10 +25,20 @@ public abstract class UIController {
   // Instance Variable
   private final Collection<UIElement> myElements;
 
+  /**
+   * Constructor for UIController.
+   */
   public UIController() {
     myElements = new ArrayList<>();
   }
 
+  /**
+   * Writes XML data to the provided output stream.
+   *
+   * @param doc the XML document to write
+   * @param output the output stream to write to
+   * @throws TransformerException if an error occurs during transformation
+   */
   protected static void writeXml(Document doc, OutputStream output) throws TransformerException {
 
     TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -41,10 +53,20 @@ public abstract class UIController {
 
   }
 
+  /**
+   * Adds a UI element to the collection of managed elements.
+   *
+   * @param element the UI element to add
+   */
   public void addElement(UIElement element) {
     myElements.add(element);
   }
 
+  /**
+   * Adds a collection of UI elements to the collection of managed elements.
+   *
+   * @param elements the collection of UI elements to add
+   */
   public void addAllElements(Collection<UIElement> elements) {
     myElements.addAll(elements);
   }
@@ -56,10 +78,21 @@ public abstract class UIController {
    */
   public abstract void notifyController(UIElement element);
 
+  /**
+   * Retrieves the collection of managed UI elements.
+   *
+   * @return the collection of managed UI elements
+   */
   protected Collection<UIElement> getMyElements() {
     return myElements;
   }
 
+  /**
+   * Sets the status of a button UI element.
+   *
+   * @param button the button UI element
+   * @param flag the status flag to set
+   */
   protected void selectButton(UIButton button, boolean flag) {
     button.setStatus(flag);
   }

@@ -10,8 +10,8 @@ import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UIRegion;
 
 /**
- * SplashController class implements UIController interface to manage UI elements in the splash
- * screen. It provides functionality to control the appearance of the splash screen UI.
+ * ThemeController class implements UIController interface to manage theme UI elements. It
+ * provides functionality to control the theme of the application.
  *
  * @author Jeremyah Flowers
  */
@@ -23,11 +23,10 @@ public class ThemeController extends UIController {
   private boolean lightFlag = true;
 
   /**
-   * Notifies the splash controller about changes in UI elements.
+   * Notifies the theme controller about changes in UI elements.
    *
    * @param element the UI element that triggered the notification
    */
-
   @Override
   public void notifyController(UIElement element) {
     switch (element.getID()) {
@@ -36,6 +35,8 @@ public class ThemeController extends UIController {
     }
     updateElements();
   }
+
+  // Private helper methods
 
   private void updateElements() {
     Collection<UIElement> allElements = getMyElements();

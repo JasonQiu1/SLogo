@@ -5,7 +5,6 @@ import slogo.view.userinterface.UICheckBox;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UIRegion;
 
-
 /**
  * GraphicsController class implements UIController interface to manage graphical UI elements. It
  * provides functionality to control the appearance of the UI graphics.
@@ -19,7 +18,8 @@ public class BackgroundController extends UIController {
   private boolean greenBlueFlag = false;
 
   /**
-   * Notifies the graphics controller about changes in UI elements.
+   * Notifies the graphics controller about changes in UI elements. Updates background according
+   * to the UI element triggered.
    *
    * @param element the UI element that triggered the notification
    */
@@ -32,6 +32,8 @@ public class BackgroundController extends UIController {
     }
     updateElements();
   }
+
+  // Private helper methods
 
   private void updateElements() {
     Collection<UIElement> allElements = getMyElements();
