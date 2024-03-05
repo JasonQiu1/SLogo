@@ -83,8 +83,66 @@ class SessionTest {
   }
 
   @ParameterizedTest
-  @ValueSource(strings = {"for [ :i 1 11 1 ] [ fd 5 ] rt 90", "dotimes [ :i 10 ] [ fd 5 ] rt 90", "repeat 10 [ fd :repcount ] fd -5 rt 90"})
+  @ValueSource(
+      strings = {"make :cheese 50 fd :cheese rt :cheese + 40", "rt [ make :x 50 fd :x ] + 40",
+          "make :x 90 if lessequal? 5 5 [ make :x 50 fd :x ] rt :x"})
+  void run_Make(String command) {
+//  GIVEN one turtle at (0,0) heading 0deg
+//  WHEN run(command)
+    _session.run(command);
+    Map<Integer, TurtleState> actual = _session.getTurtlesCurrentStates();
+
+//  THEN one turtle at (0,50) heading 90deg
+    Map<Integer, TurtleState> expected = Map.of(1, new TurtleState(new Point(0, 50), 90));
+    assertStatesEqual(expected, actual);
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"make :x 90 to myfd [ :x :y ] [ fd :x - :y ] myfd :x 40 rt :x"})
+  void run_To(String command) {
+//  GIVEN one turtle at (0,0) heading 0deg
+//  WHEN run(command)
+    _session.run(command);
+    Map<Integer, TurtleState> actual = _session.getTurtlesCurrentStates();
+
+//  THEN one turtle at (0,50) heading 90deg
+    Map<Integer, TurtleState> expected = Map.of(1, new TurtleState(new Point(0, 50), 90));
+    assertStatesEqual(expected, actual);
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"for [ :i 1 11 1 ] [ fd 5 ] rt 90", "dotimes [ :i 10 ] [ fd 5 ] rt 90",
+      "repeat 10 [ fd :repcount ] fd -5 rt 90"})
   void run_Loops(String command) {
+//  GIVEN one turtle at (0,0) heading 0deg
+//  WHEN run(command)
+    _session.run(command);
+    Map<Integer, TurtleState> actual = _session.getTurtlesCurrentStates();
+
+//  THEN one turtle at (0,50) heading 90deg
+    Map<Integer, TurtleState> expected = Map.of(1, new TurtleState(new Point(0, 50), 90));
+    assertStatesEqual(expected, actual);
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"if notequal? 1 0 [ fd 50 rt 90 ]",
+      "ifelse greater? 0 0 [ fd 50000 ] [ fd 50 rt 90 ]",
+      "fd 50 if notequal? id -1 [ fd home ] ifelse equal? xcor 5 [ lt 50 ] [ rt 90 ]"})
+  void run_Conditionals(String command) {
+//  GIVEN one turtle at (0,0) heading 0deg
+//  WHEN run(command)
+    _session.run(command);
+    Map<Integer, TurtleState> actual = _session.getTurtlesCurrentStates();
+
+//  THEN one turtle at (0,50) heading 90deg
+    Map<Integer, TurtleState> expected = Map.of(1, new TurtleState(new Point(0, 50), 90));
+    assertStatesEqual(expected, actual);
+  }
+
+  @ParameterizedTest
+  @ValueSource(
+      strings = {"fd sum 2 48 rt 91 - difference 2 1", "fd product cos 270 50 rt remainder 181 91"})
+  void run_JavaCommands(String command) {
 //  GIVEN one turtle at (0,0) heading 0deg
 //  WHEN run(command)
     _session.run(command);
@@ -261,7 +319,7 @@ class SessionTest {
     @Test
     void afterMovements() {
 //      GIVEN "fd 50", "rt 51" has been executed
-
+      _session.run("fd 50 rt 51");
 //      WHEN `getTurtlesCurrentStates()`
       Map<Integer, TurtleState> actual = _session.getTurtlesCurrentStates();
 //      THEN `{0: new TurtleState(new Position(0,50), 51)}`
