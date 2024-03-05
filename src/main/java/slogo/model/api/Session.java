@@ -1,13 +1,14 @@
 package slogo.model.api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import slogo.model.api.exception.coderunner.RunCodeError;
+import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
 import slogo.model.coderunner.SlogoCodeRunner;
 import slogo.model.turtleutil.Turtle;
-import slogo.model.api.turtle.TurtleState;
 
 /**
  * External API for the frontend to interact with the model. Responsible for running Slogo code and
@@ -18,10 +19,10 @@ import slogo.model.api.turtle.TurtleState;
 public class Session {
 
   public Session() {
-    commandHistory = new ArrayList<Map<String, Map<String, String>>>();
-    turtles = new ArrayList<Turtle>();
-    codeRunner = new SlogoCodeRunner(turtles);
+    commandHistory = new ArrayList<>();
+    turtles = new ArrayList<>();
     reset();
+    codeRunner = new SlogoCodeRunner(turtles);
   }
 
   /**
@@ -31,7 +32,7 @@ public class Session {
    * @throws RunCodeError when any error occurs when running the code.
    */
   public void run(String commands) throws RunCodeError {
-    return;
+    codeRunner.run(commands);
   }
 
   /**
@@ -49,7 +50,8 @@ public class Session {
   }
 
   /**
-   * Returns the current step history of a certain length for all turtles.
+   * Returns the current step history of a certain length for all turtles. May return more steps
+   * than maxLength. maxLength limits the number of commands, not number of steps.
    *
    * @param maxLength the max length of step history to return. If 0, then return entire step
    *                  history (including forward history). If positive, then return the backwards
@@ -67,7 +69,11 @@ public class Session {
    * @return an immutable map where the key is the id of the turtle and the value is its state
    */
   public Map<Integer, TurtleState> getTurtlesCurrentStates() {
-    return null;
+    Map<Integer, TurtleState> turtleStates = new HashMap<>();
+    for (Turtle turtle : turtles) {
+      turtleStates.put(turtle.getId(), turtle.getCurrentState());
+    }
+    return turtleStates;
   }
 
   /**

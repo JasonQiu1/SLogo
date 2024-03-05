@@ -7,11 +7,7 @@ package slogo.model.api.exception.coderunner;
  */
 public class RunCodeError extends RuntimeException {
 
-  private final ErrorType _errorType;
-  private final int _lineNumber;
-  private final String _line;
-
-  RunCodeError(ErrorType errorType, String errorMessageKey, int lineNumber, String line) {
+  public RunCodeError(ErrorType errorType, String errorMessageKey, int lineNumber, String line) {
     super(errorMessageKey);
     _errorType = errorType;
     _lineNumber = lineNumber;
@@ -53,7 +49,8 @@ public class RunCodeError extends RuntimeException {
   public String getLine() {
     return _line;
   }
-  enum ErrorType {
-    TOKENIZE, PARSE, INTERPRET, RUNTIME
-  }
+
+  private final ErrorType _errorType;
+  private final int _lineNumber;
+  private final String _line;
 }

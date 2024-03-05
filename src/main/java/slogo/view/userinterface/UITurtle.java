@@ -18,6 +18,7 @@ import slogo.model.api.turtle.TurtleAnimator;
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
 import slogo.model.api.turtle.Vector;
+import slogo.model.turtleutil.Turtle;
 
 /**
  * Represents a turtle graphic element in the Slogo user interface.
@@ -121,14 +122,18 @@ public class UITurtle extends UIElement {
 
   private void animateTurtle() {
     Map<Integer, TurtleState> nextState = ANIMATOR.nextFrame();
-    for (Integer index : nextState.keySet()) {
-      TurtleState state = nextState.get(index);
-      double heading = state.heading();
-      Point position = state.position();
+    while (!nextState.isEmpty()) {
+      for (Integer turtleId : nextState.keySet()) {
+        TurtleState state = nextState.get(turtleId);
+        double heading = state.heading();
+        Point position = state.position();
 
-      dx = position.getX();
-      dy = position.getY();
-      dr = heading;
+        dx = position.getX();
+        dy = position.getY();
+        dr = heading;
+      }
+      nextState = ANIMATOR.nextFrame();
     }
   }
+
 }
