@@ -29,8 +29,17 @@ public class Turtle {
   private final ResourceBundle errorResourceBundle = null;
       // resource bundle for error handling messages
 
+  public Turtle(int id) {
+    this.id = id;
+    this.currentState = TurtleAnimator.getInitialTurtleState();
+    this.stepHistory = new ArrayList<>();
+    this.currentPointInStepHistory = 0;
+//    this.errorResourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE +
+//    "ErrorsEnglish");
+  }
+
   public Turtle() {
-    this.id = 0;
+    this.id = 1;
     this.currentState = TurtleAnimator.getInitialTurtleState();
     this.stepHistory = new ArrayList<>();
     this.currentPointInStepHistory = 0;

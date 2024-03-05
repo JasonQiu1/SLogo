@@ -70,7 +70,7 @@ class SessionTest {
   }
 
   @ParameterizedTest
-  @ValueSource(strings = {"fd 50 rt 90", "fd 50 fd 0 rt 90", "fd 5 rt 2 fd 2 fd 43 rt 88"})
+  @ValueSource(strings = {"fd 50 rt 90", "fd 50 fd 0 rt 90", "fd 5 fd 2 fd 43 rt 2 rt 88"})
   void run_SimpleCommands(String command) {
 //  GIVEN one turtle at (0,0) heading 0deg
 //  WHEN run(command)
@@ -78,7 +78,20 @@ class SessionTest {
     Map<Integer, TurtleState> actual = _session.getTurtlesCurrentStates();
 
 //  THEN one turtle at (0,50) heading 90deg
-    Map<Integer, TurtleState> expected = Map.of(0, new TurtleState(new Point(0, 50), 90));
+    Map<Integer, TurtleState> expected = Map.of(1, new TurtleState(new Point(0, 50), 90));
+    assertStatesEqual(expected, actual);
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"for [ :i 1 11 1 ] [ fd 5 ] rt 90", "dotimes [ :i 10 ] [ fd 5 ] rt 90", "repeat 10 [ fd :repcount ] fd -5 rt 90"})
+  void run_Loops(String command) {
+//  GIVEN one turtle at (0,0) heading 0deg
+//  WHEN run(command)
+    _session.run(command);
+    Map<Integer, TurtleState> actual = _session.getTurtlesCurrentStates();
+
+//  THEN one turtle at (0,50) heading 90deg
+    Map<Integer, TurtleState> expected = Map.of(1, new TurtleState(new Point(0, 50), 90));
     assertStatesEqual(expected, actual);
   }
 
@@ -91,7 +104,7 @@ class SessionTest {
     Map<Integer, TurtleState> actual = _session.getTurtlesCurrentStates();
 
 //  THEN one turtle at (0,50) heading 90deg
-    Map<Integer, TurtleState> expected = Map.of(0, new TurtleState(new Point(0, 50), 90));
+    Map<Integer, TurtleState> expected = Map.of(1, new TurtleState(new Point(0, 50), 90));
     assertStatesEqual(expected, actual);
   }
 
@@ -104,7 +117,7 @@ class SessionTest {
     Map<Integer, TurtleState> actual = _session.getTurtlesCurrentStates();
 
 //  THEN one turtle at (0,50) heading 90deg
-    Map<Integer, TurtleState> expected = Map.of(0, new TurtleState(new Point(0, 50), 90));
+    Map<Integer, TurtleState> expected = Map.of(1, new TurtleState(new Point(0, 50), 90));
     assertStatesEqual(expected, actual);
   }
 
@@ -241,7 +254,7 @@ class SessionTest {
 //      WHEN `getTurtlesCurrentStates()`
       Map<Integer, TurtleState> actual = _session.getTurtlesCurrentStates();
 //      THEN `{0: new TurtleState(new Position(0,0), 0)}`
-      Map<Integer, TurtleState> expected = Map.of(0, new TurtleState(new Point(0, 0), 0));
+      Map<Integer, TurtleState> expected = Map.of(1, new TurtleState(new Point(0, 0), 0));
       assertStatesEqual(expected, actual);
     }
 
@@ -252,7 +265,7 @@ class SessionTest {
 //      WHEN `getTurtlesCurrentStates()`
       Map<Integer, TurtleState> actual = _session.getTurtlesCurrentStates();
 //      THEN `{0: new TurtleState(new Position(0,50), 51)}`
-      Map<Integer, TurtleState> expected = Map.of(0, new TurtleState(new Point(0, 50), 51));
+      Map<Integer, TurtleState> expected = Map.of(1, new TurtleState(new Point(0, 50), 51));
       assertStatesEqual(expected, actual);
     }
   }
@@ -284,7 +297,7 @@ class SessionTest {
       Map<Integer, List<TurtleStep>> actual = _session.getTurtlesStepHistories(1);
 
 //    THEN `{0:{new TurtleStep(new TurtleState(new Position(0, 0), 0), new Vector(0, 50), 0)}}`
-      Map<Integer, List<TurtleStep>> expected = Map.of(0,
+      Map<Integer, List<TurtleStep>> expected = Map.of(1,
           List.of(new TurtleStep(new TurtleState(new Point(0, 50), 0), new Vector(0, -50), 0)));
       assertStepsEqual(expected, actual);
     }
@@ -300,7 +313,7 @@ class SessionTest {
 
 //      THEN `{0:{new TurtleStep(new TurtleState(new Position(0, 0), 0), new Vector(0, 50), 0),
 //          new TurtleStep(new TurtleState(new Position(0, 50), 0), new Vector(0, -50), 0)}}`
-      Map<Integer, List<TurtleStep>> expected = Map.of(0,
+      Map<Integer, List<TurtleStep>> expected = Map.of(1,
           List.of(new TurtleStep(new TurtleState(new Point(0, 0), 0), new Vector(0, 50), 0),
               new TurtleStep(new TurtleState(new Point(0, 50), 0), new Vector(0, -50), 0)));
       assertStepsEqual(expected, actual);
@@ -348,7 +361,7 @@ class SessionTest {
 //      50), 0)}}`
       Map<Integer, List<TurtleStep>> actualStepHistories =
           _session.getTurtlesStepHistories(Integer.MAX_VALUE);
-      Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of(0,
+      Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of(1,
           List.of(new TurtleStep(new TurtleState(new Point(0, 50), 0), new Vector(0, -50), 0)));
       assertStepsEqual(expectedStepHistories, actualStepHistories);
     }
@@ -430,7 +443,7 @@ class SessionTest {
 //      0, new Vector(0,
 //      50), 0)}}`
       Map<Integer, List<TurtleStep>> actualStepHistories = _session.getTurtlesStepHistories(1);
-      Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of(0,
+      Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of(1,
           List.of(new TurtleStep(new TurtleState(new Point(0, 50), 0), new Vector(0, -50), 0)));
       assertStepsEqual(expectedStepHistories, actualStepHistories);
     }
@@ -456,7 +469,7 @@ class SessionTest {
 //      50), 0)},
 //      new TurtleStep(new Position(0, 50), 0, new Vector(0, -50), 0)}}`
       Map<Integer, List<TurtleStep>> actualStepHistories = _session.getTurtlesStepHistories(0);
-      Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of(0,
+      Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of(1,
           List.of(new TurtleStep(new TurtleState(new Point(0, 0), 0), new Vector(0, 50), 0),
               new TurtleStep(new TurtleState(new Point(0, 50), 0), new Vector(0, -50), 0)));
       assertStepsEqual(expectedStepHistories, actualStepHistories);
@@ -483,7 +496,7 @@ class SessionTest {
 //      50), 0)},
 //      new TurtleStep(new Position(0, 50), 0, new Vector(0, -50), 0)}}`
       Map<Integer, List<TurtleStep>> actualStepHistories = _session.getTurtlesStepHistories(0);
-      Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of(0,
+      Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of(1,
           List.of(new TurtleStep(new TurtleState(new Point(0, 0), 0), new Vector(0, 50), 0),
               new TurtleStep(new TurtleState(new Point(0, 50), 0), new Vector(0, -50), 0)));
       assertStepsEqual(expectedStepHistories, actualStepHistories);
@@ -498,7 +511,7 @@ class SessionTest {
     _session.reset();
 //    THEN one turtle at (0,0) heading 0
     Map<Integer, TurtleState> actualTurtles = _session.getTurtlesCurrentStates();
-    Map<Integer, TurtleState> expectedTurtles = Map.of(0, new TurtleState(new Point(0, 0), 0));
+    Map<Integer, TurtleState> expectedTurtles = Map.of(1, new TurtleState(new Point(0, 0), 0));
     assertStatesEqual(expectedTurtles, actualTurtles);
 //    AND `getCommandHistory(0) == {}`
     List<Map<String, Map<String, String>>> actualCommandHistories = _session.getCommandHistory(1);

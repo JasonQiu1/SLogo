@@ -6,12 +6,18 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import slogo.model.api.exception.coderunner.ErrorType;
 import slogo.model.api.exception.coderunner.RunCodeError;
+import slogo.model.coderunner.Expression.Ask;
+import slogo.model.coderunner.Expression.AskWith;
 import slogo.model.coderunner.Expression.Binary;
 import slogo.model.coderunner.Expression.Block;
 import slogo.model.coderunner.Expression.Call;
-import slogo.model.coderunner.Expression.DefineCommand;
+import slogo.model.coderunner.Expression.For;
+import slogo.model.coderunner.Expression.IfElse;
+import slogo.model.coderunner.Expression.Make;
 import slogo.model.coderunner.Expression.Number;
-import slogo.model.coderunner.Expression.SetVariable;
+import slogo.model.coderunner.Expression.Tell;
+import slogo.model.coderunner.Expression.To;
+import slogo.model.coderunner.Expression.Turtles;
 import slogo.model.coderunner.Expression.Unary;
 import slogo.model.coderunner.Expression.Variable;
 import slogo.model.coderunner.Expression.Visitor;
@@ -38,6 +44,7 @@ public class Interpreter implements Visitor {
 
   public void interpret(Parser parser) {
     currentParser = parser;
+//    currentEnvironment = globalEnvironment;
     Expression expression;
     while ((expression = parser.parseNext()) != null) {
       evaluate(expression);
@@ -49,10 +56,6 @@ public class Interpreter implements Visitor {
       throw new RunCodeError(ErrorType.RUNTIME, "nullExpression", -1, null);
     }
     return expression.accept(this);
-  }
-
-  public void spawnTurtle() {
-    turtles.add(new Turtle());
   }
 
   public void killTurtle(int id) {
@@ -139,14 +142,45 @@ public class Interpreter implements Visitor {
   }
 
   @Override
-  public double visitSetVariable(SetVariable expression) {
+  public double visitMake(Make expression) {
     double value = evaluate(expression.getValue());
-    currentEnvironment.setVariable((String) expression.getName().literal(), value);
+    currentEnvironment.setVariable((String) expression.getVariable().literal(), value);
     return value;
   }
 
   @Override
-  public double visitDefineCommand(DefineCommand expression) {
+  public double visitFor(For expression) {
+    String iteratorName = (String) expression.getIterator().literal();
+    double iteratorStart = evaluate(expression.getStart());
+    double iteratorEnd = evaluate(expression.getEnd());
+    double iteratorIncrement = evaluate(expression.getIncrement());
+
+    Environment previousEnvironment = currentEnvironment;
+    currentEnvironment = new Environment(currentEnvironment);
+    currentEnvironment.setVariable(iteratorName, iteratorStart);
+
+    double ret = 0;
+    while (currentEnvironment.lookupVariable(expression.getIterator()) < iteratorEnd) {
+      ret = evaluate(expression.getBody());
+      currentEnvironment.setVariable(iteratorName,
+          currentEnvironment.lookupVariable(expression.getIterator()) + iteratorIncrement);
+    }
+
+    currentEnvironment = previousEnvironment;
+    return ret;
+  }
+
+  @Override
+  public double visitIfElse(IfElse expression) {
+    double predicate = evaluate(expression.getPredicate());
+    if (predicate != 0) {
+      return evaluate(expression.getTrueBranch());
+    }
+    return evaluate(expression.getFalseBranch());
+  }
+
+  @Override
+  public double visitTo(To expression) {
     List<String> parameters = new ArrayList<String>();
     Expression next = null;
     while ((next = currentParser.parseNext()) instanceof Variable) {
@@ -154,26 +188,82 @@ public class Interpreter implements Visitor {
       parameters.add((String) variable.getName().literal());
     }
     if (!(next instanceof Block)) {
-      throw Util.createError("expectedCommandBody", expression.getName());
+      throw Util.createError("expectedCommandBody", expression.getCommandName());
     }
     Command command = new UserCommand(parameters, (Block) next);
-    currentEnvironment.defineCommand((String) expression.getName().literal(), command);
+    currentEnvironment.defineCommand((String) expression.getCommandName().literal(), command);
     return 1;
   }
 
   @Override
-  public double visitBlock(Block block) {
-    double ret = Double.NEGATIVE_INFINITY;
-    for (Expression expression : block.getBody()) {
-      ret = evaluate(expression);
+  public double visitTurtles(Turtles expression) {
+    return turtles.size();
+  }
+
+  @Override
+  public double visitTell(Tell expression) {
+    int id = 1;
+    for (Expression idExpression : expression.getIds()) {
+      id = (int) Math.round(evaluate(idExpression));
+      Turtle newTurtle = new Turtle(id);
+      turtles.add(newTurtle);
+      selectedTurtles.add(new CodeTurtle(newTurtle));
     }
+    return id;
+  }
+
+  @Override
+  public double visitAsk(Ask expression) {
+    List<CodeTurtle> previouslySelectedTurtles = selectedTurtles;
+    selectedTurtles = new ArrayList<>();
+    List<Integer> ids = new ArrayList<>();
+    for (Expression idExpression : expression.getIds()) {
+      ids.add((int) Math.round(evaluate(idExpression)));
+    }
+
+    for (Turtle turtle : turtles) {
+      if (!ids.contains(turtle.getId())) {
+        continue;
+      }
+      selectedTurtles.add(new CodeTurtle(turtle));
+    }
+
+    double result = evaluate(expression.getBody());
+    selectedTurtles = previouslySelectedTurtles;
+    return result;
+  }
+
+  @Override
+  public double visitAskWith(AskWith expression) {
+    List<CodeTurtle> previouslySelectedTurtles = selectedTurtles;
+    selectedTurtles = new ArrayList<>();
+    for (Turtle turtle : turtles) {
+      CodeTurtle candidate = new CodeTurtle(turtle);
+      selectedTurtles.add(candidate);
+      double predicateResult = evaluate(expression.getPredicate());
+      if (predicateResult == 0) {
+        selectedTurtles.remove(candidate);
+      }
+    }
+
+    double result = evaluate(expression.getBody());
+    selectedTurtles = previouslySelectedTurtles;
+    return result;
+  }
+
+  @Override
+  public double visitBlock(Block block) {
+    double ret = 0.0;
+    Parser previousParser = currentParser;
+    interpret(new ListParser(block.getBody()));
+    currentParser = previousParser;
     return ret;
   }
 
   private final Environment globalEnvironment;
   private Environment currentEnvironment;
   private final List<Turtle> turtles;
-  private final List<CodeTurtle> selectedTurtles;
+  private List<CodeTurtle> selectedTurtles;
   private Parser currentParser;
 
   private double booleanToDouble(boolean bool) {

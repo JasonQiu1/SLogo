@@ -20,13 +20,25 @@ public abstract class Expression {
 
     double visitVariable(Variable expression);
 
-    double visitSetVariable(SetVariable expression);
-
-    double visitDefineCommand(DefineCommand expression);
-
     double visitCall(Call expression);
 
     double visitBlock(Block expression);
+
+    double visitMake(Make expression);
+
+    double visitFor(For expression);
+
+    double visitIfElse(IfElse expression);
+
+    double visitTo(To expression);
+
+    double visitTurtles(Turtles expression);
+
+    double visitTell(Tell expression);
+
+    double visitAsk(Ask expression);
+
+    double visitAskWith(AskWith expression);
   }
 
   abstract double accept(Visitor visitor);
@@ -122,60 +134,6 @@ public abstract class Expression {
     private final Token name;
   }
 
-  public static class SetVariable extends Expression {
-
-    SetVariable(Token name, Expression value) {
-      this.name = name;
-      this.value = value;
-    }
-
-    @Override
-    double accept(Visitor visitor) {
-      return visitor.visitSetVariable(this);
-    }
-
-    Token getName() {
-      return name;
-    }
-
-    Expression getValue() {
-      return value;
-    }
-
-    private final Token name;
-    private final Expression value;
-  }
-
-  public static class DefineCommand extends Expression {
-
-    DefineCommand(Token name, List<Token> parameters, List<Expression> body) {
-      this.name = name;
-      this.parameters = parameters;
-      this.body = body;
-    }
-
-    @Override
-    double accept(Visitor visitor) {
-      return visitor.visitDefineCommand(this);
-    }
-
-    Token getName() {
-      return name;
-    }
-
-    List<Token> getParameters() {
-      return parameters;
-    }
-
-    List<Expression> getBody() {
-      return body;
-    }
-
-    private final Token name;
-    private final List<Token> parameters;
-    private final List<Expression> body;
-  }
-
   public static class Call extends Expression {
 
     Call(Token commandName) {
@@ -210,6 +168,210 @@ public abstract class Expression {
     }
 
     private final List<Expression> body;
+  }
+
+  public static class Make extends Expression {
+
+    Make(Token variable, Expression value) {
+      this.variable = variable;
+      this.value = value;
+    }
+
+    @Override
+    double accept(Visitor visitor) {
+      return visitor.visitMake(this);
+    }
+
+    Token getVariable() {
+      return variable;
+    }
+
+    Expression getValue() {
+      return value;
+    }
+
+    private final Token variable;
+    private final Expression value;
+  }
+
+  public static class For extends Expression {
+
+    For(Token iterator, Expression start, Expression end, Expression increment, Expression body) {
+      this.iterator = iterator;
+      this.start = start;
+      this.end = end;
+      this.increment = increment;
+      this.body = body;
+    }
+
+    @Override
+    double accept(Visitor visitor) {
+      return visitor.visitFor(this);
+    }
+
+    Token getIterator() {
+      return iterator;
+    }
+
+    Expression getStart() {
+      return start;
+    }
+
+    Expression getEnd() {
+      return end;
+    }
+
+    Expression getIncrement() {
+      return increment;
+    }
+
+    Expression getBody() {
+      return body;
+    }
+
+    private final Token iterator;
+    private final Expression start;
+    private final Expression end;
+    private final Expression increment;
+    private final Expression body;
+  }
+
+  public static class IfElse extends Expression {
+
+    IfElse(Expression predicate, Expression trueBranch, Expression falseBranch) {
+      this.predicate = predicate;
+      this.trueBranch = trueBranch;
+      this.falseBranch = falseBranch;
+    }
+
+    @Override
+    double accept(Visitor visitor) {
+      return visitor.visitIfElse(this);
+    }
+
+    Expression getPredicate() {
+      return predicate;
+    }
+
+    Expression getTrueBranch() {
+      return trueBranch;
+    }
+
+    Expression getFalseBranch() {
+      return falseBranch;
+    }
+
+    private final Expression predicate;
+    private final Expression trueBranch;
+    private final Expression falseBranch;
+  }
+
+  public static class To extends Expression {
+
+    To(Token commandName, List<Token> parameters, Expression body) {
+      this.commandName = commandName;
+      this.parameters = parameters;
+      this.body = body;
+    }
+
+    @Override
+    double accept(Visitor visitor) {
+      return visitor.visitTo(this);
+    }
+
+    Token getCommandName() {
+      return commandName;
+    }
+
+    List<Token> getParameters() {
+      return parameters;
+    }
+
+    Expression getBody() {
+      return body;
+    }
+
+    private final Token commandName;
+    private final List<Token> parameters;
+    private final Expression body;
+  }
+
+  public static class Turtles extends Expression {
+
+    Turtles() {
+    }
+
+    @Override
+    double accept(Visitor visitor) {
+      return visitor.visitTurtles(this);
+    }
+
+  }
+
+  public static class Tell extends Expression {
+
+    Tell(List<Expression> ids) {
+      this.ids = ids;
+    }
+
+    @Override
+    double accept(Visitor visitor) {
+      return visitor.visitTell(this);
+    }
+
+    List<Expression> getIds() {
+      return ids;
+    }
+
+    private final List<Expression> ids;
+  }
+
+  public static class Ask extends Expression {
+
+    Ask(List<Expression> ids, Expression body) {
+      this.ids = ids;
+      this.body = body;
+    }
+
+    @Override
+    double accept(Visitor visitor) {
+      return visitor.visitAsk(this);
+    }
+
+    List<Expression> getIds() {
+      return ids;
+    }
+
+    Expression getBody() {
+      return body;
+    }
+
+    private final List<Expression> ids;
+    private final Expression body;
+  }
+
+  public static class AskWith extends Expression {
+
+    AskWith(Expression predicate, Expression body) {
+      this.predicate = predicate;
+      this.body = body;
+    }
+
+    @Override
+    double accept(Visitor visitor) {
+      return visitor.visitAskWith(this);
+    }
+
+    Expression getPredicate() {
+      return predicate;
+    }
+
+    Expression getBody() {
+      return body;
+    }
+
+    private final Expression predicate;
+    private final Expression body;
   }
 
 }

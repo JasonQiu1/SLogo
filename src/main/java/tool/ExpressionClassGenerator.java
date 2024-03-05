@@ -33,20 +33,45 @@ class ExpressionClassGenerator {
               Variable
               Token name
               
-              SetVariable
-              Token name
-              Expression value
-              
-              DefineCommand
-              Token name
-              List<Token> parameters
-              List<Expression> body
-              
               Call
               Token commandName
               
               Block
               List<Expression> body
+              
+              Make
+              Token variable
+              Expression value
+              
+              For
+              Token iterator
+              Expression start
+              Expression end
+              Expression increment
+              Expression body
+              
+              IfElse
+              Expression predicate
+              Expression trueBranch
+              Expression falseBranch
+              
+              To
+              Token commandName
+              List<Token> parameters
+              Expression body
+              
+              Turtles
+              
+              Tell
+              List<Expression> ids
+              
+              Ask
+              List<Expression> ids
+              Expression body
+              
+              AskWith
+              Expression predicate
+              Expression body
           """;
   private static final String PACKAGE = "package slogo.model.coderunner;";
   private static final String IMPORTS = """
@@ -59,9 +84,10 @@ class ExpressionClassGenerator {
        */""";
   private static final String CLASS_DECLARATION = """
       public abstract class Expression {""";
-  private static final String CLASS_DEFINITION_PREFACE = "  abstract double accept(Visitor visitor);";
+  private static final String CLASS_DEFINITION_PREFACE =
+      "  abstract double accept(Visitor visitor);";
   private static final String CLASS_FOOTER = """
-        }""";
+      }""";
 
   public static void main(String[] args) throws IOException {
     String[] expressionBlocks = EXPRESSIONS.split("\n\n");
@@ -115,10 +141,14 @@ class ExpressionClassGenerator {
   private static String createClassDefinitionString(String[] expressionDefinition) {
     StringBuilder classDefinition = new StringBuilder();
     String className = expressionDefinition[0];
-    String[][] fields = new String[expressionDefinition.length - 1][2];
-    for (int i = 0; i < fields.length; i++) {
-      fields[i] = expressionDefinition[i + 1].split(" ");
+    String[][] fields = new String[0][0];
+    if (expressionDefinition.length != 1) {
+      fields = new String[expressionDefinition.length - 1][2];
+      for (int i = 0; i < fields.length; i++) {
+        fields[i] = expressionDefinition[i + 1].split(" ");
+      }
     }
+
     // class declaration
     classDefinition.append("  public static class ");
     classDefinition.append(className);
@@ -136,7 +166,10 @@ class ExpressionClassGenerator {
       classDefinition.append(field[1]);
       classDefinition.append(", ");
     }
-    classDefinition.delete(classDefinition.length() - 2, classDefinition.length()); // trim last comma
+    if (fields.length != 0) {
+      // trim last comma
+      classDefinition.delete(classDefinition.length() - 2, classDefinition.length());
+    }
     classDefinition.append(") {");
     classDefinition.append("\n");
     // constructor body
@@ -202,7 +235,7 @@ class ExpressionClassGenerator {
       printWriter.println();
       printWriter.println(classDefinitions);
       printWriter.println(CLASS_FOOTER);
-    } catch(IOException e) {
+    } catch (IOException e) {
       System.out.println("IO error with file: " + e.getMessage());
     }
   }

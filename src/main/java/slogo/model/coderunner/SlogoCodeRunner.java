@@ -27,7 +27,7 @@ public class SlogoCodeRunner {
    * @param commands the string of commands to execute.
    */
   public void run(String commands) {
-    interpreter.interpret(new Parser(new Lexer(commands)));
+    interpreter.interpret(new ParserStream(new Lexer(commands)));
   }
 
   private final Interpreter interpreter;
