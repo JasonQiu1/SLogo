@@ -18,7 +18,7 @@ public class SlogoCodeRunner {
    * @param turtles reference to the original list of turtles, which may be modified in-place.
    */
   public SlogoCodeRunner(List<Turtle> turtles) {
-    interpreter = new Interpreter(loadLibraryEnvironment(), turtles);
+    interpreter = new Interpreter(new LibraryEnvironment(), turtles);
   }
 
   /**
@@ -31,28 +31,4 @@ public class SlogoCodeRunner {
   }
 
   private final Interpreter interpreter;
-
-  private Environment loadLibraryEnvironment() {
-    Environment libraryEnvironment = new Environment(null);
-
-    libraryEnvironment.defineCommand("forward", new Forward());
-    libraryEnvironment.defineCommand("fd", new Forward());
-    libraryEnvironment.defineCommand("right", new Right());
-    libraryEnvironment.defineCommand("rt", new Right());
-    libraryEnvironment.defineCommand("back", new Back());
-    libraryEnvironment.defineCommand("bk", new Back());
-    libraryEnvironment.defineCommand("left", new Left());
-    libraryEnvironment.defineCommand("lt", new Left());
-    libraryEnvironment.defineCommand("setxy", new SetXY());
-    libraryEnvironment.defineCommand("goto", new SetXY());
-    libraryEnvironment.defineCommand("setheading", new SetHeading());
-    libraryEnvironment.defineCommand("seth", new SetHeading());
-    libraryEnvironment.defineCommand("towards", new Towards());
-    libraryEnvironment.defineCommand("id", new Id());
-    libraryEnvironment.defineCommand("xcor", new XCor());
-    libraryEnvironment.defineCommand("ycor", new YCor());
-    libraryEnvironment.defineCommand("heading", new Heading());
-
-    return libraryEnvironment;
-  }
 }
