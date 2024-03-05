@@ -4,7 +4,6 @@ import java.util.List;
 import slogo.model.api.exception.coderunner.RunCodeError;
 import slogo.model.coderunner.CodeTurtle;
 import slogo.model.coderunner.Interpreter;
-import slogo.model.coderunner.Token;
 
 /**
  * An abstract command.
@@ -36,5 +35,6 @@ public abstract class Command {
   protected Command(List<String> parameters) {
     this.parameters = parameters;
   }
+
   private final List<String> parameters;
 }

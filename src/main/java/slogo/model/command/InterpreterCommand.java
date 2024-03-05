@@ -4,7 +4,6 @@ import java.util.List;
 import slogo.model.api.exception.coderunner.RunCodeError;
 import slogo.model.coderunner.CodeTurtle;
 import slogo.model.coderunner.Interpreter;
-import slogo.model.coderunner.Token;
 
 /**
  * A command that only sends messages to the interpreter.

@@ -124,7 +124,7 @@ public class Interpreter implements Visitor {
     Command command = currentEnvironment.lookupCommand(expression.getCommandName());
 
     int arity = command.getArity();
-    List<Double> arguments = new ArrayList<Double>();
+    List<Double> arguments = new ArrayList<>();
     for (int i = 0; i < arity; i++) {
       arguments.add(evaluate(currentParser.parseNext()));
     }
@@ -181,8 +181,8 @@ public class Interpreter implements Visitor {
 
   @Override
   public double visitTo(To expression) {
-    List<String> parameters = new ArrayList<String>();
-    Expression next = null;
+    List<String> parameters = new ArrayList<>();
+    Expression next;
     while ((next = currentParser.parseNext()) instanceof Variable) {
       Variable variable = (Variable) next;
       parameters.add((String) variable.getName().literal());

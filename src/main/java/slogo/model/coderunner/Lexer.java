@@ -15,9 +15,9 @@ class Lexer {
       Map.ofEntries(Map.entry("make", TokenType.MAKE), Map.entry("repeat", TokenType.REPEAT),
           Map.entry("dotimes", TokenType.DOTIMES), Map.entry("for", TokenType.FOR),
           Map.entry("if", TokenType.IF), Map.entry("ifelse", TokenType.IFELSE),
-          Map.entry("to", TokenType.TO),
-          Map.entry("turtles", TokenType.TURTLES), Map.entry("tell", TokenType.TELL),
-          Map.entry("ask", TokenType.ASK), Map.entry("askwith", TokenType.ASKWITH));
+          Map.entry("to", TokenType.TO), Map.entry("turtles", TokenType.TURTLES),
+          Map.entry("tell", TokenType.TELL), Map.entry("ask", TokenType.ASK),
+          Map.entry("askwith", TokenType.ASKWITH));
 
   Lexer(String commands) {
     if (commands == null) {

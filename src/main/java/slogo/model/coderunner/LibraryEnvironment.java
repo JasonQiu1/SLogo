@@ -18,7 +18,7 @@ public class LibraryEnvironment extends Environment {
     super(null);
     defineLibraryCommands();
   }
-  
+
   private void defineLibraryCommands() {
     defineCommand("forward", new Forward());
     defineCommand("fd", new Forward());
