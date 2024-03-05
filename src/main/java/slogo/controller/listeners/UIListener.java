@@ -10,7 +10,7 @@ import slogo.view.userinterface.UIElement;
  *
  * @author Jeremyah Flowers
  */
-public interface UIListener extends Listener {
+public interface UIListener {
 
     /**
      * Sends a signal to handle a UI element event.
