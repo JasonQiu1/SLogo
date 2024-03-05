@@ -1,8 +1,8 @@
 package slogo.model.coderunner;
 
 import java.util.List;
-import slogo.model.command.library.Forward;
-import slogo.model.command.library.Right;
+import slogo.model.command.library.*;
+import slogo.model.command.library.YCor;
 import slogo.model.turtleutil.Turtle;
 
 /**
@@ -39,6 +39,19 @@ public class SlogoCodeRunner {
     libraryEnvironment.defineCommand("fd", new Forward());
     libraryEnvironment.defineCommand("right", new Right());
     libraryEnvironment.defineCommand("rt", new Right());
+    libraryEnvironment.defineCommand("back", new Back());
+    libraryEnvironment.defineCommand("bk", new Back());
+    libraryEnvironment.defineCommand("left", new Left());
+    libraryEnvironment.defineCommand("lt", new Left());
+    libraryEnvironment.defineCommand("setxy", new SetXY());
+    libraryEnvironment.defineCommand("goto", new SetXY());
+    libraryEnvironment.defineCommand("setheading", new SetHeading());
+    libraryEnvironment.defineCommand("seth", new SetHeading());
+    libraryEnvironment.defineCommand("towards", new Towards());
+    libraryEnvironment.defineCommand("id", new Id());
+    libraryEnvironment.defineCommand("xcor", new XCor());
+    libraryEnvironment.defineCommand("ycor", new YCor());
+    libraryEnvironment.defineCommand("heading", new Heading());
 
     return libraryEnvironment;
   }

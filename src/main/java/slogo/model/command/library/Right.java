@@ -15,6 +15,6 @@ public class Right extends InterpreterCommand {
   }
 
   public Right() {
-    super(List.of("pixels"));
+    super(List.of("degrees"));
   }
 }

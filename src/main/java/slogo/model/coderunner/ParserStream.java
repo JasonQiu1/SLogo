@@ -163,10 +163,6 @@ class ParserStream implements Parser {
       return new Expression.To(variable, parameters, body);
     }
 
-    if (match(TokenType.ID)) {
-      return new Expression.Call(previousToken);
-    }
-
     if (match(TokenType.TURTLES)) {
       return new Expression.Turtles();
     }

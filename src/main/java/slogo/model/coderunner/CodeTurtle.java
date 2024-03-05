@@ -1,6 +1,7 @@
 package slogo.model.coderunner;
 
 import java.util.List;
+import slogo.model.api.turtle.Point;
 import slogo.model.api.turtle.TurtleStep;
 import slogo.model.turtleutil.Turtle;
 
@@ -18,6 +19,30 @@ public class CodeTurtle {
 
   public int getId() {
     return turtle.getId();
+  }
+
+  public double getX() {
+    return turtle.getCurrentState().position().getX();
+  }
+
+  public double getY() {
+    return turtle.getCurrentState().position().getX();
+  }
+
+  public double getHeading() {
+    return turtle.getCurrentState().heading();
+  }
+
+  public double setPosition(double x, double y) {
+    return turtle.setXY(new Point(x, y)).changeInPosition().getMagnitude();
+  }
+
+  public double setHeading(double degrees) {
+    return turtle.setHeading(degrees).changeInAngle();
+  }
+
+  public double turnTowards(double x, double y) {
+    return turtle.turnTowards(new Point(x, y)).changeInAngle();
   }
 
   public double move(double pixels) {
