@@ -15,6 +15,6 @@ public class Id extends InterpreterCommand {
   }
 
   public Id() {
-    super(List.of("x", "y"));
+    super(List.of());
   }
 }

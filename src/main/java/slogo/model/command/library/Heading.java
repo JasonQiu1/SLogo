@@ -15,6 +15,6 @@ public class Heading extends InterpreterCommand {
   }
 
   public Heading() {
-    super(List.of("x", "y"));
+    super(List.of());
   }
 }

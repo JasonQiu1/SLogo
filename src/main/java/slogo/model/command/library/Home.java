@@ -6,15 +6,15 @@ import slogo.model.coderunner.CodeTurtle;
 import slogo.model.coderunner.Interpreter;
 import slogo.model.command.InterpreterCommand;
 
-public class YCor extends InterpreterCommand {
+public class Home extends InterpreterCommand {
 
   @Override
   public double apply(CodeTurtle turtle, Interpreter interpreter, List<Double> arguments)
       throws RunCodeError {
-    return turtle.getY();
+    return turtle.setPosition(0, 0);
   }
 
-  public YCor() {
+  public Home() {
     super(List.of());
   }
 }

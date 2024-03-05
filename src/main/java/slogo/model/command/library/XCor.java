@@ -15,6 +15,6 @@ public class XCor extends InterpreterCommand {
   }
 
   public XCor() {
-    super(List.of("x", "y"));
+    super(List.of());
   }
 }

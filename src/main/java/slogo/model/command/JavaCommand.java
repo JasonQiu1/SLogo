@@ -10,14 +10,14 @@ import slogo.model.coderunner.Interpreter;
  *
  * @author Jason Qiu
  */
-public abstract class JavaCommand extends Command {
+public class JavaCommand extends Command {
 
   @Override
   public double apply(CodeTurtle turtle, Interpreter interpreter, List<Double> arguments) {
     return function.apply(arguments);
   }
 
-  protected JavaCommand(List<String> parameters, Function<List<Double>, Double> function) {
+  public JavaCommand(List<String> parameters, Function<List<Double>, Double> function) {
     super(parameters);
     this.function = function;
   }
