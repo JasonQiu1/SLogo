@@ -1,13 +1,20 @@
 package slogo.view.userinterface;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import java.awt.Color;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.view.SlogoWindow;
 import util.DukeApplicationTest;
 
 class UIButtonTest extends DukeApplicationTest {
@@ -15,17 +22,26 @@ class UIButtonTest extends DukeApplicationTest {
   private ExternalButton testExternalButton;
   private InternalButton testInternalButton;
   private String random;
+  private Stage stage;
   private double x;
   private double y;
 
-  @BeforeEach
-  void setUp() {
+  @Override
+  public void start(Stage stage) {
     random = "Random";
     x = 100;
     y = 100;
     testInternalButton = new InternalButton(random, x, y);
     testExternalButton = new ExternalButton(random, x, y);
+    Group root = new Group();
+    root.getChildren().add(testExternalButton.getElement());
+    root.getChildren().add(testInternalButton.getElement());
+
+    stage = new Stage();
+    stage.setScene(new Scene(root, 400, 400));
+    stage.show();
   }
+
 
   @Test
   void setSelectorClassicTest() {
@@ -169,5 +185,22 @@ class UIButtonTest extends DukeApplicationTest {
 
     assertEquals(expectedShape.getRadiusX(), actualShape.getRadiusX());
     assertEquals(expectedShape.getRadiusY(), actualShape.getRadiusY());
+  }
+
+  @Test
+  void setStatusTest() {
+    testInternalButton.setStatus(true);
+    Button button = (Button) testInternalButton.getElement();
+    assertFalse(button.isDisabled());
+  }
+
+  @Test
+  void folderOpenerAndGetPathTest() {
+    testExternalButton.addFolderOpener(stage, "");
+    Button button = lookup(testExternalButton.getID()).query();
+    clickOn(button);
+    clickOn("cancel");
+    String actual = testExternalButton.getMyPath();
+    assertEquals("", actual);
   }
 }
