@@ -19,10 +19,10 @@ public class UserCommand extends Command {
     return interpreter.evaluate(body);
   }
 
-  public UserCommand(List<String> parameters, Expression.Block body) {
+  public UserCommand(List<String> parameters, Expression body) {
     super(parameters);
     this.body = body;
   }
 
-  private final Expression.Block body;
+  private final Expression body;
 }

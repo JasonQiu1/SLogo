@@ -32,8 +32,8 @@ import slogo.model.turtleutil.Turtle;
  */
 public class Interpreter implements Visitor {
 
-  Interpreter(Environment globalEnvironment, List<Turtle> turtles) {
-    this.globalEnvironment = globalEnvironment;
+  Interpreter(Environment libraryEnvironment, List<Turtle> turtles) {
+    this.globalEnvironment = new Environment(libraryEnvironment);
     this.currentEnvironment = this.globalEnvironment;
     this.turtles = turtles;
     this.selectedTurtles = new ArrayList<>();
@@ -42,13 +42,25 @@ public class Interpreter implements Visitor {
     }
   }
 
-  public void interpret(Parser parser) {
+  public double interpret(Parser parser) {
     currentParser = parser;
-//    currentEnvironment = globalEnvironment;
     Expression expression;
+    double ret = 0.0;
     while ((expression = parser.parseNext()) != null) {
-      evaluate(expression);
+      currentEnvironment = globalEnvironment;
+      ret = evaluate(expression);
     }
+    return ret;
+  }
+
+  private double interpretBlock(Parser parser) {
+    currentParser = parser;
+    Expression expression;
+    double ret = 0.0;
+    while ((expression = parser.parseNext()) != null) {
+      ret = evaluate(expression);
+    }
+    return ret;
   }
 
   public double evaluate(Expression expression) throws RunCodeError {
@@ -176,21 +188,20 @@ public class Interpreter implements Visitor {
     if (predicate != 0) {
       return evaluate(expression.getTrueBranch());
     }
-    return evaluate(expression.getFalseBranch());
+    if (expression.getFalseBranch() != null) {
+      return evaluate(expression.getFalseBranch());
+    }
+    return 0;
   }
 
   @Override
   public double visitTo(To expression) {
     List<String> parameters = new ArrayList<>();
     Expression next;
-    while ((next = currentParser.parseNext()) instanceof Variable) {
-      Variable variable = (Variable) next;
-      parameters.add((String) variable.getName().literal());
+    for (Token parameter : expression.getParameters()) {
+      parameters.add((String) parameter.literal());
     }
-    if (!(next instanceof Block)) {
-      throw Util.createError("expectedCommandBody", expression.getCommandName());
-    }
-    Command command = new UserCommand(parameters, (Block) next);
+    Command command = new UserCommand(parameters, expression.getBody());
     currentEnvironment.defineCommand((String) expression.getCommandName().literal(), command);
     return 1;
   }
@@ -253,10 +264,12 @@ public class Interpreter implements Visitor {
 
   @Override
   public double visitBlock(Block block) {
-    double ret = 0.0;
     Parser previousParser = currentParser;
-    interpret(new ListParser(block.getBody()));
+    Environment previousEnvironment = currentEnvironment;
+    currentEnvironment = new Environment(currentEnvironment);
+    double ret = interpretBlock(new ListParser(block.getBody()));
     currentParser = previousParser;
+    currentEnvironment = previousEnvironment;
     return ret;
   }
 

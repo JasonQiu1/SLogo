@@ -86,7 +86,7 @@ class Lexer {
         } else if (isNumeric(currentChar)) {
           yield number();
         } else if (isAlpha(currentChar)) {
-          yield identifier();
+          yield command();
         }
         throw new RunCodeError(ErrorType.TOKENIZE, "invalidToken", lineNumber, currentLine());
       }
@@ -147,8 +147,8 @@ class Lexer {
     return getAggregateString();
   }
 
-  private Token identifier() {
-    String name = name();
+  private Token command() {
+    String name = name() + (match('?') ? "?" : "");
     return createToken(keywordMap.getOrDefault(name, TokenType.COMMAND), name);
   }
 

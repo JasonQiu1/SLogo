@@ -133,25 +133,21 @@ class ParserStream implements Parser {
     }
 
     if (match(TokenType.IF)) {
-      Expression predicate = expression();
-      consume(TokenType.LEFT_SQUARE_BRACKET);
-      Expression trueBranch = expression();
-      consume(TokenType.RIGHT_SQUARE_BRACKET);
+      Expression predicate = blockUntil(TokenType.LEFT_SQUARE_BRACKET);
+      Expression trueBranch = consumeBlock();
       return new Expression.IfElse(predicate, trueBranch, null);
     }
 
     if (match(TokenType.IFELSE)) {
-      Expression predicate = expression();
-      consume(TokenType.LEFT_SQUARE_BRACKET);
-      Expression trueBranch = expression();
-      Expression falseBranch = expression();
-      consume(TokenType.RIGHT_SQUARE_BRACKET);
+      Expression predicate = blockUntil(TokenType.LEFT_SQUARE_BRACKET);
+      Expression trueBranch = consumeBlock();
+      Expression falseBranch = consumeBlock();
       return new Expression.IfElse(predicate, trueBranch, falseBranch);
     }
 
     if (match(TokenType.TO)) {
-      consume(TokenType.VARIABLE);
-      Token variable = previousToken;
+      consume(TokenType.COMMAND);
+      Token commandName = previousToken;
       List<Token> parameters = new ArrayList<>();
       consume(TokenType.LEFT_SQUARE_BRACKET);
       while (match(TokenType.VARIABLE)) {
@@ -160,7 +156,7 @@ class ParserStream implements Parser {
       consume(TokenType.RIGHT_SQUARE_BRACKET);
       Expression body = consumeBlock();
 
-      return new Expression.To(variable, parameters, body);
+      return new Expression.To(commandName, parameters, body);
     }
 
     if (match(TokenType.TURTLES)) {
@@ -177,7 +173,7 @@ class ParserStream implements Parser {
     }
 
     if (match(TokenType.ASKWITH)) {
-      Expression predicate = expression();
+      Expression predicate = blockUntil(TokenType.LEFT_SQUARE_BRACKET);
       Expression body = consumeBlock();
       return new Expression.AskWith(predicate, body);
     }
@@ -187,6 +183,14 @@ class ParserStream implements Parser {
     }
 
     return expression;
+  }
+
+  private Block blockUntil(TokenType limiter) {
+    List<Expression> body = new ArrayList<>();
+    while (!check(limiter)) {
+      body.add(expression());
+    }
+    return new Block(body);
   }
 
   private Block block() {
