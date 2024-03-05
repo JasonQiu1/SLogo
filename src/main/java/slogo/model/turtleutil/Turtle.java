@@ -23,14 +23,14 @@ public class Turtle {
   private final List<TurtleStepExtended> stepHistory;
   private int currentPointInStepHistory;
   private static final String DEFAULT_RESOURCE_PACKAGE = "slogo.model.";
-  private final ResourceBundle errorResourceBundle = null; // resource bundle for error handling messages
+  private final ResourceBundle errorResourceBundle; // resource bundle for error handling messages
 
   public Turtle() {
     this.id = 0;
     this.currentState = TurtleAnimator.getInitialTurtleState();
     this.stepHistory = new ArrayList<>();
     this.currentPointInStepHistory= 0;
-//    this.errorResourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ErrorsEnglish");
+    this.errorResourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ErrorsEnglish");
   }
 
   public int getId() {

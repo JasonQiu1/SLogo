@@ -307,10 +307,10 @@ public class TurtleTest extends DukeApplicationTest {
     checkTurtleStep(expectedStep, step);
   }
 
-//  @Test
-//  void testSetInvalidPosition() {
-//    assertThrows(InvalidPositionException.class, () -> myTurtle.setXY(new Point(400,400)));
-//  }
+  @Test
+  void testSetInvalidPosition() {
+    assertThrows(InvalidPositionException.class, () -> myTurtle.setXY(new Point(400,400)));
+  }
 
   @Test
   void testResetTurtle() {
