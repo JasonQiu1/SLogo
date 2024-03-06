@@ -134,7 +134,7 @@ public class Session {
   public void reset() {
     commandHistory.clear();
     turtles.clear();
-    turtles.add(new Turtle());
+    turtles.add(new Turtle(1));
   }
 
   private final List<Map<String, Map<String, String>>> commandHistory;

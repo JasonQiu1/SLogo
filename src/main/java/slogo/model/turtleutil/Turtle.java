@@ -22,11 +22,15 @@ public class Turtle {
 
   private int id;
   private TurtleState currentState;
-      // heading = angle from vertical y-axis (all calculations use angle from horizontal x-axis)
   private final List<TurtleStepExtended> stepHistory;
   private int currentPointInStepHistory;
   private static final String DEFAULT_RESOURCE_PACKAGE = "slogo.model.";
-  private final ResourceBundle errorResourceBundle; // resource bundle for error handling messages
+  private final ResourceBundle errorResourceBundle;
+
+  /**
+   * Constructor for instantiating a new Turtle
+   * @param id, id of turtle
+   */
   public Turtle(int id) {
     this.id = id;
     this.currentState = TurtleAnimator.getInitialTurtleState();
@@ -35,37 +39,35 @@ public class Turtle {
     this.errorResourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ErrorsEnglish");
   }
 
-  public Turtle() {
-    this.id = 1;
-    this.currentState = TurtleAnimator.getInitialTurtleState();
-    this.stepHistory = new ArrayList<>();
-    this.currentPointInStepHistory = 0;
-    this.errorResourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ErrorsEnglish");
-  }
-
+  /**
+   * Retrieve a turtle's id instance variable
+   * @return id of turtle
+   */
   public int getId() {
     return id;
   }
 
+  /**
+   * Retrieve a turtle's current state
+   * @return the current state of turtle
+   */
   public TurtleState getCurrentState() {
     return currentState;
   }
 
+  /**
+   * Retrieve a turtle's step history
+   * @return turtle's step history
+   */
   public List<TurtleStepExtended> getStepHistory() {
     return stepHistory;
   }
 
-  // return the step turtle is currently on in its step history
-  protected int getCurrentPointInStepHistory() {
-    return currentPointInStepHistory;
-
-  }
-
-  // update the step turtle is currently on in its step history
-  protected void setCurrentPointInStepHistory(int currentPointInStepHistory) {
-    this.currentPointInStepHistory = currentPointInStepHistory;
-  }
-
+  /**
+   * Turn turtle towards a given point
+   * @param point, point to turn towards
+   * @return TurtleStep representing the turn took
+   */
   public TurtleStep turnTowards(Point point) {
 
     Vector vectorToPoint =

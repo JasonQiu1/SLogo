@@ -94,6 +94,8 @@ public class UITurtle extends UIElement {
    * @param newHeading The new heading of the turtle.
    */
   public void createAnimation(double newX, double newY, double newHeading) {
+
+
     Map<Integer, List<TurtleStep>> eachTurtlesStep = new HashMap<>();
 
     Point point = new Point(x, y);

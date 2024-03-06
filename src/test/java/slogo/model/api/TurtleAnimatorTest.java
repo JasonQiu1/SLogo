@@ -21,7 +21,7 @@ public class TurtleAnimatorTest {
 
   @BeforeEach
   void setup () {
-    myTurtle = new Turtle();
+    myTurtle = new Turtle(1);
     myTurtleAnimator = new TurtleAnimator();
   }
 
@@ -125,21 +125,21 @@ public class TurtleAnimatorTest {
   }
 
 
-  void prepareMove() {
+  private void prepareMove() {
     Map<Integer, List<TurtleStep>> turtles = new HashMap<>();
     List<TurtleStep> steps = myTurtle.move(24);
     turtles.put(0, steps);
     myTurtleAnimator.animateStep(turtles);
   }
 
-  void prepareRotate() {
+  private void prepareRotate() {
     Map<Integer, List<TurtleStep>> turtles = new HashMap<>();
     TurtleStep step = myTurtle.rotate(24);
     turtles.put(0, List.of(step));
     myTurtleAnimator.animateStep(turtles);
   }
 
-  void checkInterStates(List<TurtleState> expectedInterStates) {
+  private void checkInterStates(List<TurtleState> expectedInterStates) {
     for (Integer id: myTurtleAnimator.getIntermediateStates().keySet()) {
       List<TurtleState> states = myTurtleAnimator.getIntermediateStates().get(id);
       Iterator<TurtleState> iter = states.iterator();
@@ -154,7 +154,7 @@ public class TurtleAnimatorTest {
 
   }
 
-  void checkFrame(Map<Integer, TurtleState> states, Map<Integer, TurtleState> expected) {
+  private void checkFrame(Map<Integer, TurtleState> states, Map<Integer, TurtleState> expected) {
     for (Integer turtleId: states.keySet()) {
       assertEquals(states.get(turtleId).position(), expected.get(turtleId).position());
       assertEquals(states.get(turtleId).heading(), expected.get(turtleId).heading());

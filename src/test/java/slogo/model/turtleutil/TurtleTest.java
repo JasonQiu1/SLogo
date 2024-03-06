@@ -1,4 +1,4 @@
-package slogo.model.api;
+package slogo.model.turtleutil;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,7 +11,6 @@ import slogo.model.api.turtle.TurtleAnimator;
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
 import slogo.model.api.turtle.Vector;
-import slogo.model.turtleutil.Turtle;
 
 import util.DukeApplicationTest;
 
@@ -21,7 +20,7 @@ public class TurtleTest extends DukeApplicationTest {
 
   @BeforeEach
   void setup () {
-    myTurtle = new Turtle();
+    myTurtle = new Turtle(1);
     myTurtleAnimator = new TurtleAnimator();
 
   }
@@ -328,14 +327,14 @@ public class TurtleTest extends DukeApplicationTest {
     checkTurtleState(expectedFinalState, myTurtle.getCurrentState());
   }
 
-  void checkTurtleStep(TurtleStep expected, TurtleStep step) {
+  private void checkTurtleStep(TurtleStep expected, TurtleStep step) {
     assertEquals(expected.initialState().position(), step.initialState().position());
     assertEquals(expected.initialState().heading(), step.initialState().heading());
     assertEquals(expected.changeInPosition(), step.changeInPosition());
     assertEquals(expected.changeInAngle(), step.changeInAngle());
   }
 
-  void checkTurtleState(TurtleState expected, TurtleState state) {
+  private void checkTurtleState(TurtleState expected, TurtleState state) {
     assertEquals(expected.position(), state.position());
     assertEquals(expected.heading(), state.heading());
   }
