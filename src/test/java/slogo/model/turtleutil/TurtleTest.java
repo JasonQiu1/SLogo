@@ -12,9 +12,7 @@ import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
 import slogo.model.api.turtle.Vector;
 
-import util.DukeApplicationTest;
-
-public class TurtleTest extends DukeApplicationTest {
+public class TurtleTest {
   private Turtle myTurtle;
   private TurtleAnimator myTurtleAnimator;
 
