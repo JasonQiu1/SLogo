@@ -56,11 +56,34 @@ public class Turtle {
   }
 
   /**
-   * Retrieve a turtle's step history
+   * Returns the current step history of a certain length. May return more steps
+   * than maxLength due to intermediate states from wrapping.
+   * maxLength limits the number of commands, not number of steps.
+   *
+   * @param maxLength the max length of step history to return. If 0, then return entire step
+   *                  history. If positive, then return the backwards
+   *                  history up to length.
    * @return turtle's step history
    */
-  public List<TurtleStepExtended> getStepHistory() {
-    return stepHistory;
+  public List<TurtleStep> getStepHistory(int maxLength) {
+    List<TurtleStep> history = new ArrayList<>();
+    int startInd = 0;
+    if (maxLength < this.stepHistory.size()) {
+      startInd = currentPointInStepHistory;
+      int count = 0;
+      while (count != maxLength) {
+        startInd--;
+        while (this.stepHistory.get(startInd).crossBorderIntermediateStep()) {
+          startInd--;
+        }
+        count++;
+      }
+    }
+
+    for (int i = startInd; i < this.stepHistory.size(); i++) {
+      history.add(this.stepHistory.get(i).turtleStep());
+    }
+    return history;
   }
 
   /**
