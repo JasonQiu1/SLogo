@@ -55,8 +55,7 @@ public class Session {
    *
    * @param maxLength the max length of step history to return. If 0, then return entire step
    *                  history (including forward history). If positive, then return the backwards
-   *                  history up to length. If negative, then return the forwards history up to
-   *                  -length.
+   *                  history up to length.
    * @return an immutable map where the key is the id of the turtle and a list of its step history
    */
   public Map<Integer, List<TurtleStep>> getTurtlesStepHistories(int maxLength) {
