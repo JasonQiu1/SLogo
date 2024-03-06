@@ -94,9 +94,7 @@ public class TurtleTest extends DukeApplicationTest {
     // check TurtleStep history
     List<TurtleStep> expectedStepHistory = List.of(expectedStep3, expectedStep4, expectedStep5);
     List<TurtleStep> stepHistory = myTurtle.getStepHistory(3);
-    for (int i = 0; i < stepHistory.size(); i++) {
-      checkTurtleStep(expectedStepHistory.get(i), stepHistory.get(i));
-    }
+    checkTurtleStepHistory(expectedStepHistory, stepHistory);
   }
 
   @Test
@@ -133,9 +131,8 @@ public class TurtleTest extends DukeApplicationTest {
 
     // check TurtleStep history
     List<TurtleStep> expectedStepHistory = List.of(expectedStep1, expectedStep2, expectedStep3);
-    for (int i = 0; i < myTurtle.getStepHistory(Integer.MAX_VALUE).size(); i++) {
-      checkTurtleStep(expectedStepHistory.get(i), myTurtle.getStepHistory(Integer.MAX_VALUE).get(i));
-    }
+    List<TurtleStep> stepHistory = myTurtle.getStepHistory(Integer.MAX_VALUE);
+    checkTurtleStepHistory(expectedStepHistory, stepHistory);
 
     // check final state after step 1
     checkTurtleState(expectedFinalState1, expectedInitState2);
@@ -367,6 +364,12 @@ public class TurtleTest extends DukeApplicationTest {
   private void checkTurtleState(TurtleState expected, TurtleState state) {
     assertEquals(expected.position(), state.position());
     assertEquals(expected.heading(), state.heading());
+  }
+
+  private void checkTurtleStepHistory(List<TurtleStep> expected, List<TurtleStep> stepHistory) {
+    for (int i = 0; i < stepHistory.size(); i++) {
+      checkTurtleStep(expected.get(i), stepHistory.get(i));
+    }
   }
 
 
