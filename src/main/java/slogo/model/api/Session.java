@@ -60,7 +60,11 @@ public class Session {
    * @return an immutable map where the key is the id of the turtle and a list of its step history
    */
   public Map<Integer, List<TurtleStep>> getTurtlesStepHistories(int maxLength) {
-    return null;
+    Map<Integer, List<TurtleStep>> stepHistories = new HashMap<>();
+    for (Turtle turtle: this.turtles) {
+      stepHistories.put(turtle.getId(), turtle.getStepHistory(maxLength));
+    }
+    return stepHistories;
   }
 
   /**
