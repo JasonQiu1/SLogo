@@ -7,7 +7,7 @@ import java.util.Map;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
-import slogo.view.listeners.GraphicsListener;
+import slogo.controller.listeners.GraphicsListener;
 import slogo.view.userinterface.UIElement;
 
 /**
