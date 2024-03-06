@@ -68,6 +68,36 @@ public class TurtleTest extends DukeApplicationTest {
     checkTurtleState(expectedFinalState, myTurtle.getCurrentState());
 
   }
+  @Test
+  void testTurtleStepHistoryGivenMaxLength() {
+    myTurtle.move(50);
+    myTurtle.rotate(30);
+    myTurtle.move(100);
+    myTurtle.move(-20);
+    myTurtle.rotate(-150);
+
+    TurtleState expectedInitState3 = new TurtleState(new Point(0, 50), 30);
+    Vector expectedPositionChange3 = new Vector(100*Math.sin(Math.toRadians(30)), 100*Math.cos(Math.toRadians(30)));
+    double expectedAngelChange3 = 0;
+    TurtleStep expectedStep3 = new TurtleStep(expectedInitState3, expectedPositionChange3, expectedAngelChange3);
+
+    TurtleState expectedInitState4 = new TurtleState(new Point(100*Math.sin(Math.toRadians(30)), 50+100*Math.cos(Math.toRadians(30))), 30);
+    Vector expectedPositionChange4 = new Vector(-20*Math.sin(Math.toRadians(30)), -20*Math.cos(Math.toRadians(30)));
+    double expectedAngelChange4 = 0;
+    TurtleStep expectedStep4 = new TurtleStep(expectedInitState4, expectedPositionChange4, expectedAngelChange4);
+
+    TurtleState expectedInitState5 = new TurtleState(new Point(100*Math.sin(Math.toRadians(30))-20*Math.sin(Math.toRadians(30)), 50+100*Math.cos(Math.toRadians(30))-20*Math.cos(Math.toRadians(30))), 30);
+    Vector expectedPositionChange5 = new Vector(0, 0);
+    double expectedAngelChange5 = -150;
+    TurtleStep expectedStep5 = new TurtleStep(expectedInitState5, expectedPositionChange5, expectedAngelChange5);
+
+    // check TurtleStep history
+    List<TurtleStep> expectedStepHistory = List.of(expectedStep3, expectedStep4, expectedStep5);
+    List<TurtleStep> stepHistory = myTurtle.getStepHistory(3);
+    for (int i = 0; i < stepHistory.size(); i++) {
+      checkTurtleStep(expectedStepHistory.get(i), stepHistory.get(i));
+    }
+  }
 
   @Test
   void testTurtleStepHistory() {
@@ -103,8 +133,8 @@ public class TurtleTest extends DukeApplicationTest {
 
     // check TurtleStep history
     List<TurtleStep> expectedStepHistory = List.of(expectedStep1, expectedStep2, expectedStep3);
-    for (int i = 0; i < myTurtle.getStepHistory().size(); i++) {
-      checkTurtleStep(expectedStepHistory.get(i), myTurtle.getStepHistory().get(i).turtleStep());
+    for (int i = 0; i < myTurtle.getStepHistory(Integer.MAX_VALUE).size(); i++) {
+      checkTurtleStep(expectedStepHistory.get(i), myTurtle.getStepHistory(Integer.MAX_VALUE).get(i));
     }
 
     // check final state after step 1
