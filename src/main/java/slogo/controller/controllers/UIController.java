@@ -11,6 +11,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
+import slogo.model.api.Session;
+import slogo.model.api.turtle.TurtleAnimator;
 import slogo.view.userinterface.UIButton;
 import slogo.view.userinterface.UIElement;
 
@@ -19,12 +21,14 @@ import slogo.view.userinterface.UIElement;
  * It provides functionality to handle UI elements and themes.
  * This interface serves as a base for various UI controllers.
  *
- * @author Jeremyah Flowers
+ * @author Jeremyah Flowers, Judy He
  */
 public abstract class UIController {
 
     // Instance Variable
     private final Collection<UIElement> myElements;
+    private Session session;
+    private final TurtleAnimator TURTLE_ANIMATOR = new TurtleAnimator();
 
     /**
      * Constructor for UIController.
@@ -96,5 +100,14 @@ public abstract class UIController {
      */
     protected void selectButton(UIButton button, boolean flag) {
         button.setStatus(flag);
+    }
+    protected Session getCurrentSession() {
+        return session;
+    }
+    protected TurtleAnimator getTurtleAnimator() {
+        return TURTLE_ANIMATOR;
+    }
+    protected void startNewSession() {
+        this.session = new Session();
     }
 }
