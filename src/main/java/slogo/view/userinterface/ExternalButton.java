@@ -52,7 +52,7 @@ public class ExternalButton extends UIButton {
       );
     } else if (folderName.equals("saved_files")) {
       fc.getExtensionFilters().addAll(
-          new ExtensionFilter("XML Files", "*.xml")
+          new ExtensionFilter("SLOGO File", "*.slogo")
       );
     }
 

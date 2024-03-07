@@ -2,6 +2,7 @@ package slogo.model.api;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -99,31 +100,19 @@ public class XmlConfiguration {
    * @param fileName The name of the XML file to save the session information to
    */
   public void saveSession(Session session, String fileName) throws XmlException {
+    File file = new File(fileName + ".slogo");
+
     try {
-      DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-      DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-
-      Document document = documentBuilder.newDocument();
-      Element root = document.createElement("session");
-      document.appendChild(root);
-
-      Element commandHistory = document.createElement("command_history");
-      root.appendChild(commandHistory);
-
+      PrintWriter writer = new PrintWriter(file);
       for (Map<String, Map<String, String>> commandMap : session.getCommandHistory(0)) {
-        for (Entry<String, Map<String, String>> command : commandMap.entrySet()) {
-          createCommandEntry(command, document, commandHistory);
+        for (String command : commandMap.keySet()) {
+          System.out.println(command);
+          writer.println(command);
         }
       }
-
-      File file = new File(fileName + ".slogo");
-      FileOutputStream fos = new FileOutputStream(file);
-      javax.xml.transform.TransformerFactory.newInstance().newTransformer()
-          .transform(new javax.xml.transform.dom.DOMSource(document),
-              new javax.xml.transform.stream.StreamResult(fos));
-      fos.close();
+      writer.close();
     } catch (Exception e) {
-      throw new XmlException(fileName);
+      System.out.println("exception");
     }
   }
 
