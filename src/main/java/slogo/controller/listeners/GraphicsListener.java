@@ -22,7 +22,6 @@ import slogo.model.api.Session;
 public class GraphicsListener implements UIListener {
 
   private final BackgroundController myBackgroundController;
-  private final TurtleController myTurtleController;
   private final SpeedController mySpeedController;
   private final PenController myPenController;
   private final ThemeController myThemeController;
@@ -36,7 +35,6 @@ public class GraphicsListener implements UIListener {
    */
   public GraphicsListener() {
     myBackgroundController = new BackgroundController();
-    myTurtleController = new TurtleController();
     mySpeedController = new SpeedController();
     myPenController = new PenController();
     myThemeController = new ThemeController();
@@ -53,8 +51,8 @@ public class GraphicsListener implements UIListener {
   public void sendSignal(UIElement element) {
     switch (element.getType().toLowerCase()) {
       case "checkbox" -> myBackgroundController.notifyController(element);
-      case "turtle" -> myTurtleController.notifyController(element);
-      case "textfield" -> myTurtleController.notifyController(element);
+      case "turtle" -> turtleController.notifyController(element);
+      case "textfield" -> turtleController.notifyController(element);
       case "internalbutton", "externalbutton" -> handleButtonElement(element);
     }
   }
@@ -87,10 +85,10 @@ public class GraphicsListener implements UIListener {
     switch (element.getID()) {
       case "0.5x", "1x", "2x", "4x" -> {
         mySpeedController.notifyController(element);
-        myTurtleController.notifyController(element);
+        turtleController.notifyController(element);
       }
       case "R", "G", "B" -> myPenController.notifyController(element);
-      case "Play/Pause", "Reset" -> myTurtleController.notifyController(element);
+      case "Play/Pause", "Reset" -> turtleController.notifyController(element);
       case "Variables", "Commands", "History", "Help" -> myHelpController.notifyController(element);
       case "Save", "Load" -> myXmlController.notifyController(element);
     }
@@ -114,9 +112,9 @@ public class GraphicsListener implements UIListener {
   }
 
   private void passToTurtle(UIElement element) {
-    myTurtleController.setSession(SESSION);
-    myTurtleController.setTurtleAnimator(TURTLE_ANIMATOR);
-    myTurtleController.addElement(element);
+    turtleController.setSession(SESSION);
+    turtleController.setTurtleAnimator(TURTLE_ANIMATOR);
+    turtleController.addElement(element);
   }
 
   private void passToTheme(UIElement element) {

@@ -25,7 +25,7 @@ public class ExpandCommandPage extends GeneralPage {
    * @param stage The stage for the expand page.
    */
   public ExpandCommandPage(Stage stage, Session session, String text) {
-    super(stage, new HelpListener());
+    super(stage, new HelpListener(session));
     root = new Group();
     myPageBuilder = new PageBuilder(stage);
     this.session = session;

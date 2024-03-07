@@ -24,11 +24,6 @@ public class HelpController extends UIController {
    * @param element the UI element that triggered the notification
    */
   public void notifyController(UIElement element) {
-    switch (element.getType().toLowerCase()) {
-      case "text" -> {
-        runCommandFromHistory(element);
-      }
-    }
     switch (element.getID()) {
       case "Variables", "Commands", "Help", "History" -> {
         new HelpWindow(element.getID().toLowerCase(), this.getCurrentSession());
@@ -75,7 +70,7 @@ public class HelpController extends UIController {
 
   private void runCommandFromHistory(UIElement element) {
     String command = ((UIListView) element).getSelectedItem();
+    System.out.println(command);
     this.getCurrentSession().run(command);
-
   }
 }

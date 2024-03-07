@@ -33,11 +33,12 @@ public class VariablePage extends GeneralPage {
    * @param stage The stage for the variable page.
    */
   public VariablePage(Stage stage, Session session) {
-    super(stage, new HelpListener());
+    super(stage, new HelpListener(session));
     root = new Group();
     myPageBuilder = new PageBuilder(stage);
     this.session = session;
   }
+
 
   /**
    * Sets up the variable page with title and list view

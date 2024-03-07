@@ -33,7 +33,7 @@ public class CommandPage extends GeneralPage {
    * @param stage The stage for the help page.
    */
   public CommandPage(Stage stage, Session session) {
-    super(stage, new HelpListener());
+    super(stage, new HelpListener(session));
     root = new Group();
     myPageBuilder = new PageBuilder(stage);
     this.session = session;
