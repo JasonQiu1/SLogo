@@ -1,15 +1,15 @@
-package slogo.view.listeners;
+package slogo.controller.listeners;
 
 import java.util.Collection;
-import slogo.view.controllers.BackgroundController;
-import slogo.view.controllers.HelpController;
-import slogo.view.controllers.PenController;
-import slogo.view.controllers.SpeedController;
-import slogo.view.controllers.ThemeController;
-import slogo.view.controllers.TurtleController;
-import slogo.view.controllers.XmlController;
+
+import slogo.controller.controllers.BackgroundController;
+import slogo.controller.controllers.SpeedController;
+import slogo.controller.controllers.TurtleController;
+import slogo.controller.controllers.PenController;
+import slogo.controller.controllers.ThemeController;
+import slogo.controller.controllers.HelpController;
+import slogo.controller.controllers.XmlController;
 import slogo.view.userinterface.UIElement;
-import slogo.view.windows.HelpWindow;
 
 /**
  * GraphicsListener class implements UIListener interface to handle UI events and pass them to

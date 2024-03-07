@@ -15,7 +15,7 @@ import slogo.model.LanguageManager;
  * keyboard input and setup of the text field.
  * It includes methods to set up event handlers for keyboard input and control key handling.
  *
- * @author Jeremyah Flowers
+ * @author Jeremyah Flowers, Judy He
  */
 public class UITextField extends UIElement {
 
@@ -114,17 +114,12 @@ public class UITextField extends UIElement {
    *
    * @return An array of strings containing the text stored in the textCollector list.
    */
-  public String[] getText() {
-    List<String> parsedStrings = new ArrayList<>();
-    textCollector.forEach(string -> parsedStrings.addAll(Arrays.asList(string.split(" "))));
+  public String getTextCommands() {
+    return myTextBox.getText();
+  }
 
-    int size = parsedStrings.size();
-    String[] text = parsedStrings.toArray(new String[size]);
-
-    textCollector.clear();
-    myTextBox.clear();
-    indexTracker = 0;
-    return text;
+  public void reset() {
+    myTextBox.setText(LanguageManager.translate(getLanguage(), "CommandLine"));
   }
 
 }

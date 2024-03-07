@@ -7,7 +7,7 @@ import java.util.Set;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
-import slogo.view.listeners.UIListener;
+import slogo.controller.listeners.UIListener;
 import slogo.view.userinterface.ExternalButton;
 import slogo.view.userinterface.InternalButton;
 import slogo.view.userinterface.UICheckBox;

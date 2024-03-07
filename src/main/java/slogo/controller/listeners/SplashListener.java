@@ -1,10 +1,11 @@
-package slogo.view.listeners;
+package slogo.controller.listeners;
 
 import java.util.Collection;
-import slogo.view.controllers.HelpController;
-import slogo.view.controllers.LanguageController;
-import slogo.view.controllers.ThemeController;
-import slogo.view.controllers.TurtleController;
+
+import slogo.controller.controllers.LanguageController;
+import slogo.controller.controllers.ThemeController;
+import slogo.controller.controllers.TurtleController;
+import slogo.controller.controllers.HelpController;
 import slogo.view.userinterface.UIElement;
 
 /**

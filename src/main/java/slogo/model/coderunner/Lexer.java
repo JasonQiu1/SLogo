@@ -12,8 +12,12 @@ import slogo.model.api.exception.coderunner.RunCodeError;
 class Lexer {
 
   private static final Map<String, TokenType> keywordMap =
-      Map.of("make", TokenType.MAKE, "repeat", TokenType.REPEAT, "dotimes", TokenType.DOTIMES,
-          "for", TokenType.FOR, "if", TokenType.IF, "ifelse", TokenType.IFELSE, "to", TokenType.TO);
+      Map.ofEntries(Map.entry("make", TokenType.MAKE), Map.entry("repeat", TokenType.REPEAT),
+          Map.entry("dotimes", TokenType.DOTIMES), Map.entry("for", TokenType.FOR),
+          Map.entry("if", TokenType.IF), Map.entry("ifelse", TokenType.IFELSE),
+          Map.entry("to", TokenType.TO), Map.entry("turtles", TokenType.TURTLES),
+          Map.entry("tell", TokenType.TELL), Map.entry("ask", TokenType.ASK),
+          Map.entry("askwith", TokenType.ASKWITH));
 
   Lexer(String commands) {
     if (commands == null) {
@@ -82,7 +86,7 @@ class Lexer {
         } else if (isNumeric(currentChar)) {
           yield number();
         } else if (isAlpha(currentChar)) {
-          yield identifier();
+          yield command();
         }
         throw new RunCodeError(ErrorType.TOKENIZE, "invalidToken", lineNumber, currentLine());
       }
@@ -143,8 +147,8 @@ class Lexer {
     return getAggregateString();
   }
 
-  private Token identifier() {
-    String name = name();
+  private Token command() {
+    String name = name() + (match('?') ? "?" : "");
     return createToken(keywordMap.getOrDefault(name, TokenType.COMMAND), name);
   }
 

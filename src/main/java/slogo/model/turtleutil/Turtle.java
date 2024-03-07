@@ -22,45 +22,75 @@ public class Turtle {
 
   private int id;
   private TurtleState currentState;
-      // heading = angle from vertical y-axis (all calculations use angle from horizontal x-axis)
   private final List<TurtleStepExtended> stepHistory;
   private int currentPointInStepHistory;
   private static final String DEFAULT_RESOURCE_PACKAGE = "slogo.model.";
-  private final ResourceBundle errorResourceBundle = null;
-      // resource bundle for error handling messages
+  private final ResourceBundle errorResourceBundle;
 
-  public Turtle() {
-    this.id = 0;
+  /**
+   * Constructor for instantiating a new Turtle
+   * @param id, id of turtle
+   */
+  public Turtle(int id) {
+    this.id = id;
     this.currentState = TurtleAnimator.getInitialTurtleState();
     this.stepHistory = new ArrayList<>();
-    this.currentPointInStepHistory = 0;
-//    this.errorResourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE +
-//    "ErrorsEnglish");
+    this.currentPointInStepHistory= 0;
+    this.errorResourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ErrorsEnglish");
   }
 
+  /**
+   * Retrieve a turtle's id instance variable
+   * @return id of turtle
+   */
   public int getId() {
     return id;
   }
 
+  /**
+   * Retrieve a turtle's current state
+   * @return the current state of turtle
+   */
   public TurtleState getCurrentState() {
     return currentState;
   }
 
-  public List<TurtleStepExtended> getStepHistory() {
-    return stepHistory;
+  /**
+   * Returns the current step history of a certain length. May return more steps
+   * than maxLength due to intermediate states from wrapping.
+   * maxLength limits the number of commands, not number of steps.
+   *
+   * @param maxLength the max length of step history to return. If 0, then return entire step
+   *                  history. If positive, then return the backwards
+   *                  history up to length.
+   * @return turtle's step history
+   */
+  public List<TurtleStep> getStepHistory(int maxLength) {
+    List<TurtleStep> history = new ArrayList<>();
+    int startInd = 0;
+    if (maxLength < this.stepHistory.size()) {
+      startInd = currentPointInStepHistory;
+      int count = 0;
+      while (count != maxLength) {
+        startInd--;
+        while (this.stepHistory.get(startInd).crossBorderIntermediateStep()) {
+          startInd--;
+        }
+        count++;
+      }
+    }
+
+    for (int i = startInd; i < this.stepHistory.size(); i++) {
+      history.add(this.stepHistory.get(i).turtleStep());
+    }
+    return history;
   }
 
-  // return the step turtle is currently on in its step history
-  protected int getCurrentPointInStepHistory() {
-    return currentPointInStepHistory;
-
-  }
-
-  // update the step turtle is currently on in its step history
-  protected void setCurrentPointInStepHistory(int currentPointInStepHistory) {
-    this.currentPointInStepHistory = currentPointInStepHistory;
-  }
-
+  /**
+   * Turn turtle towards a given point
+   * @param point, point to turn towards
+   * @return TurtleStep representing the turn took
+   */
   public TurtleStep turnTowards(Point point) {
 
     Vector vectorToPoint =
@@ -243,7 +273,7 @@ public class Turtle {
           this.currentState.heading());
       oppositeBorderPos.setX(TurtleAnimator.X_MIN);
     } else if (currPos.getX() + dx < TurtleAnimator.X_MIN) {
-      interDx = currPos.getX() - TurtleAnimator.X_MIN;
+      interDx = TurtleAnimator.X_MIN - currPos.getX();
       interDy = TurtleGeometry.calculateYComponentGivenXComponentAngle(interDx,
           this.currentState.heading());
       oppositeBorderPos.setX(TurtleAnimator.X_MAX);
@@ -255,7 +285,7 @@ public class Turtle {
           this.currentState.heading());
       oppositeBorderPos.setY(TurtleAnimator.Y_MIN);
     } else if (currPos.getY() + dy < TurtleAnimator.Y_MIN) {
-      interDy = currPos.getY() - TurtleAnimator.Y_MIN;
+      interDy = TurtleAnimator.Y_MIN - currPos.getY();
       interDx = TurtleGeometry.calculateXComponentGivenYComponentAngle(interDy,
           this.currentState.heading());
       oppositeBorderPos.setY(TurtleAnimator.Y_MAX);

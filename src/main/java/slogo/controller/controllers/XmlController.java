@@ -1,4 +1,4 @@
-package slogo.view.controllers;
+package slogo.controller.controllers;
 
 import slogo.model.api.Session;
 import slogo.model.api.XmlConfiguration;

@@ -8,9 +8,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Parent;
-import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
-import slogo.view.listeners.SplashListener;
+import slogo.controller.listeners.SplashListener;
 import slogo.view.userinterface.UIElement;
 
 /**

@@ -43,7 +43,10 @@ class UIRegionTest extends DukeApplicationTest {
     // Given: a UI button object
     Region actual = (Region) testRegion.getElement();
     // When: a user calls the method setMenuClassic on the UIButton
+<<<<<<< HEAD
     //testRegion.setBackgroundClassic();
+=======
+>>>>>>> b46af0e (Abstracted away the listener class and controller into the controller folder)
 
     // Then: the region should have the default background
     // AND the region should have the default border

@@ -12,7 +12,7 @@ import javafx.scene.Parent;
 import javafx.stage.Stage;
 import slogo.model.api.XmlConfiguration;
 import slogo.model.api.exception.XmlException;
-import slogo.view.listeners.HelpListener;
+import slogo.controller.listeners.HelpListener;
 import slogo.view.userinterface.UIElement;
 
 /**
@@ -99,3 +99,4 @@ public class HelpPage extends GeneralPage {
   }
 
 }
+

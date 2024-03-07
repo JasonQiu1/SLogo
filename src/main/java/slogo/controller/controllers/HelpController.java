@@ -1,4 +1,4 @@
-package slogo.view.controllers;
+package slogo.controller.controllers;
 
 import slogo.view.userinterface.UIElement;
 import slogo.view.windows.HelpWindow;

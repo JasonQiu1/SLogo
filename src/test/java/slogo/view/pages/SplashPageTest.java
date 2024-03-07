@@ -126,4 +126,7 @@ public class SplashPageTest extends DukeApplicationTest {
       assertTrue(checkbox.isSelected());
     }
   }
+
+
+
 }

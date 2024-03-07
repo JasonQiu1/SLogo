@@ -1,13 +1,13 @@
 package slogo.view.userinterface;
 
-import static slogo.view.controllers.LanguageController.LANGUAGE_TAG;
-import static slogo.view.controllers.LanguageController.LANGUAGE_XML;
+import static slogo.controller.controllers.LanguageController.LANGUAGE_TAG;
+import static slogo.controller.controllers.LanguageController.LANGUAGE_XML;
 
 import java.io.File;
 import javafx.scene.Node;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
-import slogo.view.listeners.UIListener;
+import slogo.controller.listeners.UIListener;
 
 /**
  * Represents a basic UI element in the Slogo user interface. It encapsulates methods to retrieve

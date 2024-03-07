@@ -13,8 +13,8 @@ import slogo.model.api.exception.coderunner.RunCodeError;
 import slogo.model.coderunner.Expression.Binary;
 import slogo.model.coderunner.Expression.Number;
 import slogo.model.coderunner.Expression.Unary;
-import slogo.model.command.Forward;
-import slogo.model.command.Right;
+import slogo.model.command.library.Forward;
+import slogo.model.command.library.Right;
 import slogo.model.turtleutil.Turtle;
 
 class InterpreterTest {
@@ -24,11 +24,10 @@ class InterpreterTest {
   @BeforeEach
   void setup() {
     Environment global = new Environment(null);
-    Token library = new Token(TokenType.COMMAND, "library", -1, "library command");
-    global.defineCommand("forward", new Forward(library));
-    global.defineCommand("right", new Right(library));
+    global.defineCommand("forward", new Forward());
+    global.defineCommand("right", new Right());
 
-    interpreter = new Interpreter(global, List.of(new Turtle()));
+    interpreter = new Interpreter(global, List.of(new Turtle(1)));
   }
 
   @ParameterizedTest
