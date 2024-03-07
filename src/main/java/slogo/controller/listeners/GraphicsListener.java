@@ -15,7 +15,7 @@ import slogo.model.api.Session;
  * GraphicsListener class implements UIListener interface to handle UI events and pass them to
  * respective controllers. It manages UI elements related to graphics.
  *
- * @author Jeremyah Flowers
+ * @author Jeremyah Flowers, Judy He
  */
 public class GraphicsListener implements UIListener {
 
@@ -76,9 +76,12 @@ public class GraphicsListener implements UIListener {
 
     private void handleButtonElement(UIElement element) {
         switch (element.getID()) {
-            case "0.5x", "1x", "2x", "4x" -> mySpeedController.notifyController(element);
+            case "0.5x", "1x", "2x", "4x" -> {
+                mySpeedController.notifyController(element);
+                myTurtleController.notifyController(element);
+            }
             case "R", "G", "B" -> myPenController.notifyController(element);
-            case "Play/Pause" -> myTurtleController.notifyController(element);
+            case "Play/Pause", "Reset" -> myTurtleController.notifyController(element);
         }
     }
 
@@ -88,9 +91,12 @@ public class GraphicsListener implements UIListener {
 
     private void passButtonElement(UIElement element) {
         switch (element.getID()) {
-            case "0.5x", "1x", "2x", "4x" -> passToSpeed(element);
+            case "0.5x", "1x", "2x", "4x" -> {
+                passToSpeed(element);
+                passToTurtle(element);
+            }
             case "R", "G", "B" -> passToPen(element);
-            case "Play/Pause" -> passToTurtle(element);
+            case "Play/Pause", "Reset" -> passToTurtle(element);
         }
     }
 

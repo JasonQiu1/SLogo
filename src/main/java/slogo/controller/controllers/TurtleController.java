@@ -35,6 +35,7 @@ public class TurtleController extends UIController {
     private final Map<String, UITurtle> TURTLE_VIEWS = new HashMap<>();
     private Timeline animation;
     private Map<Integer, TurtleState> currentFrame;
+    private int framesRan;
     private int numCommands;
     private boolean animationOnPause;
 
@@ -46,10 +47,12 @@ public class TurtleController extends UIController {
     @Override
     public void notifyController(UIElement element) {
         switch (element.getType().toLowerCase()) {
-            case "textfield" -> runCommands((UITextField) element);
-            case "button" -> handleButtonInput((UIButton) element);
+            case "textfield" -> {
+                runCommands((UITextField) element);
+                updateElements();
+            }
+            case "internalbutton" -> handleButtonInput((UIButton) element);
         }
-        updateElements();
     }
 
     // Private helper methods
@@ -78,6 +81,8 @@ public class TurtleController extends UIController {
         switch (button.getID()) {
             case "TurtleSelector" -> saveTurtleSelection(button.getMyPath());
             case "Play/Pause" -> pausePlayAnimation();
+            case "0.5x", "1x", "2x", "4x"-> updateAnimationSpeed();
+            case "Reset" -> replayAnimation();
         }
     }
 
@@ -105,6 +110,7 @@ public class TurtleController extends UIController {
         addTurtleView(turtleView);
         updateTurtleViews();
         setAnimation();
+
     }
 
     private void resetTextField(UITextField textFieldView) {
@@ -116,13 +122,19 @@ public class TurtleController extends UIController {
     }
 
     private void updateTurtleViews() {
+        framesRan = 0;
         Map<Integer, List<TurtleStep>> totalSteps = this.getCurrentSession().getTurtlesStepHistories(numCommands);
         this.getTurtleAnimator().animateStep(totalSteps);
         this.currentFrame = this.getTurtleAnimator().nextFrame();
     }
 
     private void pausePlayAnimation() {
+        animationOnPause = !animationOnPause;
+    }
 
+    private void updateAnimationSpeed() {
+        double frameDuration = 1 / (this.getTurtleAnimator().getSpeed() * this.getTurtleAnimator().STANDARD_FPS); // Calculate the duration for the KeyFrame
+        animation.setDelay(Duration.seconds(frameDuration));
     }
 
     private void animateNextFrame() {
@@ -133,11 +145,14 @@ public class TurtleController extends UIController {
                 turtleView.updateState(state.position().getX(), state.position().getY(),
                     state.heading());
             }
+            framesRan++;
             this.currentFrame = this.getTurtleAnimator().nextFrame();
         }
+
     }
 
     private void replayAnimation() {
+        this.currentFrame = this.getTurtleAnimator().resetFrame(framesRan);
         animation.play();
     }
 
