@@ -113,7 +113,7 @@ public class Session {
    */
 
   public Map<String, Map<String, String>> getLibraryCommands() {
-    return null;
+    return Map.of();
   }
 
   /**

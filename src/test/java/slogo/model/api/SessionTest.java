@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import slogo.model.api.turtle.Point;
+import slogo.model.api.turtle.TurtleAnimator;
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
 import slogo.model.api.turtle.Vector;
@@ -167,7 +168,7 @@ class SessionTest {
   }
 
   @ParameterizedTest
-  @ValueSource(strings = {"fd 100 bk 50 rt 90", "lt 270 fd 500 bk 450 fd -50 lt 90 fd 50 rt 90"})
+  @ValueSource(strings = {"fd 100 bk 50 rt 90", "lt 270 rt 270 fd 500 bk 450 fd -50 lt 90 rt 90 fd 50 rt 90"})
   void run_MultipleCommands(String command) {
 //  GIVEN one turtle at (0,0) heading 0deg
 //  WHEN run(command)

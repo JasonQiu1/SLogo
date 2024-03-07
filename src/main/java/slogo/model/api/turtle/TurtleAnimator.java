@@ -34,7 +34,7 @@ public class TurtleAnimator {
   // WRAP mode: If the turtle moves off the edge of the screen it will continue on the other side
   // . (default)
   public static final String WRAP_MODE_KEY = "wrap"; // get from resource file
-  public static String mode;
+  public static String mode = WRAP_MODE_KEY;
 
   public TurtleAnimator() {
     this.graphicsScalingFactor = DEFAULT_GRAPHICS_SCALING_FACTOR;
