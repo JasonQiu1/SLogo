@@ -91,9 +91,9 @@ public class TurtleController extends UIController {
         try {
             FileOutputStream file = new FileOutputStream(TURTLE_XML);
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-            Element backgroundTheme = doc.createElement("BackgroundTheme");
-            backgroundTheme.setTextContent(path);
-            doc.appendChild(backgroundTheme);
+            Element turtleSelect = doc.createElement("SelectedTurtle");
+            turtleSelect.setTextContent(path);
+            doc.appendChild(turtleSelect);
             writeXml(doc, file);
         } catch (ParserConfigurationException | TransformerException | FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -101,10 +101,9 @@ public class TurtleController extends UIController {
     }
 
     private void updateElement(UIElement element) {
-        switch (element.getType().toLowerCase()) {
-            case "textfield" -> resetTextField((UITextField) element);
-            case "turtle" -> animateTurtleViews((UITurtle) element);
-        }
+      if (element.getType().equalsIgnoreCase("turtle")) {
+        animateTurtleViews((UITurtle) element);
+      }
     }
 
     private void animateTurtleViews(UITurtle turtleView) {
@@ -113,12 +112,8 @@ public class TurtleController extends UIController {
         setAnimation();
     }
 
-    private void resetTextField(UITextField textFieldView) {
-        textFieldView.reset();
-    }
-
     private void addTurtleView(UITurtle turtleView) {
-        this.TURTLE_VIEWS.put(turtleView.getID(), turtleView);
+        this.TURTLE_VIEWS.put(turtleView.getID() + ((int) TURTLE_VIEWS.size() + 1), turtleView);
     }
 
     private void updateTurtleViews() {
@@ -142,20 +137,26 @@ public class TurtleController extends UIController {
         if (!animationOnPause && !this.currentFrame.isEmpty()) {
             for (Integer turtleId : this.currentFrame.keySet()) {
                 TurtleState state = this.currentFrame.get(turtleId);
-                UITurtle turtleView = this.TURTLE_VIEWS.get(String.valueOf(turtleId));
+                UITurtle turtleView = this.TURTLE_VIEWS.get("Turtle" + turtleId);
                 turtleView.updateState(state.position().getX(), state.position().getY(),
                     state.heading());
             }
             framesRan++;
             this.currentFrame = this.getTurtleAnimator().nextFrame();
         }
-
     }
 
     private void replayAnimation() {
         this.currentFrame = this.getTurtleAnimator().resetFrame(framesRan);
         framesRan = 0;
         animation.play();
+        for (Integer turtleId : this.currentFrame.keySet()) {
+            TurtleState state = this.currentFrame.get(turtleId);
+            UITurtle turtleView = this.TURTLE_VIEWS.get("Turtle" + turtleId);
+            turtleView.updateState(state.position().getX(), state.position().getY(), state.heading());
+        }
+        this.currentFrame = this.getTurtleAnimator().nextFrame();
     }
+
 
 }

@@ -20,7 +20,7 @@ public class UITextField extends UIElement {
 
   // Instance Variables
   private final TextField myTextBox;
-  private List<String> textCollector;
+  private final List<String> textCollector;
   private boolean controlPressed = false;
   private int indexTracker = 0;
 
@@ -70,7 +70,6 @@ public class UITextField extends UIElement {
 
 
   private void keyboardInputHandler() {
-    textCollector = new ArrayList<>();
 
     myTextBox.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
       @Override
@@ -79,6 +78,8 @@ public class UITextField extends UIElement {
           case CONTROL, COMMAND -> controlPressed = true;
           case R -> {
             if (controlPressed) {
+              textCollector.add(myTextBox.getText());
+              indexTracker++;
               sendSignal();
             }
           }
@@ -99,7 +100,8 @@ public class UITextField extends UIElement {
               myTextBox.setText(textCollector.get(indexTracker));
             } else if (!myTextBox.getText().isEmpty()) {
               ++indexTracker;
-              myTextBox.setText("");
+              textCollector.add(myTextBox.getText());
+              myTextBox.clear();
             }
           }
         }
@@ -113,11 +115,11 @@ public class UITextField extends UIElement {
    * @return An array of strings containing the text stored in the textCollector list.
    */
   public String getTextCommands() {
-    return myTextBox.getText();
-  }
-
-  public void reset() {
+    StringBuilder str = new StringBuilder();
+    textCollector.forEach(text -> str.append(text).append(" "));
+    textCollector.clear();
     myTextBox.setText(LanguageManager.translate(getLanguage(), "CommandLine"));
+    indexTracker = 0;
+    return str.toString();
   }
-
 }

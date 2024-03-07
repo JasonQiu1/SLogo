@@ -68,7 +68,11 @@ public class GraphicsListener implements UIListener {
                     passToBackground(element);
                     passToTheme(element);
                 }
-                case "turtle", "textfield" -> passToTurtle(element);
+                case "textfield" -> passToTurtle(element);
+                case "turtle" -> {
+                    passToTurtle(element);
+                    passToPen(element);
+                }
             }
         }
     }
@@ -89,7 +93,6 @@ public class GraphicsListener implements UIListener {
     private void passToTheme(UIElement element) {
         myThemeController.addElement(element);
     }
-
     private void passButtonElement(UIElement element) {
         switch (element.getID()) {
             case "0.5x", "1x", "2x", "4x" -> {
