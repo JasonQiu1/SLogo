@@ -201,7 +201,8 @@ public class Interpreter implements Visitor {
     for (Token parameter : expression.getParameters()) {
       parameters.add((String) parameter.literal());
     }
-    Command command = new UserCommand(parameters, expression.getBody());
+    Command command =
+        new UserCommand(parameters, expression.getBody());
     currentEnvironment.defineCommand((String) expression.getCommandName().literal(), command);
     return 1;
   }
@@ -271,6 +272,10 @@ public class Interpreter implements Visitor {
     currentParser = previousParser;
     currentEnvironment = previousEnvironment;
     return ret;
+  }
+
+  Environment getGlobalEnvironment() {
+    return globalEnvironment;
   }
 
   private final Environment globalEnvironment;
