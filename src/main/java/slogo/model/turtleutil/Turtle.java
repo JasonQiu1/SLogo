@@ -273,7 +273,7 @@ public class Turtle {
           this.currentState.heading());
       oppositeBorderPos.setX(TurtleAnimator.X_MIN);
     } else if (currPos.getX() + dx < TurtleAnimator.X_MIN) {
-      interDx = currPos.getX() - TurtleAnimator.X_MIN;
+      interDx = TurtleAnimator.X_MIN - currPos.getX();
       interDy = TurtleGeometry.calculateYComponentGivenXComponentAngle(interDx,
           this.currentState.heading());
       oppositeBorderPos.setX(TurtleAnimator.X_MAX);
@@ -285,7 +285,7 @@ public class Turtle {
           this.currentState.heading());
       oppositeBorderPos.setY(TurtleAnimator.Y_MIN);
     } else if (currPos.getY() + dy < TurtleAnimator.Y_MIN) {
-      interDy = currPos.getY() - TurtleAnimator.Y_MIN;
+      interDy = TurtleAnimator.Y_MIN - currPos.getY();
       interDx = TurtleGeometry.calculateXComponentGivenYComponentAngle(interDy,
           this.currentState.heading());
       oppositeBorderPos.setY(TurtleAnimator.Y_MAX);
