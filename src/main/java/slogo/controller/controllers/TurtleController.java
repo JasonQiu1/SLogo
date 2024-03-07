@@ -33,7 +33,8 @@ public class TurtleController extends UIController {
     // Instance Variables
     public static final String TURTLE_XML = "src/main/resources/selected_turtle.xml";
     private final Map<String, UITurtle> TURTLE_VIEWS = new HashMap<>();
-    private Timeline animation;
+    private Timeline animation = new Timeline();;
+    private double speed;
     private Map<Integer, TurtleState> currentFrame;
     private int framesRan;
     private int numCommands;
@@ -59,7 +60,7 @@ public class TurtleController extends UIController {
     private void setAnimation() {
         animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
-        double frameDuration = 1 / (this.getTurtleAnimator().getSpeed() * this.getTurtleAnimator().STANDARD_FPS); // Calculate the duration for the KeyFrame
+        double frameDuration = 1.0 / (this.getTurtleAnimator().getSpeed() * this.getTurtleAnimator().STANDARD_FPS); // Calculate the duration for the KeyFrame
         animation.getKeyFrames()
             .add(new KeyFrame(Duration.seconds(frameDuration), e -> animateNextFrame()));
         animation.play();
@@ -110,7 +111,6 @@ public class TurtleController extends UIController {
         addTurtleView(turtleView);
         updateTurtleViews();
         setAnimation();
-
     }
 
     private void resetTextField(UITextField textFieldView) {
@@ -133,8 +133,9 @@ public class TurtleController extends UIController {
     }
 
     private void updateAnimationSpeed() {
-        double frameDuration = 1 / (this.getTurtleAnimator().getSpeed() * this.getTurtleAnimator().STANDARD_FPS); // Calculate the duration for the KeyFrame
+        double frameDuration = 1.0 / (this.getTurtleAnimator().getSpeed() * this.getTurtleAnimator().STANDARD_FPS); // Calculate the duration for the KeyFrame
         animation.setDelay(Duration.seconds(frameDuration));
+        animation.setRate(this.getTurtleAnimator().getSpeed());
     }
 
     private void animateNextFrame() {
@@ -153,6 +154,7 @@ public class TurtleController extends UIController {
 
     private void replayAnimation() {
         this.currentFrame = this.getTurtleAnimator().resetFrame(framesRan);
+        framesRan = 0;
         animation.play();
     }
 
