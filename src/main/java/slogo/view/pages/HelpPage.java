@@ -38,14 +38,6 @@ public class HelpPage extends GeneralPage {
     root = new Group();
     myPageBuilder = new PageBuilder(stage);
     myXmlConfig = new XmlConfiguration();
-<<<<<<<HEAD
-        =======
-    try {
-      helpMap = myXmlConfig.loadHelpFile(helpFile);
-    } catch (XmlException e) {
-      throw new RuntimeException(e);
-    }
->>>>>>>main
   }
 
   /**
@@ -71,43 +63,38 @@ public class HelpPage extends GeneralPage {
     return root;
   }
 
-<<<<<<<HEAD
-
   private Collection<UIElement> setupTitleText(double screenWidth, double screenHeight) {
-=======
-    private Collection<UIElement> setupText ( double screenWidth, double screenHeight){
->>>>>>>main
-      Map<String, double[]> textIDs = new HashMap<>();
-      textIDs.put("Help", new double[]{screenWidth / 2 - 40, screenHeight / 8});
-      return createElements(textIDs, "text");
-    }
-
-    private Collection<UIElement> setupExceptionText ( double screenWidth, double screenHeight){
-      Map<String, double[]> textIDs = new HashMap<>();
-      textIDs.put("Error", new double[]{screenWidth / 2 - 40, screenHeight / 2});
-      return createElements(textIDs, "text");
-    }
-
-    private void setUpCommandList ( double screenWidth, double screenHeight){
-      try {
-        Map<String, String> helpMap = myXmlConfig.loadHelpFile(helpFile);
-        double[] position = new double[2];
-        position[0] = (100);
-        position[1] = (100);
-
-        ObservableList<String> commands = FXCollections.observableArrayList();
-        for (Entry<String, String> command : helpMap.entrySet()) {
-          commands.add(command.getKey());
-        }
-        root.getChildren()
-            .add(createListElement("library commands", commands, position).getElement());
-      } catch (XmlException e) {
-        //TODO: make this cleaner
-        Collection<UIElement> UIElements = new ArrayList<>(
-            setupExceptionText(screenWidth, screenHeight));
-        myPageBuilder.styleUI(UIElements, root);
-      }
-
-    }
+    Map<String, double[]> textIDs = new HashMap<>();
+    textIDs.put("Help", new double[]{screenWidth / 2 - 40, screenHeight / 8});
+    return createElements(textIDs, "text");
   }
+
+  private Collection<UIElement> setupExceptionText(double screenWidth, double screenHeight) {
+    Map<String, double[]> textIDs = new HashMap<>();
+    textIDs.put("Error", new double[]{screenWidth / 2 - 40, screenHeight / 2});
+    return createElements(textIDs, "text");
+  }
+
+  private void setUpCommandList(double screenWidth, double screenHeight) {
+    try {
+      Map<String, String> helpMap = myXmlConfig.loadHelpFile(helpFile);
+      double[] position = new double[2];
+      position[0] = (100);
+      position[1] = (100);
+
+      ObservableList<String> commands = FXCollections.observableArrayList();
+      for (Entry<String, String> command : helpMap.entrySet()) {
+        commands.add(command.getKey());
+      }
+      root.getChildren()
+          .add(createListElement("library commands", commands, position).getElement());
+    } catch (XmlException e) {
+      //TODO: make this cleaner
+      Collection<UIElement> UIElements = new ArrayList<>(
+          setupExceptionText(screenWidth, screenHeight));
+      myPageBuilder.styleUI(UIElements, root);
+    }
+
+  }
+}
 
