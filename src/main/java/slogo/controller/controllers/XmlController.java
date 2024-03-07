@@ -29,7 +29,8 @@ public class XmlController extends UIController {
 
   private void loadSession(String filePath) {
     try {
-      myXMLConfiguration.loadSession(filePath);
+      System.out.println("here");
+      setSession(myXMLConfiguration.loadSession(filePath));
     } catch (XmlException e) {
       //TODO: Excpetion Handling
     }

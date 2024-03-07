@@ -100,7 +100,7 @@ public class GraphicsListener implements UIListener {
       case "R", "G", "B" -> passToPen(element);
       case "Play/Pause" -> passToTurtle(element);
       case "History" -> passToHelp(element);
-      case "Save" -> passToXML(element);
+      case "Save", "Load" -> passToXML(element);
     }
   }
 
