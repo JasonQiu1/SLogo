@@ -28,7 +28,7 @@ public abstract class UIController {
     // Instance Variable
     private final Collection<UIElement> myElements;
     private Session session;
-    private final TurtleAnimator TURTLE_ANIMATOR = new TurtleAnimator();
+    private TurtleAnimator turtleAnimator = new TurtleAnimator();
 
     /**
      * Constructor for UIController.
@@ -105,9 +105,13 @@ public abstract class UIController {
         return session;
     }
     protected TurtleAnimator getTurtleAnimator() {
-        return TURTLE_ANIMATOR;
+        return turtleAnimator;
     }
-    protected void startNewSession() {
-        this.session = new Session();
+    public void setSession(Session session) {
+        this.session = session;
     }
+    public void setTurtleAnimator(TurtleAnimator turtleAnimator) {
+        this.turtleAnimator = turtleAnimator;
+    }
+
 }
