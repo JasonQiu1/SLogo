@@ -2,13 +2,11 @@ package slogo.view.windows;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import slogo.model.api.turtle.TurtleAnimator;
+import slogo.model.api.Session;
 import slogo.view.pages.CommandPage;
 import slogo.view.pages.GeneralPage;
-import slogo.view.pages.GraphicsPage;
 import slogo.view.pages.HelpPage;
 import slogo.view.pages.HistoryPage;
-import slogo.view.pages.SplashPage;
 import slogo.view.pages.VariablePage;
 
 /**
@@ -22,16 +20,18 @@ public class HelpWindow {
   private static final int HEIGHT = 600;
   private static final int WIDTH = 600;
   private final Stage helpStage;
+  private final Session session;
 
   /**
    * Constructs a HelpWindow with the specified type of page
    *
    * @param type the type of page to create
    */
-  public HelpWindow(String type) {
+  public HelpWindow(String type, Session session) {
     helpStage = new Stage();
     helpStage.setTitle("SLOGO Help");
     createNewWindow(type);
+    this.session = session;
   }
 
   /**
@@ -53,13 +53,13 @@ public class HelpWindow {
         return new HelpPage(helpStage);
       }
       case "variables" -> {
-        return new VariablePage(helpStage);
+        return new VariablePage(helpStage, session);
       }
       case "commands" -> {
-        return new CommandPage(helpStage);
+        return new CommandPage(helpStage, session);
       }
       case "history" -> {
-        return new HistoryPage(helpStage);
+        return new HistoryPage(helpStage, session);
       }
       default -> {
         throw new TypeNotPresentException(pageType, new Throwable("Not Found"));

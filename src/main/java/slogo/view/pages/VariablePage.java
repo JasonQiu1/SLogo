@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import slogo.model.api.Session;
 import slogo.view.listeners.HelpListener;
 import slogo.view.userinterface.UIElement;
 
@@ -24,16 +25,18 @@ public class VariablePage extends GeneralPage {
 
   private final Group root;
   private final PageBuilder myPageBuilder;
+  private final Session session;
 
   /**
    * Constructs a VariablePage object with the specified stage.
    *
    * @param stage The stage for the help page.
    */
-  public VariablePage(Stage stage) {
+  public VariablePage(Stage stage, Session session) {
     super(stage, new HelpListener());
     root = new Group();
     myPageBuilder = new PageBuilder(stage);
+    this.session = session;
   }
 
   /**

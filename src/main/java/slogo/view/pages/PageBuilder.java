@@ -121,6 +121,7 @@ public class PageBuilder {
       }
       case "Variables", "Commands", "History" -> {
         button.setGUIClassic();
+
         button.addOpenHelpWindow(button.getID().toLowerCase());
       }
       default -> {

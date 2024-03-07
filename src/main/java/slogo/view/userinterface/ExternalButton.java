@@ -117,7 +117,7 @@ public class ExternalButton extends UIButton {
   }
 
   public void addOpenHelpWindow(String pageType) {
-    myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, c -> new HelpWindow(pageType));
+    myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, c -> sendSignal());
   }
 
 

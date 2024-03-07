@@ -2,11 +2,13 @@ package slogo.view.listeners;
 
 import java.util.Collection;
 import slogo.view.controllers.BackgroundController;
+import slogo.view.controllers.HelpController;
 import slogo.view.controllers.PenController;
 import slogo.view.controllers.SpeedController;
 import slogo.view.controllers.ThemeController;
 import slogo.view.controllers.TurtleController;
 import slogo.view.userinterface.UIElement;
+import slogo.view.windows.HelpWindow;
 
 /**
  * GraphicsListener class implements UIListener interface to handle UI events and pass them to
@@ -21,6 +23,7 @@ public class GraphicsListener implements UIListener {
   private final SpeedController mySpeedController;
   private final PenController myPenController;
   private final ThemeController myThemeController;
+  private final HelpController myHelpController;
 
   /**
    * Constructor for GraphicsListener.
@@ -31,6 +34,7 @@ public class GraphicsListener implements UIListener {
     mySpeedController = new SpeedController();
     myPenController = new PenController();
     myThemeController = new ThemeController();
+    myHelpController = new HelpController();
   }
 
   /**
@@ -73,6 +77,7 @@ public class GraphicsListener implements UIListener {
     switch (element.getID()) {
       case "1x", "2x", "3x", "4x" -> mySpeedController.notifyController(element);
       case "R", "G", "B" -> myPenController.notifyController(element);
+      case "Variables", "Commands", "History", "Help" -> myHelpController.notifyController(element);
       //case "Save" -> myXmlController.notifyController(element);
     }
   }

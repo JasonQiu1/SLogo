@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import slogo.model.api.Session;
 import slogo.view.listeners.HelpListener;
 import slogo.view.userinterface.UIElement;
 
@@ -18,16 +19,18 @@ public class HistoryPage extends GeneralPage {
 
   private final Group root;
   private final PageBuilder myPageBuilder;
+  private final Session session;
 
   /**
    * Constructs a HistoryPage object with the specified stage.
    *
    * @param stage The stage for the help page.
    */
-  public HistoryPage(Stage stage) {
+  public HistoryPage(Stage stage, Session session) {
     super(stage, new HelpListener());
     root = new Group();
     myPageBuilder = new PageBuilder(stage);
+    this.session = session;
   }
 
   /**
@@ -61,7 +64,7 @@ public class HistoryPage extends GeneralPage {
   }
 
   private void setUpHistoryList(double screenWidth, double screenHeight) {
-    List<Map<String, Map<String, String>>> historyList = session.getCommandHistory();
+    List<Map<String, Map<String, String>>> historyList = session.getCommandHistory(0);
     double[] position = new double[2];
     position[0] = (100);
     position[1] = (100);

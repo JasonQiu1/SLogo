@@ -17,8 +17,8 @@ public class XmlController extends UIController {
   }
 
   private void saveSession(){
-//    Session mySession = getCurrentSession();
-//    myXMLConfiguration.saveSession(mySession, "exampleFileName");
+    Session mySession = getCurrentSession();
+    myXMLConfiguration.saveSession(mySession, "exampleFileName");
   }
 
   private void loadSession(){

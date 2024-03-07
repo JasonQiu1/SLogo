@@ -1,14 +1,15 @@
 package slogo.view.listeners;
 
 import java.util.Collection;
+import slogo.view.controllers.HelpController;
 import slogo.view.controllers.LanguageController;
 import slogo.view.controllers.ThemeController;
 import slogo.view.controllers.TurtleController;
 import slogo.view.userinterface.UIElement;
 
 /**
- * SplashListener class implements UIListener interface to handle UI events on the splash screen.
- * It manages UI elements related to the splash screen.
+ * SplashListener class implements UIListener interface to handle UI events on the splash screen. It
+ * manages UI elements related to the splash screen.
  *
  * @author Jeremyah Flowers, Jordan Haytaian
  */
@@ -17,6 +18,8 @@ public class SplashListener implements UIListener {
   private final ThemeController myThemeController;
   private final TurtleController myTurtleController;
   private final LanguageController myLanguageController;
+  private final HelpController myHelpController;
+
   /**
    * Constructor for SplashListener.
    */
@@ -24,6 +27,7 @@ public class SplashListener implements UIListener {
     myThemeController = new ThemeController();
     myTurtleController = new TurtleController();
     myLanguageController = new LanguageController();
+    myHelpController = new HelpController();
   }
 
   /**
@@ -35,7 +39,7 @@ public class SplashListener implements UIListener {
   public void sendSignal(UIElement element) {
     switch (element.getType().toLowerCase()) {
       case "checkbox" -> myThemeController.notifyController(element);
-      case "button" -> myTurtleController.notifyController(element);
+      case "internalbutton", "externalbutton" -> handleButtonElement(element);
       case "combobox" -> myLanguageController.notifyController(element);
     }
   }
@@ -50,5 +54,12 @@ public class SplashListener implements UIListener {
     myThemeController.addAllElements(elements);
     myTurtleController.addAllElements(elements);
     myLanguageController.addAllElements(elements);
+  }
+
+  private void handleButtonElement(UIElement element) {
+    switch (element.getID()) {
+      case "TurtleSelector" -> myTurtleController.notifyController(element);
+      case "Variables", "Commands", "History", "Help" -> myHelpController.notifyController(element);
+    }
   }
 }
