@@ -18,7 +18,7 @@ public class InternalButton extends UIButton {
   // Constants
   private static final String RESET_IMG = "/button_images/ResetButton.png";
   private static final String PAUSE_PLAY_IMG = "/button_images/PausePlayButton.png";
-
+  private static final String STEP_IMG = "/button_images/StepButton.png";
   // Instance Variables
   private final Button myButton;
 
@@ -41,9 +41,9 @@ public class InternalButton extends UIButton {
    * Sets the button to have a classic speed control appearance.
    */
   public void setSpeedClassic() {
-    myButton.setShape(new Rectangle(20.0f, 20.0f));
-    myButton.setMinSize(20, 20);
-    myButton.setMaxSize(50, 40);
+    myButton.setShape(new Rectangle(45.0f, 20.0f));
+    myButton.setMinSize(45, 20);
+    myButton.setMaxSize(45, 40);
   }
 
   /**
@@ -68,6 +68,11 @@ public class InternalButton extends UIButton {
   public void setPausePlayClassic() {
     myButton.setShape(new Ellipse(90.0f, 20.0f));
     createLogo(PAUSE_PLAY_IMG, 20, 20);
+  }
+
+  public void setStepClassic() {
+    myButton.setShape(new Ellipse(90.0f, 20.0f));
+    createLogo(STEP_IMG, 20, 20);
   }
 
   private void setColor() {

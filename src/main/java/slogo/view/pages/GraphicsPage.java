@@ -127,11 +127,12 @@ public class GraphicsPage extends GeneralPage {
 
   private Collection<UIElement> setupInternalButtons(double screenWidth, double screenHeight) {
     Map<String, double[]> intIDs = new HashMap<>();
-    intIDs.put("0.5x", new double[]{6 * screenWidth / 8 - 60, 5 * screenHeight / 8});
-    intIDs.put("1x", new double[]{6 * screenWidth / 8 - 20, 5 * screenHeight / 8});
-    intIDs.put("2x", new double[]{6 * screenWidth / 8 + 20, 5 * screenHeight / 8});
-    intIDs.put("4x", new double[]{6 * screenWidth / 8 + 60, 5 * screenHeight / 8});
-    intIDs.put("Play/Pause", new double[]{6 * screenWidth / 8 + 60, 5 * screenHeight / 8 + 40});
+    intIDs.put(".5x", new double[]{6 * screenWidth / 8 - 60, 5 * screenHeight / 8});
+    intIDs.put("1x", new double[]{6 * screenWidth / 8 - 15, 5 * screenHeight / 8});
+    intIDs.put("2x", new double[]{6 * screenWidth / 8 + 30, 5 * screenHeight / 8});
+    intIDs.put("4x", new double[]{6 * screenWidth / 8 + 75, 5 * screenHeight / 8});
+    intIDs.put("Play/Pause", new double[]{6 * screenWidth / 8 + 45, 5 * screenHeight / 8 + 40});
+    intIDs.put("Step", new double[]{6 * screenWidth / 8 + 90, 5 * screenHeight / 8 + 40});
     intIDs.put("Reset", new double[]{6 * screenWidth / 8 + 60, screenHeight / 8 - 60});
     intIDs.put("R", new double[]{6 * screenWidth / 8 - 60, 4 * screenHeight / 8});
     intIDs.put("G", new double[]{6 * screenWidth / 8, 4 * screenHeight / 8});

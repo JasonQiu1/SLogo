@@ -87,6 +87,9 @@ public class TurtleController extends UIController {
     switch (button.getID()) {
       case "TurtleSelector" -> saveTurtleSelection(button.getMyPath());
       case "Play/Pause" -> pausePlayAnimation();
+      case "Step" -> {
+          return; // TODO: add code for step button
+      }
       case "0.5x", "1x", "2x", "4x" -> updateAnimationSpeed();
       case "Reset" -> replayAnimation();
     }

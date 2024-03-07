@@ -118,7 +118,7 @@ public class UITextField extends UIElement {
     StringBuilder str = new StringBuilder();
     textCollector.forEach(text -> str.append(text).append(" "));
     textCollector.clear();
-    myTextBox.setText(LanguageManager.translate(getLanguage(), "CommandLine"));
+    myTextBox.setText(LanguageManager.translate(getLanguage(), getID()));
     indexTracker = 0;
     return str.toString();
   }

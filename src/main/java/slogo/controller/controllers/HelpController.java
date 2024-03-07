@@ -9,6 +9,7 @@ import slogo.model.api.Session;
 import slogo.model.api.exception.XmlException;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UIListView;
+import slogo.view.userinterface.UITextField;
 import slogo.view.windows.HelpWindow;
 
 /**
@@ -24,6 +25,9 @@ public class HelpController extends UIController {
    * @param element the UI element that triggered the notification
    */
   public void notifyController(UIElement element) {
+    switch (element.getType().toLowerCase()) {
+      case "textfield" -> updateVarValue(element);
+    }
     switch (element.getID()) {
       case "Variables", "Commands", "Help", "History" -> {
         new HelpWindow(element.getID().toLowerCase(), this.getCurrentSession());
@@ -71,6 +75,13 @@ public class HelpController extends UIController {
   private void runCommandFromHistory(UIElement element) {
     String command = ((UIListView) element).getSelectedItem();
     System.out.println(command);
+    this.getCurrentSession().run(command);
+  }
+
+  private void updateVarValue(UIElement element) {
+    String varName = element.getID();
+    String varValue = ((UITextField) element).getTextCommands();
+    String command = "make :" + varName + " " + varValue;
     this.getCurrentSession().run(command);
   }
 }
