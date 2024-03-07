@@ -45,7 +45,6 @@ public class HelpPage extends GeneralPage {
     } catch (XmlException e) {
       throw new RuntimeException(e);
     }
-
   }
 
   /**
@@ -59,6 +58,7 @@ public class HelpPage extends GeneralPage {
     Collection<UIElement> UIElements = new ArrayList<>(setupText(screenWidth, screenHeight));
     myPageBuilder.styleUI(UIElements, root);
     setUpCommandList(screenWidth, screenHeight);
+    setupExternalButtons(screenWidth, screenHeight);
   }
 
   /**
@@ -89,6 +89,12 @@ public class HelpPage extends GeneralPage {
     }
     root.getChildren().add(createListElement("commands", commands, position).getElement());
 
+  }
+
+  private Collection<UIElement> setupExternalButtons(double screenWidth, double screenHeight) {
+    Map<String, double[]> extIDs = new HashMap<>();
+    extIDs.put("Back", new double[]{6 * screenWidth / 8 - 60, screenHeight / 8 - 60});
+    return createElements(extIDs, "externalbutton");
   }
 
 }

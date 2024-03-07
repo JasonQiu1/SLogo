@@ -1,8 +1,11 @@
 package slogo.view.pages;
 
+import java.io.File;
 import java.util.Collection;
 import javafx.scene.Group;
 import javafx.stage.Stage;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
 import slogo.view.userinterface.ExternalButton;
 import slogo.view.userinterface.InternalButton;
 import slogo.view.userinterface.UICheckBox;
@@ -20,6 +23,9 @@ import slogo.view.userinterface.UITurtle;
  * @author Jeremyah Flowers
  */
 public class PageBuilder {
+
+  private static final String PAGE_XML = "src/main/resources/ViewConfigurations/lastpage.xml";
+  private static final String HOME_PAGE = "splash";
 
   private final Stage myStage;
 
@@ -119,6 +125,9 @@ public class PageBuilder {
         button.setHomeClassic();
         button.addOpenPage(myStage, "splash");
       }
+      case "Back" -> {
+        button.addOpenPage(myStage, getLastPage());
+      }
       case "Variables", "Commands", "History" -> {
         button.setGUIClassic();
         // TODO: MAKE BUTTON DISPLAY FOR VARIABLES, COMMANDS, AND HISTORY
@@ -127,6 +136,18 @@ public class PageBuilder {
         throw new TypeNotPresentException(button.getID(), new Throwable());
       }
     }
+  }
+
+  private String getLastPage() {
+    try {
+      File file = new File(PAGE_XML);
+      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+      return doc.getElementsByTagName("LastPage").item(0).getTextContent();
+
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    return HOME_PAGE;
   }
 
   private void loadCheckBox(UICheckBox checkBox) {

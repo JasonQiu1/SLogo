@@ -7,6 +7,7 @@ import slogo.controller.controllers.SpeedController;
 import slogo.controller.controllers.TurtleController;
 import slogo.controller.controllers.PenController;
 import slogo.controller.controllers.ThemeController;
+import slogo.model.LanguageManager;
 import slogo.view.userinterface.UIElement;
 
 /**
@@ -82,7 +83,8 @@ public class GraphicsListener implements UIListener {
     }
 
     private void passButtonElement(UIElement element) {
-        switch (element.getID()) {
+        System.out.println(LanguageManager.translate("english", element.getID()));
+        switch (LanguageManager.translate("english", element.getID())) {
             case "1x", "2x", "3x", "4x" -> passToSpeed(element);
             case "R", "G", "B" -> passToPen(element);
         }
