@@ -2,8 +2,10 @@ package slogo.controller.controllers;
 
 import java.util.Collection;
 
+import javafx.scene.paint.Color;
 import slogo.view.userinterface.UIButton;
 import slogo.view.userinterface.UIElement;
+import slogo.view.userinterface.UITurtle;
 
 /**
  * PenController class implements UIController interface to manage pen color UI elements. It
@@ -14,9 +16,9 @@ import slogo.view.userinterface.UIElement;
 public class PenController extends UIController {
 
     // Instance Variables
-    private boolean redFlag = false;
-    private boolean greenFlag = false;
-    private boolean blueFlag = false;
+    private boolean redFlag = true;
+    private boolean greenFlag = true;
+    private boolean blueFlag = true;
 
     /**
      * Notifies the pen controller about changes in UI elements.
@@ -51,7 +53,40 @@ public class PenController extends UIController {
             case "B" -> {
                 selectButton((UIButton) element, blueFlag);
             }
+            case "Turtle" -> {
+                setTurtlePen((UITurtle) element);
+            }
         }
+    }
+
+    private void setTurtlePen(UITurtle turtle) {
+        // Any option: equivalent to pen down
+        if(isBlack()) turtle.setPenColor(Color.BLACK);
+        else if(isTeal()) turtle.setPenColor(Color.TEAL);
+        else if(isBrown()) turtle.setPenColor(Color.BROWN);
+        else if(isPurple()) turtle.setPenColor(Color.PURPLE);
+        else if(redFlag) turtle.setPenColor(Color.RED);
+        else if(greenFlag) turtle.setPenColor(Color.GREEN);
+        else if(blueFlag) turtle.setPenColor(Color.BLUE);
+
+        // Equivalent to pen up
+        else turtle.setPenColor(Color.WHITE);
+    }
+
+    private boolean isPurple() {
+        return redFlag && blueFlag;
+    }
+
+    private boolean isBrown() {
+        return redFlag && greenFlag;
+    }
+
+    private boolean isTeal() {
+        return greenFlag && blueFlag;
+    }
+
+    private boolean isBlack() {
+        return redFlag && greenFlag && blueFlag;
     }
 
     private void setPenR() {
@@ -65,4 +100,6 @@ public class PenController extends UIController {
     private void setPenB() {
         blueFlag = !blueFlag;
     }
+
+
 }

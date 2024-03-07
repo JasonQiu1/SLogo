@@ -14,6 +14,7 @@ import slogo.view.userinterface.UIElement;
 public class SpeedController extends UIController {
 
     // Instance Variables
+    private boolean halfFlag = true;
     private boolean oneFlag = true;
     private boolean twoFlag = false;
     private boolean threeFlag = false;
@@ -27,6 +28,7 @@ public class SpeedController extends UIController {
     @Override
     public void notifyController(UIElement element) {
         switch (element.getID()) {
+            case "0.5x" -> setSpeedHalf();
             case "1x" -> setSpeedOne();
             case "2x" -> setSpeedTwo();
             case "3x" -> setSpeedThree();
@@ -44,6 +46,9 @@ public class SpeedController extends UIController {
 
     private void updateElement(UIElement element) {
         switch (element.getID()) {
+            case "0.5x" -> {
+                selectButton((UIButton) element, halfFlag);
+            }
             case "1x" -> {
                 selectButton((UIButton) element, oneFlag);
             }
@@ -60,6 +65,7 @@ public class SpeedController extends UIController {
     }
 
     private void setSpeedFour() {
+        halfFlag = false;
         oneFlag = false;
         twoFlag = false;
         threeFlag = false;
@@ -67,6 +73,7 @@ public class SpeedController extends UIController {
     }
 
     private void setSpeedThree() {
+        halfFlag = false;
         oneFlag = false;
         twoFlag = false;
         threeFlag = true;
@@ -74,6 +81,7 @@ public class SpeedController extends UIController {
     }
 
     private void setSpeedTwo() {
+        halfFlag = false;
         oneFlag = false;
         twoFlag = true;
         threeFlag = false;
@@ -81,7 +89,16 @@ public class SpeedController extends UIController {
     }
 
     private void setSpeedOne() {
+        halfFlag = false;
         oneFlag = true;
+        twoFlag = false;
+        threeFlag = false;
+        fourFlag = false;
+    }
+
+    private void setSpeedHalf() {
+        halfFlag = true;
+        oneFlag = false;
         twoFlag = false;
         threeFlag = false;
         fourFlag = false;

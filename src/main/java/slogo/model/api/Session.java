@@ -32,7 +32,12 @@ public class Session {
    * @throws RunCodeError when any error occurs when running the code.
    */
   public void run(String commands) throws RunCodeError {
-    codeRunner.run(commands);
+    try {
+      codeRunner.run(commands);
+      commandHistory.add(Map.of(commands, Map.of("successful", "true")));
+    } catch (RunCodeError error) {
+      commandHistory.add(Map.of(commands, Map.of("successful", "false")));
+    }
   }
 
   /**
@@ -46,7 +51,7 @@ public class Session {
    * metadata such as wasSuccessful.
    */
   public List<Map<String, Map<String, String>>> getCommandHistory(int maxLength) {
-    return null;
+    return commandHistory;
   }
 
   /**
@@ -59,11 +64,11 @@ public class Session {
    * @return an immutable map where the key is the id of the turtle and a list of its step history
    */
   public Map<Integer, List<TurtleStep>> getTurtlesStepHistories(int maxLength) {
-    Map<Integer, List<TurtleStep>> stepHistories = new HashMap<>();
-    for (Turtle turtle: this.turtles) {
-      stepHistories.put(turtle.getId(), turtle.getStepHistory(maxLength));
+    Map<Integer, List<TurtleStep>> turtlesStepHistories = new HashMap<>();
+    for (Turtle turtle : turtles) {
+      turtlesStepHistories.put(turtle.getId(), turtle.getStepHistory(maxLength));
     }
-    return stepHistories;
+    return turtlesStepHistories;
   }
 
   /**
@@ -86,7 +91,7 @@ public class Session {
    * in the variable.
    */
   public Map<String, Double> getVariables() {
-    return null;
+    return codeRunner.getVariables();
   }
 
   /**
@@ -97,7 +102,7 @@ public class Session {
    * metadata, including parameter names and command definition.
    */
   public Map<String, Map<String, String>> getUserDefinedCommands() {
-    return null;
+    return codeRunner.getCommands();
   }
 
   /**

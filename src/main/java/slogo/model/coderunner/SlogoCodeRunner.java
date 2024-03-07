@@ -1,6 +1,7 @@
 package slogo.model.coderunner;
 
 import java.util.List;
+import java.util.Map;
 import slogo.model.turtleutil.Turtle;
 
 /**
@@ -16,7 +17,16 @@ public class SlogoCodeRunner {
    * @param turtles reference to the original list of turtles, which may be modified in-place.
    */
   public SlogoCodeRunner(List<Turtle> turtles) {
-    interpreter = new Interpreter(new LibraryEnvironment(), turtles);
+    libraryEnvironment = new LibraryEnvironment();
+    interpreter = new Interpreter(libraryEnvironment, turtles);
+  }
+
+  public Map<String, Double> getVariables() {
+    return interpreter.getGlobalEnvironment().getLocalVariables();
+  }
+
+  public Map<String, Map<String, String>> getCommands() {
+    return interpreter.getGlobalEnvironment().getLocalCommands();
   }
 
   /**
@@ -29,4 +39,5 @@ public class SlogoCodeRunner {
   }
 
   private final Interpreter interpreter;
+  private final LibraryEnvironment libraryEnvironment;
 }

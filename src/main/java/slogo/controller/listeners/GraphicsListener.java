@@ -17,7 +17,7 @@ import slogo.model.api.Session;
  * GraphicsListener class implements UIListener interface to handle UI events and pass them to
  * respective controllers. It manages UI elements related to graphics.
  *
- * @author Jeremyah Flowers
+ * @author Jeremyah Flowers, Judy He
  */
 public class GraphicsListener implements UIListener {
 
@@ -69,36 +69,41 @@ public class GraphicsListener implements UIListener {
     for (UIElement element : elements) {
       switch (element.getType().toLowerCase()) {
         case "checkbox" -> passToBackground(element);
-        case "internalbutton", "externalbutton" -> passButtonElement(element);
+        case "internalbutton" -> passButtonElement(element);
         case "region" -> {
           passToBackground(element);
           passToTheme(element);
         }
-        case "turtle", "textfield" -> passToTurtle(element);
+        case "textfield" -> passToTurtle(element);
+        case "turtle" -> {
+          passToTurtle(element);
+          passToPen(element);
+        }
       }
     }
   }
 
-
   private void handleButtonElement(UIElement element) {
     switch (element.getID()) {
-      case "1x", "2x", "3x", "4x" -> mySpeedController.notifyController(element);
+      case "0.5x", "1x", "2x", "4x" -> {
+        mySpeedController.notifyController(element);
+        myTurtleController.notifyController(element);
+      }
       case "R", "G", "B" -> myPenController.notifyController(element);
-      case "Play/Pause" -> myTurtleController.notifyController(element);
+      case "Play/Pause", "Reset" -> myTurtleController.notifyController(element);
       case "Variables", "Commands", "History", "Help" -> myHelpController.notifyController(element);
       case "Save", "Load" -> myXmlController.notifyController(element);
     }
   }
 
-  private void passToTheme(UIElement element) {
-    myThemeController.addElement(element);
-  }
-
   private void passButtonElement(UIElement element) {
     switch (element.getID()) {
-      case "0.5x", "1x", "2x", "4x" -> passToSpeed(element);
+      case "0.5x", "1x", "2x", "4x" -> {
+        passToSpeed(element);
+        passToTurtle(element);
+      }
       case "R", "G", "B" -> passToPen(element);
-      case "Play/Pause" -> passToTurtle(element);
+      case "Play/Pause", "Reset" -> passToTurtle(element);
       case "History" -> passToHelp(element);
       case "Save", "Load" -> passToXML(element);
     }
@@ -112,6 +117,10 @@ public class GraphicsListener implements UIListener {
     myTurtleController.setSession(SESSION);
     myTurtleController.setTurtleAnimator(TURTLE_ANIMATOR);
     myTurtleController.addElement(element);
+  }
+
+  private void passToTheme(UIElement element) {
+    myThemeController.addElement(element);
   }
 
   private void passToSpeed(UIElement element) {

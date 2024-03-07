@@ -1,6 +1,7 @@
 package slogo.model.coderunner;
 
 import java.util.Map;
+import java.util.Stack;
 import slogo.model.api.exception.coderunner.ErrorType;
 import slogo.model.api.exception.coderunner.RunCodeError;
 
@@ -27,6 +28,7 @@ class Lexer {
     cursorIdx = 0;
     lineNumber = 0;
     lines = input.split("\n");
+    blockStartCursors = new Stack<>();
   }
 
   Token nextToken() throws RunCodeError {
@@ -40,8 +42,12 @@ class Lexer {
       case '*' -> createToken(TokenType.STAR);
       case '/' -> createToken(TokenType.FORWARD_SLASH);
       case '%' -> createToken(TokenType.PERCENT);
-      case '[' -> createToken(TokenType.LEFT_SQUARE_BRACKET);
-      case ']' -> createToken(TokenType.RIGHT_SQUARE_BRACKET);
+      case '[' -> {
+        blockStartCursors.push(cursorIdx);
+        yield createToken(TokenType.LEFT_SQUARE_BRACKET);
+      }
+      case ']' -> new Token(TokenType.RIGHT_SQUARE_BRACKET, "]", lineNumber,
+          input.substring(blockStartCursors.pop(), cursorIdx - 1).trim());
       case '\0' -> createToken(TokenType.EOF);
       case '\n' -> {
         lineNumber++;
@@ -98,6 +104,7 @@ class Lexer {
   private final String input;
   private final String[] lines;
   private int lineNumber;
+  private Stack<Integer> blockStartCursors;
 
   private boolean isWhiteSpace() {
     return switch (peek()) {
