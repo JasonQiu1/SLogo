@@ -92,20 +92,16 @@ public class UITurtle extends UIElement {
     double yInitial = this.y;
 
     if (xInitial >= X_MAX + X_ORIGIN) {
-      System.out.println("HERE: XMAX");
       xInitial = X_MIN + X_ORIGIN;
     }
     else if (xInitial <= X_MIN + X_ORIGIN) {
-      System.out.println("HERE: XMIN");
       xInitial = X_MAX + X_ORIGIN;
     }
 
     if (yInitial >= Y_MAX + Y_ORIGIN) {
-      System.out.println("HERE: YMAX");
       yInitial = Y_MIN + Y_ORIGIN;
     }
     else if (yInitial <= Y_MIN + Y_ORIGIN) {
-      System.out.println("HERE: YMIN");
       yInitial = Y_MAX + Y_ORIGIN;
     }
 
@@ -125,7 +121,7 @@ public class UITurtle extends UIElement {
 //
 //    double nextX = initX - x - myTurtle.getRadius();
 //    double nextY = initY - y - myTurtle.getRadius();
-    myPen.draw(xInitial, yInitial, xFinal, yFinial);
+    myPen.draw(xInitial - myTurtle.getRadius(), yInitial- myTurtle.getRadius(), xFinal - myTurtle.getRadius(), yFinial - myTurtle.getRadius());
   }
 
 
