@@ -107,6 +107,10 @@ public class UITurtle extends UIElement {
     myPen = pen;
   }
 
+  public void clearScreen() {
+    myPen.clearScreen();
+  }
+
   public void showTurtle(Boolean doShow) {
     myTurtle.setDisable(!doShow);
   }
