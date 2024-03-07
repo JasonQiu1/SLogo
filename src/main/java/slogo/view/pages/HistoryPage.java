@@ -76,7 +76,7 @@ public class HistoryPage extends GeneralPage {
         commandList.add(text);
       }
     }
-    root.getChildren().add(createListElement("History", commandList, position).getElement());
+    root.getChildren().add(createListElement("Command History", commandList, position).getElement());
 
   }
 

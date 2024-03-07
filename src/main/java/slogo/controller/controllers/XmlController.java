@@ -9,11 +9,21 @@ import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UIListView;
 import slogo.view.windows.HelpWindow;
 
+/**
+ * Implements UIController interface to manage XML functionality
+ *
+ * @author Jordan Haytaian
+ */
 public class XmlController extends UIController {
 
   XmlConfiguration myXMLConfiguration = new XmlConfiguration();
   private final String helpFile = "data/commands/command_help_basic.xml";
 
+  /**
+   * Notifies the xml controller about changes in UI elements.
+   *
+   * @param element the UI element that triggered the notification
+   */
   @Override
   public void notifyController(UIElement element) {
     switch (element.getID()) {

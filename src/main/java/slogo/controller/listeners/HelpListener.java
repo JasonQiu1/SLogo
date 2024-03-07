@@ -5,6 +5,11 @@ import slogo.controller.controllers.HelpController;
 import slogo.controller.controllers.XmlController;
 import slogo.view.userinterface.UIElement;
 
+/**
+ * HelpListener class implements UIListener interface to handle UI events in help windows.
+ *
+ * @author Jordan Haytaian
+ */
 public class HelpListener implements UIListener {
 
   HelpController myHelpController = new HelpController();
@@ -14,7 +19,7 @@ public class HelpListener implements UIListener {
   public void sendSignal(UIElement element) {
     switch (element.getID().toLowerCase()) {
       case "library commands" -> myXmlController.notifyController(element);
-      case "user-defined commands", "user-defined variables" ->
+      case "user-defined commands", "user-defined variables", "history" ->
           myHelpController.notifyController(element);
     }
 
