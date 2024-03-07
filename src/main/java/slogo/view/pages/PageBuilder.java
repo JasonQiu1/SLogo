@@ -21,6 +21,9 @@ import slogo.view.userinterface.UITurtle;
  */
 public class PageBuilder {
 
+  private static final String PAGE_XML = "src/main/resources/ViewConfigurations/lastpage.xml";
+  private static final String HOME_PAGE = "splash";
+
   private final Stage myStage;
 
   /**
@@ -68,6 +71,7 @@ public class PageBuilder {
         button.setResetClassic();
         // TODO: MAKE BUTTON RESET SIMULATION
       }
+
       case "1x", "2x", "3x", "4x" -> {
         button.setSpeedClassic();
         // TODO: MAKE BUTTON CHANGE SIMULATION SPEED
@@ -109,15 +113,15 @@ public class PageBuilder {
       }
       case "Create" -> {
         button.setMenuClassic();
-        button.addOpenPage(myStage, "graphics");
+        button.addOpenPage(myStage, "GraphicsPage");
       }
       case "Help" -> {
         button.setMenuClassic();
-        button.addOpenPage(myStage, "help");
+        button.addOpenPage(myStage, "HelpPage");
       }
       case "Home" -> {
         button.setHomeClassic();
-        button.addOpenPage(myStage, "splash");
+        button.addOpenPage(myStage, "SplashPage");
       }
       case "Variables", "Commands", "History" -> {
         button.setGUIClassic();

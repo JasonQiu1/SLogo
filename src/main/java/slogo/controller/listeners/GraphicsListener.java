@@ -8,6 +8,7 @@ import slogo.controller.controllers.TurtleController;
 import slogo.controller.controllers.PenController;
 import slogo.controller.controllers.ThemeController;
 import slogo.model.api.turtle.TurtleAnimator;
+import slogo.model.LanguageManager;
 import slogo.view.userinterface.UIElement;
 import slogo.model.api.Session;
 

@@ -8,9 +8,9 @@ import javafx.scene.text.FontWeight;
 import slogo.model.LanguageManager;
 
 /**
- * Represents a checkbox in the Slogo user interface. Extends the UIElement class.
- * It encapsulates methods to set up and customize the appearance and behavior of checkboxes
- * in the Slogo user interface.
+ * Represents a checkbox in the Slogo user interface. Extends the UIElement class. It encapsulates
+ * methods to set up and customize the appearance and behavior of checkboxes in the Slogo user
+ * interface.
  *
  * @author Jeremyah Flowers
  */

@@ -3,29 +3,17 @@ package slogo.view.userinterface;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javafx.scene.transform.Translate;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
-import slogo.model.api.turtle.Point;
-import slogo.model.api.turtle.TurtleAnimator;
-import slogo.model.api.turtle.TurtleState;
-import slogo.model.api.turtle.TurtleStep;
-import slogo.model.api.turtle.Vector;
-import slogo.model.turtleutil.Turtle;
 
 /**
- * Represents a turtle graphic element in the Slogo user interface.
- * Handles the display and animation of a turtle.
- * Extends the UIElement class.
- * It includes methods to setup the turtle graphic, update its position, and create animation.
+ * Represents a turtle graphic element in the Slogo user interface. Handles the display and
+ * animation of a turtle. Extends the UIElement class. It includes methods to setup the turtle
+ * graphic, update its position, and create animation.
  *
  * @author Jeremyah Flowers, Judy He
  */
@@ -36,8 +24,10 @@ public class UITurtle extends UIElement {
   private static final String DEFAULT_TURTLE = "turtle_image/turtle_img01.png";
   private static final String IMG_DIR = "turtle_image/";
   private final Circle myTurtle;
+  private final double initX;
+  private final double initY;
+  private final double initHeading;
   private double x, y, heading;
-  private double initX, initY, initHeading;
 
   /**
    * Constructs a UITurtle object with the specified turtle ID, x, and y coordinates.
@@ -62,6 +52,18 @@ public class UITurtle extends UIElement {
     setPosition(x, y);
   }
 
+  private static String findTurtle() {
+    try {
+      File file = new File(TURTLE_XML);
+      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+      return doc.getElementsByTagName("SelectedTurtle").item(0).getTextContent();
+
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    return DEFAULT_TURTLE;
+  }
+
   /**
    * Sets up the turtle graphic.
    */
@@ -74,18 +76,6 @@ public class UITurtle extends UIElement {
     }
   }
 
-  /**
-   * Updates the turtle's position on the screen.
-   */
-  public void updateState(double x, double y, double angle) {
-    this.x = initX + x;
-    this.y = initY - y;
-    setPosition(this.x, this.y);
-
-    this.heading = initHeading + angle;
-    myTurtle.setRotate(this.heading);
-  }
-
 //  /**
 //   * Creates an animation for the turtle to move to a new position and heading.
 //   *
@@ -96,16 +86,16 @@ public class UITurtle extends UIElement {
 //    animateTurtles();
 //  }
 
-  private static String findTurtle() {
-    try {
-      File file = new File(TURTLE_XML);
-      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
-      return doc.getElementsByTagName("SelectedTurtle").item(0).getTextContent();
+  /**
+   * Updates the turtle's position on the screen.
+   */
+  public void updateState(double x, double y, double angle) {
+    this.x = initX + x;
+    this.y = initY - y;
+    setPosition(this.x, this.y);
 
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return DEFAULT_TURTLE;
+    this.heading = initHeading + angle;
+    myTurtle.setRotate(this.heading);
   }
 
 //  private void updateTurtlePosition(double dx, double dy) {

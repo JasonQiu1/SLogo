@@ -43,6 +43,7 @@ public abstract class GeneralPage {
     myListener = listener;
   }
 
+
   /**
    * Sets up the page layout based on the screen width and height.
    *

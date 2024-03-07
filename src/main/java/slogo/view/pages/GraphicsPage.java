@@ -12,8 +12,8 @@ import slogo.view.userinterface.UIElement;
 
 /**
  * Represents the graphics page of the application. This page displays graphical elements and user
- * interface controls for graphics-related functionality.
- * It extends the GeneralPage class to inherit common page functionalities.
+ * interface controls for graphics-related functionality. It extends the GeneralPage class to
+ * inherit common page functionalities.
  *
  * @author Jeremyah Flowers
  */
@@ -133,7 +133,6 @@ public class GraphicsPage extends GeneralPage {
     intIDs.put("4x", new double[]{6 * screenWidth / 8 + 60, 5 * screenHeight / 8});
     intIDs.put("Play/Pause", new double[]{6 * screenWidth / 8 + 60, 5 * screenHeight / 8 + 40});
     intIDs.put("Reset", new double[]{6 * screenWidth / 8 + 60, screenHeight / 8 - 60});
-
     intIDs.put("R", new double[]{6 * screenWidth / 8 - 60, 4 * screenHeight / 8});
     intIDs.put("G", new double[]{6 * screenWidth / 8, 4 * screenHeight / 8});
     intIDs.put("B", new double[]{6 * screenWidth / 8 + 60, 4 * screenHeight / 8});
