@@ -30,7 +30,6 @@ public class UIPen {
     line.setStartY(startingY);
     line.setEndX(nextX);
     line.setEndY(nextY);
-
     lineCollector.push(line);
     myCanvas.getChildren().add(line);
   }

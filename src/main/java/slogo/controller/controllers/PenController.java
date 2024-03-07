@@ -77,9 +77,9 @@ public class PenController extends UIController {
         else turtle.setPenColor(Color.TRANSPARENT);
     }
 
-    private void clearLastTurtleLine(UITurtle turtle) {
-        turtle.clearLastLine();
-    }
+//    private void clearLastTurtleLine(UITurtle turtle) {
+//        turtle.clearLastLine();
+//    }
     private void clearTurtleDrawing(UITurtle turtle) {
         turtle.clearScreen();
     }

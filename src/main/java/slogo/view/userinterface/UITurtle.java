@@ -116,11 +116,6 @@ public class UITurtle extends UIElement {
   }
 
   private void draw(double xInitial, double yInitial, double xFinal, double yFinial) {
-//    double currX = this.x - myTurtle.getRadius();
-//    double currY = this.y - myTurtle.getRadius();
-//
-//    double nextX = initX - x - myTurtle.getRadius();
-//    double nextY = initY - y - myTurtle.getRadius();
     myPen.draw(xInitial - myTurtle.getRadius(), yInitial- myTurtle.getRadius(), xFinal - myTurtle.getRadius(), yFinial - myTurtle.getRadius());
   }
 

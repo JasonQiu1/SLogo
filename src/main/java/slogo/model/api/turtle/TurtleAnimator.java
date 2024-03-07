@@ -19,7 +19,7 @@ public class TurtleAnimator {
   private static final double MIN_SPEED = 0; // get from resource file
   public final double STANDARD_FPS = 24.0; // standard FPS for animations is 24 -  get from resource file
   private static final double DEFAULT_PIXELS_PER_SECOND = 50.0; //  get from resource file
-  private static final double DEFAULT_SPEED = 1.0; //  get from resource file
+  private static final double DEFAULT_SPEED = 0.5; //  get from resource file
   private static final double DEFAULT_GRAPHICS_SCALING_FACTOR = 1.0; //  get from resource file
   private double graphicsScalingFactor;
   private double speed;
@@ -121,7 +121,12 @@ public class TurtleAnimator {
     return frames;
   }
 
-  // reset frame for replying animation and changing speed during animation
+  // reset frame to the beginning
+  public Map<Integer, TurtleState> resetFrame() {
+    return resetFrame(currentPointInIntermediateStates);
+  }
+
+  // reset frame back a given number of frames
   public Map<Integer, TurtleState> resetFrame(int frames) {
     currentPointInIntermediateStates -= frames;
     return nextFrame();

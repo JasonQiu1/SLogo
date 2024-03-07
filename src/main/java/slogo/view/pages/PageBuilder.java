@@ -72,8 +72,6 @@ public class PageBuilder {
       case "Reset" -> {
         button.setResetClassic();
       }
-      case "0.5x", "1x", "2x", "4x" -> {
-
       case ".5x", "1x", "2x", "3x", "4x" -> {
         button.setSpeedClassic();
       }

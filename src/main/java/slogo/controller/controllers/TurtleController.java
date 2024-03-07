@@ -67,7 +67,7 @@ public class TurtleController extends UIController {
     double frameDuration = 1.0 / (this.getTurtleAnimator().getSpeed()
         * this.getTurtleAnimator().STANDARD_FPS); // Calculate the duration for the KeyFrame
     animation.getKeyFrames()
-        .add(new KeyFrame(Duration.seconds(frameDuration), e -> animateNextFrame()));
+        .add(new KeyFrame(Duration.seconds(frameDuration), e -> step()));
     animation.play();
   }
 
@@ -87,9 +87,7 @@ public class TurtleController extends UIController {
     switch (button.getID()) {
       case "TurtleSelector" -> saveTurtleSelection(button.getMyPath());
       case "Play/Pause" -> pausePlayAnimation();
-      case "Step" -> {
-          return; // TODO: add code for step button
-      }
+      case "Step" -> manualStep();
       case "0.5x", "1x", "2x", "4x" -> updateAnimationSpeed();
       case "Reset" -> replayAnimation();
     }
@@ -142,29 +140,39 @@ public class TurtleController extends UIController {
     animation.setDelay(Duration.seconds(frameDuration));
     animation.setRate(this.getTurtleAnimator().getSpeed());
   }
+  private void step() {
+    if (!animationOnPause && !this.currentFrame.isEmpty()) {
+      animateNextFrame();
+    }
+  }
+
+  private void manualStep() {
+    if (animationOnPause) animateNextFrame();
+  }
 
   private void animateNextFrame() {
-    if (!animationOnPause && !this.currentFrame.isEmpty()) {
-      for (Integer turtleId : this.currentFrame.keySet()) {
-        TurtleState state = this.currentFrame.get(turtleId);
-        UITurtle turtleView = this.TURTLE_VIEWS.get("Turtle" + turtleId);
-        turtleView.updateState(state.position().getX(), state.position().getY(),
-            state.heading());
-      }
-      framesRan++;
-      this.currentFrame = this.getTurtleAnimator().nextFrame();
+    for (Integer turtleId : this.currentFrame.keySet()) {
+      TurtleState state = this.currentFrame.get(turtleId);
+      UITurtle turtleView = this.TURTLE_VIEWS.get("Turtle" + turtleId);
+      turtleView.updateState(state.position().getX(), state.position().getY(),
+          state.heading());
     }
+    framesRan++;
+    this.currentFrame = this.getTurtleAnimator().nextFrame();
   }
 
   private void replayAnimation() {
     this.currentFrame = this.getTurtleAnimator().resetFrame(framesRan);
-    framesRan = 0;
     animation.play();
     for (Integer turtleId : this.currentFrame.keySet()) {
       TurtleState state = this.currentFrame.get(turtleId);
       UITurtle turtleView = this.TURTLE_VIEWS.get("Turtle" + turtleId);
+      for (int i = 0; i < framesRan; i++) {
+        turtleView.clearLastLine();
+      }
       turtleView.updateState(state.position().getX(), state.position().getY(), state.heading());
     }
+    framesRan = 0;
     this.currentFrame = this.getTurtleAnimator().nextFrame();
   }
 
