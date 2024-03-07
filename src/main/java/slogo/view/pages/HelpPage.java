@@ -55,9 +55,7 @@ public class HelpPage extends GeneralPage {
    */
   @Override
   public void setPage(double screenWidth, double screenHeight) {
-    Collection<UIElement> UIElements = new ArrayList<>();
-    UIElements.addAll(setupText(screenWidth, screenHeight));
-    UIElements.addAll(setupHomeButton(screenWidth, screenHeight));
+    Collection<UIElement> UIElements = new ArrayList<>(setupText(screenWidth, screenHeight));
     myPageBuilder.styleUI(UIElements, root);
     setUpCommandList(screenWidth, screenHeight);
   }
@@ -71,7 +69,6 @@ public class HelpPage extends GeneralPage {
   public Parent getPage() {
     return root;
   }
-
 
   private Collection<UIElement> setupText(double screenWidth, double screenHeight) {
     Map<String, double[]> textIDs = new HashMap<>();
@@ -91,11 +88,4 @@ public class HelpPage extends GeneralPage {
     root.getChildren().add(createListElement("commands", commands, position).getElement());
 
   }
-
-  private Collection<UIElement> setupHomeButton(double screenWidth, double screenHeight) {
-    Map<String, double[]> extIDs = new HashMap<>();
-    extIDs.put("Home", new double[]{6 * screenWidth / 8 - 60, screenHeight / 8 - 60});
-    return createElements(extIDs, "externalbutton");
-  }
-
 }

@@ -132,4 +132,5 @@ public class ExternalButton extends UIButton {
   public void addOpenPage(Stage stage, String pageType) {
     myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, c -> new SlogoWindow(stage, pageType));
   }
+
 }

@@ -24,10 +24,10 @@ public class UITurtle extends UIElement {
   private static final String DEFAULT_TURTLE = "turtle_image/turtle_img01.png";
   private static final String IMG_DIR = "turtle_image/";
   private final Circle myTurtle;
-  private double x, y, heading;
   private final double initX;
   private final double initY;
   private final double initHeading;
+  private double x, y, heading;
 
   /**
    * Constructs a UITurtle object with the specified turtle ID, x, and y coordinates.
