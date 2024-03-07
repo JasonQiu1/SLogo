@@ -113,7 +113,7 @@ public class PageBuilder {
       }
       case "Help" -> {
         button.setMenuClassic();
-        button.addOpenPage(myStage, "help");
+        button.addOpenHelpWindow("help");
       }
       case "Home" -> {
         button.setHomeClassic();
@@ -121,7 +121,7 @@ public class PageBuilder {
       }
       case "Variables", "Commands", "History" -> {
         button.setGUIClassic();
-        // TODO: MAKE BUTTON DISPLAY FOR VARIABLES, COMMANDS, AND HISTORY
+        button.addOpenHelpWindow(button.getID().toLowerCase());
       }
       default -> {
         throw new TypeNotPresentException(button.getID(), new Throwable());

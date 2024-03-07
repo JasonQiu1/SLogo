@@ -73,6 +73,7 @@ public class GraphicsListener implements UIListener {
     switch (element.getID()) {
       case "1x", "2x", "3x", "4x" -> mySpeedController.notifyController(element);
       case "R", "G", "B" -> myPenController.notifyController(element);
+      //case "Save" -> myXmlController.notifyController(element);
     }
   }
 

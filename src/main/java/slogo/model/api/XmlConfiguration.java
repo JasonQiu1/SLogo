@@ -98,7 +98,7 @@ public class XmlConfiguration {
    * @param session  The session to be saved
    * @param fileName The name of the XML file to save the session information to
    */
-  void saveSession(Session session, String fileName) throws XmlException {
+  public void saveSession(Session session, String fileName) throws XmlException {
     try {
       DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
       DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();

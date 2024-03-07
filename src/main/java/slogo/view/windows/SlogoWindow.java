@@ -1,4 +1,4 @@
-package slogo.view;
+package slogo.view.windows;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -9,9 +9,8 @@ import slogo.view.pages.HelpPage;
 import slogo.view.pages.SplashPage;
 
 /**
- * Represents the main window of the Slogo application.
- * Manages the creation of different types of pages within the application.
- * Extends the Stage class.
+ * Represents the main window of the Slogo application. Manages the creation of different types of
+ * pages within the application. Extends the Stage class.
  *
  * @author Jeremyah Flowers
  */
@@ -54,9 +53,6 @@ public class SlogoWindow {
       }
       case "splash" -> {
         return new SplashPage(stage);
-      }
-      case "help" -> {
-        return new HelpPage(stage);
       }
       default -> {
         throw new TypeNotPresentException(pageType, new Throwable("Not Found"));

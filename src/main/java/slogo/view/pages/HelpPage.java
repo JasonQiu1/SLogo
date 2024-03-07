@@ -22,6 +22,7 @@ import slogo.view.userinterface.UIElement;
  * @author Jordan Haytaian
  */
 public class HelpPage extends GeneralPage {
+
   private final Group root;
   private final PageBuilder myPageBuilder;
   private final XmlConfiguration myXmlConfig;
@@ -53,9 +54,9 @@ public class HelpPage extends GeneralPage {
   }
 
   /**
-   * Retrieves the parent node containing all elements of the splash page.
+   * Retrieves the parent node containing all elements of the help page.
    *
-   * @return The root node of the splash page.
+   * @return The root node of the help page.
    */
   @Override
   public Parent getPage() {
@@ -86,8 +87,10 @@ public class HelpPage extends GeneralPage {
       for (Entry<String, String> command : helpMap.entrySet()) {
         commands.add(command.getKey());
       }
-      root.getChildren().add(createListElement("commands", commands, position).getElement());
+      root.getChildren()
+          .add(createListElement("library commands", commands, position).getElement());
     } catch (XmlException e) {
+      //TODO: make this cleaner
       Collection<UIElement> UIElements = new ArrayList<>(
           setupExceptionText(screenWidth, screenHeight));
       myPageBuilder.styleUI(UIElements, root);
