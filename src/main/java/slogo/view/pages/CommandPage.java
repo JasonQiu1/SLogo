@@ -77,7 +77,18 @@ public class CommandPage extends GeneralPage {
 
     ObservableList<String> commands = FXCollections.observableArrayList();
     for (Entry<String, Map<String, String>> entry : commandMap.entrySet()) {
-      String text = "Command: " + entry.getKey();
+      int arity = Integer.parseInt(entry.getValue().get("arity"));
+      String text = "Command: " + entry.getKey() + "\nParameter(s): ";
+      if (arity == 0) {
+        text = text + "none";
+      } else {
+        for (int currParam = 0; currParam < arity; currParam++) {
+          text = text + entry.getValue().get("parameter" + (currParam + 1));
+          if (currParam != arity - 1) {
+            text = text + ",";
+          }
+        }
+      }
       commands.add(text);
     }
     root.getChildren().add(createListElement("User Def Commands", commands, position).getElement());

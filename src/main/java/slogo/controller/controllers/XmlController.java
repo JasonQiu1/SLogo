@@ -48,7 +48,6 @@ public class XmlController extends UIController {
     } catch (XmlException e) {
       //TODO: Exception handling
     }
-
   }
 
 }
