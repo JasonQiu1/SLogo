@@ -40,6 +40,25 @@ public class ExternalButton extends UIButton {
     setSpecialType("externalbutton");
   }
 
+  private static FileChooser getFileChooser(String folderName) {
+    FileChooser fc = new FileChooser();
+    fc.setTitle("Open Resource File");
+    String folder = Path.of("data" + File.separator + folderName).toString();
+    fc.setInitialDirectory(new File(folder));
+
+    if (folderName.equals("turtle_images")) {
+      fc.getExtensionFilters().addAll(
+          new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
+      );
+    } else if (folderName.equals("saved_files")) {
+      fc.getExtensionFilters().addAll(
+          new ExtensionFilter("XML Files", "*.xml")
+      );
+    }
+
+    return fc;
+  }
+
   /**
    * Sets the button to have a classic selector appearance.
    */
@@ -90,7 +109,6 @@ public class ExternalButton extends UIButton {
     });
   }
 
-
   /**
    * Adds functionality to open files from a specified folder.
    *
@@ -118,25 +136,5 @@ public class ExternalButton extends UIButton {
 
   public void addOpenHelpWindow(String pageType) {
     myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, c -> sendSignal());
-  }
-
-
-  private static FileChooser getFileChooser(String folderName) {
-    FileChooser fc = new FileChooser();
-    fc.setTitle("Open Resource File");
-    String folder = Path.of("data" + File.separator + folderName).toString();
-    fc.setInitialDirectory(new File(folder));
-
-    if (folderName.equals("turtle_images")) {
-      fc.getExtensionFilters().addAll(
-          new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
-      );
-    } else if (folderName.equals("saved_files")) {
-      fc.getExtensionFilters().addAll(
-          new ExtensionFilter("XML Files", "*.xml")
-      );
-    }
-
-    return fc;
   }
 }

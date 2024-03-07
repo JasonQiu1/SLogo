@@ -14,10 +14,11 @@ public class UIListView extends UIElement {
 
   /**
    * UIListView Constructor
-   * @param text The ID of the list
+   *
+   * @param text    The ID of the list
    * @param options The items in the list
-   * @param x The X coordinate of the position
-   * @param y THe Y coordinate of the position
+   * @param x       The X coordinate of the position
+   * @param y       THe Y coordinate of the position
    */
   public UIListView(String text, ObservableList<String> options, double x, double y) {
     super(new ListView<>(options), text);

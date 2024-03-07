@@ -1,12 +1,9 @@
 package slogo.view.userinterface;
 
-import java.io.File;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
 import slogo.model.LanguageManager;
 
 /**

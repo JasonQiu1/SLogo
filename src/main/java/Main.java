@@ -10,7 +10,7 @@ public class Main extends Application {
 
   @Override
   public void start(Stage stage) {
-    SlogoWindow window = new SlogoWindow(stage, "splash");
+    SlogoWindow window = new SlogoWindow(stage, "SplashPage");
   }
 
 }
