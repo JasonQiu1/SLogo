@@ -86,7 +86,6 @@ public class UITextField extends UIElement {
             textCollector.add(myTextBox.getText());
             indexTracker++;
             myTextBox.clear();
-            sendSignal();
           }
           case UP -> {
             if (!textCollector.isEmpty() && indexTracker > 0) {

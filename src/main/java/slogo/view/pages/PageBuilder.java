@@ -151,7 +151,8 @@ public class PageBuilder {
 
   private void loadText(UIText text) {
     switch (text.getID()) {
-      case "SLOGO", "Help", "Command History", "User-Defined Variables", "User-Defined Commands" -> {
+      case "SLOGO", "Help", "Command History", "User-Defined Variables",
+          "User-Defined Commands", "Save Session" -> {
         text.setSlogoClassic();
       }
       case "Theme:", "Pen Colors:", "Speed:" -> {
@@ -170,9 +171,10 @@ public class PageBuilder {
   }
 
   private void loadTextField(UITextField textField) {
-    switch (textField.getID()) {
-      case "CommandLine", "FileName" -> textField.setupTextBox();
-      default -> throw new TypeNotPresentException(textField.getID(), new Throwable());
+    if (textField.getID().equals("CommandLine")) {
+      textField.setupTextBox();
+    } else {
+      throw new TypeNotPresentException(textField.getID(), new Throwable());
     }
   }
 }

@@ -116,7 +116,7 @@ public class XmlConfiguration {
         }
       }
 
-      File file = new File(fileName + ".xml");
+      File file = new File(fileName + ".slogo");
       FileOutputStream fos = new FileOutputStream(file);
       javax.xml.transform.TransformerFactory.newInstance().newTransformer()
           .transform(new javax.xml.transform.dom.DOMSource(document),

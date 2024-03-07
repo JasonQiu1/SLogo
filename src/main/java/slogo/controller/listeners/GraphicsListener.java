@@ -54,7 +54,7 @@ public class GraphicsListener implements UIListener {
     switch (element.getType().toLowerCase()) {
       case "checkbox" -> myBackgroundController.notifyController(element);
       case "turtle" -> myTurtleController.notifyController(element);
-      case "textfield" -> handleTextField(element);
+      case "textfield" -> myTurtleController.notifyController(element);
       case "internalbutton", "externalbutton" -> handleButtonElement(element);
     }
   }
@@ -90,13 +90,6 @@ public class GraphicsListener implements UIListener {
     }
   }
 
-  private void handleTextField(UIElement element) {
-    if (element.getID().equals("CommandLine")) {
-      myTurtleController.notifyController(element);
-    }
-  }
-
-
   private void passToTheme(UIElement element) {
     myThemeController.addElement(element);
   }
@@ -107,6 +100,7 @@ public class GraphicsListener implements UIListener {
       case "R", "G", "B" -> passToPen(element);
       case "Play/Pause" -> passToTurtle(element);
       case "History" -> passToHelp(element);
+      case "Save" -> passToXML(element);
     }
   }
 
@@ -133,5 +127,10 @@ public class GraphicsListener implements UIListener {
   private void passToHelp(UIElement element) {
     myHelpController.setSession(SESSION);
     myHelpController.addElement(element);
+  }
+
+  private void passToXML(UIElement element) {
+    myXmlController.setSession(SESSION);
+    myXmlController.addElement(element);
   }
 }
