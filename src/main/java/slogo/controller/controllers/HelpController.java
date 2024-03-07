@@ -18,8 +18,6 @@ import slogo.view.windows.HelpWindow;
  */
 public class HelpController extends UIController {
 
-  Session session = getCurrentSession();
-
   /**
    * Notifies the help controller about changes in UI elements.
    *
@@ -33,24 +31,24 @@ public class HelpController extends UIController {
     }
     switch (element.getID()) {
       case "Variables", "Commands", "Help", "History" -> {
-        new HelpWindow(element.getID().toLowerCase(), getCurrentSession());
+        new HelpWindow(element.getID().toLowerCase(), this.getCurrentSession());
       }
       case "User-Defined Commands" -> {
         String expandText = getCommandInfo(((UIListView) element).getSelectedItem());
-        new HelpWindow("command expand", session, expandText);
+        new HelpWindow("command expand", this.getCurrentSession(), expandText);
       }
       case "Command History" -> {
         runCommandFromHistory(element);
       }
       case "Variable List" -> {
         String varName = getVarName(((UIListView) element).getSelectedItem());
-        new HelpWindow("variable expand", session, varName);
+        new HelpWindow("variable expand", this.getCurrentSession(), varName);
       }
     }
   }
 
   private void expandOption(String expandText) {
-    new HelpWindow("expand", getCurrentSession(), expandText);
+    new HelpWindow("expand", this.getCurrentSession(), expandText);
   }
 
   private String getVarName(String option) {
@@ -65,7 +63,7 @@ public class HelpController extends UIController {
   }
 
   private String getCommandInfo(String option) {
-    Map<String, Map<String, String>> commandMap = session.getUserDefinedCommands();
+    Map<String, Map<String, String>> commandMap = this.getCurrentSession().getUserDefinedCommands();
     Map<String, String> commandMetaData = commandMap.get(option);
     String body = commandMetaData.get("body");
     return option + "\nNested Commands: " + body;
@@ -77,7 +75,7 @@ public class HelpController extends UIController {
 
   private void runCommandFromHistory(UIElement element) {
     String command = ((UIListView) element).getSelectedItem();
-    session.run(command);
+    this.getCurrentSession().run(command);
 
   }
 }

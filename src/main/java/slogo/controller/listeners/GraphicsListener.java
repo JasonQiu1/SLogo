@@ -69,7 +69,7 @@ public class GraphicsListener implements UIListener {
     for (UIElement element : elements) {
       switch (element.getType().toLowerCase()) {
         case "checkbox" -> passToBackground(element);
-        case "internalbutton" -> passButtonElement(element);
+        case "internalbutton", "externalbutton" -> passButtonElement(element);
         case "region" -> {
           passToBackground(element);
           passToTheme(element);

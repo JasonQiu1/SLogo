@@ -21,7 +21,6 @@ public class HelpListener implements UIListener {
       case "library commands" -> myXmlController.notifyController(element);
       case "user-defined commands", "user-defined variables", "history", "command history", "variable list" ->
           myHelpController.notifyController(element);
-      case "run" -> myHelpController.notifyController(element);
     }
 
   }
