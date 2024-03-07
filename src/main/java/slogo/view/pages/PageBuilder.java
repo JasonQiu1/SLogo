@@ -7,6 +7,7 @@ import slogo.view.userinterface.ExternalButton;
 import slogo.view.userinterface.InternalButton;
 import slogo.view.userinterface.UICheckBox;
 import slogo.view.userinterface.UIElement;
+import slogo.view.userinterface.UIPen;
 import slogo.view.userinterface.UIRegion;
 import slogo.view.userinterface.UIText;
 import slogo.view.userinterface.UITextField;
@@ -20,9 +21,6 @@ import slogo.view.userinterface.UITurtle;
  * @author Jeremyah Flowers
  */
 public class PageBuilder {
-
-  private static final String PAGE_XML = "src/main/resources/ViewConfigurations/lastpage.xml";
-  private static final String HOME_PAGE = "splash";
 
   private final Stage myStage;
 
@@ -50,15 +48,16 @@ public class PageBuilder {
         case "checkbox" -> loadCheckBox((UICheckBox) element);
         case "textfield" -> loadTextField((UITextField) element);
         case "region" -> loadRegion((UIRegion) element);
-        case "turtle" -> loadTurtle((UITurtle) element);
+        case "turtle" -> loadTurtle((UITurtle) element, root);
         default -> throw new TypeNotPresentException(element.getType(), new Throwable());
       }
       root.getChildren().add(element.getElement());
     }
   }
 
-  private void loadTurtle(UITurtle turtle) {
+  private void loadTurtle(UITurtle turtle, Group root) {
     turtle.setupTurtle();
+    turtle.setPen(new UIPen(root));
   }
 
   private void loadInternalButton(InternalButton button) {

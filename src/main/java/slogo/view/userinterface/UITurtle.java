@@ -28,6 +28,7 @@ public class UITurtle extends UIElement {
   private final double initY;
   private final double initHeading;
   private double x, y, heading;
+  private UIPen myPen;
 
   /**
    * Constructs a UITurtle object with the specified turtle ID, x, and y coordinates.
@@ -41,7 +42,6 @@ public class UITurtle extends UIElement {
     myTurtle = (Circle) getElement();
     myTurtle.setFill(Color.BLACK);
     myTurtle.toFront();
-
     this.x = x;
     this.y = y;
     this.heading = 0;
@@ -64,6 +64,10 @@ public class UITurtle extends UIElement {
     return DEFAULT_TURTLE;
   }
 
+  public void setPenColor(Color color) {
+    myPen.setColor(color);
+  }
+
   /**
    * Sets up the turtle graphic.
    */
@@ -76,20 +80,11 @@ public class UITurtle extends UIElement {
     }
   }
 
-//  /**
-//   * Creates an animation for the turtle to move to a new position and heading.
-//   *
-//   * @param stepHistories       The step history of each turtle.
-//   */
-//  public void createAnimation(Map<Integer, List<TurtleStep>> stepHistories) {
-//    ANIMATOR.animateStep(stepHistories);
-//    animateTurtles();
-//  }
-
   /**
    * Updates the turtle's position on the screen.
    */
   public void updateState(double x, double y, double angle) {
+    draw(x, y);
     this.x = initX + x;
     this.y = initY - y;
     setPosition(this.x, this.y);
@@ -98,20 +93,16 @@ public class UITurtle extends UIElement {
     myTurtle.setRotate(this.heading);
   }
 
-//  private void updateTurtlePosition(double dx, double dy) {
-//    Map<Integer, TurtleState> currentFrame = ANIMATOR.nextFrame();
-//    while (!currentFrame.isEmpty()) {
-//      for (Integer turtleId : currentFrame.keySet()) {
-//        TurtleState state = currentFrame.get(turtleId);
-//        double heading = state.heading();
-//        Point position = state.position();
-//
-//        dx = position.getX();
-//        dy = position.getY();
-//        dr = heading;
-//      }
-//      currentFrame = ANIMATOR.nextFrame();
-//    }
-//  }
+  private void draw(double x, double y) {
+    double currX = this.x - myTurtle.getRadius();
+    double currY = this.y - myTurtle.getRadius();
 
+    double nextX = initX - x - myTurtle.getRadius();
+    double nextY = initY - y - myTurtle.getRadius();
+    myPen.draw(currX, currY, nextX, nextY);
+  }
+
+  public void setPen(UIPen pen) {
+    myPen = pen;
+  }
 }

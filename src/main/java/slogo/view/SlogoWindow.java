@@ -46,7 +46,6 @@ public class SlogoWindow {
     newWindow.show();
   }
 
-
   private GeneralPage createPageType(String pageType) {
     switch (pageType) {
       case "GraphicsPage" -> {
