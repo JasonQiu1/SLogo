@@ -7,6 +7,7 @@ import slogo.view.controllers.PenController;
 import slogo.view.controllers.SpeedController;
 import slogo.view.controllers.ThemeController;
 import slogo.view.controllers.TurtleController;
+import slogo.view.controllers.XmlController;
 import slogo.view.userinterface.UIElement;
 import slogo.view.windows.HelpWindow;
 
@@ -24,6 +25,7 @@ public class GraphicsListener implements UIListener {
   private final PenController myPenController;
   private final ThemeController myThemeController;
   private final HelpController myHelpController;
+  private final XmlController myXmlController;
 
   /**
    * Constructor for GraphicsListener.
@@ -35,6 +37,7 @@ public class GraphicsListener implements UIListener {
     myPenController = new PenController();
     myThemeController = new ThemeController();
     myHelpController = new HelpController();
+    myXmlController = new XmlController();
   }
 
   /**
@@ -46,7 +49,8 @@ public class GraphicsListener implements UIListener {
   public void sendSignal(UIElement element) {
     switch (element.getType().toLowerCase()) {
       case "checkbox" -> myBackgroundController.notifyController(element);
-      case "turtle", "textfield" -> myTurtleController.notifyController(element);
+      case "turtle" -> myTurtleController.notifyController(element);
+      case "textfield" -> handleTextField(element);
       case "internalbutton", "externalbutton" -> handleButtonElement(element);
     }
   }
@@ -78,7 +82,13 @@ public class GraphicsListener implements UIListener {
       case "1x", "2x", "3x", "4x" -> mySpeedController.notifyController(element);
       case "R", "G", "B" -> myPenController.notifyController(element);
       case "Variables", "Commands", "History", "Help" -> myHelpController.notifyController(element);
-      //case "Save" -> myXmlController.notifyController(element);
+      case "Save", "Load" -> myXmlController.notifyController(element);
+    }
+  }
+
+  private void handleTextField(UIElement element) {
+    if (element.getID().equals("CommandLine")) {
+      myTurtleController.notifyController(element);
     }
   }
 

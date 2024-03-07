@@ -7,6 +7,7 @@ import slogo.view.pages.CommandPage;
 import slogo.view.pages.GeneralPage;
 import slogo.view.pages.HelpPage;
 import slogo.view.pages.HistoryPage;
+import slogo.view.pages.PromptFileNamePage;
 import slogo.view.pages.VariablePage;
 
 /**
@@ -60,6 +61,9 @@ public class HelpWindow {
       }
       case "history" -> {
         return new HistoryPage(helpStage, session);
+      }
+      case "promptfilenamepage" -> {
+        return new PromptFileNamePage(helpStage);
       }
       default -> {
         throw new TypeNotPresentException(pageType, new Throwable("Not Found"));

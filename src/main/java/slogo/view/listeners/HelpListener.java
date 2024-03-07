@@ -11,6 +11,9 @@ public class HelpListener implements UIListener{
 
   @Override
   public void sendSignal(UIElement element) {
+    switch (element.getType().toLowerCase()) {
+      case "textfield" -> myHelpController.notifyController(element);
+    }
 
   }
 
