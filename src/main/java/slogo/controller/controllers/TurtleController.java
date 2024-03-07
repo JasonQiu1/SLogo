@@ -137,7 +137,7 @@ public class TurtleController extends UIController {
         if (!animationOnPause && !this.currentFrame.isEmpty()) {
             for (Integer turtleId : this.currentFrame.keySet()) {
                 TurtleState state = this.currentFrame.get(turtleId);
-                UITurtle turtleView = this.TURTLE_VIEWS.get(String.valueOf(turtleId));
+                UITurtle turtleView = this.TURTLE_VIEWS.get("Turtle" + turtleId);
                 turtleView.updateState(state.position().getX(), state.position().getY(),
                     state.heading());
             }
