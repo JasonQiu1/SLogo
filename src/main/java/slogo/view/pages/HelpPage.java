@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.stage.Stage;
 import slogo.model.api.XmlConfiguration;
 import slogo.controller.listeners.HelpListener;
+import slogo.model.api.exception.XmlException;
 import slogo.view.userinterface.UIElement;
 
 /**
@@ -39,7 +40,11 @@ public class HelpPage extends GeneralPage {
     root = new Group();
     myPageBuilder = new PageBuilder(stage);
     myXmlConfig = new XmlConfiguration();
-    helpMap = myXmlConfig.loadHelpFile(helpFile);
+    try {
+      helpMap = myXmlConfig.loadHelpFile(helpFile);
+    } catch (XmlException e) {
+      throw new RuntimeException(e);
+    }
 
   }
 
