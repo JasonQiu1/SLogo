@@ -35,7 +35,7 @@ class Environment {
       for (int i = 0; i < command.getArity(); i++) {
         metadata.put("parameter" + (i + 1), command.getParameters().get(i));
       }
-      metadata.put("body", "not implemented yet");
+      metadata.put("body", command.getBodySource());
       commands.put(entry.getKey(), metadata);
     }
     return commands;

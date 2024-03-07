@@ -4,6 +4,7 @@ import java.util.List;
 import slogo.model.api.exception.coderunner.RunCodeError;
 import slogo.model.coderunner.CodeTurtle;
 import slogo.model.coderunner.Expression;
+import slogo.model.coderunner.Expression.Block;
 import slogo.model.coderunner.Interpreter;
 
 /**
@@ -19,10 +20,14 @@ public class UserCommand extends Command {
     return interpreter.evaluate(body);
   }
 
-  public UserCommand(List<String> parameters, Expression body) {
+  public String getBodySource() {
+    return body.getBodySource();
+  }
+
+  public UserCommand(List<String> parameters, Block body) {
     super(parameters);
     this.body = body;
   }
 
-  private final Expression body;
+  private final Block body;
 }

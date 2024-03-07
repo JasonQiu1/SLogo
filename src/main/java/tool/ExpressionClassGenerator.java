@@ -38,6 +38,7 @@ class ExpressionClassGenerator {
               
               Block
               List<Expression> body
+              String bodySource
               
               Make
               Token variable
@@ -48,7 +49,7 @@ class ExpressionClassGenerator {
               Expression start
               Expression end
               Expression increment
-              Expression body
+              Block body
               
               IfElse
               Expression predicate
@@ -58,7 +59,7 @@ class ExpressionClassGenerator {
               To
               Token commandName
               List<Token> parameters
-              Expression body
+              Block body
               
               Turtles
               
@@ -67,11 +68,11 @@ class ExpressionClassGenerator {
               
               Ask
               List<Expression> ids
-              Expression body
+              Block body
               
               AskWith
               Expression predicate
-              Expression body
+              Block body
           """;
   private static final String PACKAGE = "package slogo.model.coderunner;";
   private static final String IMPORTS = """
@@ -192,7 +193,7 @@ class ExpressionClassGenerator {
     classDefinition.append("\n");
     // getters
     for (String[] field : fields) {
-      classDefinition.append("    ");
+      classDefinition.append("    public ");
       classDefinition.append(field[0]);
       classDefinition.append(" get");
       classDefinition.append(field[1].substring(0, 1).toUpperCase());

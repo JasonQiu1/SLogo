@@ -55,7 +55,7 @@ public abstract class Expression {
       return visitor.visitNumber(this);
     }
 
-    double getValue() {
+    public double getValue() {
       return value;
     }
 
@@ -75,15 +75,15 @@ public abstract class Expression {
       return visitor.visitBinary(this);
     }
 
-    Token getOperator() {
+    public Token getOperator() {
       return operator;
     }
 
-    Expression getLeft() {
+    public Expression getLeft() {
       return left;
     }
 
-    Expression getRight() {
+    public Expression getRight() {
       return right;
     }
 
@@ -104,11 +104,11 @@ public abstract class Expression {
       return visitor.visitUnary(this);
     }
 
-    Token getOperator() {
+    public Token getOperator() {
       return operator;
     }
 
-    Expression getRight() {
+    public Expression getRight() {
       return right;
     }
 
@@ -127,7 +127,7 @@ public abstract class Expression {
       return visitor.visitVariable(this);
     }
 
-    Token getName() {
+    public Token getName() {
       return name;
     }
 
@@ -145,7 +145,7 @@ public abstract class Expression {
       return visitor.visitCall(this);
     }
 
-    Token getCommandName() {
+    public Token getCommandName() {
       return commandName;
     }
 
@@ -154,8 +154,9 @@ public abstract class Expression {
 
   public static class Block extends Expression {
 
-    Block(List<Expression> body) {
+    Block(List<Expression> body, String bodySource) {
       this.body = body;
+      this.bodySource = bodySource;
     }
 
     @Override
@@ -163,11 +164,16 @@ public abstract class Expression {
       return visitor.visitBlock(this);
     }
 
-    List<Expression> getBody() {
+    public List<Expression> getBody() {
       return body;
     }
 
+    public String getBodySource() {
+      return bodySource;
+    }
+
     private final List<Expression> body;
+    private final String bodySource;
   }
 
   public static class Make extends Expression {
@@ -182,11 +188,11 @@ public abstract class Expression {
       return visitor.visitMake(this);
     }
 
-    Token getVariable() {
+    public Token getVariable() {
       return variable;
     }
 
-    Expression getValue() {
+    public Expression getValue() {
       return value;
     }
 
@@ -196,7 +202,7 @@ public abstract class Expression {
 
   public static class For extends Expression {
 
-    For(Token iterator, Expression start, Expression end, Expression increment, Expression body) {
+    For(Token iterator, Expression start, Expression end, Expression increment, Block body) {
       this.iterator = iterator;
       this.start = start;
       this.end = end;
@@ -209,23 +215,23 @@ public abstract class Expression {
       return visitor.visitFor(this);
     }
 
-    Token getIterator() {
+    public Token getIterator() {
       return iterator;
     }
 
-    Expression getStart() {
+    public Expression getStart() {
       return start;
     }
 
-    Expression getEnd() {
+    public Expression getEnd() {
       return end;
     }
 
-    Expression getIncrement() {
+    public Expression getIncrement() {
       return increment;
     }
 
-    Expression getBody() {
+    public Block getBody() {
       return body;
     }
 
@@ -233,7 +239,7 @@ public abstract class Expression {
     private final Expression start;
     private final Expression end;
     private final Expression increment;
-    private final Expression body;
+    private final Block body;
   }
 
   public static class IfElse extends Expression {
@@ -249,15 +255,15 @@ public abstract class Expression {
       return visitor.visitIfElse(this);
     }
 
-    Expression getPredicate() {
+    public Expression getPredicate() {
       return predicate;
     }
 
-    Expression getTrueBranch() {
+    public Expression getTrueBranch() {
       return trueBranch;
     }
 
-    Expression getFalseBranch() {
+    public Expression getFalseBranch() {
       return falseBranch;
     }
 
@@ -268,7 +274,7 @@ public abstract class Expression {
 
   public static class To extends Expression {
 
-    To(Token commandName, List<Token> parameters, Expression body) {
+    To(Token commandName, List<Token> parameters, Block body) {
       this.commandName = commandName;
       this.parameters = parameters;
       this.body = body;
@@ -279,21 +285,21 @@ public abstract class Expression {
       return visitor.visitTo(this);
     }
 
-    Token getCommandName() {
+    public Token getCommandName() {
       return commandName;
     }
 
-    List<Token> getParameters() {
+    public List<Token> getParameters() {
       return parameters;
     }
 
-    Expression getBody() {
+    public Block getBody() {
       return body;
     }
 
     private final Token commandName;
     private final List<Token> parameters;
-    private final Expression body;
+    private final Block body;
   }
 
   public static class Turtles extends Expression {
@@ -319,7 +325,7 @@ public abstract class Expression {
       return visitor.visitTell(this);
     }
 
-    List<Expression> getIds() {
+    public List<Expression> getIds() {
       return ids;
     }
 
@@ -328,7 +334,7 @@ public abstract class Expression {
 
   public static class Ask extends Expression {
 
-    Ask(List<Expression> ids, Expression body) {
+    Ask(List<Expression> ids, Block body) {
       this.ids = ids;
       this.body = body;
     }
@@ -338,21 +344,21 @@ public abstract class Expression {
       return visitor.visitAsk(this);
     }
 
-    List<Expression> getIds() {
+    public List<Expression> getIds() {
       return ids;
     }
 
-    Expression getBody() {
+    public Block getBody() {
       return body;
     }
 
     private final List<Expression> ids;
-    private final Expression body;
+    private final Block body;
   }
 
   public static class AskWith extends Expression {
 
-    AskWith(Expression predicate, Expression body) {
+    AskWith(Expression predicate, Block body) {
       this.predicate = predicate;
       this.body = body;
     }
@@ -362,16 +368,16 @@ public abstract class Expression {
       return visitor.visitAskWith(this);
     }
 
-    Expression getPredicate() {
+    public Expression getPredicate() {
       return predicate;
     }
 
-    Expression getBody() {
+    public Block getBody() {
       return body;
     }
 
     private final Expression predicate;
-    private final Expression body;
+    private final Block body;
   }
 
 }
