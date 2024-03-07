@@ -62,22 +62,22 @@ public class PageBuilder {
 
   private void loadInternalButton(InternalButton button) {
     switch (button.getID()) {
-      case "Play/Pause" -> {
+      case "Play/Pause"-> {
         button.setPausePlayClassic();
-        // TODO: MAKE BUTTON PLAY/PAUSE SIMULATION
+      }
+      case "Step" -> {
+        button.setStepClassic();
+        // TODO: MAKE BUTTON STEP THROUGH SIMULATION
       }
       case "Reset" -> {
         button.setResetClassic();
-        // TODO: MAKE BUTTON RESET SIMULATION
       }
 
       case ".5x", "1x", "2x", "3x", "4x" -> {
         button.setSpeedClassic();
-        // TODO: MAKE BUTTON CHANGE SIMULATION SPEED
       }
       case "R", "G", "B" -> {
         button.setPenClassic();
-        // TODO: MAKE BUTTON CHANGE SIMULATION COLOR
       }
       default -> {
         throw new TypeNotPresentException(button.getID(), new Throwable());

@@ -118,4 +118,8 @@ public class UITurtle extends UIElement {
   public Boolean isShowing() {
     return myTurtle.isDisable();
   }
+
+  public void clearLastLine() {
+    myPen.eraseLine();
+  }
 }
