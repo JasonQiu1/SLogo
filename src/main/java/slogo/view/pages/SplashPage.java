@@ -76,7 +76,7 @@ public class SplashPage extends GeneralPage {
         FXCollections.observableArrayList("English/Inglés/Anglais",
             "Spanish/Española/Espagnol", "French/Francés/Français");
     double[] position = new double[2];
-    position[0] = (3 * screenWidth / 4 - 40);
+    position[0] = (3 * screenWidth / 4 - 80);
     position[1] = (7 * screenHeight / 8);
 
     root.getChildren()

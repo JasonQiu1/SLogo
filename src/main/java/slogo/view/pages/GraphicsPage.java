@@ -120,8 +120,8 @@ public class GraphicsPage extends GeneralPage {
   private Collection<UIElement> setupText(double screenWidth, double screenHeight) {
     Map<String, double[]> textIDs = new HashMap<>();
     textIDs.put("Background:", new double[]{screenWidth / 8 - 20, screenHeight / 8 - 24});
-    textIDs.put("Speed:", new double[]{6 * screenWidth / 8 - 60, 5 * screenHeight / 8 - 10});
-    textIDs.put("Pen Colors:", new double[]{6 * screenWidth / 8 - 45, 4 * screenHeight / 8 - 10});
+    textIDs.put("Speed:", new double[]{6 * screenWidth / 8 - 40, 5 * screenHeight / 8 - 10});
+    textIDs.put("Pen Colors:", new double[]{6 * screenWidth / 8 - 30, 4 * screenHeight / 8 - 10});
     return createElements(textIDs, "text");
   }
 
