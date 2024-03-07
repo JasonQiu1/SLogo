@@ -34,6 +34,7 @@ public class InternalButton extends UIButton {
     myButton = (Button) getElement();
     myButton.setOnMouseClicked(click -> sendSignal());
     setSpecialType("internalbutton");
+    myButton.setOnMouseClicked(click -> sendSignal());
   }
 
   /**
@@ -42,7 +43,7 @@ public class InternalButton extends UIButton {
   public void setSpeedClassic() {
     myButton.setShape(new Rectangle(20.0f, 20.0f));
     myButton.setMinSize(20, 20);
-    myButton.setMaxSize(40, 40);
+    myButton.setMaxSize(50, 40);
   }
 
   /**
