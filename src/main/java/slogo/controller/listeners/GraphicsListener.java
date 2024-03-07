@@ -9,7 +9,9 @@ import slogo.controller.controllers.PenController;
 import slogo.controller.controllers.ThemeController;
 import slogo.controller.controllers.HelpController;
 import slogo.controller.controllers.XmlController;
+import slogo.model.api.turtle.TurtleAnimator;
 import slogo.view.userinterface.UIElement;
+import slogo.model.api.Session;
 
 /**
  * GraphicsListener class implements UIListener interface to handle UI events and pass them to
@@ -26,6 +28,8 @@ public class GraphicsListener implements UIListener {
   private final ThemeController myThemeController;
   private final HelpController myHelpController;
   private final XmlController myXmlController;
+  private final Session SESSION = new Session();
+  private final TurtleAnimator TURTLE_ANIMATOR = new TurtleAnimator();
 
   /**
    * Constructor for GraphicsListener.
@@ -75,12 +79,12 @@ public class GraphicsListener implements UIListener {
     }
   }
 
-  // Private helper methods
 
   private void handleButtonElement(UIElement element) {
     switch (element.getID()) {
       case "1x", "2x", "3x", "4x" -> mySpeedController.notifyController(element);
       case "R", "G", "B" -> myPenController.notifyController(element);
+      case "Play/Pause" -> myTurtleController.notifyController(element);
       case "Variables", "Commands", "History", "Help" -> myHelpController.notifyController(element);
       case "Save", "Load" -> myXmlController.notifyController(element);
     }
@@ -92,14 +96,16 @@ public class GraphicsListener implements UIListener {
     }
   }
 
+
   private void passToTheme(UIElement element) {
     myThemeController.addElement(element);
   }
 
   private void passButtonElement(UIElement element) {
     switch (element.getID()) {
-      case "1x", "2x", "3x", "4x" -> passToSpeed(element);
+      case "0.5x", "1x", "2x", "4x" -> passToSpeed(element);
       case "R", "G", "B" -> passToPen(element);
+      case "Play/Pause" -> passToTurtle(element);
     }
   }
 
@@ -108,10 +114,14 @@ public class GraphicsListener implements UIListener {
   }
 
   private void passToTurtle(UIElement element) {
+    myTurtleController.setSession(SESSION);
+    myTurtleController.setTurtleAnimator(TURTLE_ANIMATOR);
     myTurtleController.addElement(element);
   }
 
   private void passToSpeed(UIElement element) {
+    mySpeedController.setSession(SESSION);
+    mySpeedController.setTurtleAnimator(TURTLE_ANIMATOR);
     mySpeedController.addElement(element);
   }
 
