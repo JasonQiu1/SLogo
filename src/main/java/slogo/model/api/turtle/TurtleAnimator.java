@@ -67,9 +67,9 @@ public class TurtleAnimator {
   public void setSpeed(double speed) {
     this.speed = speed;
     if (speed == MAX_SPEED) {
-      secondsPerStep = 1 / STANDARD_FPS;
-    } else if (speed == MIN_SPEED) {
       secondsPerStep = 0;
+    } else if (speed < MIN_SPEED) {
+      secondsPerStep = 0.25;
     } else {
       secondsPerStep = DEFAULT_SECONDS_PER_STEP / speed;
     }
@@ -121,8 +121,8 @@ public class TurtleAnimator {
   }
 
   // reset frame for replying animation and changing speed during animation
-  public Map<Integer, TurtleState> resetFrame() {
-    currentPointInIntermediateStates = 0;
+  public Map<Integer, TurtleState> resetFrame(int frames) {
+    currentPointInIntermediateStates -= frames;
     return nextFrame();
   }
 
