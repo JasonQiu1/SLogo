@@ -10,7 +10,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import slogo.view.SlogoWindow;
+import slogo.view.windows.HelpWindow;
+import slogo.view.windows.SlogoWindow;
 
 /**
  * Represents a button with external functionalities (usually a link to some another area) for the
@@ -115,7 +116,10 @@ public class ExternalButton extends UIButton {
    * @param folderName The name of the folder from which files will be opened.
    */
   public void addFolderOpener(Stage stage, String folderName) {
-    FileChooser fc = getFileChooser(folderName);
+    //FileChooser fc = getFileChooser(folderName);
+    FileChooser fc = new FileChooser();
+    fc.getExtensionFilters()
+        .add(new FileChooser.ExtensionFilter("SLogo Files", "*.slogo"));
     myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
       String filePath = fc.showOpenDialog(stage).getPath();
       setMyPath(filePath);
@@ -133,4 +137,7 @@ public class ExternalButton extends UIButton {
     myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, c -> new SlogoWindow(stage, pageType));
   }
 
+  public void addOpenHelpWindow(String pageType) {
+    myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, c -> sendSignal());
+  }
 }

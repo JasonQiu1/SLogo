@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import slogo.view.SlogoWindow;
+import slogo.view.windows.SlogoWindow;
 import util.DukeApplicationTest;
 
 /**

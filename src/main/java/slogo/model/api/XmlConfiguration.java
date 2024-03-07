@@ -98,7 +98,7 @@ public class XmlConfiguration {
    * @param session  The session to be saved
    * @param fileName The name of the XML file to save the session information to
    */
-  void saveSession(Session session, String fileName) throws XmlException {
+  public void saveSession(Session session, String fileName) throws XmlException {
     try {
       DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
       DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -116,7 +116,7 @@ public class XmlConfiguration {
         }
       }
 
-      File file = new File(fileName + ".xml");
+      File file = new File(fileName + ".slogo");
       FileOutputStream fos = new FileOutputStream(file);
       javax.xml.transform.TransformerFactory.newInstance().newTransformer()
           .transform(new javax.xml.transform.dom.DOMSource(document),
@@ -157,7 +157,7 @@ public class XmlConfiguration {
 
   private String createCommandInfo(Element element) {
     NodeList commandList = element.getElementsByTagName("name");
-    String commandInfo = "name: " + commandList.item(0).getTextContent().trim() + "\n";
+    String commandInfo = "Name: " + commandList.item(0).getTextContent().trim() + "\n";
 
     commandInfo = commandInfo + "Parameter(s): ";
 
@@ -180,7 +180,7 @@ public class XmlConfiguration {
   private String createHelpDocumentation(Element element, String commandInfo) {
     String helpDoc = "";
     for (String tagName : tagList) {
-      NodeList tagContentList = element.getElementsByTagName(tagName);
+      NodeList tagContentList = element.getElementsByTagName(tagName.toLowerCase());
       String tagContent = tagContentList.item(0).getTextContent().trim();
 
       helpDoc = helpDoc + tagName + ": " + tagContent + "\n";
@@ -191,10 +191,10 @@ public class XmlConfiguration {
 
   private ArrayList<String> createTagList() {
     ArrayList<String> tagList = new ArrayList<>();
-    tagList.add("alias");
-    tagList.add("description");
-    tagList.add("example");
-    tagList.add("return");
+    tagList.add("Alias");
+    tagList.add("Description");
+    tagList.add("Example");
+    tagList.add("Return");
     return tagList;
   }
 }

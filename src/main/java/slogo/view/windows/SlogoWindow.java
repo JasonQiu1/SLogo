@@ -1,4 +1,4 @@
-package slogo.view;
+package slogo.view.windows;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -53,9 +53,6 @@ public class SlogoWindow {
       }
       case "SplashPage" -> {
         return new SplashPage(mainStage);
-      }
-      case "HelpPage" -> {
-        return new HelpPage(mainStage);
       }
       default -> {
         throw new TypeNotPresentException(pageType, new Throwable("Not Found"));

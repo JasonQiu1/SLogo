@@ -116,7 +116,7 @@ public class PageBuilder {
       }
       case "Help" -> {
         button.setMenuClassic();
-        button.addOpenPage(myStage, "HelpPage");
+        button.addOpenHelpWindow("help");
       }
       case "Home" -> {
         button.setHomeClassic();
@@ -124,7 +124,8 @@ public class PageBuilder {
       }
       case "Variables", "Commands", "History" -> {
         button.setGUIClassic();
-        // TODO: MAKE BUTTON DISPLAY FOR VARIABLES, COMMANDS, AND HISTORY
+
+        button.addOpenHelpWindow(button.getID().toLowerCase());
       }
       default -> {
         throw new TypeNotPresentException(button.getID(), new Throwable());
@@ -149,7 +150,8 @@ public class PageBuilder {
 
   private void loadText(UIText text) {
     switch (text.getID()) {
-      case "SLOGO", "Help" -> {
+      case "SLOGO", "Help", "Command History", "User-Defined Variables",
+          "User-Defined Commands", "Save Session", "Set Value" -> {
         text.setSlogoClassic();
       }
       case "Theme:", "Pen Colors:", "Speed:" -> {
@@ -162,16 +164,18 @@ public class PageBuilder {
         text.setErrorClassic();
       }
       default -> {
-        throw new TypeNotPresentException(text.getID(), new Throwable());
+        text.setRegularClassic();
+        text.setClickable();
       }
     }
   }
 
   private void loadTextField(UITextField textField) {
-    if (textField.getID().equals("CommandLine")) {
-      textField.setupTextBox();
-    } else {
-      throw new TypeNotPresentException(textField.getID(), new Throwable());
-    }
+//    if (textField.getID().equals("CommandLine")) {
+//      textField.setupTextBox();
+//    } else {
+//      throw new TypeNotPresentException(textField.getID(), new Throwable());
+//    }
+    textField.setupTextBox();
   }
 }

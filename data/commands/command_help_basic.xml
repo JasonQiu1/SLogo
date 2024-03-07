@@ -94,6 +94,156 @@
   </help_entry>
 
   <help_entry>
+    <name>remainder</name>
+    <alias>%</alias>
+    <description>
+      Calculates remainder on dividing the values of expr1 by expr2
+    </description>
+    <example>% 10 4 (returns 2)</example>
+    <parameters>
+      <parameter>expr1: The dividend</parameter>
+      <parameter>expr2: The divisor</parameter>
+    </parameters>
+    <return>The remainder on dividing the values of expr1 by expr2</return>
+    <num_parameters>2</num_parameters>
+    <implementation>RemainderCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>randomrange</name>
+    <alias>randr</alias>
+    <description>
+      Generates a random number within the given range min to max, inclusive
+    </description>
+    <example>randr 15 18 (could return 16)</example>
+    <parameters>
+      <parameter>min: The lower bound (inclusive)</parameter>
+      <parameter>max: The upper bound (inclusive)</parameter>
+    </parameters>
+    <return>A random number within the given range min to max, inclusive</return>
+    <num_parameters>2</num_parameters>
+    <implementation>RandomRangeCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>sine</name>
+    <alias>sin</alias>
+    <description>
+      Calculates sine of degrees
+    </description>
+    <example>sin 30 (returns 0.5)</example>
+    <parameters>
+      <parameter>degrees: the angle of which to calculate sine</parameter>
+    </parameters>
+    <return>The sine of degrees</return>
+    <num_parameters>1</num_parameters>
+    <implementation>SineCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>cosine</name>
+    <alias>cos</alias>
+    <description>
+      Calculates cosine of degrees
+    </description>
+    <example>cosine 60 (returns 0.5)</example>
+    <parameters>
+      <parameter>degrees: the angle of which to calculate cosine</parameter>
+    </parameters>
+    <return>The cosine of degrees</return>
+    <num_parameters>1</num_parameters>
+    <implementation>CosineCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>tangent</name>
+    <alias>tan</alias>
+    <description>
+      Calculates tangent of degrees
+    </description>
+    <example>tan 45 (returns 1)</example>
+    <parameters>
+      <parameter>degrees: the angle of which to calculate tangent</parameter>
+    </parameters>
+    <return>The tangent of degrees</return>
+    <num_parameters>1</num_parameters>
+    <implementation>TangentCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>arctangent</name>
+    <alias>atan</alias>
+    <description>
+      Calculates arctangent of degrees
+    </description>
+    <example>atan 0 (returns 0)</example>
+    <parameters>
+      <parameter>degrees: the angle of which to calculate arctangent</parameter>
+    </parameters>
+    <return>The arctangent of degrees</return>
+    <num_parameters>1</num_parameters>
+    <implementation>ArctangentCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>squareroot</name>
+    <alias>sqrt</alias>
+    <description>
+      Calculates square root of expr
+    </description>
+    <example>sqrt 9 (returns 3)</example>
+    <parameters>
+      <parameter>expr: The expression to take the square root of</parameter>
+    </parameters>
+    <return>The square root of expr</return>
+    <num_parameters>1</num_parameters>
+    <implementation>SquareRootCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>log</name>
+    <alias>log</alias>
+    <description>
+      Calculates the natural log of expr
+    </description>
+    <example>log 1 (returns 0)</example>
+    <parameters>
+      <parameter>expr: The expression to take the natural log of</parameter>
+    </parameters>
+    <return>The natural log of expr</return>
+    <num_parameters>1</num_parameters>
+    <implementation>LogCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>power</name>
+    <alias>pow</alias>
+    <description>
+      Calculates base raised to the power of the exponent
+    </description>
+    <example>pow 2 3 (returns 8)</example>
+    <parameters>
+      <parameter>base: The base of the exponential expression</parameter>
+      <parameter>exponent: The exponent of the exponential expression</parameter>
+    </parameters>
+    <return>The base raised to the power of the exponent</return>
+    <num_parameters>2</num_parameters>
+    <implementation>PowerCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>pi</name>
+    <alias>pi</alias>
+    <description>
+      Gets the value of the number pi
+    </description>
+    <example>pi (returns Math.PI)</example>
+    <return>The value of the number pi</return>
+    <num_parameters>0</num_parameters>
+    <implementation>PiCommand</implementation>
+  </help_entry>
+
+  <help_entry>
     <name>back</name>
     <alias>bk</alias>
     <description>
@@ -277,7 +427,7 @@
     <name>heading</name>
     <alias>heading</alias>
     <description>
-      Returns the turtle's heading in degrees
+      Gets the turtle's heading in degrees
     </description>
     <example>set var heading</example>
     <return>The heading in degrees</return>
@@ -402,7 +552,7 @@
 
   <help_entry>
     <name>or</name>
-    <alias>0r</alias>
+    <alias>or</alias>
     <description>
       Determines if test1 or test2 are non-zero
     </description>
@@ -415,6 +565,73 @@
     </return>
     <num_parameters>2</num_parameters>
     <implementation>OrCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>not</name>
+    <alias>not</alias>
+    <description>
+      Determines if opposite of test value is non-zero
+    </description>
+    <example>not == 3 5 (returns 1)</example>
+    <parameters>
+      <parameter>test: The test to evaluate</parameter>
+    </parameters>
+    <return>1 if test is 0 and 0 if test is non-zero
+    </return>
+    <num_parameters>1</num_parameters>
+    <implementation>NotCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>notequal?</name>
+    <alias>!=</alias>
+    <description>
+      Determines if expression values are not equal
+    </description>
+    <example>!= 3 5 (returns 1)</example>
+    <parameters>
+      <parameter>expr1: The first expression to evaluate for non-equality</parameter>
+      <parameter>expr2: The second expression to evaluate for non-equality</parameter>
+    </parameters>
+    <return>1 if the value of expr1 and the value of expr2 are not equal, otherwise 0
+    </return>
+    <num_parameters>2</num_parameters>
+    <implementation>NotEqual?Command</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>lessequal?</name>
+    <alias>&lt;=</alias>
+    <description>
+      Determines if expr1 is less than or equal to expr2
+    </description>
+    <example>&lt;= 5 5 (returns 1)</example>
+    <parameters>
+      <parameter>expr1: The expression to evaluate for being lesser or equal to</parameter>
+      <parameter>expr2: The expression to compare against</parameter>
+    </parameters>
+    <return>1 if the value of expr1 is less than or equal to the value of expr2, otherwise 0
+    </return>
+    <num_parameters>2</num_parameters>
+    <implementation>LessEqual?Command</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>greaterequal?</name>
+    <alias>&gt;=</alias>
+    <description>
+      Determines if expr1 is greater than or equal to expr2
+    </description>
+    <example>!= 3 5 (returns 1)</example>
+    <parameters>
+      <parameter>expr1: The expression to evaluate for being greater or equal to</parameter>
+      <parameter>expr2: The expression to compare against</parameter>
+    </parameters>
+    <return>1 if the value of expr1 is greater than or equal to the value of expr2, otherwise 0
+    </return>
+    <num_parameters>2</num_parameters>
+    <implementation>GreaterEqual?Command</implementation>
   </help_entry>
 
   <help_entry>
@@ -466,7 +683,7 @@
       </parameter>
       <parameter>[Command(s)]: The commands to be executed</parameter>
     </parameters>
-    <return>Returns the value of the final command executed (or 0 if no commands are executed)
+    <return>The value of the final command executed (or 0 if no commands are executed)
     </return>
     <num_parameters>2</num_parameters>
     <implementation>DoTimesCommand</implementation>
@@ -488,7 +705,7 @@
       </parameter>
       <parameter>[Command(s)]: The commands to be executed</parameter>
     </parameters>
-    <return>Returns the value of the final command executed (or 0 if no commands are executed)
+    <return>The value of the final command executed (or 0 if no commands are executed)
     </return>
     <num_parameters>2</num_parameters>
     <implementation>ForCommand</implementation>
@@ -505,7 +722,7 @@
       <parameter>expr: The expression to be evaluated for comparison against zero</parameter>
       <parameter>[Command(s)]: The commands to be executed</parameter>
     </parameters>
-    <return>Returns the value of the final command executed (or 0 if no commands are executed)
+    <return>The value of the final command executed (or 0 if no commands are executed)
     </return>
     <num_parameters>2</num_parameters>
     <implementation>IfCommand</implementation>
@@ -525,7 +742,7 @@
       <parameter>[falseCommand(s)]: The commands to be executed if the expr is equal to zero
       </parameter>
     </parameters>
-    <return>Returns the value of the final command executed (or 0 if no commands are executed)
+    <return>The value of the final command executed (or 0 if no commands are executed)
     </return>
     <num_parameters>3</num_parameters>
     <implementation>IfElseCommand</implementation>
@@ -548,10 +765,159 @@
       <parameter>[command(s)]: Commands to be executed when user defined command is called
       </parameter>
     </parameters>
-    <return>Returns 1 if command is successfully defined, otherwise 0
+    <return>1 if command is successfully defined, otherwise 0
     </return>
     <num_parameters>3</num_parameters>
     <implementation>ToCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>ID</name>
+    <alias>ID</alias>
+    <description>
+      ID values typically start at 1.0 and increase by 1.0 with each new turtle created.
+      Note: this value can always be used to identify the current turtle running a command, since
+      there is only one turtle actively running each command.
+    </description>
+    <example>set var ID (assigns ID of current turtle to var)</example>
+    <return>The current active turtle's ID number</return>
+    <num_parameters>0</num_parameters>
+    <implementation>IDCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>Turtles</name>
+    <alias>Turtles</alias>
+    <description>
+      Get the number of turtles that are defined in the workspace
+    </description>
+    <example>set var turtles (assigns number of turtles defined to var)</example>
+    <return>The number of turtles that are defined in the workspace</return>
+    <num_parameters>0</num_parameters>
+    <implementation>TurtleCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>tell</name>
+    <alias>tell</alias>
+    <description>
+      Sets turtleIDs that will follow commands hereafter, marks them all as active.
+      Note: if a turtle with the given ID has not previously existed, it is created and placed at
+      the home location.
+      Note: turtleID is a rounded numeric value that could be generated from a valid SLogo
+      expression.
+      Note: if more than one turtle is active, commands run return value associated with the last
+      active turtle.
+    </description>
+    <example>tell [1 2 3] (returns 3)</example>
+    <parameters>
+      <parameter>[turtleID(s)]: IDs of turtles to follow commands
+      </parameter>
+    </parameters>
+    <return>The last value in turtles list
+    </return>
+    <num_parameters>1</num_parameters>
+    <implementation>TellCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>ask</name>
+    <alias>ask</alias>
+    <description>
+      Only the turtleIDs given in first list run commands given in the second list., marks them all
+      as active while the list of commands is running.
+      Note: if a turtle with the given ID has not previously existed, it is created and placed at
+      the home location.
+      Note: turtleID is a rounded numeric value that could be generated from a valid SLogo
+      expression.
+      Note: after commands are run, the currently list of active turtles returns to that set by the
+      last TELL command (or default active turtle if TELL never given).
+      Note: if more than one turtle is active, commands run return value associated with the last
+      active turtle.
+    </description>
+    <example>ask [1 2 3] [fd 10] (returns 10)</example>
+    <parameters>
+      <parameter>[turtleID(s)]: IDs of turtles to follow commands
+      </parameter>
+      <parameter>[command(s)]: Commands for specified turtles to follow</parameter>
+    </parameters>
+    <return>The result of last command run by the last turtle
+    </return>
+    <num_parameters>2</num_parameters>
+    <implementation>AskCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>askwith</name>
+    <alias>askwith</alias>
+    <description>
+      Only turtles for whom expr is true run commands given in the second list.
+      Note: after commands are run, the currently list of active turtles returns to that set by the
+      last TELL command (or default active turtle if TELL never given).
+      Note: if more than one turtle is active, commands run return value associated with the last
+      active turtle.
+    </description>
+    <example>askwith == ID 3 [fd 10] (returns 10 if turtle with ID 3 exists)</example>
+    <parameters>
+      <parameter>expr: expression to evaluate turtles against
+      </parameter>
+      <parameter>[command(s)]: Commands for applicable turtles to follow</parameter>
+    </parameters>
+    <return>The result of last command run by the last turtle
+    </return>
+    <num_parameters>2</num_parameters>
+    <implementation>AskWithCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>setbackground</name>
+    <alias>setbg</alias>
+    <description>
+      Sets background color of screen to that represented by index
+    </description>
+    <example>setbg 5 (returns 5)</example>
+    <parameters>
+      <parameter>index: index num for desired background color
+      </parameter>
+    </parameters>
+    <return>The given index
+    </return>
+    <num_parameters>1</num_parameters>
+    <implementation>SetBackgroundCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>setpencolor</name>
+    <alias>setpc</alias>
+    <description>
+      Sets color of the pen to that represented by index
+    </description>
+    <example>setpc 5 (returns 5)</example>
+    <parameters>
+      <parameter>index: index num for desired pen color
+      </parameter>
+    </parameters>
+    <return>The given index
+    </return>
+    <num_parameters>1</num_parameters>
+    <implementation>SetPenColorCommand</implementation>
+  </help_entry>
+
+  <help_entry>
+    <name>pencolor</name>
+    <alias>pc</alias>
+    <description>
+      Gets turtle's current color index.
+    </description>
+    <example>
+      setpc 5
+      pc
+      (returns 5)
+    </example>
+    <return>The turtle's current color index
+    </return>
+    <num_parameters>0</num_parameters>
+    <implementation>PenColorCommand</implementation>
   </help_entry>
 
 </command_help>

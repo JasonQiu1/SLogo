@@ -1,5 +1,6 @@
 package slogo.model;
 
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
@@ -28,16 +29,21 @@ public class LanguageManager {
   public static String translate(String language, String text) {
     String sanitizedKey = text.trim().replaceAll("\\s+", "_").
         replaceAll(":", "");
-    switch (language.toLowerCase()) {
-      case "spanish" -> {
-        return spanishResourceBundle.getString(sanitizedKey);
+
+    try {
+      switch (language.toLowerCase()) {
+        case "spanish" -> {
+          return spanishResourceBundle.getString(sanitizedKey);
+        }
+        case "french" -> {
+          return frenchResourceBundle.getString(sanitizedKey);
+        }
+        default -> {
+          return englishResourceBundle.getString(sanitizedKey);
+        }
       }
-      case "french" -> {
-        return frenchResourceBundle.getString(sanitizedKey);
-      }
-      default -> {
-        return englishResourceBundle.getString(sanitizedKey);
-      }
+    } catch (MissingResourceException e) {
+      return text;
     }
   }
 }
