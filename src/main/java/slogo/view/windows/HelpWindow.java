@@ -29,10 +29,10 @@ public class HelpWindow {
    * @param type the type of page to create
    */
   public HelpWindow(String type, Session session) {
+    this.session = session;
     helpStage = new Stage();
     helpStage.setTitle("SLOGO Help");
     createNewWindow(type);
-    this.session = session;
   }
 
   /**

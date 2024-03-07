@@ -69,7 +69,7 @@ public class GraphicsListener implements UIListener {
     for (UIElement element : elements) {
       switch (element.getType().toLowerCase()) {
         case "checkbox" -> passToBackground(element);
-        case "internalbutton" -> passButtonElement(element);
+        case "internalbutton", "externalbutton" -> passButtonElement(element);
         case "region" -> {
           passToBackground(element);
           passToTheme(element);
@@ -106,6 +106,7 @@ public class GraphicsListener implements UIListener {
       case "0.5x", "1x", "2x", "4x" -> passToSpeed(element);
       case "R", "G", "B" -> passToPen(element);
       case "Play/Pause" -> passToTurtle(element);
+      case "History" -> passToHelp(element);
     }
   }
 
@@ -127,5 +128,10 @@ public class GraphicsListener implements UIListener {
 
   private void passToPen(UIElement element) {
     myPenController.addElement(element);
+  }
+
+  private void passToHelp(UIElement element) {
+    myHelpController.setSession(SESSION);
+    myHelpController.addElement(element);
   }
 }
