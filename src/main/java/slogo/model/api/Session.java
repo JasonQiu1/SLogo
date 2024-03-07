@@ -55,12 +55,15 @@ public class Session {
    *
    * @param maxLength the max length of step history to return. If 0, then return entire step
    *                  history (including forward history). If positive, then return the backwards
-   *                  history up to length. If negative, then return the forwards history up to
-   *                  -length.
+   *                  history up to length.
    * @return an immutable map where the key is the id of the turtle and a list of its step history
    */
   public Map<Integer, List<TurtleStep>> getTurtlesStepHistories(int maxLength) {
-    return null;
+    Map<Integer, List<TurtleStep>> stepHistories = new HashMap<>();
+    for (Turtle turtle: this.turtles) {
+      stepHistories.put(turtle.getId(), turtle.getStepHistory(maxLength));
+    }
+    return stepHistories;
   }
 
   /**
@@ -134,7 +137,7 @@ public class Session {
   public void reset() {
     commandHistory.clear();
     turtles.clear();
-    turtles.add(new Turtle());
+    turtles.add(new Turtle(1));
   }
 
   private final List<Map<String, Map<String, String>>> commandHistory;
