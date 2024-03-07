@@ -15,8 +15,8 @@ import slogo.view.userinterface.UIElement;
 /**
  * Represents the splash page of the application. This page serves as the initial screen displayed
  * to the user upon launching the application. It contains menu buttons and a language selection
- * box.
- * It encapsulates methods to set up menu buttons, language selection box, and other UI elements.
+ * box. It encapsulates methods to set up menu buttons, language selection box, and other UI
+ * elements.
  *
  * @author Jeremyah Flowers, Jordan Haytaian
  */
@@ -80,7 +80,8 @@ public class SplashPage extends GeneralPage {
     position[1] = (7 * screenHeight / 8);
 
     root.getChildren()
-        .add(createListElement("Languages/Idiomas/Langues", languageOptions, position).getElement());
+        .add(
+            createListElement("Languages/Idiomas/Langues", languageOptions, position).getElement());
   }
 
   private Collection<UIElement> setupBoxes(double screenWidth, double screenHeight) {

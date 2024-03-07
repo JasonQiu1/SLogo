@@ -2,16 +2,14 @@ package slogo.view;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import slogo.model.api.turtle.TurtleAnimator;
 import slogo.view.pages.GeneralPage;
 import slogo.view.pages.GraphicsPage;
 import slogo.view.pages.HelpPage;
 import slogo.view.pages.SplashPage;
 
 /**
- * Represents the main window of the Slogo application.
- * Manages the creation of different types of pages within the application.
- * Extends the Stage class.
+ * Represents the main window of the Slogo application. Manages the creation of different types of
+ * pages within the application. Extends the Stage class.
  *
  * @author Jeremyah Flowers
  */
@@ -19,7 +17,7 @@ public class SlogoWindow {
 
   private static final int HEIGHT = 600;
   private static final int WIDTH = 600;
-  private final Stage stage;
+  private final Stage mainStage;
 
   /**
    * Constructs a SlogoWindow with the given stage and type.
@@ -28,8 +26,8 @@ public class SlogoWindow {
    * @param type  the type of page to create initially
    */
   public SlogoWindow(Stage stage, String type) {
-    this.stage = stage;
-    stage.setTitle("SLOGO");
+    mainStage = stage;
+    mainStage.setTitle("SLOGO");
     createNewWindow(type);
   }
 
@@ -42,21 +40,23 @@ public class SlogoWindow {
     GeneralPage page = createPageType(type);
     page.setPage(WIDTH, HEIGHT);
 
-    stage.setScene(new Scene(page.getPage(), WIDTH, HEIGHT));
-    stage.show();
-    TurtleAnimator animator = new TurtleAnimator();
+    Stage newWindow = new Stage();
+
+    newWindow.setScene(new Scene(page.getPage(), WIDTH, HEIGHT));
+    newWindow.show();
   }
 
+
   private GeneralPage createPageType(String pageType) {
-    switch (pageType.toLowerCase()) {
-      case "graphics" -> {
-        return new GraphicsPage(stage);
+    switch (pageType) {
+      case "GraphicsPage" -> {
+        return new GraphicsPage(mainStage);
       }
-      case "splash" -> {
-        return new SplashPage(stage);
+      case "SplashPage" -> {
+        return new SplashPage(mainStage);
       }
-      case "help" -> {
-        return new HelpPage(stage);
+      case "HelpPage" -> {
+        return new HelpPage(mainStage);
       }
       default -> {
         throw new TypeNotPresentException(pageType, new Throwable("Not Found"));

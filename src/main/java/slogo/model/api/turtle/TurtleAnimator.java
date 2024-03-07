@@ -4,19 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import slogo.model.turtleutil.TurtleGeometry;
 
 public class TurtleAnimator {
 
   private static final TurtleState INITIAL_TURTLE_STATE = new TurtleState(new Point(0.0, 0.0), 0.0);
   // get from resource file
-  public static final double X_MIN = -200; // get from resource file
-  public static final double X_MAX = 200; // get from resource file
-  public static final double Y_MIN = -200; // get from resource file
-  public static final double Y_MAX = 200; // get from resource file
+  public static final double X_MIN = -150; // get from resource file
+  public static final double X_MAX = 150; // get from resource file
+  public static final double Y_MIN = -150; // get from resource file
+  public static final double Y_MAX = 150; // get from resource file
   private static final double MAX_SPEED = 10; // get from resource file
   private static final double MIN_SPEED = 0; // get from resource file
-  private static final double STANDARD_FPS = 24.0;
+  public final double STANDARD_FPS = 24.0;
   // standard FPS for animations is 24 -  get from resource file
   private static final double DEFAULT_SECONDS_PER_STEP = 1.0; //  get from resource file
   private double graphicsScalingFactor;
@@ -66,9 +67,9 @@ public class TurtleAnimator {
   public void setSpeed(double speed) {
     this.speed = speed;
     if (speed == MAX_SPEED) {
-      secondsPerStep = 1 / STANDARD_FPS;
-    } else if (speed == MIN_SPEED) {
       secondsPerStep = 0;
+    } else if (speed < MIN_SPEED) {
+      secondsPerStep = 0.25;
     } else {
       secondsPerStep = DEFAULT_SECONDS_PER_STEP / speed;
     }
@@ -80,11 +81,13 @@ public class TurtleAnimator {
       List<TurtleStep> interSteps = eachTurtlesStep.get(turtleId);
       for (TurtleStep step : interSteps) {
         if (step.changeInAngle() != 0) {
-          intermediateStates.put(turtleId,
-              getAngleInterStates(step.initialState(), step.changeInAngle()));
+          List<TurtleState> interStates = getAngleInterStates(step.initialState(), step.changeInAngle());
+          this.intermediateStates.putIfAbsent(turtleId, new ArrayList<>());
+          this.intermediateStates.get(turtleId).addAll(interStates);
         } else {
-          intermediateStates.put(turtleId,
-              getMoveInterStates(step.initialState(), step.changeInPosition()));
+          List<TurtleState> interStates = getMoveInterStates(step.initialState(), step.changeInPosition());
+          this.intermediateStates.putIfAbsent(turtleId, new ArrayList<>());
+          this.intermediateStates.get(turtleId).addAll(interStates);
         }
       }
     }
@@ -118,8 +121,8 @@ public class TurtleAnimator {
   }
 
   // reset frame for replying animation and changing speed during animation
-  public Map<Integer, TurtleState> resetFrame() {
-    currentPointInIntermediateStates = 0;
+  public Map<Integer, TurtleState> resetFrame(int frames) {
+    currentPointInIntermediateStates -= frames;
     return nextFrame();
   }
 
@@ -127,6 +130,7 @@ public class TurtleAnimator {
     List<TurtleState> interStates = new ArrayList<>();
     TurtleState currState = new TurtleState(initState.position(), initState.heading());
     double totalFrames = secondsPerStep * STANDARD_FPS;
+
     Vector posChangePerFrame =
         new Vector(posChange.getDx() / totalFrames, posChange.getDy() / totalFrames);
 
@@ -136,7 +140,7 @@ public class TurtleAnimator {
       interStates.add(currState);
     }
 
-    this.numIntermediateStates = interStates.size();
+    this.numIntermediateStates += interStates.size();
 
     return interStates;
   }
@@ -149,11 +153,11 @@ public class TurtleAnimator {
 
     for (int i = 0; i < totalFrames; i++) {
       currAngle += angleChangePerFrame;
-      TurtleState state = new TurtleState(new Point(0, 0), currAngle);
+      TurtleState state = new TurtleState(initState.position(), currAngle);
       interStates.add(state);
     }
 
-    this.numIntermediateStates = interStates.size();
+    this.numIntermediateStates += interStates.size();
 
     return interStates;
   }

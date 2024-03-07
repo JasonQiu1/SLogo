@@ -27,7 +27,7 @@ class InterpreterTest {
     global.defineCommand("forward", new Forward());
     global.defineCommand("right", new Right());
 
-    interpreter = new Interpreter(global, List.of(new Turtle()));
+    interpreter = new Interpreter(global, List.of(new Turtle(1)));
   }
 
   @ParameterizedTest
