@@ -40,23 +40,26 @@ public class HelpListener implements UIListener {
   @Override
   public void sendSignal(UIElement element) {
     myHelpController.setSession(session);
+    switch (element.getType().toLowerCase()) {
+      case "textfield" ->
+        myHelpController.notifyController(element);
+    }
     switch (element.getID().toLowerCase()) {
       case "library commands" -> myXmlController.notifyController(element);
       case "user-defined commands", "user-defined variables", "history", "command history", "variable list" -> {
-      myHelpController.notifyController(element);
-      turtleController.notifyController(element);
+        myHelpController.notifyController(element);
+        turtleController.notifyController(element);
+      }
     }
   }
 
-}
+  /**
+   * Passes UI elements to their respective controllers for processing.
+   *
+   * @param elements the collection of UI elements to pass
+   */
+  @Override
+  public void passElementsToController(Collection<UIElement> elements) {
 
-/**
- * Passes UI elements to their respective controllers for processing.
- *
- * @param elements the collection of UI elements to pass
- */
-@Override
-public void passElementsToController(Collection<UIElement> elements) {
-
-}
+  }
 }
