@@ -74,7 +74,7 @@ public class PenController extends UIController {
         else if(blueFlag) turtle.setPenColor(Color.BLUE);
 
         // Equivalent to pen up
-        else turtle.setPenColor(Color.WHITE);
+        else turtle.setPenColor(Color.TRANSPARENT);
     }
 
     private void clearLastTurtleLine(UITurtle turtle) {
