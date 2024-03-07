@@ -9,9 +9,8 @@ import slogo.view.pages.HelpPage;
 import slogo.view.pages.SplashPage;
 
 /**
- * Represents the main window of the Slogo application.
- * Manages the creation of different types of pages within the application.
- * Extends the Stage class.
+ * Represents the main window of the Slogo application. Manages the creation of different types of
+ * pages within the application. Extends the Stage class.
  *
  * @author Jeremyah Flowers
  */
@@ -48,14 +47,14 @@ public class SlogoWindow {
   }
 
   private GeneralPage createPageType(String pageType) {
-    switch (pageType.toLowerCase()) {
-      case "graphics" -> {
+    switch (pageType) {
+      case "GraphicsPage" -> {
         return new GraphicsPage(stage);
       }
-      case "splash" -> {
+      case "SplashPage" -> {
         return new SplashPage(stage);
       }
-      case "help" -> {
+      case "HelpPage" -> {
         return new HelpPage(stage);
       }
       default -> {

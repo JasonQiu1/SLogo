@@ -83,8 +83,7 @@ public class GraphicsListener implements UIListener {
     }
 
     private void passButtonElement(UIElement element) {
-        System.out.println(LanguageManager.translate("english", element.getID()));
-        switch (LanguageManager.translate("english", element.getID())) {
+        switch (element.getID()) {
             case "1x", "2x", "3x", "4x" -> passToSpeed(element);
             case "R", "G", "B" -> passToPen(element);
         }

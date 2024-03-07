@@ -1,7 +1,5 @@
 package slogo.view.pages;
 
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -9,15 +7,6 @@ import java.util.Set;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import slogo.controller.listeners.UIListener;
 import slogo.view.userinterface.ExternalButton;
 import slogo.view.userinterface.InternalButton;
@@ -38,7 +27,6 @@ import slogo.view.userinterface.UITurtle;
  * @author Jeremyah Flowers, Jordan Haytaian
  */
 public abstract class GeneralPage {
-  private static final String PAGE_XML = "src/main/resources/ViewConfigurations/lastpage.xml";
 
   // Instance Variable
   private final Stage myStage;
@@ -53,7 +41,6 @@ public abstract class GeneralPage {
   public GeneralPage(Stage stage, UIListener listener) {
     myStage = stage;
     myListener = listener;
-    setLastPage(this.getClass().getName());
   }
 
 
@@ -141,30 +128,5 @@ public abstract class GeneralPage {
       }
       default -> throw new TypeNotPresentException(type, new Throwable());
     }
-  }
-
-  private void setLastPage(String name) {
-    try {
-      FileOutputStream file = new FileOutputStream(PAGE_XML);
-      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-      Element backgroundTheme = doc.createElement("BackgroundTheme");
-      backgroundTheme.setTextContent(name);
-      doc.appendChild(backgroundTheme);
-      writeXml(doc, file);
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-  }
-
-  protected static void writeXml(Document doc, OutputStream output) throws TransformerException {
-    TransformerFactory transformerFactory = TransformerFactory.newInstance();
-    Transformer transformer = transformerFactory.newTransformer();
-
-    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-
-    DOMSource source = new DOMSource(doc);
-    StreamResult result = new StreamResult(output);
-
-    transformer.transform(source, result);
   }
 }

@@ -8,9 +8,8 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * Represents a button with functionalities that only control internal states (no external links)
- * for the Slogo user interface. Extends the UIButton class.
- * It encapsulates methods to set up various types of internal buttons with specific appearances
- * and functionalities.
+ * for the Slogo user interface. Extends the UIButton class. It encapsulates methods to set up
+ * various types of internal buttons with specific appearances and functionalities.
  *
  * @author Jeremyah Flowers
  */

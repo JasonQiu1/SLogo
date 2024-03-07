@@ -1,11 +1,8 @@
 package slogo.view.pages;
 
-import java.io.File;
 import java.util.Collection;
 import javafx.scene.Group;
 import javafx.stage.Stage;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
 import slogo.view.userinterface.ExternalButton;
 import slogo.view.userinterface.InternalButton;
 import slogo.view.userinterface.UICheckBox;
@@ -115,18 +112,15 @@ public class PageBuilder {
       }
       case "Create" -> {
         button.setMenuClassic();
-        button.addOpenPage(myStage, "graphics");
+        button.addOpenPage(myStage, "GraphicsPage");
       }
       case "Help" -> {
         button.setMenuClassic();
-        button.addOpenPage(myStage, "help");
+        button.addOpenPage(myStage, "HelpPage");
       }
       case "Home" -> {
         button.setHomeClassic();
-        button.addOpenPage(myStage, "splash");
-      }
-      case "Back" -> {
-        button.addOpenPage(myStage, getLastPage());
+        button.addOpenPage(myStage, "SplashPage");
       }
       case "Variables", "Commands", "History" -> {
         button.setGUIClassic();
@@ -136,18 +130,6 @@ public class PageBuilder {
         throw new TypeNotPresentException(button.getID(), new Throwable());
       }
     }
-  }
-
-  private String getLastPage() {
-    try {
-      File file = new File(PAGE_XML);
-      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
-      return doc.getElementsByTagName("LastPage").item(0).getTextContent();
-
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return HOME_PAGE;
   }
 
   private void loadCheckBox(UICheckBox checkBox) {

@@ -19,9 +19,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 
 /**
- * Represents a region in the Slogo user interface. Extends the UIElement class.
- * It provides methods to set up the background and border styles for the region.
- * It also contains methods to read theme settings from an XML file.
+ * Represents a region in the Slogo user interface. Extends the UIElement class. It provides methods
+ * to set up the background and border styles for the region. It also contains methods to read theme
+ * settings from an XML file.
  *
  * @author Jeremyah Flowers
  */
@@ -48,6 +48,18 @@ public class UIRegion extends UIElement {
     myRegion.setPrefHeight(height);
     myRegion.toBack();
     setPosition(x, y);
+  }
+
+  private static String findTheme() {
+    try {
+      File file = new File(THEME_XML);
+      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+      return doc.getElementsByTagName("BackgroundTheme").item(0).getTextContent();
+
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    return "light";
   }
 
   /**
@@ -109,18 +121,6 @@ public class UIRegion extends UIElement {
         new BorderWidths(1));
 
     myRegion.setBorder(new Border(borderStroke));
-  }
-
-  private static String findTheme() {
-    try {
-      File file = new File(THEME_XML);
-      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
-      return doc.getElementsByTagName("BackgroundTheme").item(0).getTextContent();
-
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return "light";
   }
 
 }

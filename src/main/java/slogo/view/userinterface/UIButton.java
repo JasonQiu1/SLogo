@@ -11,9 +11,9 @@ import javafx.scene.text.FontWeight;
 import slogo.model.LanguageManager;
 
 /**
- * Represents a basic button in the Slogo user interface. Extends the UIElement class.
- * It encapsulates methods to set up and customize the appearance and behavior of buttons
- * in the Slogo user interface.
+ * Represents a basic button in the Slogo user interface. Extends the UIElement class. It
+ * encapsulates methods to set up and customize the appearance and behavior of buttons in the Slogo
+ * user interface.
  *
  * @author Jeremyah Flowers
  */
@@ -76,6 +76,15 @@ public class UIButton extends UIElement {
   }
 
   /**
+   * Sets the path associated with the button.
+   *
+   * @param path The path to be associated with the button.
+   */
+  protected void setMyPath(String path) {
+    myPath = path;
+  }
+
+  /**
    * Creates a logo for the button using the specified image path, width, and height.
    *
    * @param imgPath The path of the image to be used as the button logo.
@@ -89,15 +98,6 @@ public class UIButton extends UIElement {
     buttonView.setFitHeight(height);
     myButton.setText("");
     myButton.setGraphic(buttonView);
-  }
-
-  /**
-   * Sets the path associated with the button.
-   *
-   * @param path The path to be associated with the button.
-   */
-  protected void setMyPath(String path) {
-    myPath = path;
   }
 
   /**

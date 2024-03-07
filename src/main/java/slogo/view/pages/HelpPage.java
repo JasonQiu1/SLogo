@@ -10,8 +10,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
-import slogo.model.api.XmlConfiguration;
 import slogo.controller.listeners.HelpListener;
+import slogo.model.api.XmlConfiguration;
 import slogo.model.api.exception.XmlException;
 import slogo.view.userinterface.UIElement;
 
@@ -55,10 +55,11 @@ public class HelpPage extends GeneralPage {
    */
   @Override
   public void setPage(double screenWidth, double screenHeight) {
-    Collection<UIElement> UIElements = new ArrayList<>(setupText(screenWidth, screenHeight));
+    Collection<UIElement> UIElements = new ArrayList<>();
+    UIElements.addAll(setupText(screenWidth, screenHeight));
+    UIElements.addAll(setupHomeButton(screenWidth, screenHeight));
     myPageBuilder.styleUI(UIElements, root);
     setUpCommandList(screenWidth, screenHeight);
-    setupExternalButtons(screenWidth, screenHeight);
   }
 
   /**
@@ -91,9 +92,9 @@ public class HelpPage extends GeneralPage {
 
   }
 
-  private Collection<UIElement> setupExternalButtons(double screenWidth, double screenHeight) {
+  private Collection<UIElement> setupHomeButton(double screenWidth, double screenHeight) {
     Map<String, double[]> extIDs = new HashMap<>();
-    extIDs.put("Back", new double[]{6 * screenWidth / 8 - 60, screenHeight / 8 - 60});
+    extIDs.put("Home", new double[]{6 * screenWidth / 8 - 60, screenHeight / 8 - 60});
     return createElements(extIDs, "externalbutton");
   }
 

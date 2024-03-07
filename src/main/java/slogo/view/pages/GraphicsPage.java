@@ -12,8 +12,8 @@ import slogo.view.userinterface.UIElement;
 
 /**
  * Represents the graphics page of the application. This page displays graphical elements and user
- * interface controls for graphics-related functionality.
- * It extends the GeneralPage class to inherit common page functionalities.
+ * interface controls for graphics-related functionality. It extends the GeneralPage class to
+ * inherit common page functionalities.
  *
  * @author Jeremyah Flowers
  */

@@ -1,7 +1,6 @@
 package slogo.view.userinterface;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -12,8 +11,8 @@ import slogo.model.LanguageManager;
 
 /**
  * Represents a text field element in the user interface. This class provides methods to handle
- * keyboard input and setup of the text field.
- * It includes methods to set up event handlers for keyboard input and control key handling.
+ * keyboard input and setup of the text field. It includes methods to set up event handlers for
+ * keyboard input and control key handling.
  *
  * @author Jeremyah Flowers, Judy He
  */
@@ -43,13 +42,13 @@ public class UITextField extends UIElement {
   }
 
   /**
-   * Sets up event handlers for keyboard input and control key handling.
-   * Handles the following keys:
-   * - Control or Command: Sets the controlPressed flag to true when pressed and false when released.
-   * - R (with Control or Command): Sends a signal when pressed in combination with the Control or Command key.
-   * - Enter: Adds the text in the text field to the textCollector list and clears the text field.
-   * - Up arrow: Displays the previous text from the textCollector list in the text field.
-   * - Down arrow: Displays the next text from the textCollector list in the text field, or clears the text field if at the end.
+   * Sets up event handlers for keyboard input and control key handling. Handles the following keys:
+   * - Control or Command: Sets the controlPressed flag to true when pressed and false when
+   * released. - R (with Control or Command): Sends a signal when pressed in combination with the
+   * Control or Command key. - Enter: Adds the text in the text field to the textCollector list and
+   * clears the text field. - Up arrow: Displays the previous text from the textCollector list in
+   * the text field. - Down arrow: Displays the next text from the textCollector list in the text
+   * field, or clears the text field if at the end.
    */
   public void setupTextBox() {
     keyboardInputHandler();
