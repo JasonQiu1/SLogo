@@ -15,6 +15,6 @@ public class Forward extends InterpreterCommand {
   }
 
   public Forward() {
-    super(List.of("pixels"));
+    super(List.of("pixels"), true);
   }
 }
