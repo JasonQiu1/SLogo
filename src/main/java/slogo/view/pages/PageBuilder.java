@@ -151,7 +151,7 @@ public class PageBuilder {
 
   private void loadText(UIText text) {
     switch (text.getID()) {
-      case "SLOGO", "Help", "Command History" -> {
+      case "SLOGO", "Help", "Command History", "User-Defined Variables" -> {
         //TODO: Add additional titles
         text.setSlogoClassic();
       }
