@@ -30,7 +30,7 @@ public class VariablePage extends GeneralPage {
   /**
    * Constructs a VariablePage object with the specified stage.
    *
-   * @param stage The stage for the help page.
+   * @param stage The stage for the variable page.
    */
   public VariablePage(Stage stage, Session session) {
     super(stage, new HelpListener());

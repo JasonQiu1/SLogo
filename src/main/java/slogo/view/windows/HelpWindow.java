@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import slogo.model.api.Session;
 import slogo.view.pages.CommandPage;
+import slogo.view.pages.ExpandPage;
 import slogo.view.pages.GeneralPage;
 import slogo.view.pages.HelpPage;
 import slogo.view.pages.HistoryPage;
@@ -21,29 +22,42 @@ public class HelpWindow {
   private static final int WIDTH = 600;
   private final Stage helpStage;
   private final Session session;
+  private GeneralPage currPage;
+  private final String expandText;
 
   /**
-   * Constructs a HelpWindow with the specified type of page
+   * Constructs a HelpWindow with the specified type of page, used for pre-set pages
    *
-   * @param type the type of page to create
+   * @param type    the type of page to create
+   * @param session the current running session
    */
   public HelpWindow(String type, Session session) {
     this.session = session;
+    expandText = null;
     helpStage = new Stage();
     helpStage.setTitle("SLOGO Help");
     createNewWindow(type);
   }
 
   /**
-   * Creates a new window with the specified type of page.
+   * Constructs a HelpWindow with the specified type of page, used for expand pages
    *
-   * @param type the type of page to create
+   * @param type       the type of page to create
+   * @param session    the current running session
+   * @param expandText the text to display on the expandPage
    */
-  public void createNewWindow(String type) {
-    GeneralPage page = createPageType(type);
-    page.setPage(WIDTH, HEIGHT);
+  public HelpWindow(String type, Session session, String expandText) {
+    this.expandText = expandText;
+    this.session = session;
+    helpStage = new Stage();
+    helpStage.setTitle("SLOGO Help");
+    createNewWindow(type);
+  }
 
-    helpStage.setScene(new Scene(page.getPage(), WIDTH, HEIGHT));
+  private void createNewWindow(String type) {
+    currPage = createPageType(type);
+    currPage.setPage(WIDTH, HEIGHT);
+    helpStage.setScene(new Scene(currPage.getPage(), WIDTH, HEIGHT));
     helpStage.show();
   }
 
@@ -60,6 +74,9 @@ public class HelpWindow {
       }
       case "history" -> {
         return new HistoryPage(helpStage, session);
+      }
+      case "expand" -> {
+        return new ExpandPage(helpStage, session, expandText);
       }
       default -> {
         throw new TypeNotPresentException(pageType, new Throwable("Not Found"));

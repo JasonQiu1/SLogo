@@ -29,11 +29,17 @@ public class UIListView extends UIElement {
     setPosition(x, y);
   }
 
+  /**
+   * Method to get clicked option of list view
+   * @return selected item
+   */
+  public String getSelectedItem() {
+    return myListView.getSelectionModel().getSelectedItem();
+  }
+
   private void setListView() {
     myListView.setOnMouseClicked(event -> {
-      String selectedCommand = myListView.getSelectionModel().getSelectedItem();
       sendSignal();
-      //TODO: Make this display additional help info
     });
   }
 
