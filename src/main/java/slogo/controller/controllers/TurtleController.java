@@ -144,22 +144,18 @@ public class TurtleController extends UIController {
             framesRan++;
             this.currentFrame = this.getTurtleAnimator().nextFrame();
         }
-<<<<<<< HEAD
-
     }
 
     private void replayAnimation() {
         this.currentFrame = this.getTurtleAnimator().resetFrame(framesRan);
         framesRan = 0;
         animation.play();
-=======
         for (Integer turtleId : this.currentFrame.keySet()) {
             TurtleState state = this.currentFrame.get(turtleId);
             UITurtle turtleView = this.TURTLE_VIEWS.get("Turtle" + turtleId);
             turtleView.updateState(state.position().getX(), state.position().getY(), state.heading());
         }
         this.currentFrame = this.getTurtleAnimator().nextFrame();
->>>>>>> 9f1d684 ([Slogo 71, 77] Added line animation and pen colors)
     }
 
 

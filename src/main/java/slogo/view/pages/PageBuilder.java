@@ -71,7 +71,7 @@ public class PageBuilder {
         // TODO: MAKE BUTTON RESET SIMULATION
       }
 
-      case "1x", "2x", "3x", "4x" -> {
+      case "0.5x", "1x", "2x", "3x", "4x" -> {
         button.setSpeedClassic();
         // TODO: MAKE BUTTON CHANGE SIMULATION SPEED
       }
