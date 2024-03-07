@@ -116,7 +116,10 @@ public class ExternalButton extends UIButton {
    * @param folderName The name of the folder from which files will be opened.
    */
   public void addFolderOpener(Stage stage, String folderName) {
-    FileChooser fc = getFileChooser(folderName);
+    //FileChooser fc = getFileChooser(folderName);
+    FileChooser fc = new FileChooser();
+    fc.getExtensionFilters()
+        .add(new FileChooser.ExtensionFilter("SLogo Files", "*.slogo"));
     myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
       String filePath = fc.showOpenDialog(stage).getPath();
       setMyPath(filePath);

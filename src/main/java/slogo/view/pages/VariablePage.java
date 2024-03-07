@@ -70,7 +70,10 @@ public class VariablePage extends GeneralPage {
   }
 
   private void setUpVariableList(double screenWidth, double screenHeight) {
-    Map<String, Double> varMap = session.getVariables();
+    //Map<String, Double> varMap = session.getVariables();
+    Map<String, Double> varMap = new HashMap<>();
+    varMap.put("var", 0.5);
+
     double[] position = new double[2];
     position[0] = (100);
     position[1] = (100);
@@ -80,7 +83,7 @@ public class VariablePage extends GeneralPage {
       String text = "Name: " + entry.getKey() + "\nValue: " + entry.getValue();
       variables.add(text);
     }
-    root.getChildren().add(createListElement("variables", variables, position).getElement());
+    root.getChildren().add(createListElement("Variable List", variables, position).getElement());
 
   }
 

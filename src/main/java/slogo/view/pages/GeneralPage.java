@@ -94,7 +94,7 @@ public abstract class GeneralPage {
         dropDown.setListener(myListener);
         return dropDown;
       }
-      case "library commands" -> {
+      case "library commands", "command history", "variable list" -> {
         UIListView listView = new UIListView(ID, options, position[0], position[1]);
         listView.setListener(myListener);
         return listView;
