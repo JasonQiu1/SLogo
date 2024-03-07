@@ -28,7 +28,7 @@ public class SpeedController extends UIController {
     @Override
     public void notifyController(UIElement element) {
         switch (element.getID()) {
-            case "0.5x" -> setSpeedHalf();
+            case ".5x" -> setSpeedHalf();
             case "1x" -> setSpeedOne();
             case "2x" -> setSpeedTwo();
             case "3x" -> setSpeedThree();
@@ -46,7 +46,7 @@ public class SpeedController extends UIController {
 
     private void updateElement(UIElement element) {
         switch (element.getID()) {
-            case "0.5x" -> {
+            case ".5x" -> {
                 selectButton((UIButton) element, halfFlag);
             }
             case "1x" -> {

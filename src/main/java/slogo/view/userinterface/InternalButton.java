@@ -40,9 +40,9 @@ public class InternalButton extends UIButton {
    * Sets the button to have a classic speed control appearance.
    */
   public void setSpeedClassic() {
-    myButton.setShape(new Rectangle(20.0f, 20.0f));
-    myButton.setMinSize(20, 20);
-    myButton.setMaxSize(40, 40);
+    myButton.setShape(new Rectangle(45.0f, 20.0f));
+    myButton.setMinSize(45, 20);
+    myButton.setMaxSize(45, 40);
   }
 
   /**

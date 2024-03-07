@@ -83,7 +83,7 @@ public class GraphicsListener implements UIListener {
 
   private void handleButtonElement(UIElement element) {
     switch (element.getID()) {
-      case "0.5x", "1x", "2x", "4x" -> {
+      case ".5x", "1x", "2x", "4x" -> {
         mySpeedController.notifyController(element);
         turtleController.notifyController(element);
       }
@@ -96,7 +96,7 @@ public class GraphicsListener implements UIListener {
 
   private void passButtonElement(UIElement element) {
     switch (element.getID()) {
-      case "0.5x", "1x", "2x", "4x" -> {
+      case ".5x", "1x", "2x", "4x" -> {
         passToSpeed(element);
         passToTurtle(element);
       }
