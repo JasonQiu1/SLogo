@@ -34,11 +34,9 @@ public class TurtleController extends UIController {
     public static final String TURTLE_XML = "src/main/resources/selected_turtle.xml";
     private final Map<String, UITurtle> TURTLE_VIEWS = new HashMap<>();
     private Timeline animation;
-    private static final double SECOND_DELAY = 1;
     private Map<Integer, TurtleState> currentFrame;
     private int numCommands;
-//    private String lastText = "";
-//    private double nextY, nextHeading;
+    private boolean animationOnPause;
 
     /**
      * Notifies the turtle controller about changes in UI elements.
@@ -58,18 +56,16 @@ public class TurtleController extends UIController {
     private void setAnimation() {
         animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
-        double frameDuration = 1 / (this.getTurtleAnimator().STANDARD_FPS); // Calculate the duration for the KeyFrame
-
+        double frameDuration = 1 / (this.getTurtleAnimator().getSpeed() * this.getTurtleAnimator().STANDARD_FPS); // Calculate the duration for the KeyFrame
         animation.getKeyFrames()
-            .add(new KeyFrame(Duration.seconds(frameDuration), e -> animateTurtleViews()));
+            .add(new KeyFrame(Duration.seconds(frameDuration), e -> animateNextFrame()));
         animation.play();
     }
 
     private void runCommands(UITextField textFieldView) {
-        this.startNewSession();
         String commands = textFieldView.getTextCommands();
         // this.numCommands = this.getCurrentSession().run(commands);
-        this.numCommands = 6;
+        this.numCommands = 2;
         this.getCurrentSession().run(commands);
     }
 
@@ -79,8 +75,9 @@ public class TurtleController extends UIController {
     }
 
     private void handleButtonInput(UIButton button) {
-        if (button.getID().equals("TurtleSelector")) {
-            saveTurtleSelection(button.getMyPath());
+        switch (button.getID()) {
+            case "TurtleSelector" -> saveTurtleSelection(button.getMyPath());
+            case "Play/Pause" -> pausePlayAnimation();
         }
     }
 
@@ -124,16 +121,24 @@ public class TurtleController extends UIController {
         this.currentFrame = this.getTurtleAnimator().nextFrame();
     }
 
-    private void animateTurtleViews() {
-        if (this.currentFrame.isEmpty()) {
-            return;
+    private void pausePlayAnimation() {
+
+    }
+
+    private void animateNextFrame() {
+        if (!animationOnPause && !this.currentFrame.isEmpty()) {
+            for (Integer turtleId : this.currentFrame.keySet()) {
+                TurtleState state = this.currentFrame.get(turtleId);
+                UITurtle turtleView = this.TURTLE_VIEWS.get(String.valueOf(turtleId));
+                turtleView.updateState(state.position().getX(), state.position().getY(),
+                    state.heading());
+            }
+            this.currentFrame = this.getTurtleAnimator().nextFrame();
         }
-        for (Integer turtleId : this.currentFrame.keySet()) {
-            TurtleState state = this.currentFrame.get(turtleId);
-            UITurtle turtleView = this.TURTLE_VIEWS.get(String.valueOf(turtleId));
-            turtleView.updateState(state.position().getX(), state.position().getY(), state.heading());
-        }
-        this.currentFrame = this.getTurtleAnimator().nextFrame();
+    }
+
+    private void replayAnimation() {
+        animation.play();
     }
 
 }
