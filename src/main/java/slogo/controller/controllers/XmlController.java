@@ -18,7 +18,7 @@ public class XmlController extends UIController {
   public void notifyController(UIElement element) {
     switch (element.getID()) {
       case "Save" -> promptFileName(((UIButton) element).getMyPath());
-      case "FileName" -> saveSession(((UITextField) element).getText()[0]);
+      case "FileName" -> saveSession(((UITextField) element).getTextCommands());
       case "Load" -> loadSession(((UIButton) element).getMyPath());
     }
   }

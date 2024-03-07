@@ -93,7 +93,7 @@ public abstract class GeneralPage {
         dropDown.setListener(myListener);
         return dropDown;
       }
-      case "commands" -> {
+      case "library commands" -> {
         UIListView listView = new UIListView(ID, options, position[0], position[1]);
         listView.setListener(myListener);
         return listView;

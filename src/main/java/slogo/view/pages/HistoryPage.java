@@ -12,7 +12,7 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import slogo.model.api.Session;
-import slogo.view.listeners.HelpListener;
+import slogo.controller.listeners.HelpListener;
 import slogo.view.userinterface.UIElement;
 
 public class HistoryPage extends GeneralPage {
