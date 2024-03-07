@@ -23,9 +23,13 @@ public class UITurtle extends UIElement {
   private static final String TURTLE_XML = "src/main/resources/turtle_image/selected_turtle.xml";
   private static final String DEFAULT_TURTLE = "turtle_image/turtle_img01.png";
   private static final String IMG_DIR = "turtle_image/";
+  public static final double X_MIN = -150; // get from resource file
+  public static final double X_MAX = 150; // get from resource file
+  public static final double Y_MIN = -150; // get from resource file
+  public static final double Y_MAX = 150; // get from resource file
   private final Circle myTurtle;
-  private final double initX;
-  private final double initY;
+  private final double X_ORIGIN;
+  private final double Y_ORIGIN;
   private final double initHeading;
   private double x, y, heading;
   private UIPen myPen;
@@ -45,8 +49,8 @@ public class UITurtle extends UIElement {
     this.x = x;
     this.y = y;
     this.heading = 0;
-    this.initX = x;
-    this.initY = y;
+    this.X_ORIGIN = x;
+    this.Y_ORIGIN = y;
     this.initHeading = 0;
     setSpecialType("Turtle");
     setPosition(x, y);
@@ -84,22 +88,44 @@ public class UITurtle extends UIElement {
    * Updates the turtle's position on the screen.
    */
   public void updateState(double x, double y, double angle) {
-    draw(x, y);
-    this.x = initX + x;
-    this.y = initY - y;
-    setPosition(this.x, this.y);
+    double xInitial = this.x;
+    double yInitial = this.y;
 
+    if (xInitial >= X_MAX + X_ORIGIN) {
+      System.out.println("HERE: XMAX");
+      xInitial = X_MIN + X_ORIGIN;
+    }
+    else if (xInitial <= X_MIN + X_ORIGIN) {
+      System.out.println("HERE: XMIN");
+      xInitial = X_MAX + X_ORIGIN;
+    }
+
+    if (yInitial >= Y_MAX + Y_ORIGIN) {
+      System.out.println("HERE: YMAX");
+      yInitial = Y_MIN + Y_ORIGIN;
+    }
+    else if (yInitial <= Y_MIN + Y_ORIGIN) {
+      System.out.println("HERE: YMIN");
+      yInitial = Y_MAX + Y_ORIGIN;
+    }
+
+    this.x = X_ORIGIN + x;
+    this.y = Y_ORIGIN - y;
+    setPosition(this.x, this.y);
+    
     this.heading = initHeading + angle;
     myTurtle.setRotate(this.heading);
+
+    draw(xInitial, yInitial, this.x, this.y);
   }
 
-  private void draw(double x, double y) {
-    double currX = this.x - myTurtle.getRadius();
-    double currY = this.y - myTurtle.getRadius();
-
-    double nextX = initX - x - myTurtle.getRadius();
-    double nextY = initY - y - myTurtle.getRadius();
-    myPen.draw(currX, currY, nextX, nextY);
+  private void draw(double xInitial, double yInitial, double xFinal, double yFinial) {
+//    double currX = this.x - myTurtle.getRadius();
+//    double currY = this.y - myTurtle.getRadius();
+//
+//    double nextX = initX - x - myTurtle.getRadius();
+//    double nextY = initY - y - myTurtle.getRadius();
+    myPen.draw(xInitial, yInitial, xFinal, yFinial);
   }
 
 
