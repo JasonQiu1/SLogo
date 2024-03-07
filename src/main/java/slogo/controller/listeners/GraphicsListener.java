@@ -1,13 +1,17 @@
 package slogo.controller.listeners;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
+import java.util.List;
 import slogo.controller.controllers.BackgroundController;
+import slogo.controller.controllers.SessionController;
 import slogo.controller.controllers.SpeedController;
 import slogo.controller.controllers.TurtleController;
 import slogo.controller.controllers.PenController;
 import slogo.controller.controllers.ThemeController;
 import slogo.controller.controllers.HelpController;
+import slogo.controller.controllers.UIController;
 import slogo.controller.controllers.XmlController;
 import slogo.model.api.turtle.TurtleAnimator;
 import slogo.view.userinterface.UIElement;
@@ -27,6 +31,7 @@ public class GraphicsListener implements UIListener {
   private final ThemeController myThemeController;
   private final HelpController myHelpController;
   private final XmlController myXmlController;
+  private final SessionController mySessionController;
   private final Session SESSION = new Session();
   private final TurtleAnimator TURTLE_ANIMATOR = new TurtleAnimator();
 
@@ -40,6 +45,10 @@ public class GraphicsListener implements UIListener {
     myThemeController = new ThemeController();
     myHelpController = new HelpController();
     myXmlController = new XmlController();
+    ArrayList<UIController> sessionControllers = new ArrayList<>();
+    sessionControllers.add(myPenController);
+    sessionControllers.add(turtleController);
+    mySessionController = new SessionController(sessionControllers);
   }
 
   /**
@@ -51,8 +60,7 @@ public class GraphicsListener implements UIListener {
   public void sendSignal(UIElement element) {
     switch (element.getType().toLowerCase()) {
       case "checkbox" -> myBackgroundController.notifyController(element);
-      case "turtle" -> turtleController.notifyController(element);
-      case "textfield" -> turtleController.notifyController(element);
+      case "turtle", "textfield" -> turtleController.notifyController(element);
       case "internalbutton", "externalbutton" -> handleButtonElement(element);
     }
   }
