@@ -1,5 +1,6 @@
 package slogo.view.userinterface;
 
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -70,6 +71,13 @@ public class UIText extends UIElement {
   public void setErrorClassic() {
     myText.setFont(SLOGO_FONT);
     myText.setFill(Color.BLACK);
+  }
+
+  /**
+   * Makes a text block clickable
+   */
+  public void setClickable() {
+    myText.addEventHandler(MouseEvent.MOUSE_CLICKED, c -> sendSignal());
   }
 
 
