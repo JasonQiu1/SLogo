@@ -15,6 +15,6 @@ public class Towards extends InterpreterCommand {
   }
 
   public Towards() {
-    super(List.of("x", "y"));
+    super(List.of("x", "y"), true);
   }
 }

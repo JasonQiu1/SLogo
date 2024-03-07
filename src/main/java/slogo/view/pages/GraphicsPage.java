@@ -155,7 +155,7 @@ public class GraphicsPage extends GeneralPage {
 
   private Collection<UIElement> setupTurtle(double screenWidth, double screenHeight) {
     Map<String, double[]> turtleIDs = new HashMap<>();
-    turtleIDs.put("Turtle", new double[]{screenWidth / 8 + 100, 4 * screenHeight / 8});
+    turtleIDs.put("Turtle", new double[]{screenWidth / 8 + 110, 4 * screenHeight / 8 - 5});
     return createElements(turtleIDs, "turtle");
   }
 }

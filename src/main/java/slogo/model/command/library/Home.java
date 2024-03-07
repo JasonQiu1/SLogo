@@ -15,6 +15,6 @@ public class Home extends InterpreterCommand {
   }
 
   public Home() {
-    super(List.of());
+    super(List.of(), true);
   }
 }

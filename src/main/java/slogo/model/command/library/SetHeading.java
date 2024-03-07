@@ -15,6 +15,6 @@ public class SetHeading extends InterpreterCommand {
   }
 
   public SetHeading() {
-    super(List.of("degrees"));
+    super(List.of("degrees"), true);
   }
 }

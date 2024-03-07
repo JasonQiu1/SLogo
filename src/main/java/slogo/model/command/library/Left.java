@@ -15,6 +15,6 @@ public class Left extends InterpreterCommand {
   }
 
   public Left() {
-    super(List.of("degrees"));
+    super(List.of("degrees"), true);
   }
 }
