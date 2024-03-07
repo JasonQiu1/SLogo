@@ -165,5 +165,12 @@ public class TurtleController extends UIController {
     this.currentFrame = this.getTurtleAnimator().nextFrame();
   }
 
+    private void showTurtle(UITurtle turtle, Boolean doShow) {
+        turtle.showTurtle(doShow);
+    }
+
+    private Boolean isShowTurtle(UITurtle turtle) {
+        return turtle.isShowing();
+    }
 
 }

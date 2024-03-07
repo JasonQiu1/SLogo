@@ -19,6 +19,10 @@ public class PenController extends UIController {
     private boolean redFlag = true;
     private boolean greenFlag = true;
     private boolean blueFlag = true;
+    private final int RED_INDEX = 1;
+    private final int GREEN_INDEX = 2;
+    private final int BLUE_INDEX = 3;
+
 
     /**
      * Notifies the pen controller about changes in UI elements.
@@ -71,6 +75,10 @@ public class PenController extends UIController {
 
         // Equivalent to pen up
         else turtle.setPenColor(Color.WHITE);
+    }
+
+    private void clearTurtleDrawing(UITurtle turtle) {
+        turtle.clearScreen();
     }
 
     private boolean isPurple() {

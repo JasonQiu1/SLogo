@@ -59,7 +59,7 @@ public class HistoryPage extends GeneralPage {
 
   private Collection<UIElement> setupTitleText(double screenWidth, double screenHeight) {
     Map<String, double[]> textIDs = new HashMap<>();
-    textIDs.put("Command History", new double[]{screenWidth / 2 - 40, screenHeight / 8});
+    textIDs.put("Command History", new double[]{screenWidth / 4 + 25, screenHeight / 8});
     return createElements(textIDs, "text");
   }
 

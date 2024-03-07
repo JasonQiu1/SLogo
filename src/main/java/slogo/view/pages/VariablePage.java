@@ -66,7 +66,7 @@ public class VariablePage extends GeneralPage {
 
   private Collection<UIElement> setupTitleText(double screenWidth, double screenHeight) {
     Map<String, double[]> textIDs = new HashMap<>();
-    textIDs.put("User-Defined Variables", new double[]{screenWidth / 2 - 40, screenHeight / 8});
+    textIDs.put("User-Defined Variables", new double[]{screenWidth / 4 - 5, screenHeight / 8});
     return createElements(textIDs, "text");
   }
 
