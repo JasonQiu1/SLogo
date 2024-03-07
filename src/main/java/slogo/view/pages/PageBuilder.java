@@ -62,7 +62,7 @@ public class PageBuilder {
 
   private void loadInternalButton(InternalButton button) {
     switch (button.getID()) {
-      case "Play/Pause"-> {
+      case "Play/Pause" -> {
         button.setPausePlayClassic();
       }
       case "Step" -> {
@@ -72,7 +72,6 @@ public class PageBuilder {
       case "Reset" -> {
         button.setResetClassic();
       }
-      case "0.5x", "1x", "2x", "4x" -> {
 
       case ".5x", "1x", "2x", "3x", "4x" -> {
         button.setSpeedClassic();
@@ -151,8 +150,8 @@ public class PageBuilder {
 
   private void loadText(UIText text) {
     switch (text.getID()) {
-      case "SLOGO", "Help", "Command History", "User-Defined Variables",
-          "User-Defined Commands", "Save Session", "Set Value" -> {
+      case "SLOGO", "Help", "Command History", "User-Defined Variables", "User-Defined "
+          + "Commands", "Save Session", "Set Value" -> {
         text.setSlogoClassic();
       }
       case "Theme:", "Pen Colors:", "Speed:" -> {
