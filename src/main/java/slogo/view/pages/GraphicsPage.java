@@ -99,7 +99,7 @@ public class GraphicsPage extends GeneralPage {
         300,
         300,
         screenWidth / 8 - 50,
-        2 * screenHeight / 8});
+        2 * screenHeight / 8 - 20});
     return createElements(boxIDs, "region");
   }
 
