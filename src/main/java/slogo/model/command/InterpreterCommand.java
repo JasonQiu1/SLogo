@@ -16,6 +16,10 @@ public abstract class InterpreterCommand extends Command {
   public abstract double apply(CodeTurtle turtle, Interpreter interpreter, List<Double> arguments)
       throws RunCodeError;
 
+  protected InterpreterCommand(List<String> parameters, boolean createsTurtleStep) {
+    super(parameters, createsTurtleStep);
+  }
+
   protected InterpreterCommand(List<String> parameters) {
     super(parameters);
   }

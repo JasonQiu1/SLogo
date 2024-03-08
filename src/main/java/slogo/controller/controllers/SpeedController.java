@@ -9,15 +9,14 @@ import slogo.view.userinterface.UIElement;
  * SpeedController class implements UIController interface to manage speed UI elements. It
  * provides functionality to control the speed of the animation.
  *
- * @author Jeremyah Flowers
+ * @author Jeremyah Flowers, Judy He
  */
 public class SpeedController extends UIController {
 
     // Instance Variables
-    private boolean halfFlag = true;
+    private boolean halfFlag = false;
     private boolean oneFlag = true;
     private boolean twoFlag = false;
-    private boolean threeFlag = false;
     private boolean fourFlag = false;
 
     /**
@@ -31,7 +30,6 @@ public class SpeedController extends UIController {
             case ".5x" -> setSpeedHalf();
             case "1x" -> setSpeedOne();
             case "2x" -> setSpeedTwo();
-            case "3x" -> setSpeedThree();
             case "4x" -> setSpeedFour();
         }
         updateElements();
@@ -55,9 +53,6 @@ public class SpeedController extends UIController {
             case "2x" -> {
                 selectButton((UIButton) element, twoFlag);
             }
-            case "3x" -> {
-                selectButton((UIButton) element, threeFlag);
-            }
             case "4x" -> {
                 selectButton((UIButton) element, fourFlag);
             }
@@ -65,42 +60,35 @@ public class SpeedController extends UIController {
     }
 
     private void setSpeedFour() {
+        this.getTurtleAnimator().setSpeed(4);
         halfFlag = false;
         oneFlag = false;
         twoFlag = false;
-        threeFlag = false;
         fourFlag = true;
     }
 
-    private void setSpeedThree() {
-        halfFlag = false;
-        oneFlag = false;
-        twoFlag = false;
-        threeFlag = true;
-        fourFlag = false;
-    }
-
     private void setSpeedTwo() {
+        this.getTurtleAnimator().setSpeed(2);
         halfFlag = false;
         oneFlag = false;
         twoFlag = true;
-        threeFlag = false;
         fourFlag = false;
     }
 
     private void setSpeedOne() {
+        this.getTurtleAnimator().setSpeed(1);
         halfFlag = false;
         oneFlag = true;
         twoFlag = false;
-        threeFlag = false;
         fourFlag = false;
     }
 
     private void setSpeedHalf() {
+        this.getTurtleAnimator().setSpeed(0.5);
         halfFlag = true;
         oneFlag = false;
         twoFlag = false;
-        threeFlag = false;
         fourFlag = false;
     }
+
 }

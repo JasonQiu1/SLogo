@@ -64,20 +64,20 @@ public class PageBuilder {
     switch (button.getID()) {
       case "Play/Pause" -> {
         button.setPausePlayClassic();
-        // TODO: MAKE BUTTON PLAY/PAUSE SIMULATION
+      }
+      case "Step" -> {
+        button.setStepClassic();
+        // TODO: MAKE BUTTON STEP THROUGH SIMULATION
       }
       case "Reset" -> {
         button.setResetClassic();
-        // TODO: MAKE BUTTON RESET SIMULATION
       }
 
       case ".5x", "1x", "2x", "3x", "4x" -> {
         button.setSpeedClassic();
-        // TODO: MAKE BUTTON CHANGE SIMULATION SPEED
       }
       case "R", "G", "B" -> {
         button.setPenClassic();
-        // TODO: MAKE BUTTON CHANGE SIMULATION COLOR
       }
       default -> {
         throw new TypeNotPresentException(button.getID(), new Throwable());
@@ -151,8 +151,8 @@ public class PageBuilder {
 
   private void loadText(UIText text) {
     switch (text.getID()) {
-      case "SLOGO", "Help", "Command History", "User-Defined Variables",
-          "User-Defined Commands", "Save Session", "Set Value" -> {
+      case "SLOGO", "Help", "Command History", "User-Defined Variables", "User-Defined "
+          + "Commands", "Save Session", "Set Value" -> {
         text.setSlogoClassic();
       }
       case "Theme:", "Pen Colors:", "Speed:" -> {

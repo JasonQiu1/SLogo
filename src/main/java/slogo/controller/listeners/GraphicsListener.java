@@ -1,13 +1,17 @@
 package slogo.controller.listeners;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
+import java.util.List;
 import slogo.controller.controllers.BackgroundController;
+import slogo.controller.controllers.SessionController;
 import slogo.controller.controllers.SpeedController;
 import slogo.controller.controllers.TurtleController;
 import slogo.controller.controllers.PenController;
 import slogo.controller.controllers.ThemeController;
 import slogo.controller.controllers.HelpController;
+import slogo.controller.controllers.UIController;
 import slogo.controller.controllers.XmlController;
 import slogo.model.api.turtle.TurtleAnimator;
 import slogo.view.userinterface.UIElement;
@@ -27,6 +31,7 @@ public class GraphicsListener implements UIListener {
   private final ThemeController myThemeController;
   private final HelpController myHelpController;
   private final XmlController myXmlController;
+  private final SessionController mySessionController;
   private final Session SESSION = new Session();
   private final TurtleAnimator TURTLE_ANIMATOR = new TurtleAnimator();
 
@@ -41,6 +46,10 @@ public class GraphicsListener implements UIListener {
     myThemeController = new ThemeController();
     myHelpController = new HelpController();
     myXmlController = new XmlController();
+    ArrayList<UIController> sessionControllers = new ArrayList<>();
+    sessionControllers.add(myPenController);
+    sessionControllers.add(turtleController);
+    mySessionController = new SessionController(sessionControllers);
   }
 
   /**
@@ -88,7 +97,7 @@ public class GraphicsListener implements UIListener {
         turtleController.notifyController(element);
       }
       case "R", "G", "B" -> myPenController.notifyController(element);
-      case "Play/Pause", "Reset" -> turtleController.notifyController(element);
+      case "Play/Pause", "Reset", "Step" -> turtleController.notifyController(element);
       case "Variables", "Commands", "History", "Help" -> myHelpController.notifyController(element);
       case "Save", "Load" -> {
         myXmlController.notifyController(element);
@@ -104,7 +113,7 @@ public class GraphicsListener implements UIListener {
         passToTurtle(element);
       }
       case "R", "G", "B" -> passToPen(element);
-      case "Play/Pause", "Reset" -> passToTurtle(element);
+      case "Play/Pause", "Reset", "Step" -> passToTurtle(element);
       case "History" -> passToHelp(element);
       case "Save", "Load" -> {
         passToXML(element);

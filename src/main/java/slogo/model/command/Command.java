@@ -32,8 +32,19 @@ public abstract class Command {
     return ret;
   }
 
-  protected Command(List<String> parameters) {
+  public boolean getCreatesTurtleStep() {
+    return createsTurtleStep;
+  }
+
+  private final boolean createsTurtleStep;
+
+  protected Command(List<String> parameters, boolean createsTurtleStep) {
     this.parameters = parameters;
+    this.createsTurtleStep = createsTurtleStep;
+  }
+
+  protected Command(List<String> parameters) {
+    this(parameters, false);
   }
 
   private final List<String> parameters;

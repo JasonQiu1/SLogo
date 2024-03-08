@@ -5,6 +5,7 @@ import java.util.List;
 import slogo.model.api.exception.coderunner.RunCodeError;
 import slogo.model.coderunner.Expression.Block;
 import slogo.model.coderunner.Expression.Make;
+import slogo.model.command.library.Left;
 
 /**
  * Parses a stream of tokens into a stream of interpretable expressions.
@@ -62,8 +63,11 @@ class ParserStream implements Parser {
 
   private Expression unary() {
     Expression expression = literal();
+    if (expression != null) {
+      return expression;
+    }
     if (match(TokenType.TILDA)) {
-      return new Expression.Unary(previousToken, expression);
+      return new Expression.Unary(previousToken, literal());
     }
     return expression;
   }
@@ -164,16 +168,18 @@ class ParserStream implements Parser {
     }
 
     if (match(TokenType.TELL)) {
-      return new Expression.Tell(expression.getBody());
+      Block ids = consumeBlock();
+      return new Expression.Tell(ids.getBody());
     }
 
     if (match(TokenType.ASK)) {
+      Block ids = consumeBlock();
       Block body = consumeBlock();
-      return new Expression.Ask(expression.getBody(), body);
+      return new Expression.Ask(ids.getBody(), body);
     }
 
     if (match(TokenType.ASKWITH)) {
-      Expression predicate = blockUntil(TokenType.LEFT_SQUARE_BRACKET);
+      Expression predicate = expression();
       Block body = consumeBlock();
       return new Expression.AskWith(predicate, body);
     }
@@ -210,7 +216,6 @@ class ParserStream implements Parser {
     while (!check(TokenType.RIGHT_SQUARE_BRACKET)) {
       body.add(expression());
     }
-    body.add(expression());
     consume(TokenType.RIGHT_SQUARE_BRACKET);
     return new Block(body, previousToken.line());
   }

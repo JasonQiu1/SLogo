@@ -2,6 +2,7 @@ package slogo.model.coderunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import slogo.model.api.exception.coderunner.ErrorType;
@@ -40,17 +41,18 @@ public class Interpreter implements Visitor {
     for (Turtle turtle : turtles) {
       selectedTurtles.add(new CodeTurtle(turtle));
     }
+    this.stepsCreated = 0;
   }
 
-  public double interpret(Parser parser) {
+  public int interpret(Parser parser) {
     currentParser = parser;
     Expression expression;
-    double ret = 0.0;
+    stepsCreated = 0;
     while ((expression = parser.parseNext()) != null) {
       currentEnvironment = globalEnvironment;
-      ret = evaluate(expression);
+      evaluate(expression);
     }
-    return ret;
+    return stepsCreated;
   }
 
   private double interpretBlock(Parser parser) {
@@ -68,10 +70,6 @@ public class Interpreter implements Visitor {
       throw new RunCodeError(ErrorType.RUNTIME, "nullExpression", -1, null);
     }
     return expression.accept(this);
-  }
-
-  public void killTurtle(int id) {
-    turtles.removeIf(turtle -> turtle.getId() == id);
   }
 
   @Override
@@ -114,7 +112,7 @@ public class Interpreter implements Visitor {
 
   private Function<Double, Double> getUnaryOperator(Token operatorToken) {
     return switch (operatorToken.type()) {
-      case TILDA -> (x) -> (x == 0) ? 0 : -x;
+      case TILDA -> (x) -> (x == 0) ? 0 : x * -1;
       default -> throw new RunCodeError(ErrorType.PARSE, "invalidBinaryOperator",
           operatorToken.lineNumber(), operatorToken.line());
     };
@@ -134,6 +132,9 @@ public class Interpreter implements Visitor {
   @Override
   public double visitCall(Call expression) {
     Command command = currentEnvironment.lookupCommand(expression.getCommandName());
+    if (command.getCreatesTurtleStep()) {
+      stepsCreated += 1;
+    }
 
     int arity = command.getArity();
     List<Double> arguments = new ArrayList<>();
@@ -197,12 +198,10 @@ public class Interpreter implements Visitor {
   @Override
   public double visitTo(To expression) {
     List<String> parameters = new ArrayList<>();
-    Expression next;
     for (Token parameter : expression.getParameters()) {
       parameters.add((String) parameter.literal());
     }
-    Command command =
-        new UserCommand(parameters, expression.getBody());
+    Command command = new UserCommand(parameters, expression.getBody());
     currentEnvironment.defineCommand((String) expression.getCommandName().literal(), command);
     return 1;
   }
@@ -212,33 +211,41 @@ public class Interpreter implements Visitor {
     return turtles.size();
   }
 
-  @Override
-  public double visitTell(Tell expression) {
+  private Optional<Turtle> getTurtle(int id) {
+    for (Turtle turtle : turtles) {
+      if (turtle.getId() == id) {
+        return Optional.of(turtle);
+      }
+    }
+    return Optional.empty();
+  }
+
+  private double selectAndCreateTurtles(List<Expression> idExpressions) {
     int id = 1;
-    for (Expression idExpression : expression.getIds()) {
+    selectedTurtles.clear();
+    for (Expression idExpression : idExpressions) {
       id = (int) Math.round(evaluate(idExpression));
-      Turtle newTurtle = new Turtle(id);
-      turtles.add(newTurtle);
-      selectedTurtles.add(new CodeTurtle(newTurtle));
+      int finalId = id;
+      Turtle turtle = getTurtle(id).orElseGet(() -> {
+        Turtle newTurtle = new Turtle(finalId);
+        turtles.add(newTurtle);
+        return newTurtle;
+      });
+      selectedTurtles.add(new CodeTurtle(turtle));
     }
     return id;
+  }
+
+  @Override
+  public double visitTell(Tell expression) {
+    return selectAndCreateTurtles(expression.getIds());
   }
 
   @Override
   public double visitAsk(Ask expression) {
     List<CodeTurtle> previouslySelectedTurtles = selectedTurtles;
     selectedTurtles = new ArrayList<>();
-    List<Integer> ids = new ArrayList<>();
-    for (Expression idExpression : expression.getIds()) {
-      ids.add((int) Math.round(evaluate(idExpression)));
-    }
-
-    for (Turtle turtle : turtles) {
-      if (!ids.contains(turtle.getId())) {
-        continue;
-      }
-      selectedTurtles.add(new CodeTurtle(turtle));
-    }
+    selectAndCreateTurtles(expression.getIds());
 
     double result = evaluate(expression.getBody());
     selectedTurtles = previouslySelectedTurtles;
@@ -248,16 +255,18 @@ public class Interpreter implements Visitor {
   @Override
   public double visitAskWith(AskWith expression) {
     List<CodeTurtle> previouslySelectedTurtles = selectedTurtles;
+    List<CodeTurtle> turtlesToSelect = new ArrayList<>();
     selectedTurtles = new ArrayList<>();
     for (Turtle turtle : turtles) {
       CodeTurtle candidate = new CodeTurtle(turtle);
+      selectedTurtles.clear();
       selectedTurtles.add(candidate);
       double predicateResult = evaluate(expression.getPredicate());
-      if (predicateResult == 0) {
-        selectedTurtles.remove(candidate);
+      if (predicateResult != 0) {
+        turtlesToSelect.add(candidate);
       }
     }
-
+    selectedTurtles = turtlesToSelect;
     double result = evaluate(expression.getBody());
     selectedTurtles = previouslySelectedTurtles;
     return result;
@@ -283,6 +292,7 @@ public class Interpreter implements Visitor {
   private final List<Turtle> turtles;
   private List<CodeTurtle> selectedTurtles;
   private Parser currentParser;
+  private int stepsCreated;
 
   private double booleanToDouble(boolean bool) {
     return bool ? 1 : 0;

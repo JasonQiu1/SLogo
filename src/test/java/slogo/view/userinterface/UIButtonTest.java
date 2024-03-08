@@ -3,7 +3,6 @@ package slogo.view.userinterface;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import java.awt.Color;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -72,8 +71,8 @@ class UIButtonTest extends DukeApplicationTest {
     double expectedCenterY = 120.0f;
     double expectedRadiusX = 150.0f;
     double expectedRadiusY = 80.0f;
-    Ellipse expectedShape = new Ellipse(expectedCenterX, expectedCenterY,
-        expectedRadiusX, expectedRadiusY);
+    Ellipse expectedShape =
+        new Ellipse(expectedCenterX, expectedCenterY, expectedRadiusX, expectedRadiusY);
     Ellipse actualShape = (Ellipse) actual.getShape();
 
     assertEquals(expectedShape.getCenterX(), actualShape.getCenterX());

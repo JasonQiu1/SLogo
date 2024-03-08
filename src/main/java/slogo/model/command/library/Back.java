@@ -15,6 +15,6 @@ public class Back extends InterpreterCommand {
   }
 
   public Back() {
-    super(List.of("pixels"));
+    super(List.of("pixels"), true);
   }
 }

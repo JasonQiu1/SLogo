@@ -71,19 +71,19 @@ public class LibraryEnvironment extends Environment {
         args -> random.nextDouble(args.get(0), args.get(1) + Double.MIN_VALUE)));
     defineAlias("randr", "randomrange");
     defineCommand("sine",
-        new JavaCommand(List.of("degrees"), args -> Math.sin(headingToRadians(args.get(0)))));
+        new JavaCommand(List.of("degrees"), args -> Math.sin(Math.toRadians(args.get(0)))));
     defineAlias("sin", "sine");
     defineCommand("cosine",
-        new JavaCommand(List.of("degrees"), args -> Math.cos(headingToRadians(args.get(0)))));
+        new JavaCommand(List.of("degrees"), args -> Math.cos(Math.toRadians(args.get(0)))));
     defineAlias("cos", "cosine");
     defineCommand("tangent",
-        new JavaCommand(List.of("degrees"), args -> Math.tan(headingToRadians(args.get(0)))));
+        new JavaCommand(List.of("degrees"), args -> Math.tan(Math.toRadians(args.get(0)))));
     defineAlias("tan", "tangent");
     defineCommand("arctangent", new JavaCommand(List.of("degrees"), args -> {
       if (args.get(0) == 0) {
         throw new RunCodeError(ErrorType.RUNTIME, "arctangentByZero", -1, "library command");
       }
-      return Math.atan(headingToRadians(args.get(0)));
+      return Math.toDegrees(Math.atan(Math.toRadians(args.get(0))));
     }));
     defineAlias("atan", "arctangent");
     defineCommand("squareroot", new JavaCommand(List.of("x"), args -> {
@@ -120,7 +120,7 @@ public class LibraryEnvironment extends Environment {
         new JavaCommand(List.of("a", "b"), args -> toDouble(args.get(0) != 0 && args.get(1) != 0)));
     defineCommand("or",
         new JavaCommand(List.of("a", "b"), args -> toDouble(args.get(0) != 0 || args.get(1) != 0)));
-    defineCommand("not", new JavaCommand(List.of("a", "b"), args -> toDouble(args.get(0) == 0)));
+    defineCommand("not", new JavaCommand(List.of("x"), args -> toDouble(args.get(0) == 0)));
   }
 
   private double toDouble(boolean bool) {

@@ -26,7 +26,7 @@ public class CodeTurtle {
   }
 
   public double getY() {
-    return turtle.getCurrentState().position().getX();
+    return turtle.getCurrentState().position().getY();
   }
 
   public double getHeading() {

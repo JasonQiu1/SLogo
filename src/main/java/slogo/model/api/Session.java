@@ -31,13 +31,16 @@ public class Session {
    * @param commands the raw code, with each line of code on a different element
    * @throws RunCodeError when any error occurs when running the code.
    */
-  public void run(String commands) throws RunCodeError {
+  public int run(String commands) throws RunCodeError {
+    int stepsCreated = 0;
     try {
-      codeRunner.run(commands);
+      stepsCreated = codeRunner.run(commands);
       commandHistory.add(Map.of(commands, Map.of("successful", "true")));
     } catch (RunCodeError error) {
       commandHistory.add(Map.of(commands, Map.of("successful", "false")));
+      throw error;
     }
+    return stepsCreated;
   }
 
   /**
@@ -51,8 +54,10 @@ public class Session {
    * metadata such as wasSuccessful.
    */
   public List<Map<String, Map<String, String>>> getCommandHistory(int maxLength) {
-    return commandHistory;
+    return commandHistory.subList(Math.max(0, commandHistory.size() - maxLength),
+        commandHistory.size());
   }
+
 
   /**
    * Returns the current step history of a certain length for all turtles. May return more steps
@@ -106,14 +111,13 @@ public class Session {
   }
 
   /**
-   * Returns all library command names, and parameter names.
+   * Not used. Get library commands from XML config instead.
    *
-   * @return an immutable map where the key is the command name and the value is the map of
-   * metadata, including arity and command definition.
+   * @return empty list.
    */
 
   public Map<String, Map<String, String>> getLibraryCommands() {
-    return null;
+    return Map.of();
   }
 
   /**

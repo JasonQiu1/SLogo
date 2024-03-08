@@ -15,6 +15,6 @@ public class SetXY extends InterpreterCommand {
   }
 
   public SetXY() {
-    super(List.of("x", "y"));
+    super(List.of("x", "y"), true);
   }
 }
