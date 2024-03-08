@@ -93,7 +93,7 @@ public class Turtle {
   public TurtleStep turnTowards(Point point) {
 
     Vector vectorToPoint =
-        TurtleGeometry.getVectorBetweenTwoPoints(this.currentState.position(), point);
+        this.getVectorBetweenTwoPoints(this.currentState.position(), point);
     double angleChange = vectorToPoint.getDirection() - this.currentState.heading();
     double finalHeading = vectorToPoint.getDirection();
 
@@ -158,14 +158,14 @@ public class Turtle {
 
   private void updateTurtleState(TurtleStep step) {
     // update turtle state
-    Point finalPos = TurtleGeometry.calculateFinalPosition(this.currentState.position(),
+    Point finalPos = this.calculateFinalPosition(this.currentState.position(),
         step.changeInPosition());
     double finalHeading = this.currentState.heading() + step.changeInAngle();
     this.currentState = new TurtleState(finalPos, finalHeading);
   }
 
   public TurtleStep setHeading(double degrees) {
-    double angleChange = TurtleGeometry.getAngleChange(this.currentState.heading(), degrees);
+    double angleChange = this.getAngleChange(this.currentState.heading(), degrees);
     TurtleStep step = new TurtleStep(this.currentState, new Vector(0, 0), angleChange);
 
     updateStateAndHistory(step, false, this.currentState.position(), degrees);
@@ -181,7 +181,7 @@ public class Turtle {
     }
 
     Vector posChange =
-        TurtleGeometry.getVectorBetweenTwoPoints(this.currentState.position(), position);
+        this.getVectorBetweenTwoPoints(this.currentState.position(), position);
     TurtleStep step = new TurtleStep(this.currentState, posChange, 0);
 
     updateStateAndHistory(step, false, position, this.currentState.heading());
@@ -201,8 +201,8 @@ public class Turtle {
   }
 
   public List<TurtleStep> move(double distance) {
-    double dx = TurtleGeometry.calculateXComponent(distance, this.currentState.heading());
-    double dy = TurtleGeometry.calculateYComponent(distance, this.currentState.heading());
+    double dx = this.calculateXComponent(distance, this.currentState.heading());
+    double dy = this.calculateYComponent(distance, this.currentState.heading());
     Point currPos = this.currentState.position();
     List<TurtleStep> intermediateSteps = new ArrayList<>();
 
@@ -229,7 +229,7 @@ public class Turtle {
 
   private TurtleStep normalMove(Point currPos, double dx, double dy) {
     Vector posChange = new Vector(dx, dy);
-    Point finalPos = TurtleGeometry.calculateFinalPosition(currPos, posChange);
+    Point finalPos = this.calculateFinalPosition(currPos, posChange);
     TurtleStep step = new TurtleStep(this.currentState, posChange, 0);
     updateStateAndHistory(step, false, finalPos, this.currentState.heading());
     return step;
@@ -246,7 +246,7 @@ public class Turtle {
       dy = currPos.getY() - TurtleAnimator.Y_MIN;
     }
     Vector posChange = new Vector(dx, dy);
-    Point finalPos = TurtleGeometry.calculateFinalPosition(this.currentState.position(), posChange);
+    Point finalPos = this.calculateFinalPosition(this.currentState.position(), posChange);
     TurtleStep step = new TurtleStep(this.currentState, posChange, 0);
     updateStateAndHistory(step, false, finalPos, this.currentState.heading());
     return step;
@@ -268,13 +268,13 @@ public class Turtle {
 
     if (currPos.getX() + dx > TurtleAnimator.X_MAX) {
       interDx = TurtleAnimator.X_MAX - currPos.getX();
-      interDy = TurtleGeometry.calculateYComponentGivenXComponentAngle(interDx,
+      interDy = this.calculateYComponentGivenXComponentAngle(interDx,
           this.currentState.heading());
       if (Math.abs(interDy) > TurtleAnimator.Y_MAX) interDy = 0;
       oppositeBorderPos.setX(TurtleAnimator.X_MIN);
     } else if (currPos.getX() + dx < TurtleAnimator.X_MIN) {
       interDx = TurtleAnimator.X_MIN - currPos.getX();
-      interDy = TurtleGeometry.calculateYComponentGivenXComponentAngle(interDx,
+      interDy = this.calculateYComponentGivenXComponentAngle(interDx,
           this.currentState.heading());
       if (Math.abs(interDy) > TurtleAnimator.Y_MAX) interDy = 0;
       oppositeBorderPos.setX(TurtleAnimator.X_MAX);
@@ -282,18 +282,18 @@ public class Turtle {
 
     if (currPos.getY() + dy > TurtleAnimator.Y_MAX && interDy == 0) {
       interDy = TurtleAnimator.Y_MAX - currPos.getY();
-      interDx = TurtleGeometry.calculateXComponentGivenYComponentAngle(interDy,
+      interDx = this.calculateXComponentGivenYComponentAngle(interDy,
           this.currentState.heading());
       oppositeBorderPos.setY(TurtleAnimator.Y_MIN);
     } else if (currPos.getY() + dy < TurtleAnimator.Y_MIN && interDy == 0) {
       interDy = TurtleAnimator.Y_MIN - currPos.getY();
-      interDx = TurtleGeometry.calculateXComponentGivenYComponentAngle(interDy,
+      interDx = this.calculateXComponentGivenYComponentAngle(interDy,
           this.currentState.heading());
       oppositeBorderPos.setY(TurtleAnimator.Y_MAX);
     }
 
     Vector posChange = new Vector(interDx, interDy);
-    Point finalPos = TurtleGeometry.calculateFinalPosition(currPos, posChange);
+    Point finalPos = this.calculateFinalPosition(currPos, posChange);
     if (oppositeBorderPos.getX() == 0) {
       oppositeBorderPos.setX(finalPos.getX());
     }
@@ -330,6 +330,39 @@ public class Turtle {
     this.currentPointInStepHistory++;
     // update current state
     this.currentState = new TurtleState(newPos, newHeading);
+  }
+
+  private double calculateYComponentGivenXComponentAngle(double x, double angle) {
+    double newMagnitude = x / Math.sin(Math.toRadians(angle));
+    return newMagnitude * Math.cos(Math.toRadians(angle));
+  }
+  private double calculateXComponentGivenYComponentAngle(double y, double angle) {
+    double newMagnitude = y / Math.cos(Math.toRadians(angle));
+    return newMagnitude * Math.sin(Math.toRadians(angle));
+  }
+
+  private double calculateXComponent(double magnitude, double angle) {
+    return magnitude * Math.sin(Math.toRadians(angle));
+  }
+  private double calculateYComponent(double magnitude, double angle) {
+    return magnitude * Math.cos(Math.toRadians(angle));
+  }
+
+  private Vector getVectorBetweenTwoPoints(Point p1, Point p2) {
+    double dx = p2.getX() - p1.getX();
+    double dy = p2.getY() - p1.getY();
+    return new Vector(dx, dy);
+  }
+
+  private double getAngleChange(double a1, double a2) {
+    return a2 - a1;
+  }
+
+  public static Point calculateFinalPosition(Point initialPosition, Vector vector) {
+    double xFinal = initialPosition.getX() + vector.getDx();
+    double yFinal = initialPosition.getY() + vector.getDy();
+
+    return new Point(xFinal, yFinal);
   }
 
 }

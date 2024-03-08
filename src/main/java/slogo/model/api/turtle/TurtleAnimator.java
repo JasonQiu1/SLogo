@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import slogo.model.turtleutil.TurtleGeometry;
+import slogo.model.turtleutil.Turtle;
 
 public class TurtleAnimator {
 
@@ -54,10 +54,6 @@ public class TurtleAnimator {
 
   public double getGraphicsScalingFactor() {
     return graphicsScalingFactor;
-  }
-
-  public void setGraphicsScalingFactor(double graphicsScalingFactor) {
-    this.graphicsScalingFactor = graphicsScalingFactor;
   }
 
   public double getSpeed() {
@@ -143,7 +139,7 @@ public class TurtleAnimator {
         new Vector(posChange.getDx() / totalFrames, posChange.getDy() / totalFrames);
 
     for (int i = 0; i < totalFrames; i++) {
-      Point newPos = TurtleGeometry.calculateFinalPosition(currState.position(), posChangePerFrame);
+      Point newPos = Turtle.calculateFinalPosition(currState.position(), posChangePerFrame);
       currState = new TurtleState(newPos, initState.heading());
       interStates.add(currState);
     }
