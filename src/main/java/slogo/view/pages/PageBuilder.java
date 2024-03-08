@@ -112,7 +112,7 @@ public class PageBuilder {
       }
       case "Create" -> {
         button.setMenuClassic();
-        button.addOpenPage(myStage, "GraphicsPage");
+        button.addOpenPage("GraphicsPage");
       }
       case "Help" -> {
         button.setMenuClassic();
@@ -120,7 +120,7 @@ public class PageBuilder {
       }
       case "Home" -> {
         button.setHomeClassic();
-        button.addOpenPage(myStage, "SplashPage");
+        button.addOpenPage("SplashPage");
       }
       case "Variables", "Commands", "History" -> {
         button.setGUIClassic();

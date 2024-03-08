@@ -40,10 +40,8 @@ public class SlogoWindow {
     GeneralPage page = createPageType(type);
     page.setPage(WIDTH, HEIGHT);
 
-    Stage newWindow = new Stage();
-
-    newWindow.setScene(new Scene(page.getPage(), WIDTH, HEIGHT));
-    newWindow.show();
+    mainStage.setScene(new Scene(page.getPage(), WIDTH, HEIGHT));
+    mainStage.show();
   }
 
   private GeneralPage createPageType(String pageType) {

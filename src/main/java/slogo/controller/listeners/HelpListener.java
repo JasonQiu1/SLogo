@@ -17,6 +17,7 @@ public class HelpListener implements UIListener {
 
   HelpController myHelpController = new HelpController();
   XmlController myXmlController = new XmlController();
+  TurtleController myTurtleController = new TurtleController();
   private final Session session;
 
   /**
@@ -48,7 +49,7 @@ public class HelpListener implements UIListener {
       case "library commands" -> myXmlController.notifyController(element);
       case "user-defined commands", "user-defined variables", "history", "command history", "variable list" -> {
         myHelpController.notifyController(element);
-        turtleController.notifyController(element);
+        myTurtleController.notifyController(element);
       }
     }
   }

@@ -13,7 +13,6 @@ import slogo.view.userinterface.UIElement;
  */
 public interface UIListener {
 
-    TurtleController turtleController = new TurtleController();
     /**
      * Sends a signal to handle a UI element event.
      *

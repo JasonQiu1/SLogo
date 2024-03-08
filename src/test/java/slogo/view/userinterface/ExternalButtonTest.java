@@ -91,7 +91,7 @@ public class ExternalButtonTest extends DukeApplicationTest {
 
   @Test
   public void testAddOpenPage() {
-    externalButton.addOpenPage(stage, "graphics");
+    externalButton.addOpenPage( "graphics");
     clickOn(externalButton.getElement());
     // Verify that a new page is opened
     assertNotNull(stage.getScene().getRoot().lookup(".graphics-page")); // Assuming ".graphics-page" is a CSS class or ID used to identify the graphics page
