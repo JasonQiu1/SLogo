@@ -12,6 +12,10 @@ import slogo.model.api.exception.coderunner.RunCodeError;
  */
 class Lexer {
 
+  /**
+   * All of the keywords' strings mapped to their enum types.
+   */
+
   private static final Map<String, TokenType> keywordMap =
       Map.ofEntries(Map.entry("make", TokenType.MAKE), Map.entry("repeat", TokenType.REPEAT),
           Map.entry("dotimes", TokenType.DOTIMES), Map.entry("for", TokenType.FOR),
@@ -20,6 +24,11 @@ class Lexer {
           Map.entry("tell", TokenType.TELL), Map.entry("ask", TokenType.ASK),
           Map.entry("askwith", TokenType.ASKWITH));
 
+  /**
+   * Initializes the lexer for a string of commands.
+   *
+   * @param commands the commands to tokenize
+   */
   Lexer(String commands) {
     if (commands == null) {
       commands = "";
@@ -31,6 +40,12 @@ class Lexer {
     blockStartCursors = new Stack<>();
   }
 
+  /**
+   * Tokenizes the next token and returns it.
+   *
+   * @return the next token if successful
+   * @throws RunCodeError if there was an error encountered while tokenizing
+   */
   Token nextToken() throws RunCodeError {
     while (isWhiteSpace()) {
       consume();
@@ -67,7 +82,7 @@ class Lexer {
         }
       }
       default -> {
-        // logics operators
+        // logic operators
         if (currentChar == '=' && match('=')) {
           yield createToken(TokenType.EQUAL_TO);
         } else if (currentChar == '!' && match('=')) {
@@ -104,7 +119,7 @@ class Lexer {
   private final String input;
   private final String[] lines;
   private int lineNumber;
-  private Stack<Integer> blockStartCursors;
+  private final Stack<Integer> blockStartCursors;
 
   private boolean isWhiteSpace() {
     return switch (peek()) {

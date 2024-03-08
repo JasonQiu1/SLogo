@@ -1,6 +1,16 @@
 package slogo.model.coderunner;
 
-public interface Parser {
+/**
+ * The interface for any parser.
+ *
+ * @author Jason Qiu
+ */
+interface Parser {
 
+  /**
+   * Returns the next expression
+   *
+   * @return the next expression if available, otherwise null
+   */
   Expression parseNext();
 }

@@ -1,5 +1,10 @@
 package slogo.model.coderunner;
 
+/**
+ * All types of tokens in the slogo language.
+ *
+ * @author Jason Qiu
+ */
 enum TokenType {
   // KEYWORDS
   MAKE, REPEAT, DOTIMES, FOR, IF, IFELSE, TO, TURTLES, TELL, ASK, ASKWITH, // AGGREGATES

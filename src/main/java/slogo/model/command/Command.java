@@ -20,9 +20,34 @@ public abstract class Command {
     return parameters.size();
   }
 
+
+  public boolean getCreatesTurtleStep() {
+    return createsTurtleStep;
+  }
+
+  /**
+   * Runs a command with the given arguments, which may modify target or use the interpreter to
+   * evaluate expressions
+   *
+   * @param target the target turtle
+   * @param interpreter the target interpreter environment
+   * @param arguments the arguments to the command
+   * @return the result of the command
+   * @throws RunCodeError if there were any runtime errors
+   */
   public abstract double apply(CodeTurtle target, Interpreter interpreter, List<Double> arguments)
       throws RunCodeError;
 
+  /**
+   * Runs a command with the given arguments, which may modify each target or use the interpreter to
+   * evaluate expressions, or a list of turtles
+   *
+   * @param targets the list of target turtles
+   * @param interpreter the target interpreter environment
+   * @param arguments the arguments to the command
+   * @return the result of the command
+   * @throws RunCodeError if there were any runtime errors
+   */
   public double applyAll(List<CodeTurtle> targets, Interpreter interpreter, List<Double> arguments)
       throws RunCodeError {
     double ret = 0;
@@ -30,10 +55,6 @@ public abstract class Command {
       ret = apply(target, interpreter, arguments);
     }
     return ret;
-  }
-
-  public boolean getCreatesTurtleStep() {
-    return createsTurtleStep;
   }
 
   private final boolean createsTurtleStep;

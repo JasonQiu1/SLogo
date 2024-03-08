@@ -29,6 +29,7 @@ public class Session {
    * Runs lines of code, affecting command history and step history for each turtle.
    *
    * @param commands the raw code, with each line of code on a different element
+   * @return the number of steps created for each turtle
    * @throws RunCodeError when any error occurs when running the code.
    */
   public int run(String commands) throws RunCodeError {
@@ -57,7 +58,6 @@ public class Session {
     return commandHistory.subList(Math.max(0, commandHistory.size() - maxLength),
         commandHistory.size());
   }
-
 
   /**
    * Returns the current step history of a certain length for all turtles. May return more steps

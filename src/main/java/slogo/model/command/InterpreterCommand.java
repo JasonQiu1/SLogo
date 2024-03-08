@@ -6,7 +6,7 @@ import slogo.model.coderunner.CodeTurtle;
 import slogo.model.coderunner.Interpreter;
 
 /**
- * A command that only sends messages to the interpreter.
+ * A command that doesn't require Expressions.
  *
  * @author Jason Qiu
  */
