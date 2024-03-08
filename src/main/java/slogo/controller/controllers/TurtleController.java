@@ -73,9 +73,7 @@ public class TurtleController extends UIController {
 
   private void runCommands(UITextField textFieldView) {
     String commands = textFieldView.getTextCommands();
-    // this.numCommands = this.getCurrentSession().run(commands);
-    this.numCommands = 2;
-    this.getCurrentSession().run(commands);
+    this.numCommands = this.getCurrentSession().run(commands);
   }
 
   private void updateElements() {
@@ -154,6 +152,7 @@ public class TurtleController extends UIController {
     for (Integer turtleId : this.currentFrame.keySet()) {
       TurtleState state = this.currentFrame.get(turtleId);
       UITurtle turtleView = this.TURTLE_VIEWS.get("Turtle" + turtleId);
+      turtleView.setPenDown(true); // turn on pen
       turtleView.updateState(state.position().getX(), state.position().getY(),
           state.heading());
     }
@@ -163,17 +162,21 @@ public class TurtleController extends UIController {
 
   private void replayAnimation() {
     this.currentFrame = this.getTurtleAnimator().resetFrame(framesRan);
-    animation.play();
     for (Integer turtleId : this.currentFrame.keySet()) {
       TurtleState state = this.currentFrame.get(turtleId);
       UITurtle turtleView = this.TURTLE_VIEWS.get("Turtle" + turtleId);
-      for (int i = 0; i < framesRan; i++) {
+      for (int i = 0; i < framesRan-2; i++) {
         turtleView.clearLastLine();
       }
+      // turn off pen
+      turtleView.setPenDown(false);
+      // reset turtle position
       turtleView.updateState(state.position().getX(), state.position().getY(), state.heading());
+      // reset frames ran
+      framesRan = 0;
+      // turn on pen
+      turtleView.setPenDown(true);
     }
-    framesRan = 0;
-    this.currentFrame = this.getTurtleAnimator().nextFrame();
   }
 
     private void showTurtle(UITurtle turtle, Boolean doShow) {
