@@ -581,6 +581,12 @@ class SessionTest {
       int actual = _session.run("tell [ 1 2] fd 50 bk 50 rt 50 lt heading fd home ");
       Assertions.assertEquals(6, actual);
     }
+
+    @Test
+    void loop() {
+      int actual = _session.run("repeat 1800 [fd 10 rt :repcount + .1]");
+      Assertions.assertEquals(3600, actual);
+    }
   }
 
 //    @Nested
