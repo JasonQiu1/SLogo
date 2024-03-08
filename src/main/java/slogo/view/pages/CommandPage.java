@@ -71,6 +71,7 @@ public class CommandPage extends GeneralPage {
 
   private void setUpCommandList(double screenWidth, double screenHeight) {
     Map<String, Map<String, String>> commandMap = session.getUserDefinedCommands();
+
     double[] position = new double[2];
     position[0] = (100);
     position[1] = (100);

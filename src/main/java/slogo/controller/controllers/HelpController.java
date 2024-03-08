@@ -1,12 +1,7 @@
 package slogo.controller.controllers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import slogo.model.api.Session;
-import slogo.model.api.exception.XmlException;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UIListView;
 import slogo.view.userinterface.UITextField;
@@ -46,14 +41,8 @@ public class HelpController extends UIController {
     }
   }
 
-  private void expandOption(String expandText) {
-    new HelpWindow("expand", this.getCurrentSession(), expandText);
-  }
-
   private String getVarName(String option) {
-    //Map<String, Double> varMap = session.getVariables();
-    Map<String, Double> varMap = new HashMap<>();
-    varMap.put("var", 0.5);
+    Map<String, Double> varMap = getCurrentSession().getVariables();
 
     String[] parts = option.split("Name: |\\nValue: ");
     String varName = parts[1];
@@ -68,13 +57,8 @@ public class HelpController extends UIController {
     return option + "\nNested Commands: " + body;
   }
 
-  private void runCommandFromHelp(UIElement element) {
-    //session.run(command);
-  }
-
   private void runCommandFromHistory(UIElement element) {
     String command = ((UIListView) element).getSelectedItem();
-    System.out.println(command);
     this.getCurrentSession().run(command);
   }
 

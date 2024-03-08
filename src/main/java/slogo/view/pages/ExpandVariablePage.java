@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.Group;
 import javafx.scene.Parent;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import slogo.controller.listeners.HelpListener;
 import slogo.model.api.Session;
