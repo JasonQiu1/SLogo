@@ -2,10 +2,10 @@ package slogo.model.coderunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import slogo.model.api.exception.coderunner.ErrorType;
 import slogo.model.api.exception.coderunner.RunCodeError;
 import slogo.model.coderunner.Expression.Block;
 import slogo.model.coderunner.Expression.Make;
-import slogo.model.command.library.Left;
 
 /**
  * Parses a stream of tokens into a stream of interpretable expressions.
@@ -14,6 +14,11 @@ import slogo.model.command.library.Left;
  */
 class ParserStream implements Parser {
 
+  /**
+   * Initializes the parser stream
+   *
+   * @param lexer the input token stream
+   */
   ParserStream(Lexer lexer) {
     this.lexer = lexer;
     previousToken = null;
@@ -21,6 +26,12 @@ class ParserStream implements Parser {
     nextToken();
   }
 
+  /**
+   * Attempts to parse the next expression from a given token stream
+   *
+   * @return the expression if successful, otherwise null
+   * @throws RunCodeError if there were parsing errors
+   */
   @Override
   public Expression parseNext() throws RunCodeError {
     return expression();
@@ -231,7 +242,7 @@ class ParserStream implements Parser {
 
   private Token consume(TokenType type) {
     if (!match(type)) {
-      throw Util.createError("expectedDifferentToken", currentToken);
+      throw ErrorFactory.createError(ErrorType.PARSE, "expectedDifferentToken", currentToken);
     }
     return previousToken;
   }
@@ -254,7 +265,7 @@ class ParserStream implements Parser {
     previousToken = currentToken;
     currentToken = lexer.nextToken();
     if (isAtEnd()) {
-      throw Util.createError("expectedTokens", currentToken);
+      throw ErrorFactory.createError(ErrorType.PARSE, "expectedTokens", currentToken);
     }
     return currentToken;
   }

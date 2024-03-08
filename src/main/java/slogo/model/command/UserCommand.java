@@ -8,7 +8,7 @@ import slogo.model.coderunner.Expression.Block;
 import slogo.model.coderunner.Interpreter;
 
 /**
- * A command that only uses Slogo code.
+ * A command that uses Slogo code (expressions).
  *
  * @author Jason Qiu
  */
