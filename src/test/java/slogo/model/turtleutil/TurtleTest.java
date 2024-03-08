@@ -71,22 +71,20 @@ public class TurtleTest {
     myTurtle.move(50);
     myTurtle.rotate(30);
     myTurtle.move(100);
-    myTurtle.move(-20);
-    myTurtle.rotate(-150);
 
-    TurtleState expectedInitState3 = new TurtleState(new Point(0, 50), 30);
-    Vector expectedPositionChange3 = new Vector(100*Math.sin(Math.toRadians(30)), 100*Math.cos(Math.toRadians(30)));
+    TurtleState expectedInitState3 = new TurtleState(new Point(0, 0), 0);
+    Vector expectedPositionChange3 = new Vector(0, 50);
     double expectedAngelChange3 = 0;
     TurtleStep expectedStep3 = new TurtleStep(expectedInitState3, expectedPositionChange3, expectedAngelChange3);
 
-    TurtleState expectedInitState4 = new TurtleState(new Point(100*Math.sin(Math.toRadians(30)), 50+100*Math.cos(Math.toRadians(30))), 30);
-    Vector expectedPositionChange4 = new Vector(-20*Math.sin(Math.toRadians(30)), -20*Math.cos(Math.toRadians(30)));
-    double expectedAngelChange4 = 0;
+    TurtleState expectedInitState4 = new TurtleState(new Point(0, 50), 0);
+    Vector expectedPositionChange4 = new Vector(0, 0);
+    double expectedAngelChange4 = 30;
     TurtleStep expectedStep4 = new TurtleStep(expectedInitState4, expectedPositionChange4, expectedAngelChange4);
 
-    TurtleState expectedInitState5 = new TurtleState(new Point(100*Math.sin(Math.toRadians(30))-20*Math.sin(Math.toRadians(30)), 50+100*Math.cos(Math.toRadians(30))-20*Math.cos(Math.toRadians(30))), 30);
-    Vector expectedPositionChange5 = new Vector(0, 0);
-    double expectedAngelChange5 = -150;
+    TurtleState expectedInitState5 = new TurtleState(new Point(0, 50), 30);
+    Vector expectedPositionChange5 = new Vector(100*Math.sin(Math.toRadians(30)), 100*Math.cos(Math.toRadians(30)));
+    double expectedAngelChange5 = 0;
     TurtleStep expectedStep5 = new TurtleStep(expectedInitState5, expectedPositionChange5, expectedAngelChange5);
 
     // check TurtleStep history
@@ -168,21 +166,21 @@ public class TurtleTest {
   void testWrapEdge() {
     // step 1: rt 75
     myTurtle.rotate(75);
-    // step 2: fd 400
+    // step 2: fd 200
     TurtleState expectedInitState1 = new TurtleState(new Point(0,0), 75);
-    List<TurtleStep> steps = myTurtle.move(400);
-    Vector expectedPositionChange1 = new Vector(200, 200/Math.sin(Math.toRadians(75)) * Math.cos(Math.toRadians(75)));
+    List<TurtleStep> steps = myTurtle.move(200);
+    Vector expectedPositionChange1 = new Vector(150, 150/Math.sin(Math.toRadians(75)) * Math.cos(Math.toRadians(75)));
     double expectedAngelChange1 = 0;
     TurtleStep expectedStep1 = new TurtleStep(expectedInitState1, expectedPositionChange1, expectedAngelChange1);
 
-    TurtleState expectedInitState2 = new TurtleState(new Point(-200,200/Math.sin(Math.toRadians(75)) * Math.cos(Math.toRadians(75))), 75);
-    Vector expectedPositionChange2 = new Vector(400 * Math.sin(Math.toRadians(75)) - 200, 400 * Math.cos(Math.toRadians(75)) - expectedPositionChange1.getDy());
+    TurtleState expectedInitState2 = new TurtleState(new Point(-150,150/Math.sin(Math.toRadians(75)) * Math.cos(Math.toRadians(75))), 75);
+    Vector expectedPositionChange2 = new Vector(200 * Math.sin(Math.toRadians(75)) - 150, 200 * Math.cos(Math.toRadians(75)) - expectedPositionChange1.getDy());
     double expectedAngelChange2 = 0;
     TurtleStep expectedStep2 = new TurtleStep(expectedInitState2, expectedPositionChange2, expectedAngelChange2);
     List<TurtleStep> expectedSteps = List.of(expectedStep1, expectedStep2);
 
-    double Xf3 = 400 * Math.sin(Math.toRadians(75)) - 400;
-    double Yf3 = 400 * Math.cos(Math.toRadians(75));
+    double Xf3 = -150 + 200 * Math.sin(Math.toRadians(75)) - 150;
+    double Yf3 = 200 * Math.cos(Math.toRadians(75));
     double finalHeading = 75;
     TurtleState expectedFinalState = new TurtleState(new Point(Xf3, Yf3), finalHeading);
 
@@ -237,25 +235,25 @@ public class TurtleTest {
     // step 5: bk 50
     myTurtle.move(-50);
 
-    // take 4 steps back
+    // take 5 steps back
+    myTurtle.stepBack();
     myTurtle.stepBack();
     myTurtle.stepBack();
     myTurtle.stepBack();
     myTurtle.stepBack();
 
-    // take 3 steps forward
-    myTurtle.stepForward();
+    // take 2 steps forward
     myTurtle.stepForward();
     List<TurtleStep> forwardSteps = myTurtle.stepForward();
 
-    TurtleState expectedInitState = new TurtleState(new Point(0, -25), 25);
-    Vector expectedPositionChange = new Vector(100 * Math.sin(Math.toRadians(25)), 100 * Math.cos(Math.toRadians(25)));
+    TurtleState expectedInitState = new TurtleState(new Point(0, -125), 0);
+    Vector expectedPositionChange = new Vector(0, 200);
     double expectedAngelChange = 0;
     TurtleStep expectedStep = new TurtleStep(expectedInitState, expectedPositionChange, expectedAngelChange);
 
-    double Xf = 100 * Math.sin(Math.toRadians(25));
-    double Yf = -25 + 100 * Math.cos(Math.toRadians(25));
-    double finalHeading = 25;
+    double Xf = 0;
+    double Yf = 75;
+    double finalHeading = 0;
     TurtleState expectedFinalState = new TurtleState(new Point(Xf, Yf), finalHeading);
 
     for (TurtleStep step: forwardSteps) {
@@ -277,19 +275,16 @@ public class TurtleTest {
     // step 2: rt 75
     myTurtle.rotate(75);
 
-    // step 3: fd -50
-    myTurtle.move(-50);
-
     List<TurtleStep> backwardSteps = myTurtle.stepBack();
 
-    TurtleState expectedInitState = new TurtleState(new Point(-50 * Math.sin(Math.toRadians(75)), 200 - 50 * Math.cos(Math.toRadians(75))), 75);
-    Vector expectedPositionChange = new Vector(50 * Math.sin(Math.toRadians(75)), 50 * Math.cos(Math.toRadians(75)));
-    double expectedAngelChange = 0;
+    TurtleState expectedInitState = new TurtleState(new Point(0, -100), 75);
+    Vector expectedPositionChange = new Vector(0, 0);
+    double expectedAngelChange = -75;
     TurtleStep expectedStep = new TurtleStep(expectedInitState, expectedPositionChange, expectedAngelChange);
 
     double Xf = 0;
-    double Yf = 200;
-    double finalHeading = 75;
+    double Yf = -100;
+    double finalHeading = 0;
     TurtleState expectedFinalState = new TurtleState(new Point(Xf, Yf), finalHeading);
 
     for (TurtleStep step: backwardSteps) {
