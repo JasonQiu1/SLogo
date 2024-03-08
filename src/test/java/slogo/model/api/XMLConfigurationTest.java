@@ -10,6 +10,7 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.model.api.exception.XmlException;
+import slogo.model.session.SessionImplementation;
 
 public class XMLConfigurationTest {
 
@@ -19,7 +20,7 @@ public class XMLConfigurationTest {
   @BeforeEach
   void setup() {
     xmlConfig = new XmlConfiguration();
-    session = new Session();
+    session = new SessionImplementation();
   }
 
   @Test

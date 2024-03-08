@@ -1,10 +1,15 @@
-package slogo.model.api;
+package slogo.model.session;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import slogo.model.api.Session;
 import slogo.model.api.exception.coderunner.RunCodeError;
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
+import slogo.model.coderunner.SlogoCodeRunner;
+import slogo.model.turtleutil.Turtle;
 
 /**
  * External API for the frontend to interact with the model. Responsible for running Slogo code and
@@ -12,7 +17,14 @@ import slogo.model.api.turtle.TurtleStep;
  *
  * @author Jason Qiu
  */
-public interface Session {
+public class SessionImplementation implements Session {
+
+  public SessionImplementation() {
+    commandHistory = new ArrayList<>();
+    turtles = new ArrayList<>();
+    reset();
+    codeRunner = new SlogoCodeRunner(turtles);
+  }
 
   /**
    * Runs lines of code, affecting command history and step history for each turtle.
@@ -21,7 +33,18 @@ public interface Session {
    * @return the number of steps created for each turtle
    * @throws RunCodeError when any error occurs when running the code.
    */
-  int run(String commands) throws RunCodeError;
+  @Override
+  public int run(String commands) throws RunCodeError {
+    int stepsCreated = 0;
+    try {
+      stepsCreated = codeRunner.run(commands);
+      commandHistory.add(Map.of(commands, Map.of("successful", "true")));
+    } catch (RunCodeError error) {
+      commandHistory.add(Map.of(commands, Map.of("successful", "false")));
+      throw error;
+    }
+    return stepsCreated;
+  }
 
   /**
    * Returns the current command history of a certain length.
@@ -33,7 +56,11 @@ public interface Session {
    * @return an immutable list of maps where the key is the command and the value is another map of
    * metadata such as wasSuccessful.
    */
-  List<Map<String, Map<String, String>>> getCommandHistory(int maxLength);
+  @Override
+  public List<Map<String, Map<String, String>>> getCommandHistory(int maxLength) {
+    return commandHistory.subList(Math.max(0, commandHistory.size() - maxLength),
+        commandHistory.size());
+  }
 
   /**
    * Returns the current step history of a certain length for all turtles. May return more steps
@@ -44,14 +71,28 @@ public interface Session {
    *                  history up to length.
    * @return an immutable map where the key is the id of the turtle and a list of its step history
    */
-  Map<Integer, List<TurtleStep>> getTurtlesStepHistories(int maxLength);
+  @Override
+  public Map<Integer, List<TurtleStep>> getTurtlesStepHistories(int maxLength) {
+    Map<Integer, List<TurtleStep>> turtlesStepHistories = new HashMap<>();
+    for (Turtle turtle : turtles) {
+      turtlesStepHistories.put(turtle.getId(), turtle.getStepHistory(maxLength));
+    }
+    return turtlesStepHistories;
+  }
 
   /**
    * Returns the current state for each turtle.
    *
    * @return an immutable map where the key is the id of the turtle and the value is its state
    */
-  Map<Integer, TurtleState> getTurtlesCurrentStates();
+  @Override
+  public Map<Integer, TurtleState> getTurtlesCurrentStates() {
+    Map<Integer, TurtleState> turtleStates = new HashMap<>();
+    for (Turtle turtle : turtles) {
+      turtleStates.put(turtle.getId(), turtle.getCurrentState());
+    }
+    return turtleStates;
+  }
 
   /**
    * Returns all user defined variable names and values.
@@ -59,7 +100,10 @@ public interface Session {
    * @return an immutable map where the key is the variable name and the value is the integer stored
    * in the variable.
    */
-  Map<String, Double> getVariables();
+  @Override
+  public Map<String, Double> getVariables() {
+    return codeRunner.getVariables();
+  }
 
   /**
    * Returns all user defined command names and metadata like parameter names and command
@@ -68,15 +112,20 @@ public interface Session {
    * @return an immutable map where the key is the command name and the value is the map of
    * metadata, including parameter names and command definition.
    */
-  Map<String, Map<String, String>> getUserDefinedCommands();
+  @Override
+  public Map<String, Map<String, String>> getUserDefinedCommands() {
+    return codeRunner.getCommands();
+  }
 
   /**
    * Not used. Get library commands from XML config instead.
    *
    * @return empty list.
    */
-
-  Map<String, Map<String, String>> getLibraryCommands();
+  @Override
+  public Map<String, Map<String, String>> getLibraryCommands() {
+    return Map.of();
+  }
 
   /**
    * Steps (successful) command history and each turtle's step history back a number of steps.
@@ -84,7 +133,10 @@ public interface Session {
    * @param maxSteps the maximum number of steps to take. If negative, then will redo instead.
    * @return true if there was enough history to go back numSteps, false otherwise.
    */
-  boolean undo(int maxSteps);
+  @Override
+  public boolean undo(int maxSteps) {
+    return false;
+  }
 
   /**
    * Steps (successful) command history and each turtle's step history forward a number of steps.
@@ -92,10 +144,22 @@ public interface Session {
    * @param maxSteps the maximum number of steps to take. If negative, then will undo instead.
    * @return true if there was enough forwardhistory to go forward numSteps, false otherwise.
    */
-  boolean redo(int maxSteps);
+  @Override
+  public boolean redo(int maxSteps) {
+    return false;
+  }
 
   /**
    * Reinitializes the session to no history and only one turtle in the initial position.
    */
-  void reset();
+  @Override
+  public void reset() {
+    commandHistory.clear();
+    turtles.clear();
+    turtles.add(new Turtle(1));
+  }
+
+  private final List<Map<String, Map<String, String>>> commandHistory;
+  private final SlogoCodeRunner codeRunner;
+  private final List<Turtle> turtles;
 }
