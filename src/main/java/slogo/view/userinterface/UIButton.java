@@ -8,7 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import slogo.model.LanguageManager;
+import slogo.view.LanguageManager;
 
 /**
  * Represents a basic button in the Slogo user interface. Extends the UIElement class. It

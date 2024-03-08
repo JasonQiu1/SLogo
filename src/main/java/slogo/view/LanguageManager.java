@@ -1,4 +1,4 @@
-package slogo.model;
+package slogo.view;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;

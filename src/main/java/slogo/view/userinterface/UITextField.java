@@ -7,7 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import slogo.model.LanguageManager;
+import slogo.view.LanguageManager;
 
 /**
  * Represents a text field element in the user interface. This class provides methods to handle
