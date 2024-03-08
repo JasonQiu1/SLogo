@@ -46,7 +46,6 @@ public class TurtleController extends UIController {
   private int framesRan;
   private int numCommands;
   private boolean animationOnPause;
-  private boolean shouldRunCommands;
   private TurtleAnimator myTurtleAnimator;
 
   public TurtleController() {
@@ -139,7 +138,6 @@ public class TurtleController extends UIController {
   }
 
   private void animateTurtleViews(UITurtle turtleView) {
-    shouldRunCommands = turtleView.isShowing();
     addTurtleView(turtleView);
     updateTurtleViews();
     setAnimation();
@@ -185,9 +183,11 @@ public class TurtleController extends UIController {
     for (Integer turtleId : this.currentFrame.keySet()) {
       TurtleState state = this.currentFrame.get(turtleId);
       UITurtle turtleView = this.TURTLE_VIEWS.get("Turtle" + turtleId);
-      turtleView.setPenDown(true); // turn on pen
-      turtleView.updateState(state.position().getX(), state.position().getY(),
-          state.heading());
+      if (turtleView.isShowing()) {
+        turtleView.setPenDown(true); // turn on pen
+        turtleView.updateState(state.position().getX(), state.position().getY(),
+            state.heading());
+      }
     }
     framesRan++;
     this.currentFrame = myTurtleAnimator.nextFrame();
