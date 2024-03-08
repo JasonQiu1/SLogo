@@ -14,10 +14,12 @@ import slogo.model.api.exception.XmlException;
 public class XMLConfigurationTest {
 
   private XmlConfiguration xmlConfig;
+  private Session session;
 
   @BeforeEach
   void setup() {
     xmlConfig = new XmlConfiguration();
+    session = new Session();
   }
 
   @Test
@@ -71,14 +73,34 @@ public class XMLConfigurationTest {
   @Test
   void testLoadSessionThrowsXMLExceptionForNonexistentFile() {
     try {
-      xmlConfig.loadSession("nonexistent.file");
+      xmlConfig.loadSessionFromFile("nonexistent.file");
     } catch (XmlException e) {
       assertEquals(e.getMessage(), "Error parsing nonexistent.file");
     }
   }
 
   @Test
-  void testSaveSession() {
-    //TODO: implement this
+  void testSaveSessionCreatesCorrectFile() {
+    List<String> commands = Arrays.asList("fd 50", "rt 45");
+    String filePath = "doc/tests/saveSessionTest";
+    try {
+      session.run(commands.get(0));
+      session.run(commands.get(1));
+      xmlConfig.saveSession(session, filePath);
+
+      assertEquals(xmlConfig.loadSessionFromFile(filePath + ".slogo"), commands);
+    } catch (XmlException e) {
+      fail();
+    }
+  }
+
+  @Test
+  void testSaveSessionThrowsXMLExceptionForNonexistentFile() {
+    try {
+      xmlConfig.saveSession(session, "nonexistent.file");
+    } catch (XmlException e) {
+      assertEquals(e.getMessage(), "Error parsing nonexistent.file");
+    }
   }
 }
+

@@ -38,7 +38,7 @@ public class XmlController extends UIController {
       Session mySession = getCurrentSession();
       myXMLConfiguration.saveSession(mySession, path);
     } catch (XmlException e) {
-      //TODO: Exception Handling
+      new HelpWindow("error", getCurrentSession(), "unable to save file");
     }
   }
 

@@ -111,13 +111,12 @@ public class XmlConfiguration {
       PrintWriter writer = new PrintWriter(file);
       for (Map<String, Map<String, String>> commandMap : session.getCommandHistory(0)) {
         for (String command : commandMap.keySet()) {
-          System.out.println(command);
           writer.println(command);
         }
       }
       writer.close();
     } catch (Exception e) {
-      System.out.println("exception");
+      throw new XmlException(fileName);
     }
   }
 
