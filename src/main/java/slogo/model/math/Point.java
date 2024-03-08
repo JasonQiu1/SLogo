@@ -6,6 +6,7 @@ package slogo.model.math;
  * @author Judy He
  */
 public class Point {
+
   private double x; // The x-coordinate of the point
   private double y; // The y-coordinate of the point
 
@@ -64,8 +65,12 @@ public class Point {
    */
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null || getClass() != obj.getClass()) return false;
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
     Point other = (Point) obj;
     return Double.compare(other.x, x) == 0 && Double.compare(other.y, y) == 0;
   }
