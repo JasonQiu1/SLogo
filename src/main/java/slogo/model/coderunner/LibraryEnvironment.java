@@ -30,7 +30,7 @@ public class LibraryEnvironment extends Environment {
     defineLibraryCommands();
     random = new Random();
   }
-  
+
   private final Random random;
 
   private void defineLibraryCommands() {

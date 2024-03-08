@@ -5,7 +5,7 @@ package slogo.model.coderunner;
  *
  * @author Jason Qiu
  */
-interface Parser {
+public interface Parser {
 
   /**
    * Returns the next expression

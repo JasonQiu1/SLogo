@@ -17,7 +17,7 @@ public class SlogoCodeRunner {
    * @param turtles reference to the original list of turtles, which may be modified in-place.
    */
   public SlogoCodeRunner(List<Turtle> turtles) {
-    libraryEnvironment = new LibraryEnvironment();
+    LibraryEnvironment libraryEnvironment = new LibraryEnvironment();
     interpreter = new Interpreter(libraryEnvironment, turtles);
   }
 
@@ -39,5 +39,4 @@ public class SlogoCodeRunner {
   }
 
   private final Interpreter interpreter;
-  private final LibraryEnvironment libraryEnvironment;
 }
