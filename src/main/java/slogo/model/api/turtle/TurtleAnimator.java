@@ -121,7 +121,12 @@ public class TurtleAnimator {
     return frames;
   }
 
-  // reset frame for replying animation and changing speed during animation
+  // reset frame to the beginning
+  public Map<Integer, TurtleState> resetFrame() {
+    return resetFrame(currentPointInIntermediateStates);
+  }
+
+  // reset frame back a given number of frames
   public Map<Integer, TurtleState> resetFrame(int frames) {
     currentPointInIntermediateStates -= frames;
     return nextFrame();
@@ -150,7 +155,7 @@ public class TurtleAnimator {
   private List<TurtleState> getAngleInterStates(TurtleState initState, double angleChange) {
     List<TurtleState> interStates = new ArrayList<>();
     double currAngle = initState.heading();
-    double totalFrames = angleChange / this.pixelsPerSecond * STANDARD_FPS;
+    double totalFrames = Math.abs(angleChange) / this.pixelsPerSecond * STANDARD_FPS;
     double angleChangePerFrame = angleChange / totalFrames;
 
     for (int i = 0; i < totalFrames; i++) {
