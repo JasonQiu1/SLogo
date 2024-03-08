@@ -99,7 +99,7 @@ public class GraphicsListener implements UIListener {
       case "R", "G", "B" -> myPenController.notifyController(element);
       case "Play/Pause", "Reset", "Step" -> myTurtleController.notifyController(element);
       case "Variables", "Commands", "History", "Help" -> myHelpController.notifyController(element);
-      case "Save", "Load" -> myXmlController.notifyController(element);
+      case "Save" -> myXmlController.notifyController(element);
     }
   }
 
@@ -112,7 +112,9 @@ public class GraphicsListener implements UIListener {
       case "R", "G", "B" -> passToPen(element);
       case "Play/Pause", "Reset", "Step" -> passToTurtle(element);
       case "History" -> passToHelp(element);
-      case "Save", "Load" -> passToXML(element);
+      case "Save", "Load" -> {
+        passToXML(element);
+      }
     }
   }
 

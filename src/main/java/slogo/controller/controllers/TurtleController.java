@@ -15,13 +15,19 @@ import javax.xml.transform.TransformerException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import slogo.model.api.turtle.TurtleAnimator;
+
+import slogo.model.api.XmlConfiguration;
+import slogo.model.api.exception.XmlException;
+
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
 import slogo.view.userinterface.UIButton;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UITextField;
 import slogo.view.userinterface.UITurtle;
+import slogo.view.windows.HelpWindow;
 
 /**
  * TurtleController class implements UIController interface to manage turtle UI elements. It
@@ -35,6 +41,7 @@ public class TurtleController extends UIController {
   public static final String TURTLE_XML = "src/main/resources/selected_turtle.xml";
   private final Map<String, UITurtle> TURTLE_VIEWS = new HashMap<>();
   private Timeline animation = new Timeline();
+  private XmlConfiguration myXmlConfig = new XmlConfiguration();
   private Map<Integer, TurtleState> currentFrame;
   private int framesRan;
   private int numCommands;
@@ -59,7 +66,9 @@ public class TurtleController extends UIController {
         updateElements();
       }
       case "internalbutton" -> handleButtonInput((UIButton) element);
-      case "listview" -> {
+      case "listview" -> updateElements();
+      case "externalbutton" -> {
+        loadCommands(element);
         updateElements();
       }
     }
@@ -79,6 +88,17 @@ public class TurtleController extends UIController {
   private void runCommands(UITextField textFieldView) {
     String commands = textFieldView.getTextCommands();
     this.numCommands = this.getCurrentSession().run(commands);
+  }
+
+  private void loadCommands(UIElement element) {
+    String filePath = ((UIButton) element).getMyPath();
+    try {
+      List<String> commands = myXmlConfig.loadSessionFromFile(filePath);
+      String allCommands = String.join(" ", commands);
+      this.numCommands = getCurrentSession().run(allCommands);
+    } catch (XmlException e) {
+      new HelpWindow("error", getCurrentSession(), "unable to load file");
+    }
   }
 
   private void updateElements() {
@@ -148,6 +168,7 @@ public class TurtleController extends UIController {
     animation.setDelay(Duration.seconds(frameDuration));
     animation.setRate(myTurtleAnimator.getSpeed());
   }
+
   private void step() {
     if (!animationOnPause && !this.currentFrame.isEmpty()) {
       animateNextFrame();
@@ -155,7 +176,9 @@ public class TurtleController extends UIController {
   }
 
   private void manualStep() {
-    if (animationOnPause) animateNextFrame();
+    if (animationOnPause) {
+      animateNextFrame();
+    }
   }
 
   private void animateNextFrame() {
@@ -175,7 +198,7 @@ public class TurtleController extends UIController {
     for (Integer turtleId : this.currentFrame.keySet()) {
       TurtleState state = this.currentFrame.get(turtleId);
       UITurtle turtleView = this.TURTLE_VIEWS.get("Turtle" + turtleId);
-      for (int i = 0; i < framesRan-2; i++) {
+      for (int i = 0; i < framesRan - 2; i++) {
         turtleView.clearLastLine();
       }
       // turn off pen

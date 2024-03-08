@@ -40,10 +40,22 @@ public class ExpandCommandPage extends GeneralPage {
    */
   @Override
   public void setPage(double screenWidth, double screenHeight) {
-    Collection<UIElement> UIElements = new ArrayList<>(setupRunButton(screenWidth, screenHeight));
+    Collection<UIElement> UIElements = new ArrayList<>();
+    UIElements.addAll(setUpTextField(screenWidth, screenHeight));
+    UIElements.addAll(setupTitleText(screenWidth, screenHeight));
     myPageBuilder.styleUI(UIElements, root);
-    Text expandText = new Text(screenWidth / 6, screenHeight / 3, text);
-    root.getChildren().add(expandText);
+  }
+
+  private Collection<UIElement> setupTitleText(double screenWidth, double screenHeight) {
+    Map<String, double[]> textIDs = new HashMap<>();
+    textIDs.put("Set Parameters", new double[]{screenWidth / 2 - 40, screenHeight / 8});
+    return createElements(textIDs, "text");
+  }
+
+  private Collection<UIElement> setUpTextField(double screenWidth, double screenHeight) {
+    Map<String, double[]> textFieldIDs = new HashMap<>();
+    textFieldIDs.put(text, new double[]{screenWidth / 2 - 40, screenHeight / 8});
+    return createElements(textFieldIDs, "textfield");
   }
 
   /**
@@ -56,11 +68,5 @@ public class ExpandCommandPage extends GeneralPage {
     return root;
   }
 
-  private Collection<UIElement> setupRunButton(double screenWidth, double screenHeight) {
-    Map<String, double[]> intIDs = new HashMap<>();
-    intIDs.put("Run", new double[]{screenWidth / 2 + 60, 3 * screenHeight / 4});
-
-    return createElements(intIDs, "internalbutton");
-  }
 
 }
