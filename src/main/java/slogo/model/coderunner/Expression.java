@@ -47,6 +47,7 @@ public abstract class Expression {
   public static class Number extends Expression {
 
     Number(double value) {
+      super();
       this.value = value;
     }
 
@@ -65,6 +66,7 @@ public abstract class Expression {
   public static class Binary extends Expression {
 
     Binary(Token operator, Expression left, Expression right) {
+      super();
       this.operator = operator;
       this.left = left;
       this.right = right;
@@ -95,6 +97,7 @@ public abstract class Expression {
   public static class Unary extends Expression {
 
     Unary(Token operator, Expression right) {
+      super();
       this.operator = operator;
       this.right = right;
     }
@@ -119,6 +122,7 @@ public abstract class Expression {
   public static class Variable extends Expression {
 
     Variable(Token name) {
+      super();
       this.name = name;
     }
 
@@ -137,6 +141,7 @@ public abstract class Expression {
   public static class Call extends Expression {
 
     Call(Token commandName) {
+      super();
       this.commandName = commandName;
     }
 
@@ -155,6 +160,7 @@ public abstract class Expression {
   public static class Block extends Expression {
 
     Block(List<Expression> body, String bodySource) {
+      super();
       this.body = body;
       this.bodySource = bodySource;
     }
@@ -179,6 +185,7 @@ public abstract class Expression {
   public static class Make extends Expression {
 
     Make(Token variable, Expression value) {
+      super();
       this.variable = variable;
       this.value = value;
     }
@@ -203,6 +210,7 @@ public abstract class Expression {
   public static class For extends Expression {
 
     For(Token iterator, Expression start, Expression end, Expression increment, Block body) {
+      super();
       this.iterator = iterator;
       this.start = start;
       this.end = end;
@@ -245,6 +253,7 @@ public abstract class Expression {
   public static class IfElse extends Expression {
 
     IfElse(Expression predicate, Expression trueBranch, Expression falseBranch) {
+      super();
       this.predicate = predicate;
       this.trueBranch = trueBranch;
       this.falseBranch = falseBranch;
@@ -275,6 +284,7 @@ public abstract class Expression {
   public static class To extends Expression {
 
     To(Token commandName, List<Token> parameters, Block body) {
+      super();
       this.commandName = commandName;
       this.parameters = parameters;
       this.body = body;
@@ -305,6 +315,7 @@ public abstract class Expression {
   public static class Turtles extends Expression {
 
     Turtles() {
+      super();
     }
 
     @Override
@@ -317,6 +328,7 @@ public abstract class Expression {
   public static class Tell extends Expression {
 
     Tell(List<Expression> ids) {
+      super();
       this.ids = ids;
     }
 
@@ -335,6 +347,7 @@ public abstract class Expression {
   public static class Ask extends Expression {
 
     Ask(List<Expression> ids, Block body) {
+      super();
       this.ids = ids;
       this.body = body;
     }
@@ -359,6 +372,7 @@ public abstract class Expression {
   public static class AskWith extends Expression {
 
     AskWith(Expression predicate, Block body) {
+      super();
       this.predicate = predicate;
       this.body = body;
     }

@@ -200,6 +200,7 @@ class ExpressionClassGenerator {
     }
     classDefinition.append(") {");
     classDefinition.append("\n");
+    classDefinition.append("      super();\n");
     // constructor body
     for (String[] field : fields) {
       classDefinition.append("      this.");
