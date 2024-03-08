@@ -37,11 +37,7 @@ public class TurtleController extends UIController {
   public static final String TURTLE_XML = "src/main/resources/selected_turtle.xml";
   private final Map<String, UITurtle> TURTLE_VIEWS = new HashMap<>();
   private Timeline animation = new Timeline();
-<<<<<<<HEAD
-=======
   private XmlConfiguration myXmlConfig = new XmlConfiguration();
-  private double speed;
->>>>>>>jordan
   private Map<Integer, TurtleState> currentFrame;
   private int framesRan;
   private int numCommands;
