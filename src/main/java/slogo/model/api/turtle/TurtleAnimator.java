@@ -32,12 +32,12 @@ public class TurtleAnimator {
   private int numIntermediateStates;
   private Map<Integer, List<TurtleState>> intermediateStates;
   // WINDOW mode: The turtle can move past the edges of the screen, unbounded.
-  public static final String WINDOW_MODE_KEY = parseConfigString("WINDOW_MODE"); // get from resource file
+  public static final String WINDOW_MODE_KEY = parseConfigString("WINDOW_MODE");
   // FENCE mode: If the turtle attempts to move past the edge of the screen it will stop
-  public static final String FENCE_MODE_KEY = parseConfigString("FENCE_MODE"); // get from resource file
+  public static final String FENCE_MODE_KEY = parseConfigString("FENCE_MODE");
   // WRAP mode: If the turtle moves off the edge of the screen it will continue on the other side
   // . (default)
-  public static final String WRAP_MODE_KEY = parseConfigString("WRAP_MODE"); // get from resource file
+  public static final String WRAP_MODE_KEY = parseConfigString("WRAP_MODE");
   public static String mode = WRAP_MODE_KEY;
 
   public TurtleAnimator() {
