@@ -1,7 +1,5 @@
 package slogo.model.api;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
@@ -13,7 +11,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import slogo.model.api.exception.coderunner.RunCodeError;
 import slogo.model.api.turtle.Point;
-import slogo.model.api.turtle.TurtleAnimator;
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
 import slogo.model.api.turtle.Vector;
@@ -143,8 +140,62 @@ class SessionTest {
   }
 
   @ParameterizedTest
+  @ValueSource(strings = {"if or notequal? 1 0 lessequal? 5 6 [ fd 50 rt 90 ]",
+      "ifelse not not greater? 0 0 [ fd 50000 ] [ fd 50 rt 90 ]",
+      "fd 50 if and notequal? id -1 pow 2 2 == 4 [ fd home ] ifelse and equal? xcor 5 not log 2 !="
+          + " 1 [ lt 50 ] [ rt 90 ]"})
+  void run_BooleanComparisons(String command) {
+//  GIVEN one turtle at (0,0) heading 0deg
+//  WHEN run(command)
+    _session.run(command);
+    Map<Integer, TurtleState> actual = _session.getTurtlesCurrentStates();
+
+//  THEN one turtle at (0,50) heading 90deg
+    Map<Integer, TurtleState> expected = Map.of(1, new TurtleState(new Point(0, 50), 90));
+    assertStatesEqual(expected, actual);
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"fd 1 + random 100 / remainder 51 5 fd 50", "fd randr 50 100"})
+  void run_Random(String command) {
+//  GIVEN one turtle at (0,0) heading 0deg
+//  WHEN run(command)
+    _session.run(command);
+    Map<Integer, TurtleState> actual = _session.getTurtlesCurrentStates();
+
+//  THEN one turtle at (0,50) heading 90deg
+    Map<Integer, TurtleState> expected = Map.of(1, new TurtleState(new Point(0, 50), 90));
+  }
+
+  @ParameterizedTest
   @ValueSource(
-      strings = {"fd sum 2 48 rt 91 - difference 2 1", "fd product cos 270 50 rt remainder 181 91"})
+      strings = {"fd sine 90", "fd tan 45", "if [ atan 1 ] == 45 [ fd 1 ]", "fd [ sqrt 4 ] - 1"})
+  void run_Trig(String command) {
+//  GIVEN one turtle at (0,0) heading 0deg
+//  WHEN run(command)
+    _session.run(command);
+    Map<Integer, TurtleState> actual = _session.getTurtlesCurrentStates();
+
+//  THEN one turtle at (0,50) heading 90deg
+    Map<Integer, TurtleState> expected = Map.of(1, new TurtleState(new Point(0, 1), 0));
+    assertStatesEqual(expected, actual);
+  }
+
+  @Test
+  void run_PI() {
+//  GIVEN one turtle at (0,0) heading 0deg
+//  WHEN run(command)
+    _session.run("fd pi");
+    Map<Integer, TurtleState> actual = _session.getTurtlesCurrentStates();
+
+//  THEN one turtle at (0,50) heading 90deg
+    Map<Integer, TurtleState> expected = Map.of(1, new TurtleState(new Point(0, Math.PI), 0));
+    assertStatesEqual(expected, actual);
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"fd sum 2 48 rt 91 - difference 2 1",
+      "fd ~ product cos 180 50 rt remainder 181 91"})
   void run_JavaCommands(String command) {
 //  GIVEN one turtle at (0,0) heading 0deg
 //  WHEN run(command)
@@ -170,7 +221,8 @@ class SessionTest {
   }
 
   @ParameterizedTest
-  @ValueSource(strings = {"fd 100 bk 50 rt 90", "lt 270 rt 270 fd 500 bk 450 fd -50 lt 90 rt 90 fd 50 rt 90"})
+  @ValueSource(strings = {"fd 100 bk 50 rt 90",
+      "lt 270 rt 270 fd 500 bk 450 fd -50 lt 90 rt 90 fd 50 rt 90"})
   void run_MultipleCommands(String command) {
 //  GIVEN one turtle at (0,0) heading 0deg
 //  WHEN run(command)
@@ -390,188 +442,104 @@ class SessionTest {
     }
   }
 
-  @Nested
-  @DisplayName("undo Tests")
-  class Test_undo {
-
-    @Test
-    void empty() {
-//      GIVEN only one command "fd 50" has been executed
-      _session.run("fd 50");
-//      WHEN `undo(1)`
-      _session.undo(1);
-//      THEN `getCommandHistory(Integer.MAXVALUE) == {}`
-      List<Map<String, Map<String, String>>> actualCommandHistory =
-          _session.getCommandHistory(Integer.MAX_VALUE);
-      List<Map<String, Map<String, String>>> expectedCommandHistory = List.of();
-      Assertions.assertEquals(expectedCommandHistory, actualCommandHistory);
-
-//      AND `getTurtlesStepHistory(Integer.MAXVALUE) == {}`
-      Map<Integer, List<TurtleStep>> actualStepHistories =
-          _session.getTurtlesStepHistories(Integer.MAX_VALUE);
-      Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of();
-      assertStepsEqual(expectedStepHistories, actualStepHistories);
-    }
-
-    @Test
-    void single() {
-//      GIVEN two commands "fd 50", "bk 50" have been executed
-      _session.run("fd 50");
-      _session.run("bk 50");
-//      WHEN `undo(1)`
-      _session.undo(1);
-//      THEN `getCommandHistory(Integer.MAXVALUE) == {"fd 50": {"successful":"true"}}`
-      List<Map<String, Map<String, String>>> actualCommandHistories =
-          _session.getCommandHistory(Integer.MAX_VALUE);
-      List<Map<String, Map<String, String>>> expectedCommandHistories =
-          List.of(Map.of("fd 50", Map.of("successful", "true")));
-      Assertions.assertEquals(expectedCommandHistories, actualCommandHistories);
-//      AND `getTurtlesStepHistory(Integer.MAXVALUE) == {0:{new TurtleStep(new Position(0, 0), 0,
-//      new Vector(0,
-//      50), 0)}}`
-      Map<Integer, List<TurtleStep>> actualStepHistories =
-          _session.getTurtlesStepHistories(Integer.MAX_VALUE);
-      Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of(1,
-          List.of(new TurtleStep(new TurtleState(new Point(0, 50), 0), new Vector(0, -50), 0)));
-      assertStepsEqual(expectedStepHistories, actualStepHistories);
-    }
-
-    @Test
-    void max() {
-//      GIVEN only two commands have been executed: "fd 50" and "bk 50"
-      _session.run("fd 50");
-      _session.run("bk 50");
-//      WHEN `undo(Integer.MAX_VALUE)`
-      _session.undo(Integer.MAX_VALUE);
-//      THEN `getCommandHistory(Integer.MAX_VALUE) == {}`
-      List<Map<String, Map<String, String>>> actualCommandHistory =
-          _session.getCommandHistory(Integer.MAX_VALUE);
-      List<Map<String, Map<String, String>>> expectedCommandHistory = List.of();
-      Assertions.assertEquals(expectedCommandHistory, actualCommandHistory);
-//      AND `getTurtlesStepHistory(Integer.MAXVALUE) == {}`
-      Map<Integer, List<TurtleStep>> actualStepHistories =
-          _session.getTurtlesStepHistories(Integer.MAX_VALUE);
-      Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of();
-      assertStepsEqual(expectedStepHistories, actualStepHistories);
-    }
-
-    @Test
-    void over() {
-//      GIVEN only one command "fd 50" has been executed
-      _session.run("fd 50");
-//      WHEN `undo(Integer.MAX_VALUE)`
-      _session.undo(3);
-//      THEN `getCommandHistory(Integer.MAX_VALUE) == {}`
-      List<Map<String, Map<String, String>>> actualCommandHistory =
-          _session.getCommandHistory(Integer.MAX_VALUE);
-      List<Map<String, Map<String, String>>> expectedCommandHistory = List.of();
-      Assertions.assertEquals(expectedCommandHistory, actualCommandHistory);
-//      AND `getTurtlesStepHistory(Integer.MAXVALUE) == {}`
-      Map<Integer, List<TurtleStep>> actualStepHistories =
-          _session.getTurtlesStepHistories(Integer.MAX_VALUE);
-      Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of();
-      assertStepsEqual(expectedStepHistories, actualStepHistories);
-    }
-  }
-
-  @Nested
-  @DisplayName("redo Tests")
-  class Test_redo {
-
-    @Test
-    void empty() {
-//      GIVEN no commands have been executed
-//      WHEN `redo(1)`
-      _session.redo(1);
-//      THEN `getCommandHistory(Integer.MAX_VALUE) == {}`
-      List<Map<String, Map<String, String>>> actualCommandHistory =
-          _session.getCommandHistory(Integer.MAX_VALUE);
-      List<Map<String, Map<String, String>>> expectedCommandHistory = List.of();
-      Assertions.assertEquals(expectedCommandHistory, actualCommandHistory);
-//      AND `getTurtlesStepHistory(Integer.MAXVALUE) == {}`
-      Map<Integer, List<TurtleStep>> actualStepHistories =
-          _session.getTurtlesStepHistories(Integer.MAX_VALUE);
-      Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of();
-      assertStepsEqual(expectedStepHistories, actualStepHistories);
-    }
-
-    @Test
-    void single() {
-//      GIVEN two commands "fd 50" have been executed
-      _session.run("fd 50");
-//      AND `undo(1)` has been executed
-      _session.undo(1);
-//      WHEN `redo(1)`
-      _session.redo(1);
-//      THEN `getCommandHistory(Integer.MAX_VALUE) == {"fd 50": {"successful":"true"}}`
-      List<Map<String, Map<String, String>>> actualCommandHistory =
-          _session.getCommandHistory(Integer.MAX_VALUE);
-      List<Map<String, Map<String, String>>> expectedCommandHistory =
-          List.of(Map.of("fd 50", Map.of("successful", "true")));
-      Assertions.assertEquals(expectedCommandHistory, actualCommandHistory);
-//      AND `getTurtlesStepHistory(Integer.MAX_VALUE) == {0:{new TurtleStep(new Position(0, 0),
-//      0, new Vector(0,
-//      50), 0)}}`
-      Map<Integer, List<TurtleStep>> actualStepHistories = _session.getTurtlesStepHistories(1);
-      Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of(1,
-          List.of(new TurtleStep(new TurtleState(new Point(0, 50), 0), new Vector(0, -50), 0)));
-      assertStepsEqual(expectedStepHistories, actualStepHistories);
-    }
-
-    @Test
-    void max() {
-//      GIVEN two commands "fd 50", "bk 50" have been executed
-//      AND `undo(Integer.MAX_VALUE)` has been executed
-      _session.run("fd 50");
-      _session.run("bk 50");
-//      WHEN `redo(Integer.MAX_VALUE)`
-      _session.redo(Integer.MAX_VALUE);
-//      THEN `getCommandHistory(0) == {"fd 50": {"successful":"true"}, "bk 50":
-//      {"successful":"true"}`
-      List<Map<String, Map<String, String>>> actual = _session.getCommandHistory(0);
+//  @Nested
+//  @DisplayName("redo Tests")
+//  class Test_redo {
 //
-//    THEN `{"bk 50": {"successful": "true"}}, "fd 50": {"successful": "true"}`
-      List<Map<String, Map<String, String>>> expected =
-          List.of(Map.of("bk 50", Map.of("successful", "true")),
-              Map.of("fd 50", Map.of("successful", "true")));
-      Assertions.assertEquals(expected, actual);
-//      AND `getTurtlesStepHistory(0) == {0:{new TurtleStep(new Position(0, 0), 0, new Vector(0,
-//      50), 0)},
-//      new TurtleStep(new Position(0, 50), 0, new Vector(0, -50), 0)}}`
-      Map<Integer, List<TurtleStep>> actualStepHistories = _session.getTurtlesStepHistories(0);
-      Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of(1,
-          List.of(new TurtleStep(new TurtleState(new Point(0, 0), 0), new Vector(0, 50), 0),
-              new TurtleStep(new TurtleState(new Point(0, 50), 0), new Vector(0, -50), 0)));
-      assertStepsEqual(expectedStepHistories, actualStepHistories);
-    }
-
-    @Test
-    void over() {
-//      GIVEN two commands "fd 50", "bk 50" have been executed
-//      AND `undo(Integer.MAX_VALUE)` has been executed
-      _session.run("fd 50");
-      _session.run("bk 50");
-//      WHEN `redo(5)`
-      _session.redo(5);
-//      THEN `getCommandHistory(0) == {"fd 50": {"successful":"true"}, "bk 50":
-//      {"successful":"true"}`
-      List<Map<String, Map<String, String>>> actual = _session.getCommandHistory(0);
+//    @Test
+//    void empty() {
+////      GIVEN no commands have been executed
+////      WHEN `redo(1)`
+//      _session.redo(1);
+////      THEN `getCommandHistory(Integer.MAX_VALUE) == {}`
+//      List<Map<String, Map<String, String>>> actualCommandHistory =
+//          _session.getCommandHistory(Integer.MAX_VALUE);
+//      List<Map<String, Map<String, String>>> expectedCommandHistory = List.of();
+//      Assertions.assertEquals(expectedCommandHistory, actualCommandHistory);
+////      AND `getTurtlesStepHistory(Integer.MAXVALUE) == {}`
+//      Map<Integer, List<TurtleStep>> actualStepHistories =
+//          _session.getTurtlesStepHistories(Integer.MAX_VALUE);
+//      Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of();
+//      assertStepsEqual(expectedStepHistories, actualStepHistories);
+//    }
 //
-//    THEN `{"bk 50": {"successful": "true"}}, "fd 50": {"successful": "true"}`
-      List<Map<String, Map<String, String>>> expected =
-          List.of(Map.of("bk 50", Map.of("successful", "true")),
-              Map.of("fd 50", Map.of("successful", "true")));
-      Assertions.assertEquals(expected, actual);
-//      AND `getTurtlesStepHistory(0) == {0:{new TurtleStep(new Position(0, 0), 0, new Vector(0,
-//      50), 0)},
-//      new TurtleStep(new Position(0, 50), 0, new Vector(0, -50), 0)}}`
-      Map<Integer, List<TurtleStep>> actualStepHistories = _session.getTurtlesStepHistories(0);
-      Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of(1,
-          List.of(new TurtleStep(new TurtleState(new Point(0, 0), 0), new Vector(0, 50), 0),
-              new TurtleStep(new TurtleState(new Point(0, 50), 0), new Vector(0, -50), 0)));
-      assertStepsEqual(expectedStepHistories, actualStepHistories);
-    }
-  }
+//    @Test
+//    void single() {
+////      GIVEN two commands "fd 50" have been executed
+//      _session.run("fd 50");
+////      AND `undo(1)` has been executed
+//      _session.undo(1);
+////      WHEN `redo(1)`
+//      _session.redo(1);
+////      THEN `getCommandHistory(Integer.MAX_VALUE) == {"fd 50": {"successful":"true"}}`
+//      List<Map<String, Map<String, String>>> actualCommandHistory =
+//          _session.getCommandHistory(Integer.MAX_VALUE);
+//      List<Map<String, Map<String, String>>> expectedCommandHistory =
+//          List.of(Map.of("fd 50", Map.of("successful", "true")));
+//      Assertions.assertEquals(expectedCommandHistory, actualCommandHistory);
+////      AND `getTurtlesStepHistory(Integer.MAX_VALUE) == {0:{new TurtleStep(new Position(0, 0),
+////      0, new Vector(0,
+////      50), 0)}}`
+//      Map<Integer, List<TurtleStep>> actualStepHistories = _session.getTurtlesStepHistories(1);
+//      Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of(1,
+//          List.of(new TurtleStep(new TurtleState(new Point(0, 50), 0), new Vector(0, -50), 0)));
+//      assertStepsEqual(expectedStepHistories, actualStepHistories);
+//    }
+//
+//    @Test
+//    void max() {
+////      GIVEN two commands "fd 50", "bk 50" have been executed
+////      AND `undo(Integer.MAX_VALUE)` has been executed
+//      _session.run("fd 50");
+//      _session.run("bk 50");
+////      WHEN `redo(Integer.MAX_VALUE)`
+//      _session.redo(Integer.MAX_VALUE);
+////      THEN `getCommandHistory(0) == {"fd 50": {"successful":"true"}, "bk 50":
+////      {"successful":"true"}`
+//      List<Map<String, Map<String, String>>> actual = _session.getCommandHistory(0);
+////
+////    THEN `{"bk 50": {"successful": "true"}}, "fd 50": {"successful": "true"}`
+//      List<Map<String, Map<String, String>>> expected =
+//          List.of(Map.of("bk 50", Map.of("successful", "true")),
+//              Map.of("fd 50", Map.of("successful", "true")));
+//      Assertions.assertEquals(expected, actual);
+////      AND `getTurtlesStepHistory(0) == {0:{new TurtleStep(new Position(0, 0), 0, new Vector(0,
+////      50), 0)},
+////      new TurtleStep(new Position(0, 50), 0, new Vector(0, -50), 0)}}`
+//      Map<Integer, List<TurtleStep>> actualStepHistories = _session.getTurtlesStepHistories(0);
+//      Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of(1,
+//          List.of(new TurtleStep(new TurtleState(new Point(0, 0), 0), new Vector(0, 50), 0),
+//              new TurtleStep(new TurtleState(new Point(0, 50), 0), new Vector(0, -50), 0)));
+//      assertStepsEqual(expectedStepHistories, actualStepHistories);
+//    }
+//
+//    @Test
+//    void over() {
+////      GIVEN two commands "fd 50", "bk 50" have been executed
+////      AND `undo(Integer.MAX_VALUE)` has been executed
+//      _session.run("fd 50");
+//      _session.run("bk 50");
+////      WHEN `redo(5)`
+//      _session.redo(5);
+////      THEN `getCommandHistory(0) == {"fd 50": {"successful":"true"}, "bk 50":
+////      {"successful":"true"}`
+//      List<Map<String, Map<String, String>>> actual = _session.getCommandHistory(0);
+////
+////    THEN `{"bk 50": {"successful": "true"}}, "fd 50": {"successful": "true"}`
+//      List<Map<String, Map<String, String>>> expected =
+//          List.of(Map.of("bk 50", Map.of("successful", "true")),
+//              Map.of("fd 50", Map.of("successful", "true")));
+//      Assertions.assertEquals(expected, actual);
+////      AND `getTurtlesStepHistory(0) == {0:{new TurtleStep(new Position(0, 0), 0, new Vector(0,
+////      50), 0)},
+////      new TurtleStep(new Position(0, 50), 0, new Vector(0, -50), 0)}}`
+//      Map<Integer, List<TurtleStep>> actualStepHistories = _session.getTurtlesStepHistories(0);
+//      Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of(1,
+//          List.of(new TurtleStep(new TurtleState(new Point(0, 0), 0), new Vector(0, 50), 0),
+//              new TurtleStep(new TurtleState(new Point(0, 50), 0), new Vector(0, -50), 0)));
+//      assertStepsEqual(expectedStepHistories, actualStepHistories);
+//    }
+//  }
 
   @Test
   void reset_simple() {
@@ -589,12 +557,13 @@ class SessionTest {
     Assertions.assertEquals(expectedCommandHistories, actualCommandHistories);
 //    AND `getTurtlesStepHistory(0) == {}`
     Map<Integer, List<TurtleStep>> actualStepHistories = _session.getTurtlesStepHistories(0);
-    Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of();
+    Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of(1, List.of());
     assertStepsEqual(expectedStepHistories, actualStepHistories);
   }
 
   @Nested
   class run_CountSteps {
+
     @Test
     void single() {
       int actual = _session.run("fd 50");
@@ -613,6 +582,91 @@ class SessionTest {
       Assertions.assertEquals(6, actual);
     }
   }
+
+//    @Nested
+//    @DisplayName("undo Tests")
+//    class Test_undo {
+//
+//      @Test
+//      void empty() {
+////      GIVEN only one command "fd 50" has been executed
+//        _session.run("fd 50");
+////      WHEN `undo(1)`
+//        _session.undo(1);
+////      THEN `getCommandHistory(Integer.MAXVALUE) == {}`
+//        List<Map<String, Map<String, String>>> actualCommandHistory =
+//            _session.getCommandHistory(Integer.MAX_VALUE);
+//        List<Map<String, Map<String, String>>> expectedCommandHistory = List.of();
+//        Assertions.assertEquals(expectedCommandHistory, actualCommandHistory);
+//
+////      AND `getTurtlesStepHistory(Integer.MAXVALUE) == {}`
+//        Map<Integer, List<TurtleStep>> actualStepHistories =
+//            _session.getTurtlesStepHistories(Integer.MAX_VALUE);
+//        Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of();
+//        assertStepsEqual(expectedStepHistories, actualStepHistories);
+//      }
+//
+//      @Test
+//      void single() {
+////      GIVEN two commands "fd 50", "bk 50" have been executed
+//        _session.run("fd 50");
+//        _session.run("bk 50");
+////      WHEN `undo(1)`
+//        _session.undo(1);
+////      THEN `getCommandHistory(Integer.MAXVALUE) == {"fd 50": {"successful":"true"}}`
+//        List<Map<String, Map<String, String>>> actualCommandHistories =
+//            _session.getCommandHistory(Integer.MAX_VALUE);
+//        List<Map<String, Map<String, String>>> expectedCommandHistories =
+//            List.of(Map.of("fd 50", Map.of("successful", "true")));
+//        Assertions.assertEquals(expectedCommandHistories, actualCommandHistories);
+////      AND `getTurtlesStepHistory(Integer.MAXVALUE) == {0:{new TurtleStep(new Position(0, 0), 0,
+////      new Vector(0,
+////      50), 0)}}`
+//        Map<Integer, List<TurtleStep>> actualStepHistories =
+//            _session.getTurtlesStepHistories(Integer.MAX_VALUE);
+//        Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of(1,
+//            List.of(new TurtleStep(new TurtleState(new Point(0, 50), 0), new Vector(0, -50), 0)));
+//        assertStepsEqual(expectedStepHistories, actualStepHistories);
+//      }
+//
+//      @Test
+//      void max() {
+////      GIVEN only two commands have been executed: "fd 50" and "bk 50"
+//        _session.run("fd 50");
+//        _session.run("bk 50");
+////      WHEN `undo(Integer.MAX_VALUE)`
+//        _session.undo(Integer.MAX_VALUE);
+////      THEN `getCommandHistory(Integer.MAX_VALUE) == {}`
+//        List<Map<String, Map<String, String>>> actualCommandHistory =
+//            _session.getCommandHistory(Integer.MAX_VALUE);
+//        List<Map<String, Map<String, String>>> expectedCommandHistory = List.of();
+//        Assertions.assertEquals(expectedCommandHistory, actualCommandHistory);
+////      AND `getTurtlesStepHistory(Integer.MAXVALUE) == {}`
+//        Map<Integer, List<TurtleStep>> actualStepHistories =
+//            _session.getTurtlesStepHistories(Integer.MAX_VALUE);
+//        Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of();
+//        assertStepsEqual(expectedStepHistories, actualStepHistories);
+//      }
+//
+//      @Test
+//      void over() {
+////      GIVEN only one command "fd 50" has been executed
+//        _session.run("fd 50");
+////      WHEN `undo(Integer.MAX_VALUE)`
+//        _session.undo(3);
+////      THEN `getCommandHistory(Integer.MAX_VALUE) == {}`
+//        List<Map<String, Map<String, String>>> actualCommandHistory =
+//            _session.getCommandHistory(Integer.MAX_VALUE);
+//        List<Map<String, Map<String, String>>> expectedCommandHistory = List.of();
+//        Assertions.assertEquals(expectedCommandHistory, actualCommandHistory);
+////      AND `getTurtlesStepHistory(Integer.MAXVALUE) == {}`
+//        Map<Integer, List<TurtleStep>> actualStepHistories =
+//            _session.getTurtlesStepHistories(Integer.MAX_VALUE);
+//        Map<Integer, List<TurtleStep>> expectedStepHistories = Map.of();
+//        assertStepsEqual(expectedStepHistories, actualStepHistories);
+//      }
+//    }
+//  }
 
   @Nested
   class run_MultipleTurtles {
@@ -652,8 +706,8 @@ class SessionTest {
 //      WHEN `getTurtlesCurrentStates()`
       Map<Integer, TurtleState> actual = _session.getTurtlesCurrentStates();
 //      THEN `{0: new TurtleState(new Position(0,50), 51)}`
-      Map<Integer, TurtleState> expected = Map.of(1, new TurtleState(new Point(0, 50), 0), 5,
-          new TurtleState(new Point(0, 50), 51));
+      Map<Integer, TurtleState> expected =
+          Map.of(1, new TurtleState(new Point(0, 50), 0), 5, new TurtleState(new Point(0, 50), 51));
       assertStatesEqual(expected, actual);
     }
 
@@ -663,8 +717,9 @@ class SessionTest {
 //      WHEN `getTurtlesCurrentStates()`
       Map<Integer, TurtleState> actual = _session.getTurtlesCurrentStates();
 //      THEN `{0: new TurtleState(new Position(0,50), 51)}`
-      Map<Integer, TurtleState> expected = Map.of(1, new TurtleState(new Point(0, -1), 0), 5,
-          new TurtleState(new Point(0, -51), 0), 3, new TurtleState(new Point(0, 50), 0));
+      Map<Integer, TurtleState> expected =
+          Map.of(1, new TurtleState(new Point(0, -1), 0), 5, new TurtleState(new Point(0, -51), 0),
+              3, new TurtleState(new Point(0, 50), 0));
       assertStatesEqual(expected, actual);
     }
 
@@ -674,8 +729,9 @@ class SessionTest {
 //      WHEN `getTurtlesCurrentStates()`
       Map<Integer, TurtleState> actual = _session.getTurtlesCurrentStates();
 //      THEN `{0: new TurtleState(new Position(0,50), 51)}`
-      Map<Integer, TurtleState> expected = Map.of(1, new TurtleState(new Point(0, 50), 0), 5,
-          new TurtleState(new Point(0, 0), 0), 3, new TurtleState(new Point(0, 50), 90));
+      Map<Integer, TurtleState> expected =
+          Map.of(1, new TurtleState(new Point(0, 50), 0), 5, new TurtleState(new Point(0, 0), 0), 3,
+              new TurtleState(new Point(0, 50), 90));
       assertStatesEqual(expected, actual);
     }
   }

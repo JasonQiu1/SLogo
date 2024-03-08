@@ -63,8 +63,11 @@ class ParserStream implements Parser {
 
   private Expression unary() {
     Expression expression = literal();
+    if (expression != null) {
+      return expression;
+    }
     if (match(TokenType.TILDA)) {
-      return new Expression.Unary(previousToken, expression);
+      return new Expression.Unary(previousToken, literal());
     }
     return expression;
   }
