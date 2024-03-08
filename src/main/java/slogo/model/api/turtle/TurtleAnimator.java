@@ -5,12 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import slogo.model.math.Point;
+import slogo.model.math.Vector;
 import slogo.model.turtleutil.Turtle;
 
+/**
+ * The TurtleAnimator class manages the animation of turtles.
+ *
+ * @author Judy He
+ */
 public class TurtleAnimator {
+  private static final ResourceBundle configResourceBundle = ResourceBundle.getBundle("slogo.Configuration");
 
-  private static final String DEFAULT_RESOURCE_PACKAGE = "slogo.";
-  private static final ResourceBundle configResourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "Configuration");
+  // Constants for default turtle settings
   private static final double TURTLE_INIT_X = parseConfigDouble("TURTLE_INIT_X");
   private static final double TURTLE_INIT_Y = parseConfigDouble("TURTLE_INIT_Y");
   private static final double TURTLE_INIT_HEADING = parseConfigDouble("TURTLE_INIT_HEADING");
@@ -25,121 +32,145 @@ public class TurtleAnimator {
   private static final double DEFAULT_PIXELS_PER_SECOND = parseConfigDouble("DEFAULT_PIXELS_PER_SECOND");
   private static final double DEFAULT_SPEED = parseConfigDouble("DEFAULT_SPEED");
   private static final double DEFAULT_GRAPHICS_SCALING_FACTOR = parseConfigDouble("DEFAULT_GRAPHICS_SCALING_FACTOR");
-  private double graphicsScalingFactor;
-  private double speed;
-  private double pixelsPerSecond;
-  private final Map<Integer,Integer> CURRENT_POINT_IN_INTERMEDIATE_STATES = new HashMap<>();
-  private int numIntermediateStates;
-  private Map<Integer, List<TurtleState>> intermediateStates;
-  // WINDOW mode: The turtle can move past the edges of the screen, unbounded.
   public static final String WINDOW_MODE_KEY = parseConfigString("WINDOW_MODE");
-  // FENCE mode: If the turtle attempts to move past the edge of the screen it will stop
   public static final String FENCE_MODE_KEY = parseConfigString("FENCE_MODE");
-  // WRAP mode: If the turtle moves off the edge of the screen it will continue on the other side
-  // . (default)
   public static final String WRAP_MODE_KEY = parseConfigString("WRAP_MODE");
+
+  // Instance variables
+  private double graphicsScalingFactor = DEFAULT_GRAPHICS_SCALING_FACTOR;
+  private double speed = DEFAULT_SPEED;
+  private double pixelsPerSecond = DEFAULT_PIXELS_PER_SECOND * DEFAULT_SPEED;
+  private Map<Integer,Integer> currentPointInIntermediateStates = new HashMap<>();
+  private Map<Integer, List<TurtleState>> intermediateStates = new HashMap<>();
+  private int numIntermediateStates;
   public static String mode = WRAP_MODE_KEY;
 
+  /**
+   * Constructs a TurtleAnimator object.
+   */
   public TurtleAnimator() {
-    this.graphicsScalingFactor = DEFAULT_GRAPHICS_SCALING_FACTOR;
-    this.speed = DEFAULT_SPEED;
-    this.intermediateStates = new HashMap<>();
-    this.pixelsPerSecond = DEFAULT_PIXELS_PER_SECOND * DEFAULT_SPEED;
+
   }
 
+  /**
+   * Returns the intermediate states of all turtles.
+   * @return a map of turtle IDs to lists of turtle states representing intermediate animation states
+   */
   public Map<Integer, List<TurtleState>> getIntermediateStates() {
     return this.intermediateStates;
   }
 
+  /**
+   * Returns the initial state of the turtle.
+   * @return the initial state of the turtle
+   */
   public static TurtleState getInitialTurtleState() {
     return INITIAL_TURTLE_STATE;
   }
 
+  /**
+   * Returns the graphics scaling factor.
+   * @return the graphics scaling factor
+   */
   public double getGraphicsScalingFactor() {
     return this.graphicsScalingFactor;
   }
 
+  /**
+   * Returns the speed of the turtle.
+   * @return the speed of the turtle
+   */
   public double getSpeed() {
     return this.speed;
   }
 
+  /**
+   * Sets the speed of the turtle.
+   * @param speed the new speed of the turtle
+   */
   public void setSpeed(double speed) {
     this.speed = speed;
-    if (speed >= MAX_SPEED) {
-      pixelsPerSecond = -1;
-    } else if (speed <= MIN_SPEED) {
-      pixelsPerSecond = 1;
-    } else {
-      pixelsPerSecond = DEFAULT_PIXELS_PER_SECOND * speed;
-    }
+    updatePixelsPerSecond();
   }
 
-  // return the list of TurtleState needed to smoothly move the turtle for a given TurtleStep
+  /**
+   * Animates the movement of turtles based on given steps.
+   * @param eachTurtlesStep a map of turtle IDs to lists of turtle steps to animate
+   */
   public void animateStep(Map<Integer, List<TurtleStep>> eachTurtlesStep) {
-    for (int turtleId : eachTurtlesStep.keySet()) {
-      CURRENT_POINT_IN_INTERMEDIATE_STATES.putIfAbsent(turtleId, 0);
-      List<TurtleStep> interSteps = eachTurtlesStep.get(turtleId);
-      for (TurtleStep step : interSteps) {
-        this.intermediateStates.putIfAbsent(turtleId, new ArrayList<>());
-        List<TurtleState> interStates = getAngleInterStates(step.initialState(), step.changeInAngle());
-        this.intermediateStates.get(turtleId).addAll(interStates);
-        interStates = getMoveInterStates(step.initialState(), step.changeInPosition());
-        this.intermediateStates.get(turtleId).addAll(interStates);
-      }
-    }
+    eachTurtlesStep.forEach((turtleId, turtleSteps) -> {
+      currentPointInIntermediateStates.putIfAbsent(turtleId, 0);
+      turtleSteps.forEach(step -> {
+        intermediateStates.putIfAbsent(turtleId, new ArrayList<>());
+        intermediateStates.get(turtleId).addAll(getInterStates(step));
+      });
+    });
   }
 
+  private List<TurtleState> getInterStates(TurtleStep step) {
+    List<TurtleState> interStates = new ArrayList<>();
+    interStates.addAll(getMoveInterStates(step.initialState(), step.changeInPosition()));
+    interStates.addAll(getAngleInterStates(step.initialState(), step.changeInAngle()));
+    return interStates;
+  }
+
+  /**
+   * Calculates the next animation frame.
+   * @return a map of turtle IDs to the next turtle state in the animation
+   */
   public Map<Integer, TurtleState> nextFrame() {
     Map<Integer, TurtleState> frames = new HashMap<>();
-    for (Integer turtleId : intermediateStates.keySet()) {
-      int currentPointInIntermediateStates = CURRENT_POINT_IN_INTERMEDIATE_STATES.get(turtleId);
-      if (currentPointInIntermediateStates < this.numIntermediateStates) {
-        List<TurtleState> states = intermediateStates.get(turtleId);
-        frames.put(turtleId, states.get(currentPointInIntermediateStates));
-        CURRENT_POINT_IN_INTERMEDIATE_STATES.put(turtleId, currentPointInIntermediateStates+1);
+    intermediateStates.forEach((turtleId, states) -> {
+      int currentPoint = currentPointInIntermediateStates.get(turtleId);
+      if (currentPoint < numIntermediateStates) {
+        frames.put(turtleId, states.get(currentPoint));
+        currentPointInIntermediateStates.put(turtleId, currentPoint + 1);
       }
-    }
+    });
     return frames;
   }
 
+  /**
+   * Calculates the previous animation frame.
+   * @return a map of turtle IDs to the previous turtle state in the animation
+   */
   public Map<Integer, TurtleState> previousFrame() {
     Map<Integer, TurtleState> frames = new HashMap<>();
-    for (Integer turtleId : intermediateStates.keySet()) {
-      int currentPointInIntermediateStates = this.CURRENT_POINT_IN_INTERMEDIATE_STATES.get(turtleId)-2;
-      if (currentPointInIntermediateStates >= 0) {
-        List<TurtleState> states = intermediateStates.get(turtleId);
-        frames.put(turtleId, states.get(currentPointInIntermediateStates));
-        this.CURRENT_POINT_IN_INTERMEDIATE_STATES.put(turtleId, currentPointInIntermediateStates+1);
+    intermediateStates.forEach((turtleId, states) -> {
+      int currentPoint = currentPointInIntermediateStates.get(turtleId)-2;
+      if (currentPoint < numIntermediateStates) {
+        frames.put(turtleId, states.get(currentPoint));
+        currentPointInIntermediateStates.put(turtleId, currentPoint + 1);
       }
-    }
+    });
     return frames;
   }
 
-  // reset frame to the beginning
+  /**
+   * Resets the animation frame to the beginning.
+   * @return a map of turtle IDs to the their initial turtle state
+   */
   public Map<Integer, TurtleState> resetFrame() {
-    for (Integer turtleId : intermediateStates.keySet()) {
-      CURRENT_POINT_IN_INTERMEDIATE_STATES.put(turtleId, 0);
-    }
+    intermediateStates.keySet().forEach(turtleId -> currentPointInIntermediateStates.put(turtleId, 0));
     return nextFrame();
   }
 
-  // reset frame back a given number of frames
+  /**
+   * Resets the animation frame back a given number of frames.
+   * @param frames the number of frames to reset back
+   * @return a map of turtle IDs to the turtle states after resetting
+   */
   public Map<Integer, TurtleState> resetFrame(int frames) {
-    for (Integer turtleId : intermediateStates.keySet()) {
-      int currentPointInIntermediateStates = CURRENT_POINT_IN_INTERMEDIATE_STATES.get(turtleId)-frames;
-      CURRENT_POINT_IN_INTERMEDIATE_STATES.put(turtleId, currentPointInIntermediateStates);
-    }
+    intermediateStates.keySet().forEach(turtleId -> currentPointInIntermediateStates.put(turtleId, currentPointInIntermediateStates.get(turtleId)-frames));
     return nextFrame();
   }
 
   private List<TurtleState> getMoveInterStates(TurtleState initState, Vector posChange) {
     List<TurtleState> interStates = new ArrayList<>();
-    double pixels = posChange.getMagnitude(); // pixels / pixels/s * frames/s
+    double pixels = posChange.getMagnitude();
     TurtleState currState = new TurtleState(initState.position(), initState.heading());
-    double totalFrames = pixels / this.pixelsPerSecond * STANDARD_FPS;
-
-    Vector posChangePerFrame =
-        new Vector(posChange.getDx() / totalFrames, posChange.getDy() / totalFrames);
+    double totalFrames = pixels / pixelsPerSecond * STANDARD_FPS;
+    Vector posChangePerFrame = new Vector(posChange.getDx() / totalFrames, posChange.getDy() / totalFrames);
 
     for (int i = 0; i < totalFrames; i++) {
       Point newPos = Turtle.calculateFinalPosition(currState.position(), posChangePerFrame);
@@ -147,15 +178,14 @@ public class TurtleAnimator {
       interStates.add(currState);
     }
 
-    this.numIntermediateStates += interStates.size();
-
+    numIntermediateStates += interStates.size();
     return interStates;
   }
 
   private List<TurtleState> getAngleInterStates(TurtleState initState, double angleChange) {
     List<TurtleState> interStates = new ArrayList<>();
     double currAngle = initState.heading();
-    double totalFrames = Math.abs(angleChange) / this.pixelsPerSecond * STANDARD_FPS;
+    double totalFrames = Math.abs(angleChange) / pixelsPerSecond * STANDARD_FPS;
     double angleChangePerFrame = angleChange / totalFrames;
 
     for (int i = 0; i < totalFrames; i++) {
@@ -164,8 +194,7 @@ public class TurtleAnimator {
       interStates.add(state);
     }
 
-    this.numIntermediateStates += interStates.size();
-
+    numIntermediateStates += interStates.size();
     return interStates;
   }
 
@@ -173,8 +202,18 @@ public class TurtleAnimator {
     return Double.parseDouble(configResourceBundle.getString(key));
   }
 
-  private static String  parseConfigString(String key) {
+  private static String parseConfigString(String key) {
     return configResourceBundle.getString(key);
+  }
+
+  private void updatePixelsPerSecond() {
+    if (speed >= MAX_SPEED) {
+      pixelsPerSecond = -1;
+    } else if (speed <= MIN_SPEED) {
+      pixelsPerSecond = 1;
+    } else {
+      pixelsPerSecond = DEFAULT_PIXELS_PER_SECOND * speed;
+    }
   }
 
 }
