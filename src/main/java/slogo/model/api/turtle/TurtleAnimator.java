@@ -66,9 +66,9 @@ public class TurtleAnimator {
 
   public void setSpeed(double speed) {
     this.speed = speed;
-    if (speed == MAX_SPEED) {
-      pixelsPerSecond = Integer.MAX_VALUE;
-    } else if (speed < MIN_SPEED) {
+    if (speed >= MAX_SPEED) {
+      pixelsPerSecond = -1;
+    } else if (speed <= MIN_SPEED) {
       pixelsPerSecond = 1;
     } else {
       pixelsPerSecond = DEFAULT_PIXELS_PER_SECOND * speed;
@@ -81,15 +81,11 @@ public class TurtleAnimator {
       CURRENT_POINT_IN_INTERMEDIATE_STATES.putIfAbsent(turtleId, 0);
       List<TurtleStep> interSteps = eachTurtlesStep.get(turtleId);
       for (TurtleStep step : interSteps) {
-        if (step.changeInAngle() != 0) {
-          List<TurtleState> interStates = getAngleInterStates(step.initialState(), step.changeInAngle());
-          this.intermediateStates.putIfAbsent(turtleId, new ArrayList<>());
-          this.intermediateStates.get(turtleId).addAll(interStates);
-        } else {
-          List<TurtleState> interStates = getMoveInterStates(step.initialState(), step.changeInPosition());
-          this.intermediateStates.putIfAbsent(turtleId, new ArrayList<>());
-          this.intermediateStates.get(turtleId).addAll(interStates);
-        }
+        this.intermediateStates.putIfAbsent(turtleId, new ArrayList<>());
+        List<TurtleState> interStates = getAngleInterStates(step.initialState(), step.changeInAngle());
+        this.intermediateStates.get(turtleId).addAll(interStates);
+        interStates = getMoveInterStates(step.initialState(), step.changeInPosition());
+        this.intermediateStates.get(turtleId).addAll(interStates);
       }
     }
   }
@@ -110,7 +106,7 @@ public class TurtleAnimator {
   public Map<Integer, TurtleState> previousFrame() {
     Map<Integer, TurtleState> frames = new HashMap<>();
     for (Integer turtleId : intermediateStates.keySet()) {
-      int currentPointInIntermediateStates = this.CURRENT_POINT_IN_INTERMEDIATE_STATES.get(turtleId)-3;
+      int currentPointInIntermediateStates = this.CURRENT_POINT_IN_INTERMEDIATE_STATES.get(turtleId)-2;
       if (currentPointInIntermediateStates >= 0) {
         List<TurtleState> states = intermediateStates.get(turtleId);
         frames.put(turtleId, states.get(currentPointInIntermediateStates));
