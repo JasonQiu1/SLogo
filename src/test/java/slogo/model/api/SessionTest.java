@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import slogo.model.api.exception.coderunner.RunCodeError;
-import slogo.model.api.turtle.Point;
+import slogo.model.math.Point;
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
-import slogo.model.api.turtle.Vector;
+import slogo.model.math.Vector;
 
 class SessionTest {
 
@@ -30,8 +30,8 @@ class SessionTest {
   }
 
   void assertEquals(Vector expected, Vector actual) {
-    Assertions.assertEquals(expected.getDx(), actual.getDx(), Math.abs(expected.getDx()) / 1e3);
-    Assertions.assertEquals(expected.getDy(), actual.getDy(), Math.abs(expected.getDy()) / 1e3);
+    Assertions.assertEquals(expected.dx(), actual.dx(), Math.abs(expected.dx()) / 1e3);
+    Assertions.assertEquals(expected.dy(), actual.dy(), Math.abs(expected.dy()) / 1e3);
   }
 
   void assertEquals(TurtleState expected, TurtleState actual) {

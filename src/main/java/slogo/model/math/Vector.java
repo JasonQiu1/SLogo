@@ -1,62 +1,50 @@
-package slogo.model.api.turtle;
+package slogo.model.math;
 
-public class Vector {
+/**
+ * Represents a 2D vector with components dx and dy.
+ *
+ * @author Judy He
+ */
+public record Vector(double dx, double dy) {
 
-  private double dx;
-  private double dy;
-  private double magnitude; // length
-  private double direction; // angle
-
-  public Vector(double dx, double dy) {
-    this.dx = dx;
-    this.dy = dy;
-    this.magnitude = this.calculateMagnitude(this);
-    this.direction = this.calculateAngle(this);
-  }
-
-  public double getDx() {
-    return dx;
-  }
-
-  public double getDy() {
-    return dy;
-  }
-
+  /**
+   * Calculates the magnitude of the vector.
+   *
+   * @return the magnitude of the vector
+   */
   public double getMagnitude() {
-    return magnitude;
+    return Math.sqrt(dx * dx + dy * dy);
   }
 
+  /**
+   * Calculates the direction of the vector in degrees.
+   *
+   * @return the direction of the vector in degrees
+   */
   public double getDirection() {
-    return direction;
+    if (dy == 0 || dx == 0) {
+      return 0;
+    }
+    return Math.toDegrees(Math.atan(dx / dy));
   }
 
-  public void setDirection(double direction) {
-    this.direction = direction;
-  }
-
+  /**
+   * Checks if this vector is equal to another object.
+   *
+   * @param other the object to compare with
+   * @return true if the objects are equal, false otherwise
+   */
   @Override
   public boolean equals(Object other) {
     if (this == other) {
       return true;
     }
-    if (other == null) {
-      return false;
-    }
-    if (getClass() != other.getClass()) {
+    if (other == null || getClass() != other.getClass()) {
       return false;
     }
     Vector otherVector = (Vector) other;
-    return this.getMagnitude() == otherVector.getMagnitude()
-        && this.getDirection() == otherVector.getDirection();
-  }
-
-  private double calculateAngle(Vector v) {
-    if (v.getDy() == 0 || v.getDx() == 0) return 0;
-    return Math.toDegrees(Math.atan(v.getDx()/v.getDy()));
-  }
-
-  private double calculateMagnitude(Vector v) {
-    return Math.sqrt(Math.pow(v.getDx(),2) + Math.pow(v.getDy(),2));
+    return Double.compare(otherVector.dx, dx) == 0 &&
+        Double.compare(otherVector.dy, dy) == 0;
   }
 
 }

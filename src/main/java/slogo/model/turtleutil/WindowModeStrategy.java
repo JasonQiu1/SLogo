@@ -1,16 +1,13 @@
 package slogo.model.turtleutil;
 
 import java.util.List;
-import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
-import slogo.model.math.Point;
-import slogo.model.math.Vector;
 
-public class WindowMode implements Mode {
+public class WindowModeStrategy implements ModeStrategy {
 
   @Override
   public List<TurtleStep> move(Turtle turtle, double distance) {
-    // Implementation for window mode behavior
+    return null;
   }
 
 }

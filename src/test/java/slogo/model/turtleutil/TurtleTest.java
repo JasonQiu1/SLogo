@@ -6,11 +6,11 @@ import java.util.*;
 import org.junit.jupiter.api.*;
 
 import slogo.model.api.exception.turtle.InvalidPositionException;
-import slogo.model.api.turtle.Point;
+import slogo.model.math.Point;
 import slogo.model.api.turtle.TurtleAnimator;
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
-import slogo.model.api.turtle.Vector;
+import slogo.model.math.Vector;
 
 public class TurtleTest {
   private Turtle myTurtle;
@@ -170,7 +170,7 @@ public class TurtleTest {
     TurtleStep expectedStep1 = new TurtleStep(expectedInitState1, expectedPositionChange1, expectedAngelChange1);
 
     TurtleState expectedInitState2 = new TurtleState(new Point(-150,150/Math.sin(Math.toRadians(75)) * Math.cos(Math.toRadians(75))), 75);
-    Vector expectedPositionChange2 = new Vector(200 * Math.sin(Math.toRadians(75)) - 150, 200 * Math.cos(Math.toRadians(75)) - expectedPositionChange1.getDy());
+    Vector expectedPositionChange2 = new Vector(200 * Math.sin(Math.toRadians(75)) - 150, 200 * Math.cos(Math.toRadians(75)) - expectedPositionChange1.dy());
     double expectedAngelChange2 = 0;
     TurtleStep expectedStep2 = new TurtleStep(expectedInitState2, expectedPositionChange2, expectedAngelChange2);
     List<TurtleStep> expectedSteps = List.of(expectedStep1, expectedStep2);

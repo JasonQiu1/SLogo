@@ -1,7 +1,7 @@
 package slogo.model.coderunner;
 
 import java.util.List;
-import slogo.model.api.turtle.Point;
+import slogo.model.math.Point;
 import slogo.model.api.turtle.TurtleStep;
 import slogo.model.turtleutil.Turtle;
 

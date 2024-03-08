@@ -170,7 +170,7 @@ public class TurtleAnimator {
     double pixels = posChange.getMagnitude();
     TurtleState currState = new TurtleState(initState.position(), initState.heading());
     double totalFrames = pixels / pixelsPerSecond * STANDARD_FPS;
-    Vector posChangePerFrame = new Vector(posChange.getDx() / totalFrames, posChange.getDy() / totalFrames);
+    Vector posChangePerFrame = new Vector(posChange.dx() / totalFrames, posChange.dy() / totalFrames);
 
     for (int i = 0; i < totalFrames; i++) {
       Point newPos = Turtle.calculateFinalPosition(currState.position(), posChangePerFrame);

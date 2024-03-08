@@ -151,7 +151,7 @@ public class Turtle {
           -1 * currStep.changeInAngle());
     } else {
       Vector oldPosChange = currStep.changeInPosition();
-      Vector updatedPosChange = new Vector(oldPosChange.getDx() * -1, oldPosChange.getDy() * -1);
+      Vector updatedPosChange = new Vector(oldPosChange.dx() * -1, oldPosChange.dy() * -1);
       backwardStep = new TurtleStep(this.currentState, updatedPosChange, currStep.changeInAngle());
     }
 
@@ -234,7 +234,7 @@ public class Turtle {
 
     this.currentState = new TurtleState(finalPos, this.currentState.heading());
 
-    wrapMove(dx - interPosChange.getDx(), dy - interPosChange.getDy(), intermediateSteps);
+    wrapMove(dx - interPosChange.dx(), dy - interPosChange.dy(), intermediateSteps);
   }
 
   private Vector findInterPosChange(double dx, double dy) {
@@ -337,8 +337,8 @@ public class Turtle {
   }
 
   public static Point calculateFinalPosition(Point initialPosition, Vector vector) {
-    double xFinal = initialPosition.getX() + vector.getDx();
-    double yFinal = initialPosition.getY() + vector.getDy();
+    double xFinal = initialPosition.getX() + vector.dx();
+    double yFinal = initialPosition.getY() + vector.dy();
 
     return new Point(xFinal, yFinal);
   }
