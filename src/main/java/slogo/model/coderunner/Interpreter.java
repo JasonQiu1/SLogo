@@ -117,7 +117,11 @@ public class Interpreter implements Visitor {
 
   @Override
   public double visitVariable(Variable expression) {
-    return currentEnvironment.lookupVariable(expression.getName());
+    try {
+      return currentEnvironment.lookupVariable(expression.getName());
+    } catch (RunCodeError error) {
+      return 0.0;
+    }
   }
 
   @Override
