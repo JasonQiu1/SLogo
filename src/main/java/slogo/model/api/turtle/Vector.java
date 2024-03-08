@@ -1,7 +1,5 @@
 package slogo.model.api.turtle;
 
-import slogo.model.turtleutil.TurtleGeometry;
-
 public class Vector {
 
   private double dx;
@@ -12,8 +10,8 @@ public class Vector {
   public Vector(double dx, double dy) {
     this.dx = dx;
     this.dy = dy;
-    this.magnitude = TurtleGeometry.calculateMagnitude(this);
-    this.direction = TurtleGeometry.calculateAngle(this);
+    this.magnitude = this.calculateMagnitude(this);
+    this.direction = this.calculateAngle(this);
   }
 
   public double getDx() {
@@ -50,6 +48,15 @@ public class Vector {
     Vector otherVector = (Vector) other;
     return this.getMagnitude() == otherVector.getMagnitude()
         && this.getDirection() == otherVector.getDirection();
+  }
+
+  private double calculateAngle(Vector v) {
+    if (v.getDy() == 0 || v.getDx() == 0) return 0;
+    return Math.toDegrees(Math.atan(v.getDx()/v.getDy()));
+  }
+
+  private double calculateMagnitude(Vector v) {
+    return Math.sqrt(Math.pow(v.getDx(),2) + Math.pow(v.getDy(),2));
   }
 
 }
