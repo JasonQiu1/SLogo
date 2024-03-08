@@ -31,6 +31,7 @@ public class LibraryEnvironment extends Environment {
     random = new Random();
   }
 
+  private static final String TOKEN_LINE_PLACEHOLDER = "library command";
   private final Random random;
 
   private void defineLibraryCommands() {
@@ -58,13 +59,13 @@ public class LibraryEnvironment extends Environment {
     defineCommand("product", new JavaCommand(List.of("a", "b"), args -> args.get(0) * args.get(1)));
     defineCommand("quotient", new JavaCommand(List.of("a", "b"), args -> {
       if (args.get(1) == 0) {
-        throw new RunCodeError(ErrorType.RUNTIME, "divideByZero", -1, "library command");
+        throw new RunCodeError(ErrorType.RUNTIME, "divideByZero", -1, TOKEN_LINE_PLACEHOLDER);
       }
       return args.get(0) / args.get(1);
     }));
     defineCommand("remainder", new JavaCommand(List.of("a", "b"), args -> {
       if (args.get(1) == 0) {
-        throw new RunCodeError(ErrorType.RUNTIME, "moduloByZero", -1, "library command");
+        throw new RunCodeError(ErrorType.RUNTIME, "moduloByZero", -1, TOKEN_LINE_PLACEHOLDER);
       }
       return args.get(0) % args.get(1);
     }));
@@ -86,21 +87,23 @@ public class LibraryEnvironment extends Environment {
     defineAlias("tan", "tangent");
     defineCommand("arctangent", new JavaCommand(List.of("degrees"), args -> {
       if (args.get(0) == 0) {
-        throw new RunCodeError(ErrorType.RUNTIME, "arctangentByZero", -1, "library command");
+        throw new RunCodeError(ErrorType.RUNTIME, "arctangentByZero", -1, TOKEN_LINE_PLACEHOLDER);
       }
       return Math.toDegrees(Math.atan(Math.toRadians(args.get(0))));
     }));
     defineAlias("atan", "arctangent");
     defineCommand("squareroot", new JavaCommand(List.of("x"), args -> {
       if (args.get(0) < 0) {
-        throw new RunCodeError(ErrorType.RUNTIME, "sqrtByNegativeNumber", -1, "library command");
+        throw new RunCodeError(ErrorType.RUNTIME, "sqrtByNegativeNumber", -1,
+            TOKEN_LINE_PLACEHOLDER);
       }
       return Math.sqrt(args.get(0));
     }));
     defineAlias("sqrt", "squareroot");
     defineCommand("log", new JavaCommand(List.of("x"), args -> {
       if (args.get(0) <= 0) {
-        throw new RunCodeError(ErrorType.RUNTIME, "logByNonPositiveNumber", -1, "library command");
+        throw new RunCodeError(ErrorType.RUNTIME, "logByNonPositiveNumber", -1,
+            TOKEN_LINE_PLACEHOLDER);
       }
       return Math.log(args.get(0));
     }));
