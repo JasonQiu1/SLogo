@@ -8,6 +8,7 @@ import slogo.model.api.Session;
 import slogo.model.api.exception.coderunner.RunCodeError;
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
+import slogo.model.coderunner.CodeRunner;
 import slogo.model.coderunner.SlogoCodeRunner;
 import slogo.model.turtleutil.Turtle;
 
@@ -160,6 +161,6 @@ public class SessionImplementation implements Session {
   }
 
   private final List<Map<String, Map<String, String>>> commandHistory;
-  private final SlogoCodeRunner codeRunner;
+  private final CodeRunner codeRunner;
   private final List<Turtle> turtles;
 }
