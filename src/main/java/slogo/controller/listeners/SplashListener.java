@@ -6,6 +6,7 @@ import slogo.controller.controllers.LanguageController;
 import slogo.controller.controllers.ThemeController;
 import slogo.controller.controllers.TurtleController;
 import slogo.controller.controllers.HelpController;
+import slogo.controller.controllers.XmlController;
 import slogo.view.userinterface.UIElement;
 
 /**
@@ -17,18 +18,20 @@ import slogo.view.userinterface.UIElement;
 public class SplashListener implements UIListener {
 
   private final ThemeController myThemeController;
-  private final TurtleController myTurtleController;
   private final LanguageController myLanguageController;
   private final HelpController myHelpController;
+  private final XmlController myXmlController;
+  private final TurtleController myTurtleController;
 
   /**
    * Constructor for SplashListener.
    */
   public SplashListener() {
     myThemeController = new ThemeController();
-    myTurtleController = new TurtleController();
     myLanguageController = new LanguageController();
     myHelpController = new HelpController();
+    myXmlController = new XmlController();
+    myTurtleController = new TurtleController();
   }
 
   /**
@@ -59,8 +62,8 @@ public class SplashListener implements UIListener {
 
   private void handleButtonElement(UIElement element) {
     switch (element.getID()) {
-      case "TurtleSelector" -> myTurtleController.notifyController(element);
-      case "Variables", "Commands", "History", "Help" -> myHelpController.notifyController(element);
+      case "TurtleSelector", "Load File" -> myTurtleController.notifyController(element);
+      case "Help" -> myHelpController.notifyController(element);
     }
   }
 }

@@ -1,5 +1,6 @@
 package slogo.controller.controllers;
 
+import java.util.List;
 import java.util.Map;
 import slogo.model.api.Session;
 import slogo.model.api.XmlConfiguration;
@@ -28,7 +29,6 @@ public class XmlController extends UIController {
   public void notifyController(UIElement element) {
     switch (element.getID()) {
       case "Save" -> saveSession(((UIButton) element).getMyPath());
-      case "Load" -> loadSession(((UIButton) element).getMyPath());
       case "library commands" -> expandCommand(((UIListView) element).getSelectedItem());
     }
   }
@@ -38,15 +38,7 @@ public class XmlController extends UIController {
       Session mySession = getCurrentSession();
       myXMLConfiguration.saveSession(mySession, path);
     } catch (XmlException e) {
-      //TODO: Exception Handling
-    }
-  }
-
-  private void loadSession(String filePath) {
-    try {
-      setSession(myXMLConfiguration.loadSession(filePath));
-    } catch (XmlException e) {
-      //TODO: Exception Handling
+      new HelpWindow("error", getCurrentSession(), "unable to save file");
     }
   }
 

@@ -429,7 +429,7 @@
     <description>
       Gets the turtle's heading in degrees
     </description>
-    <example>set var heading</example>
+    <example>make :var heading</example>
     <return>The heading in degrees</return>
     <num_parameters>0</num_parameters>
     <implementation>HeadingCommand</implementation>
@@ -465,7 +465,7 @@
     <description>
       Determines the turtle's x-coordinate
     </description>
-    <example>set var xcor</example>
+    <example>make :var xcor</example>
     <return>The X coordinate from the center of the screen</return>
     <num_parameters>0</num_parameters>
     <implementation>XCorCommand</implementation>
@@ -477,7 +477,7 @@
     <description>
       Determines the turtle's y-coordinate
     </description>
-    <example>set var ycor</example>
+    <example>make :var ycor</example>
     <return>The Y coordinate from the center of the screen</return>
     <num_parameters>0</num_parameters>
     <implementation>YCorCommand</implementation>
@@ -640,7 +640,7 @@
     <description>
       Assigns the value of expr to variable, creating the variable if necessary
     </description>
-    <example>set var 5 (returns 5)</example>
+    <example>make :var 5 (returns 5)</example>
     <parameters>
       <parameter>variable: the variable to set</parameter>
       <parameter>expr: the value to set the variable to</parameter>
@@ -779,7 +779,7 @@
       Note: this value can always be used to identify the current turtle running a command, since
       there is only one turtle actively running each command.
     </description>
-    <example>set var ID (assigns ID of current turtle to var)</example>
+    <example>make :var ID (assigns ID of current turtle to var)</example>
     <return>The current active turtle's ID number</return>
     <num_parameters>0</num_parameters>
     <implementation>IDCommand</implementation>
@@ -791,7 +791,7 @@
     <description>
       Get the number of turtles that are defined in the workspace
     </description>
-    <example>set var turtles (assigns number of turtles defined to var)</example>
+    <example>make :var turtles (assigns number of turtles defined to var)</example>
     <return>The number of turtles that are defined in the workspace</return>
     <num_parameters>0</num_parameters>
     <implementation>TurtleCommand</implementation>

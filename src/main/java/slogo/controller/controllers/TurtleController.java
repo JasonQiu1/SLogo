@@ -15,12 +15,19 @@ import javax.xml.transform.TransformerException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import slogo.model.api.turtle.TurtleAnimator;
+
+import slogo.model.api.XmlConfiguration;
+import slogo.model.api.exception.XmlException;
+
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
 import slogo.view.userinterface.UIButton;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UITextField;
 import slogo.view.userinterface.UITurtle;
+import slogo.view.windows.HelpWindow;
 
 /**
  * TurtleController class implements UIController interface to manage turtle UI elements. It
@@ -34,11 +41,17 @@ public class TurtleController extends UIController {
   public static final String TURTLE_XML = "src/main/resources/selected_turtle.xml";
   private final Map<String, UITurtle> TURTLE_VIEWS = new HashMap<>();
   private Timeline animation = new Timeline();
+  private XmlConfiguration myXmlConfig = new XmlConfiguration();
   private Map<Integer, TurtleState> currentFrame;
   private int framesRan;
   private int numCommands;
   private boolean animationOnPause;
   private boolean shouldRunCommands;
+  private TurtleAnimator myTurtleAnimator;
+
+  public TurtleController() {
+    myTurtleAnimator = new TurtleAnimator();
+  }
 
   /**
    * Notifies the turtle controller about changes in UI elements.
@@ -53,7 +66,9 @@ public class TurtleController extends UIController {
         updateElements();
       }
       case "internalbutton" -> handleButtonInput((UIButton) element);
-      case "listview" -> {
+      case "listview" -> updateElements();
+      case "externalbutton" -> {
+        loadCommands(element);
         updateElements();
       }
     }
@@ -63,8 +78,8 @@ public class TurtleController extends UIController {
   private void setAnimation() {
     animation = new Timeline();
     animation.setCycleCount(Timeline.INDEFINITE);
-    double frameDuration = 1.0 / (this.getTurtleAnimator().getSpeed()
-        * this.getTurtleAnimator().STANDARD_FPS); // Calculate the duration for the KeyFrame
+    double frameDuration = 1.0 / (myTurtleAnimator.getSpeed()
+        * this.myTurtleAnimator.STANDARD_FPS); // Calculate the duration for the KeyFrame
     animation.getKeyFrames()
         .add(new KeyFrame(Duration.seconds(frameDuration), e -> step()));
     animation.play();
@@ -73,6 +88,17 @@ public class TurtleController extends UIController {
   private void runCommands(UITextField textFieldView) {
     String commands = textFieldView.getTextCommands();
     this.numCommands = this.getCurrentSession().run(commands);
+  }
+
+  private void loadCommands(UIElement element) {
+    String filePath = ((UIButton) element).getMyPath();
+    try {
+      List<String> commands = myXmlConfig.loadSessionFromFile(filePath);
+      String allCommands = String.join(" ", commands);
+      this.numCommands = getCurrentSession().run(allCommands);
+    } catch (XmlException e) {
+      new HelpWindow("error", getCurrentSession(), "unable to load file");
+    }
   }
 
   private void updateElements() {
@@ -85,7 +111,10 @@ public class TurtleController extends UIController {
       case "TurtleSelector" -> saveTurtleSelection(button.getMyPath());
       case "Play/Pause" -> pausePlayAnimation();
       case "Step" -> manualStep();
-      case "0.5x", "1x", "2x", "4x" -> updateAnimationSpeed();
+      case "0.5x" -> updateAnimationSpeed(0.5);
+      case "1x" -> updateAnimationSpeed(1);
+      case "2x" -> updateAnimationSpeed(2);
+      case "4x" -> updateAnimationSpeed(4);
       case "Reset" -> replayAnimation();
     }
   }
@@ -124,20 +153,22 @@ public class TurtleController extends UIController {
     framesRan = 0;
     Map<Integer, List<TurtleStep>> totalSteps = this.getCurrentSession()
         .getTurtlesStepHistories(numCommands);
-    this.getTurtleAnimator().animateStep(totalSteps);
-    this.currentFrame = this.getTurtleAnimator().nextFrame();
+    myTurtleAnimator.animateStep(totalSteps);
+    this.currentFrame = myTurtleAnimator.nextFrame();
   }
 
   private void pausePlayAnimation() {
     animationOnPause = !animationOnPause;
   }
 
-  private void updateAnimationSpeed() {
-    double frameDuration = 1.0 / (this.getTurtleAnimator().getSpeed()
-        * this.getTurtleAnimator().STANDARD_FPS); // Calculate the duration for the KeyFrame
+  private void updateAnimationSpeed(double speed) {
+    myTurtleAnimator.setSpeed(speed);
+    double frameDuration = 1.0 / (myTurtleAnimator.getSpeed()
+        * myTurtleAnimator.STANDARD_FPS); // Calculate the duration for the KeyFrame
     animation.setDelay(Duration.seconds(frameDuration));
-    animation.setRate(this.getTurtleAnimator().getSpeed());
+    animation.setRate(myTurtleAnimator.getSpeed());
   }
+
   private void step() {
     if (!animationOnPause && !this.currentFrame.isEmpty()) {
       animateNextFrame();
@@ -145,7 +176,9 @@ public class TurtleController extends UIController {
   }
 
   private void manualStep() {
-    if (animationOnPause) animateNextFrame();
+    if (animationOnPause) {
+      animateNextFrame();
+    }
   }
 
   private void animateNextFrame() {
@@ -157,15 +190,15 @@ public class TurtleController extends UIController {
           state.heading());
     }
     framesRan++;
-    this.currentFrame = this.getTurtleAnimator().nextFrame();
+    this.currentFrame = myTurtleAnimator.nextFrame();
   }
 
   private void replayAnimation() {
-    this.currentFrame = this.getTurtleAnimator().resetFrame(framesRan);
+    this.currentFrame = myTurtleAnimator.resetFrame(framesRan);
     for (Integer turtleId : this.currentFrame.keySet()) {
       TurtleState state = this.currentFrame.get(turtleId);
       UITurtle turtleView = this.TURTLE_VIEWS.get("Turtle" + turtleId);
-      for (int i = 0; i < framesRan-2; i++) {
+      for (int i = 0; i < framesRan - 2; i++) {
         turtleView.clearLastLine();
       }
       // turn off pen

@@ -106,13 +106,18 @@ public class PageBuilder {
         button.setMenuClassic();
         button.addFolderOpener(myStage, "saved_files");
       }
+      case "Load File" -> {
+        button.setMenuClassic();
+        button.addOpenPage("GraphicsPage");
+        button.addFolderOpener(myStage, "saved_files");
+      }
       case "Save" -> {
         button.setMenuClassic();
         button.addSaveFolder(myStage, "saved_files");
       }
       case "Create" -> {
         button.setMenuClassic();
-        button.addOpenPage(myStage, "GraphicsPage");
+        button.addOpenPage("GraphicsPage");
       }
       case "Help" -> {
         button.setMenuClassic();
@@ -120,7 +125,7 @@ public class PageBuilder {
       }
       case "Home" -> {
         button.setHomeClassic();
-        button.addOpenPage(myStage, "SplashPage");
+        button.addOpenPage("SplashPage");
       }
       case "Variables", "Commands", "History" -> {
         button.setGUIClassic();

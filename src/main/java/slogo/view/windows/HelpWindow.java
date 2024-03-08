@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import slogo.model.api.Session;
 import slogo.view.pages.CommandPage;
+import slogo.view.pages.ErrorPage;
 import slogo.view.pages.ExpandCommandPage;
 import slogo.view.pages.ExpandVariablePage;
 import slogo.view.pages.GeneralPage;
@@ -81,6 +82,9 @@ public class HelpWindow {
       }
       case "variable expand" -> {
         return new ExpandVariablePage(helpStage, session, expandText);
+      }
+      case "error" -> {
+        return new ErrorPage(helpStage, expandText);
       }
       default -> {
         throw new TypeNotPresentException(pageType, new Throwable("Not Found"));

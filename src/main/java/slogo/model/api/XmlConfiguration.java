@@ -1,11 +1,14 @@
 package slogo.model.api;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -63,31 +66,34 @@ public class XmlConfiguration {
     }
   }
 
+  @Deprecated
+  public Session loadSession(String fileName) throws XmlException {
+    try {
+      List<String> commands = getCommandsFromFile(fileName);
+      Session session = new Session();
+
+      for (String command : commands) {
+        session.run(command);
+      }
+
+      return session;
+    } catch (IOException e) {
+      throw new XmlException(fileName);
+    }
+  }
+
   /**
    * Load a session from saved information in an XML file
    *
    * @param fileName The name of the XML file with saved session information
    * @return Session with state specified in XML file
    */
-  public Session loadSession(String fileName) throws XmlException {
+  public List<String> loadSessionFromFile(String fileName) throws XmlException {
     try {
-      DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-      DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-      Document doc = documentBuilder.parse(fileName);
+      List<String> commands = getCommandsFromFile(fileName);
 
-      Element root = doc.getDocumentElement();
-      root.normalize();
-
-      NodeList commandList = root.getElementsByTagName(commandTag);
-      Session newSession = new Session();
-
-      for (int currIndex = 0; currIndex < commandList.getLength(); currIndex++) {
-        newSession.run(commandList.item(currIndex).getTextContent());
-      }
-
-      return newSession;
-
-    } catch (Exception e) {
+      return commands;
+    } catch (IOException e) {
       throw new XmlException(fileName);
     }
   }
@@ -99,60 +105,19 @@ public class XmlConfiguration {
    * @param fileName The name of the XML file to save the session information to
    */
   public void saveSession(Session session, String fileName) throws XmlException {
+    File file = new File(fileName + ".slogo");
+
     try {
-      DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-      DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-
-      Document document = documentBuilder.newDocument();
-      Element root = document.createElement("session");
-      document.appendChild(root);
-
-      Element commandHistory = document.createElement("command_history");
-      root.appendChild(commandHistory);
-
+      PrintWriter writer = new PrintWriter(file);
       for (Map<String, Map<String, String>> commandMap : session.getCommandHistory(0)) {
-        for (Entry<String, Map<String, String>> command : commandMap.entrySet()) {
-          createCommandEntry(command, document, commandHistory);
+        for (String command : commandMap.keySet()) {
+          writer.println(command);
         }
       }
-
-      File file = new File(fileName + ".slogo");
-      FileOutputStream fos = new FileOutputStream(file);
-      javax.xml.transform.TransformerFactory.newInstance().newTransformer()
-          .transform(new javax.xml.transform.dom.DOMSource(document),
-              new javax.xml.transform.stream.StreamResult(fos));
-      fos.close();
+      writer.close();
     } catch (Exception e) {
       throw new XmlException(fileName);
     }
-  }
-
-  private void createCommandEntry(Entry<String, Map<String, String>> command, Document document,
-      Element commandHistory) {
-    Element commandEntry = document.createElement("command_entry");
-    commandHistory.appendChild(commandEntry);
-
-    Element commandElement = document.createElement(commandTag);
-    commandElement.setTextContent(command.getKey());
-    commandEntry.appendChild(commandElement);
-
-    Element metaDatEntryElement = document.createElement("meta_data_entry");
-    commandEntry.appendChild(metaDatEntryElement);
-
-    for (Entry<String, String> metaData : command.getValue().entrySet()) {
-      createMetaDataEntry(metaData, document, metaDatEntryElement);
-    }
-  }
-
-  private void createMetaDataEntry(Entry<String, String> metaData, Document document,
-      Element metaDataEntryElement) {
-    Element metaDataTitle = document.createElement("meta_data_title");
-    metaDataTitle.setTextContent(metaData.getKey());
-    metaDataEntryElement.appendChild(metaDataTitle);
-
-    Element metaDataContent = document.createElement("meta_data_content");
-    metaDataContent.setTextContent(metaData.getValue());
-    metaDataEntryElement.appendChild(metaDataContent);
   }
 
   private String createCommandInfo(Element element) {
@@ -196,5 +161,64 @@ public class XmlConfiguration {
     tagList.add("Example");
     tagList.add("Return");
     return tagList;
+  }
+
+  private List<String> getCommandsFromFile(String fileName) throws IOException {
+    List<String> commands = new ArrayList<>();
+    BufferedReader reader = new BufferedReader(new FileReader(fileName));
+    String line;
+    int numOpenBrackets = 0;
+    boolean append = false;
+
+    while ((line = reader.readLine()) != null) {
+      if (!line.startsWith("#") && !line.isEmpty()) {
+        line = line.trim();
+        parseLine(line.trim(), commands, append, numOpenBrackets);
+        numOpenBrackets += determineNumNewOpenBrackets(line);
+        append = determineAppend(append, line, numOpenBrackets);
+      }
+    }
+    return commands;
+  }
+
+  private boolean determineAppend(Boolean append, String line, int numOpenBrackets) {
+    if (line.startsWith("[") || line.endsWith("[")) {
+      return true;
+    } else if (line.startsWith("]") && numOpenBrackets == 0) {
+      return false;
+    } else {
+      return append;
+    }
+  }
+
+  private int determineNumNewOpenBrackets(String line) {
+    if (line.startsWith("[") || line.endsWith("[")) {
+      return 1;
+    } else if (line.startsWith("]")) {
+      return -1;
+    } else {
+      return 0;
+    }
+  }
+
+  private void parseLine(String line, List<String> commands, boolean append, int numOpenBrackets) {
+    int index = commands.size() - 1;
+    if (line.startsWith("[")) {
+      commands.set(index, commands.get(index) + " [");
+    } else if (line.endsWith("[")) {
+      if (numOpenBrackets > 0) {
+        commands.set(index, commands.get(index) + " " + line);
+      } else {
+        commands.add(line);
+      }
+    } else if (line.startsWith("]")) {
+      commands.set(index, commands.get(index) + "]");
+    } else {
+      if (append) {
+        commands.set(index, commands.get(index) + line + " ");
+      } else {
+        commands.add(line);
+      }
+    }
   }
 }
