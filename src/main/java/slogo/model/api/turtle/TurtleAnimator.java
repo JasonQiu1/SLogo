@@ -19,7 +19,7 @@ public class TurtleAnimator {
   private static final double MIN_SPEED = 0; // get from resource file
   public final double STANDARD_FPS = 24.0; // standard FPS for animations is 24 -  get from resource file
   private static final double DEFAULT_PIXELS_PER_SECOND = 50.0; //  get from resource file
-  private static final double DEFAULT_SPEED = 0.5; //  get from resource file
+  private static final double DEFAULT_SPEED = 1.0; //  get from resource file
   private static final double DEFAULT_GRAPHICS_SCALING_FACTOR = 1.0; //  get from resource file
   private double graphicsScalingFactor;
   private double speed;
@@ -155,7 +155,7 @@ public class TurtleAnimator {
   private List<TurtleState> getAngleInterStates(TurtleState initState, double angleChange) {
     List<TurtleState> interStates = new ArrayList<>();
     double currAngle = initState.heading();
-    double totalFrames = angleChange / this.pixelsPerSecond * STANDARD_FPS;
+    double totalFrames = Math.abs(angleChange) / this.pixelsPerSecond * STANDARD_FPS;
     double angleChangePerFrame = angleChange / totalFrames;
 
     for (int i = 0; i < totalFrames; i++) {
