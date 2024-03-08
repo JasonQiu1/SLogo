@@ -1,5 +1,10 @@
 package slogo.model.api.turtle;
 
+/**
+ * Representation of a point in the xy plane
+ *
+ * @author Judy He
+ */
 public class Point {
   private double x;
   private double y;

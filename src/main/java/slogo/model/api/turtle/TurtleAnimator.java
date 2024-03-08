@@ -4,22 +4,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import slogo.model.turtleutil.Turtle;
 
 public class TurtleAnimator {
 
-  private static final TurtleState INITIAL_TURTLE_STATE = new TurtleState(new Point(0.0, 0.0), 0.0);
-  // get from resource file
-  public static final double X_MIN = -150; // get from resource file
-  public static final double X_MAX = 150; // get from resource file
-  public static final double Y_MIN = -150; // get from resource file
-  public static final double Y_MAX = 150; // get from resource file
-  private static final double MAX_SPEED = 10; // get from resource file
-  private static final double MIN_SPEED = 0; // get from resource file
-  public final double STANDARD_FPS = 24.0; // standard FPS for animations is 24 -  get from resource file
-  private static final double DEFAULT_PIXELS_PER_SECOND = 50.0; //  get from resource file
-  private static final double DEFAULT_SPEED = 1.0; //  get from resource file
-  private static final double DEFAULT_GRAPHICS_SCALING_FACTOR = 1.0; //  get from resource file
+  private static final String DEFAULT_RESOURCE_PACKAGE = "slogo.";
+  private static final ResourceBundle configResourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "Configuration");
+  private static final double TURTLE_INIT_X = parseConfigDouble("TURTLE_INIT_X");
+  private static final double TURTLE_INIT_Y = parseConfigDouble("TURTLE_INIT_Y");
+  private static final double TURTLE_INIT_HEADING = parseConfigDouble("TURTLE_INIT_HEADING");
+  private static final TurtleState INITIAL_TURTLE_STATE = new TurtleState(new Point(TURTLE_INIT_X, TURTLE_INIT_Y), TURTLE_INIT_HEADING);
+  public static final double X_MIN = parseConfigDouble("X_MIN"); // get from resource file
+  public static final double X_MAX = parseConfigDouble("X_MAX");
+  public static final double Y_MIN = parseConfigDouble("Y_MIN");
+  public static final double Y_MAX = parseConfigDouble("Y_MAX");
+  private static final double MAX_SPEED = parseConfigDouble("MAX_SPEED");
+  private static final double MIN_SPEED = parseConfigDouble("MIN_SPEED");
+  public final double STANDARD_FPS = parseConfigDouble("STANDARD_FPS");
+  private static final double DEFAULT_PIXELS_PER_SECOND = parseConfigDouble("DEFAULT_PIXELS_PER_SECOND");
+  private static final double DEFAULT_SPEED = parseConfigDouble("DEFAULT_SPEED");
+  private static final double DEFAULT_GRAPHICS_SCALING_FACTOR = parseConfigDouble("DEFAULT_GRAPHICS_SCALING_FACTOR");
   private double graphicsScalingFactor;
   private double speed;
   private double pixelsPerSecond;
@@ -27,12 +32,12 @@ public class TurtleAnimator {
   private int numIntermediateStates;
   private Map<Integer, List<TurtleState>> intermediateStates;
   // WINDOW mode: The turtle can move past the edges of the screen, unbounded.
-  public static final String WINDOW_MODE_KEY = "window"; // get from resource file
+  public static final String WINDOW_MODE_KEY = parseConfigString("WINDOW_MODE"); // get from resource file
   // FENCE mode: If the turtle attempts to move past the edge of the screen it will stop
-  public static final String FENCE_MODE_KEY = "fence"; // get from resource file
+  public static final String FENCE_MODE_KEY = parseConfigString("FENCE_MODE"); // get from resource file
   // WRAP mode: If the turtle moves off the edge of the screen it will continue on the other side
   // . (default)
-  public static final String WRAP_MODE_KEY = "wrap"; // get from resource file
+  public static final String WRAP_MODE_KEY = parseConfigString("WRAP_MODE"); // get from resource file
   public static String mode = WRAP_MODE_KEY;
 
   public TurtleAnimator() {
@@ -40,12 +45,10 @@ public class TurtleAnimator {
     this.speed = DEFAULT_SPEED;
     this.intermediateStates = new HashMap<>();
     this.pixelsPerSecond = DEFAULT_PIXELS_PER_SECOND * DEFAULT_SPEED;
-    // set default mode: wrap
-    mode = WRAP_MODE_KEY;
   }
 
   public Map<Integer, List<TurtleState>> getIntermediateStates() {
-    return intermediateStates;
+    return this.intermediateStates;
   }
 
   public static TurtleState getInitialTurtleState() {
@@ -53,7 +56,7 @@ public class TurtleAnimator {
   }
 
   public double getGraphicsScalingFactor() {
-    return graphicsScalingFactor;
+    return this.graphicsScalingFactor;
   }
 
   public double getSpeed() {
@@ -164,6 +167,14 @@ public class TurtleAnimator {
     this.numIntermediateStates += interStates.size();
 
     return interStates;
+  }
+
+  private static double parseConfigDouble(String key) {
+    return Double.parseDouble(configResourceBundle.getString(key));
+  }
+
+  private static String  parseConfigString(String key) {
+    return configResourceBundle.getString(key);
   }
 
 }

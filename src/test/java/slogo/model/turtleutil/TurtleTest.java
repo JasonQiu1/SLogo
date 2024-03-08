@@ -14,13 +14,9 @@ import slogo.model.api.turtle.Vector;
 
 public class TurtleTest {
   private Turtle myTurtle;
-  private TurtleAnimator myTurtleAnimator;
-
   @BeforeEach
   void setup () {
     myTurtle = new Turtle(1);
-    myTurtleAnimator = new TurtleAnimator();
-
   }
 
   @Test

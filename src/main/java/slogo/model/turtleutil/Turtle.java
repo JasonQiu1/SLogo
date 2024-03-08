@@ -25,7 +25,7 @@ public class Turtle {
   private final List<TurtleStepExtended> stepHistory;
   private int currentPointInStepHistory;
   private static final String DEFAULT_RESOURCE_PACKAGE = "slogo.model.";
-  private final ResourceBundle errorResourceBundle;
+  private final ResourceBundle errorResourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ErrorsEnglish");
 
   /**
    * Constructor for instantiating a new Turtle
@@ -36,7 +36,6 @@ public class Turtle {
     this.currentState = TurtleAnimator.getInitialTurtleState();
     this.stepHistory = new ArrayList<>();
     this.currentPointInStepHistory= 0;
-    this.errorResourceBundle = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ErrorsEnglish");
   }
 
   /**
