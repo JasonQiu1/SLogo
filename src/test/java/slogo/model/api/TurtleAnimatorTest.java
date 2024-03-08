@@ -31,7 +31,7 @@ public class TurtleAnimatorTest {
 
     List<TurtleState> expectedInterStates = new ArrayList<>();
     for (double i = 1.0; i <= 24.0; i++) {
-      TurtleState state = new TurtleState(new Point(0.0,round(50.0 / 24.0 * i, 10)),0.0);
+      TurtleState state = new TurtleState(new Point(0.0,round(50.0 / 24.0 * i)),0.0);
       expectedInterStates.add(state);
     }
 
@@ -47,7 +47,7 @@ public class TurtleAnimatorTest {
 
     List<TurtleState> expectedInterStates = new ArrayList<>();
     for (int i = 1; i <= 6; i++) {
-      TurtleState state = new TurtleState(new Point(0,round(50.0 / 24.0 * i * 4, 10)),0);
+      TurtleState state = new TurtleState(new Point(0,round(50.0 / 24.0 * i * 4)),0);
       expectedInterStates.add(state);
     }
 
@@ -100,7 +100,7 @@ public class TurtleAnimatorTest {
   void testNextFrame() {
     prepareMove();
     Map<Integer, TurtleState> nextFrame = myTurtleAnimator.nextFrame();
-    TurtleState expectedNextFrame = new TurtleState(new Point(0.0,round(50.0 / 24.0, 10)),0);
+    TurtleState expectedNextFrame = new TurtleState(new Point(0.0,round(50.0 / 24.0)),0);
     Map<Integer, TurtleState> expectedFrames = new HashMap<>();
     expectedFrames.put(0,expectedNextFrame);
 
@@ -116,7 +116,7 @@ public class TurtleAnimatorTest {
     myTurtleAnimator.nextFrame();
     myTurtleAnimator.nextFrame();
     Map<Integer, TurtleState> nextFrame = myTurtleAnimator.previousFrame();
-    TurtleState expectedNextFrame = new TurtleState(new Point(0.0,round(50.0 / 24.0 * 3, 10)),0);
+    TurtleState expectedNextFrame = new TurtleState(new Point(0.0,round(50.0 / 24.0 * 3)),0);
     Map<Integer, TurtleState> expectedFrames = new HashMap<>();
     expectedFrames.put(0,expectedNextFrame);
 
@@ -132,7 +132,7 @@ public class TurtleAnimatorTest {
     myTurtleAnimator.nextFrame();
     myTurtleAnimator.nextFrame();
     Map<Integer, TurtleState> nextFrame = myTurtleAnimator.resetFrame();
-    TurtleState expectedNextFrame = new TurtleState(new Point(0.0,round(50.0 / 24.0, 10)),0);
+    TurtleState expectedNextFrame = new TurtleState(new Point(0.0,round(50.0 / 24.0)),0);
     Map<Integer, TurtleState> expectedFrames = new HashMap<>();
     expectedFrames.put(0,expectedNextFrame);
 
@@ -148,7 +148,7 @@ public class TurtleAnimatorTest {
     myTurtleAnimator.nextFrame();
     myTurtleAnimator.nextFrame();
     Map<Integer, TurtleState> nextFrame = myTurtleAnimator.resetFrame(3);
-    TurtleState expectedNextFrame = new TurtleState(new Point(0.0,round(50.0 / 24.0 * 2, 10)),0);
+    TurtleState expectedNextFrame = new TurtleState(new Point(0.0,round(50.0 / 24.0 * 2)),0);
     Map<Integer, TurtleState> expectedFrames = new HashMap<>();
     expectedFrames.put(0,expectedNextFrame);
 
@@ -178,8 +178,8 @@ public class TurtleAnimatorTest {
       Iterator<TurtleState> expectedIter = expectedInterStates.iterator();
       while (iter.hasNext() && expectedIter.hasNext()) {
         TurtleState state = iter.next();
-        state.position().setX(round(state.position().getX(), 10));
-        state.position().setY(round(state.position().getY(), 10));
+        state.position().setX(round(state.position().getX()));
+        state.position().setY(round(state.position().getY()));
         TurtleState expected = expectedIter.next();
         assertEquals(expected.position(), state.position());
         assertEquals(expected.heading(), state.heading());
@@ -191,16 +191,16 @@ public class TurtleAnimatorTest {
   private void checkFrame(Map<Integer, TurtleState> states, Map<Integer, TurtleState> expected) {
     for (Integer turtleId: states.keySet()) {
       TurtleState state = states.get(turtleId);
-      state.position().setX(round(state.position().getX(), 10));
-      state.position().setY(round(state.position().getY(), 10));
+      state.position().setX(round(state.position().getX()));
+      state.position().setY(round(state.position().getY()));
       assertEquals(expected.get(turtleId).position(), states.get(turtleId).position());
       assertEquals(expected.get(turtleId).heading(), states.get(turtleId).heading());
     }
 
   }
 
-  private static double round(double value, int precision) {
-    int scale = (int) Math.pow(10, precision);
+  private static double round(double value) {
+    int scale = (int) Math.pow(10, 10);
     return (double) Math.round(value * scale) / scale;
   }
 
