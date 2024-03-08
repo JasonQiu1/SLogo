@@ -25,13 +25,13 @@ import slogo.model.command.library.YCor;
  */
 public class LibraryEnvironment extends Environment {
 
-  Random random;
-
   public LibraryEnvironment() {
     super(null);
     defineLibraryCommands();
     random = new Random();
   }
+  
+  private final Random random;
 
   private void defineLibraryCommands() {
     defineCommand("forward", new Forward());
