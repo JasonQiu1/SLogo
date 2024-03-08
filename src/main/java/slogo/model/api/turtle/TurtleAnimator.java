@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import slogo.model.turtleutil.TurtleGeometry;
 
 public class TurtleAnimator {
@@ -24,9 +23,9 @@ public class TurtleAnimator {
   private double graphicsScalingFactor;
   private double speed;
   private double pixelsPerSecond;
-  private int currentPointInIntermediateStates;
+  private final Map<Integer,Integer> CURRENT_POINT_IN_INTERMEDIATE_STATES = new HashMap<>();
   private int numIntermediateStates;
-  private final Map<Integer, List<TurtleState>> intermediateStates;
+  private Map<Integer, List<TurtleState>> intermediateStates;
   // WINDOW mode: The turtle can move past the edges of the screen, unbounded.
   public static final String WINDOW_MODE_KEY = "window"; // get from resource file
   // FENCE mode: If the turtle attempts to move past the edge of the screen it will stop
@@ -67,9 +66,9 @@ public class TurtleAnimator {
 
   public void setSpeed(double speed) {
     this.speed = speed;
-    if (speed == MAX_SPEED) {
-      pixelsPerSecond = Integer.MAX_VALUE;
-    } else if (speed < MIN_SPEED) {
+    if (speed >= MAX_SPEED) {
+      pixelsPerSecond = -1;
+    } else if (speed <= MIN_SPEED) {
       pixelsPerSecond = 1;
     } else {
       pixelsPerSecond = DEFAULT_PIXELS_PER_SECOND * speed;
@@ -79,56 +78,58 @@ public class TurtleAnimator {
   // return the list of TurtleState needed to smoothly move the turtle for a given TurtleStep
   public void animateStep(Map<Integer, List<TurtleStep>> eachTurtlesStep) {
     for (int turtleId : eachTurtlesStep.keySet()) {
+      CURRENT_POINT_IN_INTERMEDIATE_STATES.putIfAbsent(turtleId, 0);
       List<TurtleStep> interSteps = eachTurtlesStep.get(turtleId);
       for (TurtleStep step : interSteps) {
-        if (step.changeInAngle() != 0) {
-          List<TurtleState> interStates = getAngleInterStates(step.initialState(), step.changeInAngle());
-          this.intermediateStates.putIfAbsent(turtleId, new ArrayList<>());
-          this.intermediateStates.get(turtleId).addAll(interStates);
-        } else {
-          List<TurtleState> interStates = getMoveInterStates(step.initialState(), step.changeInPosition());
-          this.intermediateStates.putIfAbsent(turtleId, new ArrayList<>());
-          this.intermediateStates.get(turtleId).addAll(interStates);
-        }
+        this.intermediateStates.putIfAbsent(turtleId, new ArrayList<>());
+        List<TurtleState> interStates = getAngleInterStates(step.initialState(), step.changeInAngle());
+        this.intermediateStates.get(turtleId).addAll(interStates);
+        interStates = getMoveInterStates(step.initialState(), step.changeInPosition());
+        this.intermediateStates.get(turtleId).addAll(interStates);
       }
     }
   }
 
   public Map<Integer, TurtleState> nextFrame() {
     Map<Integer, TurtleState> frames = new HashMap<>();
-    if (currentPointInIntermediateStates == this.numIntermediateStates) {
-      return frames;
-    }
     for (Integer turtleId : intermediateStates.keySet()) {
-      List<TurtleState> states = intermediateStates.get(turtleId);
-      frames.put(turtleId, states.get(currentPointInIntermediateStates));
+      int currentPointInIntermediateStates = CURRENT_POINT_IN_INTERMEDIATE_STATES.get(turtleId);
+      if (currentPointInIntermediateStates < this.numIntermediateStates) {
+        List<TurtleState> states = intermediateStates.get(turtleId);
+        frames.put(turtleId, states.get(currentPointInIntermediateStates));
+        CURRENT_POINT_IN_INTERMEDIATE_STATES.put(turtleId, currentPointInIntermediateStates+1);
+      }
     }
-    currentPointInIntermediateStates++;
     return frames;
   }
 
   public Map<Integer, TurtleState> previousFrame() {
     Map<Integer, TurtleState> frames = new HashMap<>();
-    currentPointInIntermediateStates -= 2;
-    if (currentPointInIntermediateStates < 0) {
-      return frames;
-    }
     for (Integer turtleId : intermediateStates.keySet()) {
-      List<TurtleState> states = intermediateStates.get(turtleId);
-      frames.put(turtleId, states.get(currentPointInIntermediateStates));
+      int currentPointInIntermediateStates = this.CURRENT_POINT_IN_INTERMEDIATE_STATES.get(turtleId)-2;
+      if (currentPointInIntermediateStates >= 0) {
+        List<TurtleState> states = intermediateStates.get(turtleId);
+        frames.put(turtleId, states.get(currentPointInIntermediateStates));
+        this.CURRENT_POINT_IN_INTERMEDIATE_STATES.put(turtleId, currentPointInIntermediateStates+1);
+      }
     }
-    currentPointInIntermediateStates++;
     return frames;
   }
 
   // reset frame to the beginning
   public Map<Integer, TurtleState> resetFrame() {
-    return resetFrame(currentPointInIntermediateStates);
+    for (Integer turtleId : intermediateStates.keySet()) {
+      CURRENT_POINT_IN_INTERMEDIATE_STATES.put(turtleId, 0);
+    }
+    return nextFrame();
   }
 
   // reset frame back a given number of frames
   public Map<Integer, TurtleState> resetFrame(int frames) {
-    currentPointInIntermediateStates -= frames;
+    for (Integer turtleId : intermediateStates.keySet()) {
+      int currentPointInIntermediateStates = CURRENT_POINT_IN_INTERMEDIATE_STATES.get(turtleId)-frames;
+      CURRENT_POINT_IN_INTERMEDIATE_STATES.put(turtleId, currentPointInIntermediateStates);
+    }
     return nextFrame();
   }
 

@@ -40,23 +40,4 @@ public class TurtleGeometry {
 
     return new Point(xFinal, yFinal);
   }
-//  protected static Point calculateFacingPosition(Point initialPosition, double angle) {
-//
-//    return initialPosition;
-//  }
-//
-////  protected static double getAngleBetweenTwoVectors(Vector v1, Vector v2) {
-////    double dotProduct = dotProduct(v1, v2);
-////    double magProduct = v1.getMagnitude() * v2.getMagnitude();
-////    return Math.toDegrees(Math.acos(dotProduct / magProduct));
-////  }
-//
-//  private static double dotProduct(Vector v1, Vector v2) {
-//    return v1.getDx() * v2.getDx() + v1.getDy() * v2.getDy();
-//  }
-//  private static Vector crossProduct(Vector v1, Vector v2) {
-//
-//    return v1;
-//  }
-
 }
