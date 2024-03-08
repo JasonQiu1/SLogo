@@ -14,6 +14,7 @@ import slogo.model.math.Point;
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
 import slogo.model.math.Vector;
+import slogo.model.session.SessionImplementation;
 
 class SessionTest {
 
@@ -21,7 +22,7 @@ class SessionTest {
 
   @BeforeEach
   void setUp() {
-    _session = new Session();
+    _session = new SessionImplementation();
   }
 
   void assertEquals(Point expected, Point actual) {
@@ -584,7 +585,7 @@ class SessionTest {
 
     @Test
     void loop() {
-      int actual = _session.run("repeat 1800 [fd 10 rt :repcount + .1]");
+      int actual = _session.run("repeat 1800 [fd 10 rt :repcount + 0.1]");
       Assertions.assertEquals(3600, actual);
     }
   }
