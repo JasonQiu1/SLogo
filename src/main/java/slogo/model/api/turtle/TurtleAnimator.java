@@ -39,8 +39,8 @@ public class TurtleAnimator {
   public TurtleAnimator() {
     this.graphicsScalingFactor = DEFAULT_GRAPHICS_SCALING_FACTOR;
     this.speed = DEFAULT_SPEED;
-    intermediateStates = new HashMap<>();
-    pixelsPerSecond = DEFAULT_PIXELS_PER_SECOND;
+    this.intermediateStates = new HashMap<>();
+    this.pixelsPerSecond = DEFAULT_PIXELS_PER_SECOND * DEFAULT_SPEED;
     // set default mode: wrap
     mode = WRAP_MODE_KEY;
   }
