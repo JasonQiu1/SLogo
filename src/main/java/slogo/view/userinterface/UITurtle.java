@@ -54,6 +54,7 @@ public class UITurtle extends UIElement {
     this.Y_ORIGIN = y;
     this.initHeading = 0;
     this.penDown = false;
+    myTurtle.setOnMouseClicked(click -> showTurtle(!isShowing()));
     setSpecialType("Turtle");
     setPosition(x, y);
   }
@@ -138,11 +139,12 @@ public class UITurtle extends UIElement {
   }
 
   public void showTurtle(Boolean doShow) {
-    myTurtle.setDisable(!doShow);
+    sendSignal();
+    setStatus(doShow);
   }
 
   public Boolean isShowing() {
-    return myTurtle.isDisable();
+    return myTurtle.getOpacity() > 0.5;
   }
 
   public void clearLastLine() {

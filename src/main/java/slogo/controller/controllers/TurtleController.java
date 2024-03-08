@@ -40,6 +40,7 @@ public class TurtleController extends UIController {
   private int framesRan;
   private int numCommands;
   private boolean animationOnPause;
+  private boolean shouldRunCommands;
 
   /**
    * Notifies the turtle controller about changes in UI elements.
@@ -111,6 +112,7 @@ public class TurtleController extends UIController {
   }
 
   private void animateTurtleViews(UITurtle turtleView) {
+    shouldRunCommands = turtleView.isShowing();
     addTurtleView(turtleView);
     updateTurtleViews();
     setAnimation();
@@ -178,13 +180,4 @@ public class TurtleController extends UIController {
       turtleView.setPenDown(true);
     }
   }
-
-    private void showTurtle(UITurtle turtle, Boolean doShow) {
-        turtle.showTurtle(doShow);
-    }
-
-    private Boolean isShowTurtle(UITurtle turtle) {
-        return turtle.isShowing();
-    }
-
 }

@@ -54,19 +54,6 @@ public class UIButton extends UIElement {
   }
 
   /**
-   * Sets the status of the button.
-   *
-   * @param selected True to set the button as selected, false otherwise.
-   */
-  public void setStatus(Boolean selected) {
-    if (selected) {
-      myButton.setOpacity(1.0f);
-    } else {
-      myButton.setOpacity(0.2f);
-    }
-  }
-
-  /**
    * Retrieves the path associated with the button.
    *
    * @return The path associated with the button.

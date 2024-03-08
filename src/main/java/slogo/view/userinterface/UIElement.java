@@ -112,4 +112,17 @@ public class UIElement {
       return "english";
     }
   }
+
+  /**
+   * Sets the status of the button.
+   *
+   * @param selected True to set the button as selected, false otherwise.
+   */
+  public void setStatus(Boolean selected) {
+    if (selected) {
+      myElement.setOpacity(1.0f);
+    } else {
+      myElement.setOpacity(0.2f);
+    }
+  }
 }
