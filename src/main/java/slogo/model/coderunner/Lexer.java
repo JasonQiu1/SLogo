@@ -81,12 +81,10 @@ class Lexer {
         }
       }
       default -> {
-        // logic operators
         Token logicOperator = matchLogicOperator(currentChar);
         if (logicOperator != null) {
           yield logicOperator;
         }
-        // aggregates
         Token aggregateToken = matchAggregateToken(currentChar);
         if (aggregateToken != null) {
           yield aggregateToken;

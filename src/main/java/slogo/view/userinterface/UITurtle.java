@@ -33,6 +33,7 @@ public class UITurtle extends UIElement {
   private final double initHeading;
   private double x, y, heading;
   private UIPen myPen;
+  private boolean penDown;
 
   /**
    * Constructs a UITurtle object with the specified turtle ID, x, and y coordinates.
@@ -52,6 +53,7 @@ public class UITurtle extends UIElement {
     this.X_ORIGIN = x;
     this.Y_ORIGIN = y;
     this.initHeading = 0;
+    this.penDown = false;
     setSpecialType("Turtle");
     setPosition(x, y);
   }
@@ -91,18 +93,23 @@ public class UITurtle extends UIElement {
     double xInitial = this.x;
     double yInitial = this.y;
 
+    // check bounds
     if (xInitial >= X_MAX + X_ORIGIN) {
       xInitial = X_MIN + X_ORIGIN;
+      this.penDown = false;
     }
     else if (xInitial <= X_MIN + X_ORIGIN) {
       xInitial = X_MAX + X_ORIGIN;
+      this.penDown = false;
     }
 
     if (yInitial >= Y_MAX + Y_ORIGIN) {
       yInitial = Y_MIN + Y_ORIGIN;
+      this.penDown = false;
     }
     else if (yInitial <= Y_MIN + Y_ORIGIN) {
       yInitial = Y_MAX + Y_ORIGIN;
+      this.penDown = false;
     }
 
     this.x = X_ORIGIN + x;
@@ -112,23 +119,20 @@ public class UITurtle extends UIElement {
     this.heading = initHeading + angle;
     myTurtle.setRotate(this.heading);
 
-    draw(xInitial, yInitial, this.x, this.y);
+    if (penDown) draw(xInitial, yInitial, this.x, this.y);
   }
 
   private void draw(double xInitial, double yInitial, double xFinal, double yFinial) {
-//    double currX = this.x - myTurtle.getRadius();
-//    double currY = this.y - myTurtle.getRadius();
-//
-//    double nextX = initX - x - myTurtle.getRadius();
-//    double nextY = initY - y - myTurtle.getRadius();
-    myPen.draw(xInitial - myTurtle.getRadius(), yInitial- myTurtle.getRadius(), xFinal - myTurtle.getRadius(), yFinial - myTurtle.getRadius());
+      myPen.draw(xInitial - myTurtle.getRadius(), yInitial- myTurtle.getRadius(), xFinal - myTurtle.getRadius(), yFinial - myTurtle.getRadius());
   }
 
+  public void setPenDown(boolean penDown) {
+    this.penDown = penDown;
+  }
 
   public void setPen(UIPen pen) {
     myPen = pen;
   }
-
   public void clearScreen() {
     myPen.clearScreen();
   }

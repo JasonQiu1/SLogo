@@ -69,11 +69,10 @@ public class Turtle {
     List<TurtleStep> history = new ArrayList<>();
     int startInd = 0;
     if (maxLength < this.stepHistory.size()) {
-      startInd = currentPointInStepHistory;
+      startInd = currentPointInStepHistory-1;
       int count = 0;
       while (count != maxLength) {
-        startInd--;
-        while (this.stepHistory.get(startInd).crossBorderIntermediateStep()) {
+        while (startInd-1 >= 0 && this.stepHistory.get(startInd-1).crossBorderIntermediateStep()) {
           startInd--;
         }
         count++;

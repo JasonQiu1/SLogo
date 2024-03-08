@@ -96,7 +96,7 @@ public class GraphicsListener implements UIListener {
         turtleController.notifyController(element);
       }
       case "R", "G", "B" -> myPenController.notifyController(element);
-      case "Play/Pause", "Reset", "Step"-> turtleController.notifyController(element);
+      case "Play/Pause", "Reset", "Step" -> turtleController.notifyController(element);
       case "Variables", "Commands", "History", "Help" -> myHelpController.notifyController(element);
       case "Save", "Load" -> myXmlController.notifyController(element);
     }

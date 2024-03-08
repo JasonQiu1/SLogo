@@ -155,8 +155,7 @@ class ParserStream implements Parser {
     Block body = consumeBlock();
     Token plusToken = new Token(TokenType.PLUS, null, -1, TOKEN_LINE_PLACEHOLDER);
     Expression end = new Expression.Binary(plusToken, times, new Expression.Number(1));
-    return new Expression.For(
-        new Token(TokenType.VARIABLE, "repcount", -1, TOKEN_LINE_PLACEHOLDER),
+    return new Expression.For(new Token(TokenType.VARIABLE, "repcount", -1, TOKEN_LINE_PLACEHOLDER),
         new Expression.Number(1), end, new Expression.Number(1), body);
   }
 
