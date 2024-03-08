@@ -60,13 +60,8 @@ public class SplashListener implements UIListener {
 
   private void handleButtonElement(UIElement element) {
     switch (element.getID()) {
-      case "TurtleSelector" -> turtleController.notifyController(element);
+      case "TurtleSelector", "Load File" -> turtleController.notifyController(element);
       case "Help" -> myHelpController.notifyController(element);
-      case "Load" -> {
-        myXmlController.notifyController(element);
-        turtleController.notifyController(element);
-      }
-
     }
   }
 }

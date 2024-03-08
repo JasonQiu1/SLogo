@@ -39,7 +39,6 @@ public class GraphicsListener implements UIListener {
    * Constructor for GraphicsListener.
    */
   public GraphicsListener() {
-    System.out.println("graphics session " + SESSION);
     myBackgroundController = new BackgroundController();
     mySpeedController = new SpeedController();
     myPenController = new PenController();
@@ -97,9 +96,10 @@ public class GraphicsListener implements UIListener {
         turtleController.notifyController(element);
       }
       case "R", "G", "B" -> myPenController.notifyController(element);
-      case "Play/Pause", "Reset", "Step" -> turtleController.notifyController(element);
+      case "Play/Pause", "Reset", "Step", "Load"->
+          turtleController.notifyController(element);
       case "Variables", "Commands", "History", "Help" -> myHelpController.notifyController(element);
-      case "Save", "Load" -> {
+      case "Save" -> {
         myXmlController.notifyController(element);
         turtleController.notifyController(element);
       }

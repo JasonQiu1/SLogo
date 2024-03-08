@@ -29,7 +29,6 @@ public class XmlController extends UIController {
   public void notifyController(UIElement element) {
     switch (element.getID()) {
       case "Save" -> saveSession(((UIButton) element).getMyPath());
-      case "Load" -> loadSession(((UIButton) element).getMyPath());
       case "library commands" -> expandCommand(((UIListView) element).getSelectedItem());
     }
   }
@@ -40,19 +39,6 @@ public class XmlController extends UIController {
       myXMLConfiguration.saveSession(mySession, path);
     } catch (XmlException e) {
       //TODO: Exception Handling
-    }
-  }
-
-  private void loadSession(String filePath) {
-    try {
-      List<String> commands = myXMLConfiguration.loadSessionFromFile(filePath);
-      for (String command : commands) {
-        getCurrentSession().run(command);
-        System.out.println(command);
-        System.out.println(getCurrentSession());
-      }
-    } catch (XmlException e) {
-
     }
   }
 
