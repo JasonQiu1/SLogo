@@ -1,5 +1,6 @@
 package slogo.controller.controllers;
 
+import java.util.List;
 import java.util.Map;
 import slogo.model.api.Session;
 import slogo.model.api.XmlConfiguration;
@@ -44,9 +45,14 @@ public class XmlController extends UIController {
 
   private void loadSession(String filePath) {
     try {
-      setSession(myXMLConfiguration.loadSession(filePath));
+      List<String> commands = myXMLConfiguration.loadSessionFromFile(filePath);
+      for (String command : commands) {
+        getCurrentSession().run(command);
+        System.out.println(command);
+        System.out.println(getCurrentSession());
+      }
     } catch (XmlException e) {
-      //TODO: Exception Handling
+
     }
   }
 

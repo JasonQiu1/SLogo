@@ -41,10 +41,6 @@ public class HelpController extends UIController {
     }
   }
 
-  private void expandOption(String expandText) {
-    new HelpWindow("expand", this.getCurrentSession(), expandText);
-  }
-
   private String getVarName(String option) {
     Map<String, Double> varMap = getCurrentSession().getVariables();
 
@@ -61,13 +57,8 @@ public class HelpController extends UIController {
     return option + "\nNested Commands: " + body;
   }
 
-  private void runCommandFromHelp(UIElement element) {
-    //session.run(command);
-  }
-
   private void runCommandFromHistory(UIElement element) {
     String command = ((UIListView) element).getSelectedItem();
-    System.out.println(command);
     this.getCurrentSession().run(command);
   }
 

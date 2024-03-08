@@ -11,10 +11,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import slogo.view.SlogoWindow;
 import util.DukeApplicationTest;
 
 class UIButtonTest extends DukeApplicationTest {

@@ -54,7 +54,9 @@ public class TurtleController extends UIController {
         updateElements();
       }
       case "internalbutton" -> handleButtonInput((UIButton) element);
-      case "listview" -> {
+      case "listview", "externalbutton" -> {
+        System.out.println("movingTurtle");
+        System.out.println(getCurrentSession());
         updateElements();
       }
     }
@@ -165,12 +167,12 @@ public class TurtleController extends UIController {
     this.currentFrame = this.getTurtleAnimator().nextFrame();
   }
 
-    private void showTurtle(UITurtle turtle, Boolean doShow) {
-        turtle.showTurtle(doShow);
-    }
+  private void showTurtle(UITurtle turtle, Boolean doShow) {
+    turtle.showTurtle(doShow);
+  }
 
-    private Boolean isShowTurtle(UITurtle turtle) {
-        return turtle.isShowing();
-    }
+  private Boolean isShowTurtle(UITurtle turtle) {
+    return turtle.isShowing();
+  }
 
 }

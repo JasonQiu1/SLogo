@@ -34,6 +34,7 @@ public class GraphicsListener implements UIListener {
    * Constructor for GraphicsListener.
    */
   public GraphicsListener() {
+    System.out.println("graphics session " + SESSION);
     myBackgroundController = new BackgroundController();
     mySpeedController = new SpeedController();
     myPenController = new PenController();
@@ -51,8 +52,7 @@ public class GraphicsListener implements UIListener {
   public void sendSignal(UIElement element) {
     switch (element.getType().toLowerCase()) {
       case "checkbox" -> myBackgroundController.notifyController(element);
-      case "turtle" -> turtleController.notifyController(element);
-      case "textfield" -> turtleController.notifyController(element);
+      case "turtle", "textfield" -> turtleController.notifyController(element);
       case "internalbutton", "externalbutton" -> handleButtonElement(element);
     }
   }
@@ -90,7 +90,10 @@ public class GraphicsListener implements UIListener {
       case "R", "G", "B" -> myPenController.notifyController(element);
       case "Play/Pause", "Reset" -> turtleController.notifyController(element);
       case "Variables", "Commands", "History", "Help" -> myHelpController.notifyController(element);
-      case "Save", "Load" -> myXmlController.notifyController(element);
+      case "Save", "Load" -> {
+        myXmlController.notifyController(element);
+        turtleController.notifyController(element);
+      }
     }
   }
 
@@ -103,7 +106,9 @@ public class GraphicsListener implements UIListener {
       case "R", "G", "B" -> passToPen(element);
       case "Play/Pause", "Reset" -> passToTurtle(element);
       case "History" -> passToHelp(element);
-      case "Save", "Load" -> passToXML(element);
+      case "Save", "Load" -> {
+        passToXML(element);
+      }
     }
   }
 
