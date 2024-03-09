@@ -21,6 +21,7 @@ public class ExpandVariablePage extends GeneralPage {
   private final Group root;
   private final PageBuilder myPageBuilder;
   private final String text;
+  private double[] elementDimension;
 
   /**
    * Constructs an ExpandPage object with the specified stage.
@@ -45,18 +46,19 @@ public class ExpandVariablePage extends GeneralPage {
     Collection<UIElement> UIElements = new ArrayList<>();
     UIElements.addAll(setUpTextField(screenWidth, screenHeight));
     UIElements.addAll(setupTitleText(screenWidth, screenHeight));
+    elementDimension = new double[]{screenWidth / 2 - 40, screenHeight / 8};
     myPageBuilder.styleUI(UIElements, root);
   }
 
   private Collection<UIElement> setupTitleText(double screenWidth, double screenHeight) {
     Map<String, double[]> textIDs = new HashMap<>();
-    textIDs.put("Set Value", new double[]{screenWidth / 2 - 40, screenHeight / 8});
+    textIDs.put("Set Value", elementDimension);
     return createElements(textIDs, "text");
   }
 
   private Collection<UIElement> setUpTextField(double screenWidth, double screenHeight) {
     Map<String, double[]> textFieldIDs = new HashMap<>();
-    textFieldIDs.put(text, new double[]{screenWidth / 2 - 40, screenHeight / 8});
+    textFieldIDs.put(text, elementDimension);
     return createElements(textFieldIDs, "textfield");
   }
 
@@ -69,6 +71,7 @@ public class ExpandVariablePage extends GeneralPage {
   public Parent getPage() {
     return root;
   }
+
 
 
 }

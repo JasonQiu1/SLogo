@@ -27,6 +27,8 @@ public class CommandPage extends GeneralPage {
   private final PageBuilder myPageBuilder;
   private final Session session;
 
+  private double[] elementDimension;
+
   /**
    * Constructs a CommandPage object with the specified stage.
    *
@@ -49,6 +51,7 @@ public class CommandPage extends GeneralPage {
   public void setPage(double screenWidth, double screenHeight) {
     Collection<UIElement> UIElements = new ArrayList<>(setupTitleText(screenWidth, screenHeight));
     myPageBuilder.styleUI(UIElements, root);
+    elementDimension = new double[]{screenWidth / 2 - 40, screenHeight / 8};
     setUpCommandList(screenWidth, screenHeight);
   }
 
@@ -65,7 +68,7 @@ public class CommandPage extends GeneralPage {
 
   private Collection<UIElement> setupTitleText(double screenWidth, double screenHeight) {
     Map<String, double[]> textIDs = new HashMap<>();
-    textIDs.put("User-Defined Commands", new double[]{screenWidth / 4 - 20, screenHeight / 8});
+    textIDs.put("User-Defined Commands", elementDimension);
     return createElements(textIDs, "text");
   }
 

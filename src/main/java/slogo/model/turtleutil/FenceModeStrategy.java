@@ -13,7 +13,7 @@ import slogo.model.math.Vector;
  */
 public class FenceModeStrategy implements ModeStrategy {
 
-  Turtle turtle;
+  private Turtle turtle;
 
   /**
    * Moves the turtle by the specified distance given the Fence mode strategy
@@ -25,11 +25,18 @@ public class FenceModeStrategy implements ModeStrategy {
   @Override
   public List<TurtleStep> move(Turtle turtle, double distance) {
     this.turtle = turtle;
+    return generateInterSteps(calculatePosChange(distance));
+  }
+
+  private Vector calculatePosChange(double distance) {
     double dx = Turtle.calculateXComponent(distance, turtle.getCurrentState().heading());
     double dy = Turtle.calculateYComponent(distance, turtle.getCurrentState().heading());
-    List<TurtleStep> intermediateSteps = new ArrayList<>();
+    return new Vector(dx, dy);
+  }
 
-    intermediateSteps.add(fenceMove(dx, dy));
+  private List<TurtleStep> generateInterSteps(Vector v) {
+    List<TurtleStep> intermediateSteps = new ArrayList<>();
+    intermediateSteps.add(fenceMove(v.dx(), v.dy()));
     return intermediateSteps;
   }
 
