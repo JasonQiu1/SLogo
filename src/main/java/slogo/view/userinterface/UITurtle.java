@@ -3,6 +3,7 @@ package slogo.view.userinterface;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ResourceBundle;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -19,18 +20,21 @@ import org.w3c.dom.Document;
  */
 public class UITurtle extends UIElement {
 
+  private static final ResourceBundle configResourceBundle = ResourceBundle.getBundle(
+      "slogo.Configuration");
+
   private static final int TURTLE_SIZE = 10;
   private static final String TURTLE_XML = "src/main/resources/turtle_image/selected_turtle.xml";
   private static final String DEFAULT_TURTLE = "turtle_image/turtle_img01.png";
   private static final String IMG_DIR = "turtle_image/";
-  public static final double X_MIN = -150; // get from resource file
-  public static final double X_MAX = 150; // get from resource file
-  public static final double Y_MIN = -150; // get from resource file
-  public static final double Y_MAX = 150; // get from resource file
-  private final Circle myTurtle;
+  private static final double X_MIN = parseConfigDouble("X_MIN");
+  private static final double X_MAX = parseConfigDouble("X_MAX");
+  private static final double Y_MIN = parseConfigDouble("Y_MIN");
+  private static final double Y_MAX = parseConfigDouble("Y_MAX");
+  private final Circle MY_TURTLE;
   private final double X_ORIGIN;
   private final double Y_ORIGIN;
-  private final double initHeading;
+  private final double INIT_HEADING;
   private double x, y, heading;
   private UIPen myPen;
   private boolean penDown;
@@ -44,17 +48,17 @@ public class UITurtle extends UIElement {
    */
   public UITurtle(String turtleID, double x, double y) {
     super(new Circle(TURTLE_SIZE), turtleID);
-    myTurtle = (Circle) getElement();
-    myTurtle.setFill(Color.BLACK);
-    myTurtle.toFront();
+    MY_TURTLE = (Circle) getElement();
+    MY_TURTLE.setFill(Color.BLACK);
+    MY_TURTLE.toFront();
     this.x = x;
     this.y = y;
     this.heading = 0;
     this.X_ORIGIN = x;
     this.Y_ORIGIN = y;
-    this.initHeading = 0;
+    this.INIT_HEADING = 0;
     this.penDown = false;
-    myTurtle.setOnMouseClicked(click -> showTurtle(!isShowing()));
+    MY_TURTLE.setOnMouseClicked(click -> showTurtle(!isShowing()));
     setSpecialType("Turtle");
     setPosition(x, y);
   }
@@ -81,7 +85,7 @@ public class UITurtle extends UIElement {
   public void setupTurtle() {
     try {
       Path turtleImg = Paths.get(IMG_DIR, findTurtle());
-      myTurtle.setFill(new ImagePattern(new Image(turtleImg.toFile().toString())));
+      MY_TURTLE.setFill(new ImagePattern(new Image(turtleImg.toFile().toString())));
     } catch (Exception e) {
       System.out.println(e);
     }
@@ -117,14 +121,14 @@ public class UITurtle extends UIElement {
     this.y = Y_ORIGIN - y;
     setPosition(this.x, this.y);
     
-    this.heading = initHeading + angle;
-    myTurtle.setRotate(this.heading);
+    this.heading = INIT_HEADING + angle;
+    MY_TURTLE.setRotate(this.heading);
 
     if (penDown) draw(xInitial, yInitial, this.x, this.y);
   }
 
   private void draw(double xInitial, double yInitial, double xFinal, double yFinial) {
-      myPen.draw(xInitial - myTurtle.getRadius(), yInitial- myTurtle.getRadius(), xFinal - myTurtle.getRadius(), yFinial - myTurtle.getRadius());
+      myPen.draw(xInitial - MY_TURTLE.getRadius(), yInitial- MY_TURTLE.getRadius(), xFinal - MY_TURTLE.getRadius(), yFinial - MY_TURTLE.getRadius());
   }
 
   public void setPenDown(boolean penDown) {
@@ -144,10 +148,13 @@ public class UITurtle extends UIElement {
   }
 
   public Boolean isShowing() {
-    return myTurtle.getOpacity() > 0.5;
+    return MY_TURTLE.getOpacity() > 0.5;
   }
 
   public void clearLastLine() {
     myPen.eraseLine();
+  }
+  private static double parseConfigDouble(String key) {
+    return Double.parseDouble(configResourceBundle.getString(key));
   }
 }
