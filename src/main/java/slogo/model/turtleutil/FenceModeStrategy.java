@@ -16,7 +16,7 @@ public class FenceModeStrategy implements ModeStrategy {
   private Turtle turtle;
 
   /**
-   * Moves the turtle by the specified distance given the Fence mode strategy
+   * Moves the turtle by the specified distance given the Fence mode strategy.
    *
    * @param turtle   the turtle to be moved
    * @param distance the distance to move
