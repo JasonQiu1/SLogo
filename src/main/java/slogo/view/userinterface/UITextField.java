@@ -112,14 +112,10 @@ public class UITextField extends UIElement {
   /**
    * Gets the text stored in the textCollector list.
    *
-   * @return An array of strings containing the text stored in the textCollector list.
+   * @return The raw string input.
    */
   public String getTextCommands() {
-    StringBuilder str = new StringBuilder();
-    textCollector.forEach(text -> str.append(text).append(" "));
-    textCollector.clear();
-    myTextBox.setText(LanguageManager.translate(getLanguage(), getID()));
     indexTracker = 0;
-    return str.toString();
+    return myTextBox.getText();
   }
 }
