@@ -10,10 +10,10 @@ import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import slogo.controller.listeners.HelpListener;
 import slogo.model.api.Session;
 import slogo.model.api.XmlConfiguration;
 import slogo.model.api.exception.XmlException;
-import slogo.controller.listeners.HelpListener;
 import slogo.view.builders.PageBuilder;
 import slogo.view.userinterface.UIElement;
 

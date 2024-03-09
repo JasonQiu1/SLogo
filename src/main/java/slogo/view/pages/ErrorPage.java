@@ -23,11 +23,11 @@ import slogo.view.userinterface.UIElement;
  */
 public class ErrorPage extends GeneralPage {
 
+  private static final String FONT_FAMILY = "Verdana";
+  private static final Font MESSAGE_FONT = Font.font(FONT_FAMILY, FontWeight.MEDIUM, 12);
   private final Group root;
   private final PageBuilder myPageBuilder;
   private final String errorMessage;
-  private static final String FONT_FAMILY = "Verdana";
-  private static final Font MESSAGE_FONT = Font.font(FONT_FAMILY, FontWeight.MEDIUM, 12);
 
   /**
    * Constructor for ErrorPage

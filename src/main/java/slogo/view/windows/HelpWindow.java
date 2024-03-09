@@ -26,8 +26,8 @@ public class HelpWindow {
   private static final int WIDTH = 600;
   private final Stage helpStage;
   private final Session session;
-  private GeneralPage currPage;
   private final String expandText;
+  private GeneralPage currPage;
 
   /**
    * Constructs a HelpWindow with the specified type of page, used for pre-set pages

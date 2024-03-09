@@ -50,18 +50,6 @@ public class UIRegion extends UIElement {
     setPosition(x, y);
   }
 
-  private static String findTheme() {
-    try {
-      File file = new File(THEME_XML);
-      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
-      return doc.getElementsByTagName("BackgroundTheme").item(0).getTextContent();
-
-    } catch (Exception e) {
-      System.out.println(e);
-    }
-    return "light";
-  }
-
   /**
    * Sets up the background style for the region based on the current theme setting.
    */
@@ -105,7 +93,21 @@ public class UIRegion extends UIElement {
   private void setBackground(Color background, Color border) {
     BackgroundFill fill = new BackgroundFill(background, CornerRadii.EMPTY, Insets.EMPTY);
     myRegion.setBackground(new Background(fill));
+    BorderStrokeStyle borderStrokeStyle = getBorderStrokeStyle();
+    BorderStroke borderStroke = getBorderStroke(border, borderStrokeStyle);
+    myRegion.setBorder(new Border(borderStroke));
+  }
 
+  private static BorderStroke getBorderStroke(Color border, BorderStrokeStyle borderStrokeStyle) {
+    BorderStroke borderStroke = new BorderStroke(
+        border,
+        borderStrokeStyle,
+        new CornerRadii(0),
+        new BorderWidths(1));
+    return borderStroke;
+  }
+
+  private static BorderStrokeStyle getBorderStrokeStyle() {
     BorderStrokeStyle borderStrokeStyle = new BorderStrokeStyle(
         StrokeType.INSIDE,
         StrokeLineJoin.MITER,
@@ -113,14 +115,19 @@ public class UIRegion extends UIElement {
         10,
         0,
         null);
+    return borderStrokeStyle;
+  }
 
-    BorderStroke borderStroke = new BorderStroke(
-        border,
-        borderStrokeStyle,
-        new CornerRadii(0),
-        new BorderWidths(1));
+  private static String findTheme() {
+    try {
+      File file = new File(THEME_XML);
+      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+      return doc.getElementsByTagName("BackgroundTheme").item(0).getTextContent();
 
-    myRegion.setBorder(new Border(borderStroke));
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    return "light";
   }
 
 }

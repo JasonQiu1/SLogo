@@ -3,8 +3,8 @@ package slogo.view.builders;
 import slogo.view.userinterface.UIElement;
 
 /**
- * The UIBuilder interface defines a contract for classes that build UI elements.
- * Implementing classes must provide a method to construct a UI element.
+ * The UIBuilder interface defines a contract for classes that build UI elements. Implementing
+ * classes must provide a method to construct a UI element.
  *
  * @author Jeremyah Flowers
  */

@@ -94,14 +94,72 @@ public class UITurtle extends UIElement {
    * Updates the turtle's position on the screen.
    */
   public void updateState(double x, double y, double angle) {
-    if (ORIGIN.getX() + x != CURRENT_POSITION.getX() || ORIGIN.getY() - y != CURRENT_POSITION.getY()) {
+    if (ORIGIN.getX() + x != CURRENT_POSITION.getX()
+        || ORIGIN.getY() - y != CURRENT_POSITION.getY()) {
       Point pInitial = move(x, y);
       if (penDown) {
         draw(pInitial, CURRENT_POSITION);
       }
     }
 
-    if (INITIAL_HEADING + angle != currentHeading) rotate(angle);
+    if (INITIAL_HEADING + angle != currentHeading) {
+      rotate(angle);
+    }
+  }
+
+  /**
+   * Deactivate/Activate pen
+   *
+   * @param penDown is pen down or not down
+   */
+  public void setPenDown(boolean penDown) {
+    this.penDown = penDown;
+  }
+
+  /**
+   * Set pen for turtle view
+   *
+   * @param pen turtle's pen
+   */
+  public void setPen(UIPen pen) {
+    myPen = pen;
+  }
+
+  /**
+   * Clear drawings
+   */
+  public void clearScreen() {
+    myPen.clearScreen();
+  }
+
+  /**
+   * Show/activate turtle
+   *
+   * @param doShow do or do not show turtle
+   */
+  public void showTurtle(Boolean doShow) {
+    sendSignal();
+    setStatus(doShow);
+  }
+
+  /**
+   * Check is turtle showing/active
+   *
+   * @return turtle is or is not showing/active
+   */
+  public Boolean isShowing() {
+    return MY_TURTLE.getOpacity() > 0.5;
+  }
+
+  /**
+   * Erase most recent line drawn by turtle
+   */
+  public void clearLastLine() {
+    myPen.eraseLine();
+  }
+
+  private static double parseConfigDouble(String key) {
+    return Double.parseDouble(configResourceBundle.getString(key));
   }
 
   private void rotate(double newHeading) {
@@ -149,59 +207,5 @@ public class UITurtle extends UIElement {
   private void draw(Point pInitial, Point pFinal) {
     myPen.draw(pInitial.getX() - MY_TURTLE.getRadius(), pInitial.getY() - MY_TURTLE.getRadius(),
         pFinal.getX() - MY_TURTLE.getRadius(), pFinal.getY() - MY_TURTLE.getRadius());
-  }
-
-  /**
-   * Deactivate/Activate pen
-   *
-   * @param penDown is pen down or not down
-   */
-  public void setPenDown(boolean penDown) {
-    this.penDown = penDown;
-  }
-
-  /**
-   * Set pen for turtle view
-   *
-   * @param pen turtle's pen
-   */
-  public void setPen(UIPen pen) {
-    myPen = pen;
-  }
-
-  /**
-   * Clear drawings
-   */
-  public void clearScreen() {
-    myPen.clearScreen();
-  }
-
-  /**
-   * Show/activate turtle
-   * @param doShow do or do not show turtle
-   */
-  public void showTurtle(Boolean doShow) {
-    sendSignal();
-    setStatus(doShow);
-  }
-
-  /**
-   * Check is turtle showing/active
-   *
-   * @return turtle is or is not showing/active
-   */
-  public Boolean isShowing() {
-    return MY_TURTLE.getOpacity() > 0.5;
-  }
-
-  /**
-   * Erase most recent line drawn by turtle
-   */
-  public void clearLastLine() {
-    myPen.eraseLine();
-  }
-
-  private static double parseConfigDouble(String key) {
-    return Double.parseDouble(configResourceBundle.getString(key));
   }
 }

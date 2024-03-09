@@ -55,6 +55,16 @@ public class UITextField extends UIElement {
     controlHandler();
   }
 
+  /**
+   * Gets the text stored in the textCollector list.
+   *
+   * @return The raw string input.
+   */
+  public String getTextCommands() {
+    indexTracker = 0;
+    return myTextBox.getText();
+  }
+
   private void controlHandler() {
     myTextBox.addEventHandler(KeyEvent.KEY_RELEASED, e -> {
       if (isModifier(e.getCode())) {
@@ -107,15 +117,5 @@ public class UITextField extends UIElement {
         }
       }
     });
-  }
-
-  /**
-   * Gets the text stored in the textCollector list.
-   *
-   * @return The raw string input.
-   */
-  public String getTextCommands() {
-    indexTracker = 0;
-    return myTextBox.getText();
   }
 }

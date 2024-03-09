@@ -70,6 +70,9 @@ public class InternalButton extends UIButton {
     createLogo(PAUSE_PLAY_IMG, 20, 20);
   }
 
+  /**
+   * Sets the button to have a classic step appearance.
+   */
   public void setStepClassic() {
     myButton.setShape(new Ellipse(90.0f, 20.0f));
     createLogo(STEP_IMG, 20, 20);
