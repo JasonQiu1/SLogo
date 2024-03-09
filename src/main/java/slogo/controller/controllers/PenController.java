@@ -63,26 +63,26 @@ public class PenController extends UIController {
 
   private void setTurtlePen(UITurtle turtle) {
     // Any option: equivalent to pen down
-    if (isBlack()) {
-      turtle.setPenColor(Color.BLACK);
-    } else if (isTeal()) {
-      turtle.setPenColor(Color.TEAL);
-    } else if (isBrown()) {
-      turtle.setPenColor(Color.BROWN);
-    } else if (isPurple()) {
-      turtle.setPenColor(Color.PURPLE);
-    } else if (redFlag) {
-      turtle.setPenColor(Color.RED);
-    } else if (greenFlag) {
-      turtle.setPenColor(Color.GREEN);
-    } else if (blueFlag) {
-      turtle.setPenColor(Color.BLUE);
-    }
+      if (isBlack()) {
+          turtle.setPenColor(Color.BLACK);
+      } else if (isTeal()) {
+          turtle.setPenColor(Color.TEAL);
+      } else if (isBrown()) {
+          turtle.setPenColor(Color.BROWN);
+      } else if (isPurple()) {
+          turtle.setPenColor(Color.PURPLE);
+      } else if (redFlag) {
+          turtle.setPenColor(Color.RED);
+      } else if (greenFlag) {
+          turtle.setPenColor(Color.GREEN);
+      } else if (blueFlag) {
+          turtle.setPenColor(Color.BLUE);
+      }
 
-    // Equivalent to pen up
-    else {
-      turtle.setPenColor(Color.TRANSPARENT);
-    }
+      // Equivalent to pen up
+      else {
+          turtle.setPenColor(Color.TRANSPARENT);
+      }
   }
 
   //    private void clearLastTurtleLine(UITurtle turtle) {

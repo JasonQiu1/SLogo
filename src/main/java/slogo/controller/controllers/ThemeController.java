@@ -70,7 +70,10 @@ public class ThemeController extends UIController {
   }
 
   private void setTheme(String newTheme) {
-    new XmlHelper().updateFile(newTheme, "BackgroundTheme", THEME_XML);
+    updateThemeFile(newTheme);
   }
 
+  private void updateThemeFile(String theme) {
+    new XmlHelper().updateFile(theme, "BackgroundTheme", THEME_XML);
+  }
 }

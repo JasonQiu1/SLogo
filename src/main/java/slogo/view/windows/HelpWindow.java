@@ -6,11 +6,12 @@ import slogo.model.api.Session;
 import slogo.view.pages.CommandPage;
 import slogo.view.pages.ErrorPage;
 import slogo.view.pages.ExpandCommandPage;
+import slogo.view.pages.ExpandHelpPage;
 import slogo.view.pages.ExpandVariablePage;
 import slogo.view.pages.GeneralPage;
 import slogo.view.pages.HelpPage;
 import slogo.view.pages.HistoryPage;
-import slogo.view.pages.IndexPage;
+import slogo.view.pages.ParameterPage;
 import slogo.view.pages.VariablePage;
 
 /**
@@ -67,7 +68,7 @@ public class HelpWindow {
   private GeneralPage createPageType(String pageType) {
     switch (pageType.toLowerCase()) {
       case "help" -> {
-        return new HelpPage(helpStage);
+        return new HelpPage(helpStage, session);
       }
       case "variables" -> {
         return new VariablePage(helpStage, session);
@@ -84,8 +85,11 @@ public class HelpWindow {
       case "variable expand" -> {
         return new ExpandVariablePage(helpStage, session, expandText);
       }
-      case "indexes" -> {
-        return new IndexPage(helpStage, session);
+      case "help expand" -> {
+        return new ExpandHelpPage(helpStage, session, expandText);
+      }
+      case "parameter expand" -> {
+        return new ParameterPage(helpStage, session, expandText);
       }
       case "error" -> {
         return new ErrorPage(helpStage, expandText);

@@ -37,7 +37,7 @@ public class UITextField extends UIElement {
     myTextBox = (TextField) getElement();
     myTextBox.setAlignment(Pos.BASELINE_LEFT);
     myTextBox.toFront();
-    myTextBox.setText(LanguageManager.translate(getLanguage(), text));
+    myTextBox.setText(LanguageManager.translate(LanguageManager.getCurrentLanguage(), text));
     setPosition(x, y);
   }
 
@@ -53,6 +53,16 @@ public class UITextField extends UIElement {
   public void setupTextBox() {
     keyboardInputHandler();
     controlHandler();
+  }
+
+  /**
+   * Gets the text stored in the textCollector list.
+   *
+   * @return The raw string input.
+   */
+  public String getTextCommands() {
+    indexTracker = 0;
+    return myTextBox.getText();
   }
 
   private void controlHandler() {
@@ -107,19 +117,5 @@ public class UITextField extends UIElement {
         }
       }
     });
-  }
-
-  /**
-   * Gets the text stored in the textCollector list.
-   *
-   * @return An array of strings containing the text stored in the textCollector list.
-   */
-  public String getTextCommands() {
-    StringBuilder str = new StringBuilder();
-    textCollector.forEach(text -> str.append(text).append(" "));
-    textCollector.clear();
-    myTextBox.setText(LanguageManager.translate(getLanguage(), getID()));
-    indexTracker = 0;
-    return str.toString();
   }
 }

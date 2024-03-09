@@ -37,7 +37,7 @@ class GraphicsPageTest extends DukeApplicationTest {
   @Override
   public void start(Stage stage) {
     // create application and add scene for testing to given stage
-    myView = new SlogoWindow(stage, "graphics");
+    myView = new SlogoWindow(stage, "GraphicsPage");
   }
 
 
@@ -75,7 +75,7 @@ class GraphicsPageTest extends DukeApplicationTest {
     void testWriteMultipleLines() {
       // given a text field with no text
       // when writing a single line of text "Spaghetti"
-      String expected1 = "fd 50";
+      String expected1 = "Spaghetti";
 
       // when
       writeInputTo(myTextField, expected1);
@@ -88,7 +88,7 @@ class GraphicsPageTest extends DukeApplicationTest {
 
       // given the text field contains "Spaghetti"
       // when writing another line of text "Meatballs"
-      String expected2 = "rt 90";
+      String expected2 = "Meatballs";
 
       // when
       writeInputTo(myTextField, expected2);
@@ -102,8 +102,6 @@ class GraphicsPageTest extends DukeApplicationTest {
       // then the text field should be empty
       String expected3 = "";
       assertEquals(expected3, myTextField.getText());
-
-      press(KeyCode.COMMAND, KeyCode.R);
     }
   }
 

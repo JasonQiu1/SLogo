@@ -26,7 +26,7 @@ public class PageBuilder {
    * Constructs a PageBuilder object with the specified stage and root group.
    *
    * @param stage The stage for the page builder.
-   * @param root The root group to which UI elements will be added.
+   * @param root  The root group to which UI elements will be added.
    */
   public PageBuilder(Stage stage, Group root) {
     myExternalButtonBuilder = new ExternalButtonBuilder(stage);

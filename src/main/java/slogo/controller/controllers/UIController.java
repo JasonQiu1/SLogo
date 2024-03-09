@@ -3,6 +3,7 @@ package slogo.controller.controllers;
 import java.util.ArrayList;
 import java.util.Collection;
 import slogo.model.api.Session;
+import slogo.model.api.XmlConfiguration;
 import slogo.view.userinterface.UIButton;
 import slogo.view.userinterface.UIElement;
 
@@ -15,6 +16,8 @@ import slogo.view.userinterface.UIElement;
  */
 public abstract class UIController {
 
+  protected final XmlConfiguration xmlConfiguration = new XmlConfiguration();
+  protected final String helpFile = "data/commands/command_help_basic.xml";
   // Instance Variable
   private final Collection<UIElement> myElements;
   private Session session;
@@ -51,10 +54,6 @@ public abstract class UIController {
    */
   public abstract void notifyController(UIElement element);
 
-  public void setSession(Session session) {
-    this.session = session;
-  }
-
   /**
    * Retrieves the collection of managed UI elements.
    *
@@ -77,5 +76,10 @@ public abstract class UIController {
   protected Session getCurrentSession() {
     return session;
   }
+
+  public void setSession(Session session) {
+    this.session = session;
+  }
+
 
 }

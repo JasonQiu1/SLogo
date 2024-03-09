@@ -48,9 +48,30 @@ public class UIRegion extends UIElement {
     setPosition(x, y);
   }
 
-  private static String findTheme() {
+  private static BorderStroke getBorderStroke(Color border, BorderStrokeStyle borderStrokeStyle) {
+    return new BorderStroke(
+        border,
+        borderStrokeStyle,
+        new CornerRadii(0),
+        new BorderWidths(1));
+  }
 
-    return new XmlHelper().getElementFromTag("BackgroundTheme", THEME_XML);
+  private static BorderStrokeStyle getBorderStrokeStyle() {
+    return new BorderStrokeStyle(
+        StrokeType.INSIDE,
+        StrokeLineJoin.MITER,
+        StrokeLineCap.BUTT,
+        10,
+        0,
+        null);
+  }
+
+  private static String findTheme() {
+    try {
+      return new XmlHelper().getElementFromTag("BackgroundTheme", THEME_XML);
+    } catch (Exception e) {
+      return "light";
+    }
   }
 
   /**
@@ -96,21 +117,8 @@ public class UIRegion extends UIElement {
   private void setBackground(Color background, Color border) {
     BackgroundFill fill = new BackgroundFill(background, CornerRadii.EMPTY, Insets.EMPTY);
     myRegion.setBackground(new Background(fill));
-
-    BorderStrokeStyle borderStrokeStyle = new BorderStrokeStyle(
-        StrokeType.INSIDE,
-        StrokeLineJoin.MITER,
-        StrokeLineCap.BUTT,
-        10,
-        0,
-        null);
-
-    BorderStroke borderStroke = new BorderStroke(
-        border,
-        borderStrokeStyle,
-        new CornerRadii(0),
-        new BorderWidths(1));
-
+    BorderStrokeStyle borderStrokeStyle = getBorderStrokeStyle();
+    BorderStroke borderStroke = getBorderStroke(border, borderStrokeStyle);
     myRegion.setBorder(new Border(borderStroke));
   }
 

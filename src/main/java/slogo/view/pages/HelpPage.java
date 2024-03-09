@@ -11,6 +11,7 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import slogo.controller.listeners.HelpListener;
+import slogo.model.api.Session;
 import slogo.model.api.XmlConfiguration;
 import slogo.model.api.exception.XmlException;
 import slogo.view.builders.PageBuilder;
@@ -34,8 +35,8 @@ public class HelpPage extends GeneralPage {
    *
    * @param stage The stage for the help page.
    */
-  public HelpPage(Stage stage) {
-    super(stage, new HelpListener());
+  public HelpPage(Stage stage, Session session) {
+    super(stage, new HelpListener(session));
     root = new Group();
     myPageBuilder = new PageBuilder(stage, root);
     myXmlConfig = new XmlConfiguration();

@@ -8,12 +8,12 @@ import javafx.scene.shape.Line;
 /**
  * The UIPen class represents a pen used for drawing on a canvas.
  *
- *  @author Jeremyah Flowers
+ * @author Jeremyah Flowers
  */
 public class UIPen {
 
-  private final Group myCanvas;
   private final Stack<Line> lineCollector;
+  private final Group myCanvas;
   private Color myPenColor = Color.BLACK;
 
   /**
@@ -36,12 +36,12 @@ public class UIPen {
   }
 
   /**
-   * Draws a line on the canvas.
+   * Draws a line on the canvas from the starting point to the ending point.
    *
-   * @param startingX The starting x-coordinate of the line.
-   * @param startingY The starting y-coordinate of the line.
-   * @param nextX     The ending x-coordinate of the line.
-   * @param nextY     The ending y-coordinate of the line.
+   * @param startingX The x-coordinate of the starting point.
+   * @param startingY The y-coordinate of the starting point.
+   * @param nextX     The x-coordinate of the ending point.
+   * @param nextY     The y-coordinate of the ending point.
    */
   public void draw(double startingX, double startingY, double nextX, double nextY) {
     Line line = new Line();
@@ -63,9 +63,11 @@ public class UIPen {
   }
 
   /**
-   * Erases the last drawn line.
+   * Erases the last drawn line from the canvas.
    */
   public void eraseLine() {
-    myCanvas.getChildren().remove(lineCollector.pop());
+    if (!lineCollector.isEmpty()) {
+      myCanvas.getChildren().remove(lineCollector.pop());
+    }
   }
 }

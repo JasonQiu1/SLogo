@@ -3,7 +3,6 @@ package slogo.controller.listeners;
 import java.util.ArrayList;
 import java.util.Collection;
 import slogo.controller.controllers.BackgroundController;
-import slogo.controller.controllers.HelpController;
 import slogo.controller.controllers.PenController;
 import slogo.controller.controllers.SessionController;
 import slogo.controller.controllers.SpeedController;
@@ -12,8 +11,8 @@ import slogo.controller.controllers.TurtleController;
 import slogo.controller.controllers.UIController;
 import slogo.controller.controllers.XmlController;
 import slogo.model.api.Session;
-import slogo.model.api.turtle.TurtleAnimator;
 import slogo.model.session.SessionImplementation;
+import slogo.model.turtleutil.TurtleAnimatorImplementation;
 import slogo.view.userinterface.UIElement;
 
 /**
@@ -28,11 +27,10 @@ public class GraphicsListener implements UIListener {
   private final SpeedController mySpeedController;
   private final PenController myPenController;
   private final ThemeController myThemeController;
-  private final HelpController myHelpController;
   private final XmlController myXmlController;
   private final SessionController mySessionController;
   private final Session SESSION = new SessionImplementation();
-  private final TurtleAnimator TURTLE_ANIMATOR = new TurtleAnimator();
+  private final TurtleAnimatorImplementation TURTLE_ANIMATOR = new TurtleAnimatorImplementation();
   TurtleController myTurtleController;
 
   /**
@@ -43,7 +41,6 @@ public class GraphicsListener implements UIListener {
     mySpeedController = new SpeedController();
     myPenController = new PenController();
     myThemeController = new ThemeController();
-    myHelpController = new HelpController();
     myXmlController = new XmlController();
     myTurtleController = new TurtleController();
     ArrayList<UIController> sessionControllers = new ArrayList<>();
@@ -97,8 +94,8 @@ public class GraphicsListener implements UIListener {
         myTurtleController.notifyController(element);
       }
       case "R", "G", "B" -> myPenController.notifyController(element);
-      case "Play/Pause", "Reset", "Step" -> myTurtleController.notifyController(element);
-      case "Variables", "Commands", "History", "Help" -> myHelpController.notifyController(element);
+      case "Play/Pause", "Reset", "Step", "Load" -> myTurtleController.notifyController(element);
+      case "Variables", "Commands", "History", "Help" -> helpController.notifyController(element);
       case "Save" -> myXmlController.notifyController(element);
     }
   }
@@ -111,7 +108,9 @@ public class GraphicsListener implements UIListener {
       }
       case "R", "G", "B" -> passToPen(element);
       case "Play/Pause", "Reset", "Step" -> passToTurtle(element);
-      case "History" -> passToHelp(element);
+      case "History", "Help" -> {
+        passToHelp(element);
+      }
       case "Save", "Load" -> {
         passToXML(element);
       }
@@ -141,8 +140,8 @@ public class GraphicsListener implements UIListener {
   }
 
   private void passToHelp(UIElement element) {
-    myHelpController.setSession(SESSION);
-    myHelpController.addElement(element);
+    helpController.setSession(SESSION);
+    helpController.addElement(element);
   }
 
   private void passToXML(UIElement element) {
