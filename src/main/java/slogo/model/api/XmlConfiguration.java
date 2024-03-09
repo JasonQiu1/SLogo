@@ -23,13 +23,37 @@ import slogo.model.api.exception.XmlException;
  */
 public class XmlConfiguration {
 
-  private final ArrayList<String> tagList;
+  private final ArrayList<String> commandTagList;
+  private final ArrayList<String> preferencesTagList;
 
   /**
    * Constructor for XmlConfig
    */
   public XmlConfiguration() {
-    tagList = createTagList();
+    commandTagList = createCommandTagList();
+    preferencesTagList = createPreferencesTagList();
+  }
+
+  /**
+   * Returns preferences specified in xml file
+   *
+   * @param filePath path of the xml preference file
+   * @return key: preference title, value: preference
+   * @throws XmlException
+   */
+  public Map<String, String> getPreferences(String filePath) throws XmlException {
+    try {
+      DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+      DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+      Document doc = documentBuilder.parse(filePath);
+
+      Element root = doc.getDocumentElement();
+      root.normalize();
+
+      return createPreferencesMap(root);
+    } catch (Exception e) {
+      throw new XmlException(filePath);
+    }
   }
 
   /**
@@ -143,7 +167,7 @@ public class XmlConfiguration {
 
   private String createHelpDocumentation(Element element, String commandInfo) {
     String helpDoc = "";
-    for (String tagName : tagList) {
+    for (String tagName : commandTagList) {
       NodeList tagContentList = element.getElementsByTagName(tagName.toLowerCase());
       String tagContent = tagContentList.item(0).getTextContent().trim();
 
@@ -153,12 +177,25 @@ public class XmlConfiguration {
     return helpDoc;
   }
 
-  private ArrayList<String> createTagList() {
+  private ArrayList<String> createCommandTagList() {
     ArrayList<String> tagList = new ArrayList<>();
     tagList.add("Alias");
     tagList.add("Description");
     tagList.add("Example");
     tagList.add("Return");
+    return tagList;
+  }
+
+  private ArrayList<String> createPreferencesTagList() {
+    ArrayList<String> tagList = new ArrayList<>();
+    tagList.add("load_file");
+    tagList.add("language");
+    tagList.add("background_color");
+    tagList.add("pen_color");
+    tagList.add("turtle_image");
+    tagList.add("theme");
+    tagList.add("index_values");
+    tagList.add("num_turtles");
     return tagList;
   }
 
@@ -219,5 +256,14 @@ public class XmlConfiguration {
         commands.add(line);
       }
     }
+  }
+
+  private Map<String, String> createPreferencesMap(Element root) {
+    Map<String, String> prefMap = new HashMap<>();
+    for (String tag : preferencesTagList) {
+      String preference = root.getElementsByTagName(tag).item(0).getTextContent();
+      prefMap.put(tag, preference);
+    }
+    return prefMap;
   }
 }

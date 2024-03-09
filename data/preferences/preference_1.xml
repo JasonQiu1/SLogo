@@ -1,9 +1,10 @@
 <preferences>
   <load_file>data/examples/simple/square.slogo</load_file>
-  <background_color></background_color>
-  <pen_colors></pen_colors>
-  <turtle_images></turtle_images>
-  <theme></theme>
+  <language>spanish</language>
+  <background_color>GN/BL</background_color>
+  <pen_color>R</pen_color>
+  <turtle_image>data/turtle_images/rcd.jpg</turtle_image>
+  <theme>Dark</theme>
   <index_values></index_values>
-  <num_turtles></num_turtles>
+  <num_turtles>2</num_turtles>
 </preferences>

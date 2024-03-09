@@ -52,7 +52,7 @@ public class TurtleController extends UIController {
   public void notifyController(UIElement element) {
     switch (element.getType().toLowerCase()) {
       case "textfield" -> {
-        if (element.getID().equalsIgnoreCase("CommandLine")){
+        if (element.getID().equalsIgnoreCase("CommandLine")) {
           runCommands((UITextField) element);
         }
         updateElements();
@@ -60,8 +60,13 @@ public class TurtleController extends UIController {
       case "internalbutton" -> handleButtonInput((UIButton) element);
       case "listview" -> updateElements();
       case "externalbutton" -> {
-        loadCommands(element);
-        updateElements();
+        if (element.getID().equalsIgnoreCase("Load Preferences")) {
+          String filePath = getTurtleImageFromPreferences(((UIButton) element).getMyPath());
+          saveTurtleSelection(filePath);
+        } else {
+          loadCommands(element);
+          updateElements();
+        }
       }
     }
   }
@@ -207,4 +212,14 @@ public class TurtleController extends UIController {
     return turtle.isShowing();
   }
 
+
+  private String getTurtleImageFromPreferences(String filePath) {
+    try {
+      Map<String, String> prefMap = xmlConfiguration.getPreferences(filePath);
+      return prefMap.get("turtle_image");
+    } catch (XmlException e) {
+      new HelpWindow("error", getCurrentSession(), "unable to load preferences");
+      return null;
+    }
+  }
 }
