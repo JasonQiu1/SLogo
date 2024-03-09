@@ -65,10 +65,6 @@ public class HistoryPage extends GeneralPage {
 
   private void setUpHistoryList(double screenWidth, double screenHeight) {
     List<Map<String, Map<String, String>>> historyList = session.getCommandHistory(0);
-//    List<Map<String, Map<String, String>>> historyList = new ArrayList<>();
-//    Map<String, Map<String, String>> historyMap = new HashMap<>();
-//    historyMap.put("fd 10", new HashMap<String, String>());
-//    historyList.add(historyMap);
 
     double[] position = new double[2];
     position[0] = (100);

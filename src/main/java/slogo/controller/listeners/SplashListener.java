@@ -19,8 +19,6 @@ public class SplashListener implements UIListener {
 
   private final ThemeController myThemeController;
   private final LanguageController myLanguageController;
-  private final HelpController myHelpController;
-  private final XmlController myXmlController;
 
   /**
    * Constructor for SplashListener.
@@ -28,8 +26,6 @@ public class SplashListener implements UIListener {
   public SplashListener() {
     myThemeController = new ThemeController();
     myLanguageController = new LanguageController();
-    myHelpController = new HelpController();
-    myXmlController = new XmlController();
   }
 
   /**
@@ -61,7 +57,7 @@ public class SplashListener implements UIListener {
   private void handleButtonElement(UIElement element) {
     switch (element.getID()) {
       case "TurtleSelector", "Load File" -> turtleController.notifyController(element);
-      case "Help" -> myHelpController.notifyController(element);
+      case "Help" -> helpController.notifyController(element);
     }
   }
 }

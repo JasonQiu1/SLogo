@@ -29,7 +29,6 @@ public class GraphicsListener implements UIListener {
   private final SpeedController mySpeedController;
   private final PenController myPenController;
   private final ThemeController myThemeController;
-  private final HelpController myHelpController;
   private final XmlController myXmlController;
   private final SessionController mySessionController;
   private final Session SESSION = new Session();
@@ -43,7 +42,6 @@ public class GraphicsListener implements UIListener {
     mySpeedController = new SpeedController();
     myPenController = new PenController();
     myThemeController = new ThemeController();
-    myHelpController = new HelpController();
     myXmlController = new XmlController();
     ArrayList<UIController> sessionControllers = new ArrayList<>();
     sessionControllers.add(myPenController);
@@ -97,7 +95,7 @@ public class GraphicsListener implements UIListener {
       }
       case "R", "G", "B" -> myPenController.notifyController(element);
       case "Play/Pause", "Reset", "Step", "Load" -> turtleController.notifyController(element);
-      case "Variables", "Commands", "History", "Help" -> myHelpController.notifyController(element);
+      case "Variables", "Commands", "History", "Help" -> helpController.notifyController(element);
       case "Save" -> myXmlController.notifyController(element);
     }
   }
@@ -110,7 +108,9 @@ public class GraphicsListener implements UIListener {
       }
       case "R", "G", "B" -> passToPen(element);
       case "Play/Pause", "Reset", "Step" -> passToTurtle(element);
-      case "History" -> passToHelp(element);
+      case "History", "Help" -> {
+        passToHelp(element);
+      }
       case "Save", "Load" -> {
         passToXML(element);
       }
@@ -142,8 +142,8 @@ public class GraphicsListener implements UIListener {
   }
 
   private void passToHelp(UIElement element) {
-    myHelpController.setSession(SESSION);
-    myHelpController.addElement(element);
+    helpController.setSession(SESSION);
+    helpController.addElement(element);
   }
 
   private void passToXML(UIElement element) {

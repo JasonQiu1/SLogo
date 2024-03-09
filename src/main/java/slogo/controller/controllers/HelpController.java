@@ -1,6 +1,5 @@
 package slogo.controller.controllers;
 
-import java.util.HashMap;
 import java.util.Map;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UIListView;
@@ -20,8 +19,8 @@ public class HelpController extends UIController {
    * @param element the UI element that triggered the notification
    */
   public void notifyController(UIElement element) {
-    switch (element.getType().toLowerCase()) {
-      case "textfield" -> updateVarValue(element);
+    if (element.getType().equalsIgnoreCase("textfield")) {
+      updateVarValue(element);
     }
     switch (element.getID()) {
       case "Variables", "Commands", "Help", "History" -> {
@@ -38,6 +37,12 @@ public class HelpController extends UIController {
         String varName = getVarName(((UIListView) element).getSelectedItem());
         new HelpWindow("variable expand", this.getCurrentSession(), varName);
       }
+      default -> {
+        if (getCurrentSession() != null) {
+          String command = getCommandName(element.getID());
+          new HelpWindow("parameter expand", this.getCurrentSession(), command);
+        }
+      }
     }
   }
 
@@ -48,6 +53,17 @@ public class HelpController extends UIController {
     String varName = parts[1];
     varMap.get(varName);
     return varName;
+  }
+
+  private String getCommandName(String option) {
+    String[] lines = option.split("\n");
+
+    for (String line : lines) {
+      if (line.startsWith("Name:")) {
+        return line.split(": ")[1];
+      }
+    }
+    return option;
   }
 
   private String getCommandInfo(String option) {

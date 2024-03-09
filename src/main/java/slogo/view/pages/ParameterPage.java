@@ -16,7 +16,7 @@ import slogo.view.userinterface.UIElement;
  *
  * @author Jordan Haytaian
  */
-public class ExpandVariablePage extends GeneralPage {
+public class ParameterPage extends GeneralPage {
 
   private final Group root;
   private final PageBuilder myPageBuilder;
@@ -27,7 +27,7 @@ public class ExpandVariablePage extends GeneralPage {
    *
    * @param stage The stage for the expand page.
    */
-  public ExpandVariablePage(Stage stage, Session session, String text) {
+  public ParameterPage(Stage stage, Session session, String text) {
     super(stage, new HelpListener(session));
     root = new Group();
     myPageBuilder = new PageBuilder(stage);
@@ -50,13 +50,13 @@ public class ExpandVariablePage extends GeneralPage {
 
   private Collection<UIElement> setupTitleText(double screenWidth, double screenHeight) {
     Map<String, double[]> textIDs = new HashMap<>();
-    textIDs.put("Set Value", new double[]{screenWidth / 2 - 40, screenHeight / 8});
+    textIDs.put("Set Parameters", new double[]{screenWidth / 2 - 100, screenHeight / 8});
     return createElements(textIDs, "text");
   }
 
   private Collection<UIElement> setUpTextField(double screenWidth, double screenHeight) {
     Map<String, double[]> textFieldIDs = new HashMap<>();
-    textFieldIDs.put(text, new double[]{screenWidth / 2 - 40, screenHeight / 8});
+    textFieldIDs.put(text, new double[]{screenWidth / 2 - 60, screenHeight / 8});
     return createElements(textFieldIDs, "textfield");
   }
 
@@ -69,6 +69,5 @@ public class ExpandVariablePage extends GeneralPage {
   public Parent getPage() {
     return root;
   }
-
 
 }
