@@ -47,6 +47,9 @@ This project implements a simple Logo ide, interpreter, and visualizer.
         * Implemented all commands in the specification (SLOGO-06 to SLOGO-55) except those that
           interface with the view:
             * setpencolor, setpensize, pencolor, penup, pendown, showturtle, hideturtle, clearscreen
+        * Runs all commands until encountering an error
+        * Throws an error which should be caught by the view and displayed to the user when
+          encountering an error with the given code
 
 * Features unimplemented:
     * Commands:
@@ -61,6 +64,9 @@ This project implements a simple Logo ide, interpreter, and visualizer.
         * Very extendable library environments (load different library commands)
         * Very extendable commands (very easy to implement new commands)
         * Very extendable context-free grammar with auto-generator for the grammar
+        * Throws custom exceptions with translatable debugging info for where the error occurred
+          when running code, which includes line number, the raw line of code itself, and where in
+          the running process the error occurred (tokenizing, parsing, interpreting, runtime, etc.)
 
 ### Assignment Impressions
 
