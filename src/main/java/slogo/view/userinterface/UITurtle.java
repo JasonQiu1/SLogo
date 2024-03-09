@@ -94,13 +94,14 @@ public class UITurtle extends UIElement {
    * Updates the turtle's position on the screen.
    */
   public void updateState(double x, double y, double angle) {
-    Point pInitial = move(x, y);
-
-    rotate(angle);
-
-    if (penDown) {
-      draw(pInitial, CURRENT_POSITION);
+    if (ORIGIN.getX() + x != CURRENT_POSITION.getX() || ORIGIN.getY() - y != CURRENT_POSITION.getY()) {
+      Point pInitial = move(x, y);
+      if (penDown) {
+        draw(pInitial, CURRENT_POSITION);
+      }
     }
+
+    if (INITIAL_HEADING + angle != currentHeading) rotate(angle);
   }
 
   private void rotate(double newHeading) {
@@ -112,21 +113,8 @@ public class UITurtle extends UIElement {
     double xInitial = CURRENT_POSITION.getX();
     double yInitial = CURRENT_POSITION.getY();
 
-    if (xInitial >= X_MAX + ORIGIN.getX()) {
-      xInitial = X_MIN + ORIGIN.getX();
-      this.penDown = false;
-    } else if (xInitial <= X_MIN + ORIGIN.getX()) {
-      xInitial = X_MAX + ORIGIN.getX();
-      this.penDown = false;
-    }
-
-    if (yInitial >= Y_MAX + ORIGIN.getY()) {
-      yInitial = Y_MIN + ORIGIN.getY();
-      this.penDown = false;
-    } else if (yInitial <= Y_MIN + ORIGIN.getY()) {
-      yInitial = Y_MAX + ORIGIN.getY();
-      this.penDown = false;
-    }
+    xInitial = checkXBound(xInitial);
+    yInitial = checkYBound(yInitial);
 
     CURRENT_POSITION.setX(ORIGIN.getX() + x);
     CURRENT_POSITION.setY(ORIGIN.getY() - y);
@@ -136,32 +124,79 @@ public class UITurtle extends UIElement {
     return new Point(xInitial, yInitial);
   }
 
+  private double checkXBound(double x) {
+    if (x >= X_MAX + ORIGIN.getX()) {
+      this.penDown = false;
+      return X_MIN + ORIGIN.getX();
+    } else if (x <= X_MIN + ORIGIN.getX()) {
+      this.penDown = false;
+      return X_MAX + ORIGIN.getX();
+    }
+    return x;
+  }
+
+  private double checkYBound(double y) {
+    if (y >= Y_MAX + ORIGIN.getY()) {
+      this.penDown = false;
+      return Y_MIN + ORIGIN.getY();
+    } else if (y <= Y_MIN + ORIGIN.getY()) {
+      this.penDown = false;
+      return Y_MAX + ORIGIN.getY();
+    }
+    return y;
+  }
+
   private void draw(Point pInitial, Point pFinal) {
     myPen.draw(pInitial.getX() - MY_TURTLE.getRadius(), pInitial.getY() - MY_TURTLE.getRadius(),
         pFinal.getX() - MY_TURTLE.getRadius(), pFinal.getY() - MY_TURTLE.getRadius());
   }
 
+  /**
+   * Deactivate/Activate pen
+   *
+   * @param penDown is pen down or not down
+   */
   public void setPenDown(boolean penDown) {
     this.penDown = penDown;
   }
 
+  /**
+   * Set pen for turtle view
+   *
+   * @param pen turtle's pen
+   */
   public void setPen(UIPen pen) {
     myPen = pen;
   }
 
+  /**
+   * Clear drawings
+   */
   public void clearScreen() {
     myPen.clearScreen();
   }
 
+  /**
+   * Show/activate turtle
+   * @param doShow do or do not show turtle
+   */
   public void showTurtle(Boolean doShow) {
     sendSignal();
     setStatus(doShow);
   }
 
+  /**
+   * Check is turtle showing/active
+   *
+   * @return turtle is or is not showing/active
+   */
   public Boolean isShowing() {
     return MY_TURTLE.getOpacity() > 0.5;
   }
 
+  /**
+   * Erase most recent line drawn by turtle
+   */
   public void clearLastLine() {
     myPen.eraseLine();
   }
