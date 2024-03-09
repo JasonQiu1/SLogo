@@ -52,7 +52,9 @@ public class TurtleController extends UIController {
   public void notifyController(UIElement element) {
     switch (element.getType().toLowerCase()) {
       case "textfield" -> {
-        runCommands((UITextField) element);
+        if (element.getID().equalsIgnoreCase("CommandLine")){
+          runCommands((UITextField) element);
+        }
         updateElements();
       }
       case "internalbutton" -> handleButtonInput((UIButton) element);
