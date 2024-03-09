@@ -99,23 +99,21 @@ public class UIRegion extends UIElement {
   }
 
   private static BorderStroke getBorderStroke(Color border, BorderStrokeStyle borderStrokeStyle) {
-    BorderStroke borderStroke = new BorderStroke(
+    return new BorderStroke(
         border,
         borderStrokeStyle,
         new CornerRadii(0),
         new BorderWidths(1));
-    return borderStroke;
   }
 
   private static BorderStrokeStyle getBorderStrokeStyle() {
-    BorderStrokeStyle borderStrokeStyle = new BorderStrokeStyle(
+    return new BorderStrokeStyle(
         StrokeType.INSIDE,
         StrokeLineJoin.MITER,
         StrokeLineCap.BUTT,
         10,
         0,
         null);
-    return borderStrokeStyle;
   }
 
   private static String findTheme() {
