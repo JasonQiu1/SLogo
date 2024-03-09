@@ -12,8 +12,8 @@ import slogo.controller.controllers.ThemeController;
 import slogo.controller.controllers.HelpController;
 import slogo.controller.controllers.UIController;
 import slogo.controller.controllers.XmlController;
-import slogo.model.api.turtle.TurtleAnimator;
 import slogo.model.session.SessionImplementation;
+import slogo.model.turtleutil.TurtleAnimatorImplementation;
 import slogo.view.userinterface.UIElement;
 import slogo.model.api.Session;
 
@@ -33,7 +33,7 @@ public class GraphicsListener implements UIListener {
   private final XmlController myXmlController;
   private final SessionController mySessionController;
   private final Session SESSION = new SessionImplementation();
-  private final TurtleAnimator TURTLE_ANIMATOR = new TurtleAnimator();
+  private final TurtleAnimatorImplementation TURTLE_ANIMATOR = new TurtleAnimatorImplementation();
   TurtleController myTurtleController;
 
   /**

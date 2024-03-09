@@ -10,19 +10,19 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.model.math.Point;
-import slogo.model.api.turtle.TurtleAnimator;
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
 import slogo.model.turtleutil.Turtle;
+import slogo.model.turtleutil.TurtleAnimatorImplementation;
 
 public class TurtleAnimatorTest {
   private Turtle myTurtle;
-  private TurtleAnimator myTurtleAnimator;
+  private TurtleAnimatorImplementation myTurtleAnimator;
 
   @BeforeEach
   void setup () {
     myTurtle = new Turtle(1);
-    myTurtleAnimator = new TurtleAnimator();
+    myTurtleAnimator = new TurtleAnimatorImplementation();
   }
 
   @Test
