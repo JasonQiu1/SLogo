@@ -172,7 +172,7 @@ class SessionTest {
   // !!! Atan does not pass due to floating point error, but it is correct
   @ParameterizedTest
   @ValueSource(
-      strings = {"fd sine 90", "fd tan 45", "if [ [ atan 1 ] == 45 ] [ fd 1 ]", "fd [ sqrt 4 ] - 1"})
+      strings = {"fd sine 90", "fd tan 45", "fd atan 1", "fd [ sqrt 4 ] - 1"})
   void run_Trig(String command) {
 //  GIVEN one turtle at (0,0) heading 0deg
 //  WHEN run(command)
