@@ -2,6 +2,7 @@ package slogo.controller.controllers;
 
 import java.util.Map;
 import slogo.model.api.Session;
+import slogo.model.api.XmlConfiguration;
 import slogo.model.api.exception.XmlException;
 import slogo.view.userinterface.UIButton;
 import slogo.view.userinterface.UIElement;
@@ -14,6 +15,9 @@ import slogo.view.windows.HelpWindow;
  * @author Jordan Haytaian
  */
 public class XmlController extends UIController {
+
+  private final String helpFile = "data/commands/command_help_basic.xml";
+  XmlConfiguration myXMLConfiguration = new XmlConfiguration();
 
   /**
    * Notifies the xml controller about changes in UI elements.
@@ -31,7 +35,7 @@ public class XmlController extends UIController {
   private void saveSession(String path) {
     try {
       Session mySession = getCurrentSession();
-      xmlConfiguration.saveSession(mySession, path);
+      myXMLConfiguration.saveSession(mySession, path);
     } catch (XmlException e) {
       new HelpWindow("error", getCurrentSession(), "unable to save file");
     }
@@ -39,11 +43,11 @@ public class XmlController extends UIController {
 
   private void expandCommand(String option) {
     try {
-      Map<String, String> commandMap = xmlConfiguration.loadHelpFile(helpFile);
+      Map<String, String> commandMap = myXMLConfiguration.loadHelpFile(helpFile);
       String commandInfo = commandMap.get(option);
-      new HelpWindow("help expand", getCurrentSession(), commandInfo);
+      new HelpWindow("expand", getCurrentSession(), commandInfo);
     } catch (XmlException e) {
-      new HelpWindow("error", getCurrentSession(), "unable to load command info");
+      //TODO: Exception handling
     }
   }
 

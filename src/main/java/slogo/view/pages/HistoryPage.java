@@ -11,15 +11,11 @@ import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
-import slogo.model.api.Session;
 import slogo.controller.listeners.HelpListener;
+import slogo.model.api.Session;
+import slogo.view.builders.PageBuilder;
 import slogo.view.userinterface.UIElement;
 
-/**
- * Page to view command history
- *
- * @author Jordan Haytaian
- */
 public class HistoryPage extends GeneralPage {
 
   private final Group root;
@@ -34,7 +30,7 @@ public class HistoryPage extends GeneralPage {
   public HistoryPage(Stage stage, Session session) {
     super(stage, new HelpListener(session));
     root = new Group();
-    myPageBuilder = new PageBuilder(stage);
+    myPageBuilder = new PageBuilder(stage, root);
     this.session = session;
   }
 
@@ -47,7 +43,7 @@ public class HistoryPage extends GeneralPage {
   @Override
   public void setPage(double screenWidth, double screenHeight) {
     Collection<UIElement> UIElements = new ArrayList<>(setupTitleText(screenWidth, screenHeight));
-    myPageBuilder.styleUI(UIElements, root);
+    myPageBuilder.styleUIElements(UIElements);
     setUpHistoryList(screenWidth, screenHeight);
   }
 
@@ -70,6 +66,10 @@ public class HistoryPage extends GeneralPage {
 
   private void setUpHistoryList(double screenWidth, double screenHeight) {
     List<Map<String, Map<String, String>>> historyList = session.getCommandHistory(0);
+//    List<Map<String, Map<String, String>>> historyList = new ArrayList<>();
+//    Map<String, Map<String, String>> historyMap = new HashMap<>();
+//    historyMap.put("fd 10", new HashMap<String, String>());
+//    historyList.add(historyMap);
 
     double[] position = new double[2];
     position[0] = (100);
