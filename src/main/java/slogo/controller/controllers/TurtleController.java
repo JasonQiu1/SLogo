@@ -1,5 +1,7 @@
 package slogo.controller.controllers;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +9,11 @@ import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import slogo.model.api.XmlConfiguration;
 import slogo.model.api.exception.XmlException;
 import slogo.model.api.turtle.TurtleAnimator;
@@ -30,13 +37,13 @@ public class TurtleController extends UIController {
   // Instance Variables
   public static final String TURTLE_XML = "src/main/resources/selected_turtle.xml";
   private final Map<String, UITurtle> TURTLE_VIEWS = new HashMap<>();
-  private final XmlConfiguration myXmlConfig = new XmlConfiguration();
-  private final TurtleAnimator myTurtleAnimator;
   private Timeline animation = new Timeline();
+  private final XmlConfiguration myXmlConfig = new XmlConfiguration();
   private Map<Integer, TurtleState> currentFrame;
   private int framesRan;
   private int numCommands;
   private boolean animationOnPause;
+  private final TurtleAnimator myTurtleAnimator;
 
   public TurtleController() {
     myTurtleAnimator = new TurtleAnimator();
@@ -51,7 +58,7 @@ public class TurtleController extends UIController {
   public void notifyController(UIElement element) {
     switch (element.getType().toLowerCase()) {
       case "textfield" -> {
-        if (element.getID().equalsIgnoreCase("CommandLine")) {
+        if (element.getID().equalsIgnoreCase("CommandLine")){
           runCommands((UITextField) element);
         }
         updateElements();
@@ -111,7 +118,7 @@ public class TurtleController extends UIController {
   }
 
   private void saveTurtleSelection(String path) {
-    new XmlHelper().updateFile(path, "SelectedTurtle", TURTLE_XML);
+    new XmlHelper().updateFile(path, "SelectedTurtle",TURTLE_XML);
   }
 
   private void updateElement(UIElement element) {

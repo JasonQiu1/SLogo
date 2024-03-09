@@ -1,7 +1,15 @@
 package slogo.controller.controllers;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Document;
 import slogo.model.api.Session;
 import slogo.view.userinterface.UIButton;
 import slogo.view.userinterface.UIElement;
@@ -52,10 +60,10 @@ public abstract class UIController {
   public abstract void notifyController(UIElement element);
 
   public void setSession(Session session) {
-    this.session = session;
-  }
+        this.session = session;
+    }
 
-  /**
+    /**
    * Retrieves the collection of managed UI elements.
    *
    * @return the collection of managed UI elements

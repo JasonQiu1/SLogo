@@ -1,5 +1,7 @@
 package slogo.view.userinterface;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Stack;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
@@ -7,8 +9,8 @@ import javafx.scene.shape.Line;
 
 public class UIPen {
 
-  private final Group myCanvas;
   Stack<Line> lineCollector;
+  private final Group myCanvas;
   private Color myPenColor = Color.BLACK;
 
   public UIPen(Group canvas) {

@@ -31,7 +31,6 @@ public class UIListView extends UIElement {
 
   /**
    * Method to get clicked option of list view
-   *
    * @return selected item
    */
   public String getSelectedItem() {

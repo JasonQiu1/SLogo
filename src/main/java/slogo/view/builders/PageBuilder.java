@@ -17,7 +17,7 @@ public class PageBuilder {
   private final ExternalButtonBuilder myExternalButtonBuilder;
   private final InternalButtonBuilder myInternalButtonBuilder;
   private final CheckBoxBuilder myCheckBoxBuilder;
-  private final RegionBuilder myRegionBuilder;
+  private final RegionBuilder myRegionBulder;
   private final TextFieldBuilder myTextFieldBuilder;
   private final TurtleBuilder myTurtleBuilder;
   private final TextBuilder myTextBuilder;
@@ -32,7 +32,7 @@ public class PageBuilder {
     myExternalButtonBuilder = new ExternalButtonBuilder(stage);
     myInternalButtonBuilder = new InternalButtonBuilder();
     myCheckBoxBuilder = new CheckBoxBuilder();
-    myRegionBuilder = new RegionBuilder();
+    myRegionBulder = new RegionBuilder();
     myTextFieldBuilder = new TextFieldBuilder();
     myTurtleBuilder = new TurtleBuilder(root);
     myTextBuilder = new TextBuilder();
@@ -58,7 +58,7 @@ public class PageBuilder {
       case "text" -> myTextBuilder.build(element);
       case "checkbox" -> myCheckBoxBuilder.build(element);
       case "textfield" -> myTextFieldBuilder.build(element);
-      case "region" -> myRegionBuilder.build(element);
+      case "region" -> myRegionBulder.build(element);
       case "turtle" -> myTurtleBuilder.build(element);
       default -> throw new TypeNotPresentException(element.getType(), new Throwable());
     }
