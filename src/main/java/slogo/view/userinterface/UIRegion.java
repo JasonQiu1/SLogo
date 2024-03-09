@@ -17,7 +17,6 @@ import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeType;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
-import tool.XmlHelper;
 
 /**
  * Represents a region in the Slogo user interface. Extends the UIElement class. It provides methods
@@ -52,7 +51,14 @@ public class UIRegion extends UIElement {
   }
 
   private static String findTheme() {
-    new XmlHelper().getElementFromTag("BackgroundTheme", THEME_XML);
+    try {
+      File file = new File(THEME_XML);
+      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+      return doc.getElementsByTagName("BackgroundTheme").item(0).getTextContent();
+
+    } catch (Exception e) {
+      System.out.println(e);
+    }
     return "light";
   }
 

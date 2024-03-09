@@ -38,7 +38,7 @@ public class UIText extends UIElement {
     myText = (Text) getElement();
     myText.setFill(Color.GREEN);
     myText.toFront();
-    myText.setText(LanguageManager.translate(getLanguage(), text));
+    myText.setText(LanguageManager.translate(LanguageManager.getCurrentLanguage(), text));
     setPosition(x, y);
   }
 
