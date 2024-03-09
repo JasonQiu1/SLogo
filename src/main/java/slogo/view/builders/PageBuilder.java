@@ -7,8 +7,7 @@ import slogo.view.userinterface.UIElement;
 
 /**
  * The PageBuilder class is responsible for styling UI elements and adding them to the root group.
- * It provides methods to style different types of UI elements based on their type and ID. It
- * encapsulates the logic for setting up various UI elements and their functionalities.
+ * It encapsulates the logic for setting up various UI elements and their functionalities.
  *
  * @author Jeremyah Flowers
  */
@@ -24,9 +23,10 @@ public class PageBuilder {
   private final Group myRoot;
 
   /**
-   * Constructs a PageBuilder object with the specified stage.
+   * Constructs a PageBuilder object with the specified stage and root group.
    *
    * @param stage The stage for the page builder.
+   * @param root The root group to which UI elements will be added.
    */
   public PageBuilder(Stage stage, Group root) {
     myExternalButtonBuilder = new ExternalButtonBuilder(stage);
@@ -41,9 +41,9 @@ public class PageBuilder {
   }
 
   /**
-   * Styles UI elements and adds them to the root group.
+   * Styles a collection of UI elements and adds them to the root group.
    *
-   * @param UIElements a collection of UI elements to style
+   * @param UIElements A collection of UI elements to style and add.
    */
   public void styleUIElements(Collection<UIElement> UIElements) {
     for (UIElement element : UIElements) {
@@ -51,6 +51,11 @@ public class PageBuilder {
     }
   }
 
+  /**
+   * Styles a single UI element and adds it to the root group.
+   *
+   * @param element The UI element to style and add.
+   */
   public void styleUIElement(UIElement element) {
     switch (element.getType().toLowerCase()) {
       case "externalbutton" -> myExternalButtonBuilder.build(element);
