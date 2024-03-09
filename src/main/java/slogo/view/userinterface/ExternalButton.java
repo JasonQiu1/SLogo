@@ -120,8 +120,11 @@ public class ExternalButton extends UIButton {
     fc.getExtensionFilters()
         .add(new FileChooser.ExtensionFilter("SLogo Files", "*.slogo"));
     myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-      String filePath = fc.showOpenDialog(stage).getPath();
-      setMyPath(filePath);
+      File file = fc.showOpenDialog(stage);
+      if(file != null) {
+        setMyPath(file.getPath());
+      }
+
       sendSignal();
     });
   }

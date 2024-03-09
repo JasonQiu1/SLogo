@@ -39,27 +39,6 @@ public abstract class UIController {
     }
 
     /**
-     * Writes XML data to the provided output stream.
-     *
-     * @param doc    the XML document to write
-     * @param output the output stream to write to
-     * @throws TransformerException if an error occurs during transformation
-     */
-    protected static void writeXml(Document doc, OutputStream output) throws TransformerException {
-
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-
-        DOMSource source = new DOMSource(doc);
-        StreamResult result = new StreamResult(output);
-
-        transformer.transform(source, result);
-
-    }
-
-    /**
      * Adds a UI element to the collection of managed elements.
      *
      * @param element the UI element to add

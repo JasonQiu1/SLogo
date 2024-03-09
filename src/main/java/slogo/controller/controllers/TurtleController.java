@@ -25,6 +25,7 @@ import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UITextField;
 import slogo.view.userinterface.UITurtle;
 import slogo.view.windows.HelpWindow;
+import tool.XmlHelper;
 
 /**
  * TurtleController class implements UIController interface to manage turtle UI elements. It
@@ -124,16 +125,7 @@ public class TurtleController extends UIController {
   }
 
   private void saveTurtleSelection(String path) {
-    try {
-      FileOutputStream file = new FileOutputStream(TURTLE_XML);
-      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-      Element turtleSelect = doc.createElement("SelectedTurtle");
-      turtleSelect.setTextContent(path);
-      doc.appendChild(turtleSelect);
-      writeXml(doc, file);
-    } catch (ParserConfigurationException | TransformerException | FileNotFoundException e) {
-      throw new RuntimeException(e);
-    }
+    new XmlHelper().updateFile(path,"SelectedTurtle", TURTLE_XML);
   }
 
   private void updateElement(UIElement element) {
