@@ -16,13 +16,12 @@ import javax.xml.transform.TransformerException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import slogo.model.api.turtle.TurtleAnimator;
-
 import slogo.model.api.XmlConfiguration;
 import slogo.model.api.exception.XmlException;
 
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
+import slogo.model.turtleutil.TurtleAnimatorImplementation;
 import slogo.view.userinterface.UIButton;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UITextField;
@@ -46,10 +45,10 @@ public class TurtleController extends UIController {
   private int framesRan;
   private int numCommands;
   private boolean animationOnPause;
-  private TurtleAnimator myTurtleAnimator;
+  private TurtleAnimatorImplementation myTurtleAnimator;
 
   public TurtleController() {
-    myTurtleAnimator = new TurtleAnimator();
+    myTurtleAnimator = new TurtleAnimatorImplementation();
   }
 
   /**

@@ -7,7 +7,6 @@ import org.junit.jupiter.api.*;
 
 import slogo.model.api.exception.turtle.InvalidPositionException;
 import slogo.model.math.Point;
-import slogo.model.api.turtle.TurtleAnimator;
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
 import slogo.model.math.Vector;
@@ -332,7 +331,7 @@ public class TurtleTest {
     myTurtle.move(50);
     myTurtle.rotate(65);
     myTurtle.move(-200);
-    myTurtle.reset(TurtleAnimator.getInitialTurtleState());
+    myTurtle.reset(TurtleAnimatorImplementation.INITIAL_TURTLE_STATE);
 
     double Xf = 0;
     double Yf = 0;

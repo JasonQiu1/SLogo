@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import slogo.model.api.exception.turtle.InvalidPositionException;
 import slogo.model.math.Point;
-import slogo.model.api.turtle.TurtleAnimator;
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
 import slogo.model.math.Vector;
@@ -32,7 +31,7 @@ public class Turtle {
    */
   public Turtle(int id) {
     this.id = id;
-    this.currentState = TurtleAnimator.getInitialTurtleState();
+    this.currentState = TurtleAnimatorImplementation.INITIAL_TURTLE_STATE;
     this.stepHistory = new ArrayList<>();
     this.currentPointInStepHistory = 0;
   }
@@ -182,8 +181,8 @@ public class Turtle {
    */
   public TurtleStep setXY(Point position) throws InvalidPositionException {
 
-    if (position.getX() > TurtleAnimator.X_MAX || position.getY() > TurtleAnimator.Y_MAX
-        || position.getX() < TurtleAnimator.X_MIN || position.getY() < TurtleAnimator.Y_MIN) {
+    if (position.getX() > TurtleAnimatorImplementation.X_MAX || position.getY() > TurtleAnimatorImplementation.Y_MAX
+        || position.getX() < TurtleAnimatorImplementation.X_MIN || position.getY() < TurtleAnimatorImplementation.Y_MIN) {
       throw new InvalidPositionException(errorResourceBundle.getString("INVALID_POSITION"));
     }
 
@@ -237,11 +236,13 @@ public class Turtle {
     updateHistory(step, true);
     intermediateSteps.add(step);
 
-    Point finalPos = calculateFinalPosition(currentState.position(), interPosChange);
-    finalPos.setX(finalPos.getX() == TurtleAnimator.X_MAX ? TurtleAnimator.X_MIN
-        : finalPos.getX() == TurtleAnimator.X_MIN ? TurtleAnimator.X_MAX : finalPos.getX());
-    finalPos.setY(finalPos.getY() == TurtleAnimator.Y_MAX ? TurtleAnimator.Y_MIN
-        : finalPos.getY() == TurtleAnimator.Y_MIN ? TurtleAnimator.Y_MAX : finalPos.getY());
+    Point finalPos = calculateFinalPosition(this.currentState.position(), interPosChange);
+
+    if (finalPos.getX() == TurtleAnimatorImplementation.X_MAX) finalPos.setX(TurtleAnimatorImplementation.X_MIN);
+    else if (finalPos.getX() == TurtleAnimatorImplementation.X_MIN) finalPos.setX(TurtleAnimatorImplementation.X_MAX);
+
+    if (finalPos.getY() == TurtleAnimatorImplementation.Y_MAX) finalPos.setY(TurtleAnimatorImplementation.Y_MIN);
+    else if (finalPos.getY() == TurtleAnimatorImplementation.Y_MIN) finalPos.setY(TurtleAnimatorImplementation.Y_MAX);
 
     currentState = new TurtleState(finalPos, currentState.heading());
 
@@ -250,15 +251,21 @@ public class Turtle {
 
   private Vector findInterPosChange(double dx, double dy) {
 
-    double interDx = isOutXMax(dx) ? TurtleAnimator.X_MAX - currentState.position().getX() :
-        isOutXMin(dx) ? TurtleAnimator.X_MIN - currentState.position().getX() : 0.0;
+    double interDx = 0.0;
+    double interDy = 0.0;
 
-    double interDy = calculateYComponentGivenXComponentAngle(interDx, currentState.heading());
+    if (isOutXMax(dx)) {
+      interDx = TurtleAnimatorImplementation.X_MAX - this.currentState.position().getX();
+    } else if (isOutXMin(dx)) {
+      interDx = TurtleAnimatorImplementation.X_MIN - this.currentState.position().getX();
+    }
 
-    if (isOutYMax(dy) || interDy > TurtleAnimator.Y_MAX) {
-      interDy = TurtleAnimator.Y_MAX - currentState.position().getY();
-    } else if (isOutYMin(dy) || interDy < TurtleAnimator.Y_MIN) {
-      interDy = TurtleAnimator.Y_MIN - currentState.position().getY();
+    interDy = this.calculateYComponentGivenXComponentAngle(interDx, this.currentState.heading());
+
+    if (isOutYMax(dy) || interDy > TurtleAnimatorImplementation.Y_MAX) {
+      interDy = TurtleAnimatorImplementation.Y_MAX - this.currentState.position().getY();
+    } else if (isOutYMin(dy) || interDy < TurtleAnimatorImplementation.Y_MIN) {
+      interDy = TurtleAnimatorImplementation.Y_MIN - this.currentState.position().getY();
     }
 
     interDx = this.calculateXComponentGivenYComponentAngle(interDy, this.currentState.heading());
@@ -267,26 +274,26 @@ public class Turtle {
   }
 
   private boolean isOutXMax(double dx) {
-    return this.currentState.position().getX() + dx > TurtleAnimator.X_MAX;
+    return this.currentState.position().getX() + dx > TurtleAnimatorImplementation.X_MAX;
   }
 
   private boolean isOutXMin(double dx) {
-    return this.currentState.position().getX() + dx < TurtleAnimator.X_MIN;
+    return this.currentState.position().getX() + dx < TurtleAnimatorImplementation.X_MIN;
   }
 
   private boolean isOutYMax(double dy) {
-    return this.currentState.position().getY() + dy > TurtleAnimator.Y_MAX;
+    return this.currentState.position().getY() + dy > TurtleAnimatorImplementation.Y_MAX;
   }
 
   private boolean isOutYMin(double dy) {
-    return this.currentState.position().getY() + dy < TurtleAnimator.Y_MIN;
+    return this.currentState.position().getY() + dy < TurtleAnimatorImplementation.Y_MIN;
   }
 
   private boolean isWithinBounds(double dx, double dy) {
-    return this.currentState.position().getX() + dx <= TurtleAnimator.X_MAX
-        && this.currentState.position().getX() + dx >= TurtleAnimator.X_MIN
-        && this.currentState.position().getY() + dy <= TurtleAnimator.Y_MAX
-        && this.currentState.position().getY() + dy >= TurtleAnimator.Y_MIN;
+    return this.currentState.position().getX() + dx <= TurtleAnimatorImplementation.X_MAX
+        && this.currentState.position().getX() + dx >= TurtleAnimatorImplementation.X_MIN
+        && this.currentState.position().getY() + dy <= TurtleAnimatorImplementation.Y_MAX
+        && this.currentState.position().getY() + dy >= TurtleAnimatorImplementation.Y_MIN;
   }
 
   private TurtleStep normalMove(double dx, double dy) {

@@ -12,7 +12,6 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import slogo.model.api.Session;
-import slogo.model.api.turtle.TurtleAnimator;
 import slogo.view.userinterface.UIButton;
 import slogo.view.userinterface.UIElement;
 
