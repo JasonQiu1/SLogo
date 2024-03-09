@@ -13,6 +13,7 @@ import slogo.view.userinterface.UICheckBox;
 import slogo.view.userinterface.UIDropDown;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UIText;
+import tool.XmlHelper;
 
 /**
  * LanguageController class implements UIController interface to manage language translations.
@@ -98,15 +99,6 @@ public class LanguageController extends UIController {
     }
 
     private void updateLanguageFile() {
-        try {
-            FileOutputStream file = new FileOutputStream(LANGUAGE_XML);
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-            Element backgroundTheme = doc.createElement(LANGUAGE_TAG);
-            backgroundTheme.setTextContent(languageFlag);
-            doc.appendChild(backgroundTheme);
-            writeXml(doc, file);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        new XmlHelper().updateFile(languageFlag, LANGUAGE_TAG, LANGUAGE_XML);
     }
 }

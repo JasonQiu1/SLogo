@@ -9,6 +9,7 @@ import org.w3c.dom.Element;
 import slogo.view.userinterface.UICheckBox;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UIRegion;
+import tool.XmlHelper;
 
 /**
  * ThemeController class implements UIController interface to manage theme UI elements. It
@@ -78,15 +79,6 @@ public class ThemeController extends UIController {
     }
 
     private void updateThemeFile(String theme) {
-        try {
-            FileOutputStream file = new FileOutputStream(THEME_XML);
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-            Element backgroundTheme = doc.createElement("BackgroundTheme");
-            backgroundTheme.setTextContent(theme);
-            doc.appendChild(backgroundTheme);
-            writeXml(doc, file);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+      new XmlHelper().updateFile(theme, "BackgroundTheme", THEME_XML);
     }
 }
