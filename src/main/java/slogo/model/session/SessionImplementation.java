@@ -59,8 +59,8 @@ public class SessionImplementation implements Session {
    */
   @Override
   public List<Map<String, Map<String, String>>> getCommandHistory(int maxLength) {
-    return new ArrayList<>(commandHistory.subList(Math.max(0, commandHistory.size() - maxLength),
-        commandHistory.size()));
+    return commandHistory.subList(Math.max(0, commandHistory.size() - maxLength),
+        commandHistory.size());
   }
 
   /**
