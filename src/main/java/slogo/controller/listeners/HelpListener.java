@@ -37,16 +37,11 @@ public class HelpListener implements UIListener {
 
   @Override
   public void sendSignal(UIElement element) {
-    switch (element.getID().toLowerCase()) {
-      case "library commands" -> myXmlController.notifyController(element);
-      case "user-defined commands", "user-defined variables", "history", "command history", "variable list" -> {
-        helpController.notifyController(element);
-        myTurtleController.notifyController(element);
-      }
-      default -> {
-        helpController.notifyController(element);
-        myTurtleController.notifyController(element);
-      }
+    if (element.getID().equalsIgnoreCase("library commands")) {
+      myXmlController.notifyController(element);
+    } else {
+      helpController.notifyController(element);
+      myTurtleController.notifyController(element);
     }
   }
 

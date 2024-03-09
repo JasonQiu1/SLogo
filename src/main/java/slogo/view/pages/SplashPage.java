@@ -113,7 +113,8 @@ public class SplashPage extends GeneralPage {
     Map<String, double[]> extIDs = new HashMap<>();
     extIDs.put("TurtleSelector", new double[]{screenWidth / 2 - 95, 2 * screenHeight / 8});
     extIDs.put("Create", new double[]{screenWidth / 4 - 30, 5 * screenHeight / 8});
-    extIDs.put("Load File", new double[]{2 * screenWidth / 4 - 20, 5 * screenHeight / 8});
+    extIDs.put("Load File", new double[]{screenWidth / 3, 5 * screenHeight / 8});
+    extIDs.put("Load Preferences", new double[]{screenWidth / 2, 5 * screenHeight / 8});
     extIDs.put("Help", new double[]{3 * screenWidth / 4 + 10, 5 * screenHeight / 8});
     return createElements(extIDs, "externalbutton");
   }

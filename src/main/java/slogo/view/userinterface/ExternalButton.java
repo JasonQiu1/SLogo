@@ -54,6 +54,8 @@ public class ExternalButton extends UIButton {
       fc.getExtensionFilters().addAll(
           new ExtensionFilter("SLOGO File", "*.slogo")
       );
+    } else if (folderName.equals("preferences")) {
+      fc.getExtensionFilters().addAll(new ExtensionFilter("XML", "*.xml"));
     }
 
     return fc;
@@ -116,10 +118,7 @@ public class ExternalButton extends UIButton {
    * @param folderName The name of the folder from which files will be opened.
    */
   public void addFolderOpener(Stage stage, String folderName) {
-    //FileChooser fc = getFileChooser(folderName);
-    FileChooser fc = new FileChooser();
-    fc.getExtensionFilters()
-        .add(new FileChooser.ExtensionFilter("SLogo Files", "*.slogo"));
+    FileChooser fc = getFileChooser(folderName);
     myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
       String filePath = fc.showOpenDialog(stage).getPath();
       setMyPath(filePath);

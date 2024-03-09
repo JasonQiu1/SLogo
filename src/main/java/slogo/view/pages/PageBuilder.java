@@ -111,6 +111,10 @@ public class PageBuilder {
         button.addOpenPage("GraphicsPage");
         button.addFolderOpener(myStage, "saved_files");
       }
+      case "Load Preferences" -> {
+        button.setMenuClassic();
+        button.addFolderOpener(myStage, "preferences");
+      }
       case "Save" -> {
         button.setMenuClassic();
         button.addSaveFolder(myStage, "saved_files");

@@ -113,7 +113,7 @@ public class GraphicsListener implements UIListener {
       case "History", "Help" -> {
         passToHelp(element);
       }
-      case "Save", "Load" -> {
+      case "Save" -> {
         passToXML(element);
       }
     }

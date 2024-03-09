@@ -65,8 +65,13 @@ public class TurtleController extends UIController {
       case "internalbutton" -> handleButtonInput((UIButton) element);
       case "listview" -> updateElements();
       case "externalbutton" -> {
-        loadCommands(element);
-        updateElements();
+        if (element.getID().equalsIgnoreCase("Load Preferences")) {
+          String filePath = getTurtleImageFromPreferences(((UIButton) element).getMyPath());
+          saveTurtleSelection(filePath);
+        } else {
+          loadCommands(element);
+          updateElements();
+        }
       }
     }
   }
@@ -211,6 +216,16 @@ public class TurtleController extends UIController {
       framesRan = 0;
       // turn on pen
       turtleView.setPenDown(true);
+    }
+  }
+
+  private String getTurtleImageFromPreferences(String filePath) {
+    try {
+      Map<String, String> prefMap = xmlConfiguration.getPreferences(filePath);
+      return prefMap.get("turtle_image");
+    } catch (XmlException e) {
+      new HelpWindow("error", getCurrentSession(), "unable to load preferences");
+      return null;
     }
   }
 }

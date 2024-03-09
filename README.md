@@ -2,7 +2,7 @@
 
 ## Team 3
 
-## Jason Qiu (jq48), Jordan, Jeremyah, Judy He (yh381)
+## Jason Qiu (jq48), Jordan (jeh120), Jeremyah, Judy He (yh381)
 
 This project implements a simple Logo ide, interpreter, and visualizer.
 
@@ -12,13 +12,15 @@ This project implements a simple Logo ide, interpreter, and visualizer.
 
 * Finish Date: March 8, 2024
 
-* Hours Spent: 39 (Jason Qiu) + 40 (Judy He) +
+* Hours Spent: 39 (Jason Qiu) + 40 (Judy He) + 40 (Jordan Haytaian)
 
 ### Attributions
 
 * Resources used for learning (including AI assistance)
     * Jason Qiu
         * Interpreter : https://craftinginterpreters.com/contents.html
+    * Jordan Haytaian
+        * Chatgpt
     * Judy He
         * Design patterns: https://www.oodesign.com/
 
@@ -28,11 +30,12 @@ This project implements a simple Logo ide, interpreter, and visualizer.
 
 * Main class: Main.java
 
-* Data files needed:
+* Data files needed: Translations/english.properties, Translations/french.properties,
+  Translations/spanish.properties
 
-* Interesting data files:
+* Interesting data files: data/preferences/preference_1.xml
 
-* Key/Mouse inputs:
+* Key/Mouse inputs: Ctrl+R to submit typed text
 
 ### Notes/Assumptions
 
@@ -44,6 +47,10 @@ This project implements a simple Logo ide, interpreter, and visualizer.
 * Known Bugs:
     * Each time replay is clicked, less line is drawn. The line is not drawing properly for repeated replays.
     * Animation starts lagging if changing from high speed to lower speed.
+    * Replay does not function properly after changing speed
+    * Load throws error from splash screen, works properly in IDE
+    * Running a command from a help menu that does not take parameters will prompt for parameters
+    * Some language translations and help documentation make buttons overlap or text flow off-screen
 
 * Features implemented:
     * Commands:
@@ -54,10 +61,23 @@ This project implements a simple Logo ide, interpreter, and visualizer.
         * Runs all commands until encountering an error
         * Throws an error which should be caught by the view and displayed to the user when
           encountering an error with the given code
+    * Help Pages:
+        * Commands, Variables, and History can all be displayed in a pop-up window
+        * Variables can be set by clicking on them in the pop-up
+        * Commands can be run by clicking on them in the pop-up
+    * Preferences:
+        * User can load preferences for SplashScreen
+    * Load/Save
+        * User can load and save programs to/from .slogo files
+    * Language Translation
+        * User can translate UI to English, Spanish, or French
 
 * Features unimplemented:
     * Commands:
         * setpencolor, setpensize, pencolor, penup, pendown, showturtle, hideturtle, clearscreen
+    * Preferences:
+        * XML Graphics preferences (loading file, background color, pen color, index values, num
+          turtles)
 
 * Noteworthy Features:
     * Commands:
@@ -77,6 +97,10 @@ This project implements a simple Logo ide, interpreter, and visualizer.
           modes that controls the turtle's behavior when it reaches the edge.
         * Draw line, erase line
         * User may speed up/slow down both ongoing and future animations
+    * Help Pages:
+        * Commands, Variables, and History can all be displayed in a pop-up window
+        * Variables can be set by clicking on them in the pop-up
+        * Commands can be run by clicking on them in the pop-up
 
 ### Assignment Impressions
 
@@ -92,4 +116,11 @@ motion and designing the API in such a way that it supports speed adjustments, t
 tracks the step history of the turtles. As I helped integrated the animation part of the model with
 view, I encountered further challenges in displaying the intermediate states of the turtle computed
 by the model as well as generating the line animation. Another challenge was implementing the View
-to support change in animation speed.    
+to support change in animation speed.
+
+Jordan Haytaian: I learned a lot about design patterns through working on this project. For example,
+it was my first time working with controllers/listeners. This experience was also my first time
+working extensively in front-end development. I really enjoyed working with graphics and making
+design considerations about the user's visual experience. I found this project to be very
+collaborative in that I was often working in classes that other group members had created. This was
+a great exercise in interpreting and writing compatible code.

@@ -1,9 +1,6 @@
 package slogo.controller.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import slogo.model.api.exception.XmlException;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UIListView;
 import slogo.view.userinterface.UITextField;
