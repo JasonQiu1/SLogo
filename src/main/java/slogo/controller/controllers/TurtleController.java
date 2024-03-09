@@ -40,7 +40,6 @@ public class TurtleController extends UIController {
   public static final String TURTLE_XML = "src/main/resources/selected_turtle.xml";
   private final Map<String, UITurtle> TURTLE_VIEWS = new HashMap<>();
   private Timeline animation = new Timeline();
-  private XmlConfiguration myXmlConfig = new XmlConfiguration();
   private Map<Integer, TurtleState> currentFrame;
   private int framesRan;
   private int numCommands;
@@ -91,7 +90,7 @@ public class TurtleController extends UIController {
   private void loadCommands(UIElement element) {
     String filePath = ((UIButton) element).getMyPath();
     try {
-      List<String> commands = myXmlConfig.loadSessionFromFile(filePath);
+      List<String> commands = xmlConfiguration.loadSessionFromFile(filePath);
       String allCommands = String.join(" ", commands);
       this.numCommands = getCurrentSession().run(allCommands);
     } catch (XmlException e) {

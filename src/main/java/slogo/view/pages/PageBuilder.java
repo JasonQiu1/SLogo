@@ -142,7 +142,6 @@ public class PageBuilder {
     switch (checkBox.getID()) {
       case "Light", "Dark" -> {
         checkBox.setThemeCheckBox();
-        // TODO: MAKE BUTTON JUMP TO SLOGO WIKI
       }
       case "BK/WH", "GN/BL", "PK/PR" -> {
         checkBox.setBackgroundCheckBox();
@@ -156,7 +155,7 @@ public class PageBuilder {
   private void loadText(UIText text) {
     switch (text.getID()) {
       case "SLOGO", "Help", "Command History", "User-Defined Variables", "User-Defined "
-          + "Commands", "Save Session", "Set Value" -> {
+          + "Commands", "Save Session", "Set Value", "Set Parameters" -> {
         text.setSlogoClassic();
       }
       case "Theme:", "Pen Colors:", "Speed:" -> {
@@ -169,18 +168,13 @@ public class PageBuilder {
         text.setErrorClassic();
       }
       default -> {
-        text.setRegularClassic();
+        text.setSmallerClassic();
         text.setClickable();
       }
     }
   }
 
   private void loadTextField(UITextField textField) {
-//    if (textField.getID().equals("CommandLine")) {
-//      textField.setupTextBox();
-//    } else {
-//      throw new TypeNotPresentException(textField.getID(), new Throwable());
-//    }
     textField.setupTextBox();
   }
 }

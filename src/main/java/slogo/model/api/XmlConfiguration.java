@@ -25,7 +25,6 @@ import slogo.model.session.SessionImplementation;
 public class XmlConfiguration {
 
   private final ArrayList<String> tagList;
-  private final String commandTag = "command";
 
   /**
    * Constructor for XmlConfig

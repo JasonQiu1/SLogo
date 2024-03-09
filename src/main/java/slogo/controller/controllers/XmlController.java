@@ -17,9 +17,6 @@ import slogo.view.windows.HelpWindow;
  */
 public class XmlController extends UIController {
 
-  XmlConfiguration myXMLConfiguration = new XmlConfiguration();
-  private final String helpFile = "data/commands/command_help_basic.xml";
-
   /**
    * Notifies the xml controller about changes in UI elements.
    *
@@ -36,7 +33,7 @@ public class XmlController extends UIController {
   private void saveSession(String path) {
     try {
       Session mySession = getCurrentSession();
-      myXMLConfiguration.saveSession(mySession, path);
+      xmlConfiguration.saveSession(mySession, path);
     } catch (XmlException e) {
       new HelpWindow("error", getCurrentSession(), "unable to save file");
     }
@@ -44,11 +41,11 @@ public class XmlController extends UIController {
 
   private void expandCommand(String option) {
     try {
-      Map<String, String> commandMap = myXMLConfiguration.loadHelpFile(helpFile);
+      Map<String, String> commandMap = xmlConfiguration.loadHelpFile(helpFile);
       String commandInfo = commandMap.get(option);
-      new HelpWindow("expand", getCurrentSession(), commandInfo);
+      new HelpWindow("help expand", getCurrentSession(), commandInfo);
     } catch (XmlException e) {
-      //TODO: Exception handling
+      new HelpWindow("error", getCurrentSession(), "unable to load command info");
     }
   }
 
