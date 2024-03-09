@@ -18,3 +18,12 @@ the most recent command. Only by doing so will the TurtleAnimator know the point
 go back to for each Turtle. However, to avoid deprecating the existing `resetFrame()` method which
 resets the turtle animation to the beginning and replays all commands, we chose to use method
 overload and added a new method `resetFrame(int frames)` that accepts a parameter.
+
+# Session
+
+We realized the view didn't have any way to know how many steps each turtle took after 
+a string of commands were run, so it couldn't accurately query the right amount of step history to
+animate.
+
+To solve this, Session.run's signature was changed to return an integer corresponding to the number
+of steps each turtle performed after running the given string of commands.
