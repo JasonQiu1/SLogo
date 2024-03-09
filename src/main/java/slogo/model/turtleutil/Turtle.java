@@ -90,7 +90,9 @@ public class Turtle {
       }
     }
 
-    if (startInd == currentPointInStepHistory - 1) startInd = currentPointInStepHistory - maxLength;
+    if (startInd == currentPointInStepHistory - 1) {
+      startInd = currentPointInStepHistory - maxLength;
+    }
 
     for (int i = startInd; i < this.stepHistory.size(); i++) {
       history.add(this.stepHistory.get(i).turtleStep());
@@ -312,6 +314,12 @@ public class Turtle {
         && currentState.position().getX() + dx >= TurtleAnimatorImplementation.X_MIN
         && currentState.position().getY() + dy <= TurtleAnimatorImplementation.Y_MAX
         && currentState.position().getY() + dy >= TurtleAnimatorImplementation.Y_MIN;
+  }
+
+  protected Vector getXYComponents(double distance) {
+    double dx = Turtle.calculateXComponent(distance, currentState.heading());
+    double dy = Turtle.calculateYComponent(distance, currentState.heading());
+    return new Vector(dx, dy);
   }
 
   /**

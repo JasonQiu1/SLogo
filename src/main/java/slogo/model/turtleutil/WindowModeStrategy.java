@@ -12,10 +12,10 @@ import slogo.model.math.Vector;
  */
 public class WindowModeStrategy implements ModeStrategy {
 
-  Turtle turtle;
+  private Turtle turtle;
 
   /**
-   * Moves the turtle by the specified distance given the Window mode strategy
+   * Moves the turtle by the specified distance given the Window mode strategy.
    *
    * @param turtle   the turtle to be moved
    * @param distance the distance to move
@@ -24,11 +24,12 @@ public class WindowModeStrategy implements ModeStrategy {
   @Override
   public List<TurtleStep> move(Turtle turtle, double distance) {
     this.turtle = turtle;
-    double dx = Turtle.calculateXComponent(distance, turtle.getCurrentState().heading());
-    double dy = Turtle.calculateYComponent(distance, turtle.getCurrentState().heading());
-    List<TurtleStep> intermediateSteps = new ArrayList<>();
+    return generateInterSteps(turtle.getXYComponents(distance));
+  }
 
-    intermediateSteps.add(normalMove(dx, dy));
+  private List<TurtleStep> generateInterSteps(Vector v) {
+    List<TurtleStep> intermediateSteps = new ArrayList<>();
+    intermediateSteps.add(normalMove(v.dx(), v.dy()));
     return intermediateSteps;
   }
 

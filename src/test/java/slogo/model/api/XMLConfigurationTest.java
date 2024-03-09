@@ -10,6 +10,7 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.model.api.exception.XmlException;
+import slogo.model.configuration.XmlConfiguration;
 import slogo.model.session.SessionImplementation;
 
 public class XMLConfigurationTest {

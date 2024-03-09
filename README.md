@@ -45,6 +45,8 @@ This project implements a simple Logo ide, interpreter, and visualizer.
           variables in for commands
 
 * Known Bugs:
+    * Each time replay is clicked, less line is drawn. The line is not drawing properly for repeated replays.
+    * Animation starts lagging if changing from high speed to lower speed.
     * Replay does not function properly after changing speed
     * Load throws error from splash screen, works properly in IDE
     * Running a command from a help menu that does not take parameters will prompt for parameters
