@@ -28,11 +28,6 @@ public class ErrorPage extends GeneralPage {
   private final Group root;
   private final PageBuilder myPageBuilder;
   private final String errorMessage;
-<<<<<<< HEAD
-  private static final String FONT_FAMILY = "Verdana";
-  private static final Font MESSAGE_FONT = Font.font(FONT_FAMILY, FontWeight.MEDIUM, 12);
-=======
->>>>>>> 17fd9ee (Added XML Helper and Builders. [NOTE: someone pushed code that doesn't compile to the branch. please fix].)
 
   /**
    * Constructor for ErrorPage

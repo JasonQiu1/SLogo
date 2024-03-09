@@ -1,6 +1,5 @@
 package slogo.view.userinterface;
 
-import java.io.File;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -15,8 +14,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeType;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
 import tool.XmlHelper;
 
 /**
@@ -52,8 +49,8 @@ public class UIRegion extends UIElement {
   }
 
   private static String findTheme() {
-    new XmlHelper().getElementFromTag("BackgroundTheme", THEME_XML);
-    return "light";
+
+    return new XmlHelper().getElementFromTag("BackgroundTheme", THEME_XML);
   }
 
   /**

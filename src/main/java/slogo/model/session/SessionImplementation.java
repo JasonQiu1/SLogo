@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package slogo.model.session;
 
 import java.util.ArrayList;
@@ -165,5 +164,3 @@ public class SessionImplementation implements Session {
   private final CodeRunner codeRunner;
   private final List<Turtle> turtles;
 }
-=======
->>>>>>> 17fd9ee (Added XML Helper and Builders. [NOTE: someone pushed code that doesn't compile to the branch. please fix].)

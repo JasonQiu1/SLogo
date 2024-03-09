@@ -2,20 +2,19 @@ package slogo.controller.listeners;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
 import slogo.controller.controllers.BackgroundController;
+import slogo.controller.controllers.HelpController;
+import slogo.controller.controllers.PenController;
 import slogo.controller.controllers.SessionController;
 import slogo.controller.controllers.SpeedController;
-import slogo.controller.controllers.TurtleController;
-import slogo.controller.controllers.PenController;
 import slogo.controller.controllers.ThemeController;
-import slogo.controller.controllers.HelpController;
+import slogo.controller.controllers.TurtleController;
 import slogo.controller.controllers.UIController;
 import slogo.controller.controllers.XmlController;
+import slogo.model.api.Session;
 import slogo.model.api.turtle.TurtleAnimator;
 import slogo.model.session.SessionImplementation;
 import slogo.view.userinterface.UIElement;
-import slogo.model.api.Session;
 
 /**
  * GraphicsListener class implements UIListener interface to handle UI events and pass them to
@@ -46,7 +45,7 @@ public class GraphicsListener implements UIListener {
     myThemeController = new ThemeController();
     myHelpController = new HelpController();
     myXmlController = new XmlController();
-    myTurtleController =new TurtleController();
+    myTurtleController = new TurtleController();
     ArrayList<UIController> sessionControllers = new ArrayList<>();
     sessionControllers.add(myPenController);
     sessionControllers.add(myTurtleController);

@@ -1,10 +1,6 @@
 package slogo.controller.controllers;
 
-import java.io.FileOutputStream;
 import java.util.Collection;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import slogo.view.LanguageManager;
 import slogo.view.userinterface.ExternalButton;
 import slogo.view.userinterface.InternalButton;
