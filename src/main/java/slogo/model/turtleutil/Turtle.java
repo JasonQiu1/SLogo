@@ -90,6 +90,8 @@ public class Turtle {
       }
     }
 
+    if (startInd == currentPointInStepHistory - 1) startInd = currentPointInStepHistory - maxLength;
+
     for (int i = startInd; i < this.stepHistory.size(); i++) {
       history.add(this.stepHistory.get(i).turtleStep());
     }
