@@ -64,9 +64,9 @@ public class SplashListener implements UIListener {
       case "Help" -> helpController.notifyController(element);
       case "Load Preferences" -> {
         myLanguageController.notifyController(element);
-        turtleController.notifyController(element);
+        myTurtleController.notifyController(element);
         myThemeController.notifyController(element);
-        turtleController.notifyController(element);
+        myTurtleController.notifyController(element);
       }
     }
   }
