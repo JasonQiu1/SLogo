@@ -66,12 +66,16 @@ This project implements a simple Logo ide, interpreter, and visualizer.
     * Preferences:
         * User can load preferences for SplashScreen
     * Load/Save
-      * User can load and save programs to/from .slogo files
-    * 
+        * User can load and save programs to/from .slogo files
+    * Language Translation
+        * User can translate UI to English, Spanish, or French
 
 * Features unimplemented:
     * Commands:
         * setpencolor, setpensize, pencolor, penup, pendown, showturtle, hideturtle, clearscreen
+    * Preferences:
+        * XML Graphics preferences (loading file, background color, pen color, index values, num
+          turtles)
 
 * Noteworthy Features:
     * Commands:
@@ -91,6 +95,10 @@ This project implements a simple Logo ide, interpreter, and visualizer.
           modes that controls the turtle's behavior when it reaches the edge.
         * Draw line, erase line
         * User may speed up/slow down both ongoing and future animations
+    * Help Pages:
+        * Commands, Variables, and History can all be displayed in a pop-up window
+        * Variables can be set by clicking on them in the pop-up
+        * Commands can be run by clicking on them in the pop-up
 
 ### Assignment Impressions
 
@@ -106,4 +114,11 @@ motion and designing the API in such a way that it supports speed adjustments, t
 tracks the step history of the turtles. As I helped integrated the animation part of the model with
 view, I encountered further challenges in displaying the intermediate states of the turtle computed
 by the model as well as generating the line animation. Another challenge was implementing the View
-to support change in animation speed.    
+to support change in animation speed.
+
+Jordan Haytaian: I learned a lot about design patterns through working on this project. For example,
+it was my first time working with controllers/listeners. This experience was also my first time
+working extensively in front-end development. I really enjoyed working with graphics and making
+design considerations about the user's visual experience. I found this project to be very
+collaborative in that I was often working in classes that other group members had created. This was
+a great exercise in interpreting and writing compatible code.
