@@ -238,7 +238,7 @@ class ParserStream implements Parser {
       while (!match(TokenType.RIGHT_SQUARE_BRACKET) && !isNextEnd()) {
         body.add(expression());
       }
-      if (isNextEnd()) {
+      if (isNextEnd() && currentToken.type() != TokenType.RIGHT_SQUARE_BRACKET) {
         consume(TokenType.RIGHT_SQUARE_BRACKET);
       }
       return new Block(body, currentToken.line());
