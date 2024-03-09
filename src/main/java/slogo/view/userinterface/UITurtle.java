@@ -19,14 +19,14 @@ import org.w3c.dom.Document;
  */
 public class UITurtle extends UIElement {
 
-  public static final double X_MIN = -150; // get from resource file
-  public static final double X_MAX = 150; // get from resource file
-  public static final double Y_MIN = -150; // get from resource file
-  public static final double Y_MAX = 150; // get from resource file
   private static final int TURTLE_SIZE = 10;
   private static final String TURTLE_XML = "src/main/resources/turtle_image/selected_turtle.xml";
   private static final String DEFAULT_TURTLE = "turtle_image/turtle_img01.png";
   private static final String IMG_DIR = "turtle_image/";
+  public static final double X_MIN = -150; // get from resource file
+  public static final double X_MAX = 150; // get from resource file
+  public static final double Y_MIN = -150; // get from resource file
+  public static final double Y_MAX = 150; // get from resource file
   private final Circle myTurtle;
   private final double X_ORIGIN;
   private final double Y_ORIGIN;
@@ -98,7 +98,8 @@ public class UITurtle extends UIElement {
     if (xInitial >= X_MAX + X_ORIGIN) {
       xInitial = X_MIN + X_ORIGIN;
       this.penDown = false;
-    } else if (xInitial <= X_MIN + X_ORIGIN) {
+    }
+    else if (xInitial <= X_MIN + X_ORIGIN) {
       xInitial = X_MAX + X_ORIGIN;
       this.penDown = false;
     }
@@ -106,7 +107,8 @@ public class UITurtle extends UIElement {
     if (yInitial >= Y_MAX + Y_ORIGIN) {
       yInitial = Y_MIN + Y_ORIGIN;
       this.penDown = false;
-    } else if (yInitial <= Y_MIN + Y_ORIGIN) {
+    }
+    else if (yInitial <= Y_MIN + Y_ORIGIN) {
       yInitial = Y_MAX + Y_ORIGIN;
       this.penDown = false;
     }
@@ -114,18 +116,15 @@ public class UITurtle extends UIElement {
     this.x = X_ORIGIN + x;
     this.y = Y_ORIGIN - y;
     setPosition(this.x, this.y);
-
+    
     this.heading = initHeading + angle;
     myTurtle.setRotate(this.heading);
 
-    if (penDown) {
-      draw(xInitial, yInitial, this.x, this.y);
-    }
+    if (penDown) draw(xInitial, yInitial, this.x, this.y);
   }
 
   private void draw(double xInitial, double yInitial, double xFinal, double yFinial) {
-    myPen.draw(xInitial - myTurtle.getRadius(), yInitial - myTurtle.getRadius(),
-        xFinal - myTurtle.getRadius(), yFinial - myTurtle.getRadius());
+      myPen.draw(xInitial - myTurtle.getRadius(), yInitial- myTurtle.getRadius(), xFinal - myTurtle.getRadius(), yFinial - myTurtle.getRadius());
   }
 
   public void setPenDown(boolean penDown) {
@@ -135,7 +134,6 @@ public class UITurtle extends UIElement {
   public void setPen(UIPen pen) {
     myPen = pen;
   }
-
   public void clearScreen() {
     myPen.clearScreen();
   }

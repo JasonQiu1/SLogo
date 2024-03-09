@@ -12,30 +12,31 @@ import slogo.model.api.Session;
 import slogo.view.userinterface.UIElement;
 
 /**
- * Page to input parameters for setting value of user def variable
+ * Page to view additional library command info
  *
  * @author Jordan Haytaian
  */
-public class ExpandVariablePage extends GeneralPage {
+public class ExpandHelpPage extends GeneralPage {
 
   private final Group root;
   private final PageBuilder myPageBuilder;
   private final String text;
 
+
   /**
-   * Constructs an ExpandPage object with the specified stage.
+   * Constructs a Help Expand Page object with the specified stage.
    *
    * @param stage The stage for the expand page.
    */
-  public ExpandVariablePage(Stage stage, Session session, String text) {
+  public ExpandHelpPage(Stage stage, Session session, String text) {
     super(stage, new HelpListener(session));
-    root = new Group();
     myPageBuilder = new PageBuilder(stage);
+    root = new Group();
     this.text = text;
   }
 
   /**
-   * Sets up the expand page with title and list view
+   * Sets up the expand page with title and Text
    *
    * @param screenWidth  The width of the screen.
    * @param screenHeight The height of the screen.
@@ -43,21 +44,21 @@ public class ExpandVariablePage extends GeneralPage {
   @Override
   public void setPage(double screenWidth, double screenHeight) {
     Collection<UIElement> UIElements = new ArrayList<>();
-    UIElements.addAll(setUpTextField(screenWidth, screenHeight));
     UIElements.addAll(setupTitleText(screenWidth, screenHeight));
+    UIElements.addAll(setUpCommandText(screenWidth, screenHeight));
     myPageBuilder.styleUI(UIElements, root);
+  }
+
+  private Collection<UIElement> setUpCommandText(double screenWidth, double screenHeight) {
+    Map<String, double[]> textIDs = new HashMap<>();
+    textIDs.put(text, new double[]{screenWidth / 2, screenHeight / 3});
+    return createElements(textIDs, "text");
   }
 
   private Collection<UIElement> setupTitleText(double screenWidth, double screenHeight) {
     Map<String, double[]> textIDs = new HashMap<>();
-    textIDs.put("Set Value", new double[]{screenWidth / 2 - 40, screenHeight / 8});
+    textIDs.put("Help", new double[]{screenWidth / 2 - 40, screenHeight / 8});
     return createElements(textIDs, "text");
-  }
-
-  private Collection<UIElement> setUpTextField(double screenWidth, double screenHeight) {
-    Map<String, double[]> textFieldIDs = new HashMap<>();
-    textFieldIDs.put(text, new double[]{screenWidth / 2 - 40, screenHeight / 8});
-    return createElements(textFieldIDs, "textfield");
   }
 
   /**
