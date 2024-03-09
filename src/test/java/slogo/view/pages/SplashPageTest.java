@@ -25,7 +25,7 @@ public class SplashPageTest extends DukeApplicationTest {
   @Override
   public void start(Stage stage) {
     // create application and add scene for testing to given stage
-    myView = new SlogoWindow(stage, "splash");
+    myView = new SlogoWindow(stage, "SplashPage");
   }
 
 
