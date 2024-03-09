@@ -1,8 +1,7 @@
 # slogo
-
 ## Team 3
 
-## Jason Qiu (jq48), Jordan, Jeremyah, Judy He (yh381)
+## Jason Qiu (jq48), Jordan (jeh120), Jeremyah, Judy He (yh381)
 
 This project implements a simple Logo ide, interpreter, and visualizer.
 
@@ -12,13 +11,15 @@ This project implements a simple Logo ide, interpreter, and visualizer.
 
 * Finish Date: March 8, 2024
 
-* Hours Spent: 39 (Jason Qiu) + 40 (Judy He) +
+* Hours Spent: 39 (Jason Qiu) + 40 (Judy He) + 40 (Jordan Haytaian)
 
 ### Attributions
 
 * Resources used for learning (including AI assistance)
     * Jason Qiu
         * Interpreter : https://craftinginterpreters.com/contents.html
+    * Jordan Haytaian
+      * Chatgpt
 
 * Resources used directly (including AI assistance)
 
@@ -26,11 +27,11 @@ This project implements a simple Logo ide, interpreter, and visualizer.
 
 * Main class: Main.java
 
-* Data files needed:
+* Data files needed: Translations/english.properties, Translations/french.properties, Translations/spanish.properties
 
-* Interesting data files:
+* Interesting data files: data/preferences/preference_1.xml
 
-* Key/Mouse inputs:
+* Key/Mouse inputs: Ctrl+R to submit typed text
 
 ### Notes/Assumptions
 
@@ -41,6 +42,9 @@ This project implements a simple Logo ide, interpreter, and visualizer.
 
 * Known Bugs:
   * Replay does not function properly after changing speed
+  * Loading a file after running a loaded file only executes the last command in the file
+  * Running a command from a help menu that does not take parameters will prompt for parameters
+  * Some language translations and help documentation make buttons overlap or text flow off-screen
 
 * Features implemented:
     * Commands:
@@ -51,6 +55,12 @@ This project implements a simple Logo ide, interpreter, and visualizer.
         * Runs all commands until encountering an error
         * Throws an error which should be caught by the view and displayed to the user when
           encountering an error with the given code
+    * Help Pages:
+      * Commands, Variables, and History can all be displayed in a pop-up window
+      * Variables can be set by clicking on them in the pop-up
+      * Commands can be run by clicking on them in the pop-up
+    * Preferences:
+      * User can load preferences for 
 
 * Features unimplemented:
     * Commands:
