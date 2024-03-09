@@ -19,6 +19,53 @@ public class TurtleTest {
   }
 
   @Test
+  void testWindowMode() {
+    myTurtle.setModeStrategy(new WindowModeStrategy());
+
+    List<TurtleStep> steps = myTurtle.move(700);
+    final TurtleState expectedInitState = new TurtleState(new Point(0,0), 0);
+    final Vector expectedPositionChange = new Vector(0, 700);
+    final double expectedAngelChange = 0;
+    TurtleStep expectedStep = new TurtleStep(expectedInitState, expectedPositionChange, expectedAngelChange);
+    double Xf = 0;
+    double Yf = 700;
+    double finalHeading = 0;
+    TurtleState expectedFinalState = new TurtleState(new Point(Xf, Yf), finalHeading);
+
+    for (TurtleStep step: steps) {
+      // check TurtleStep
+      checkTurtleStep(expectedStep, step);
+    }
+
+    // check final state
+    checkTurtleState(expectedFinalState, myTurtle.getCurrentState());
+
+  }
+
+  @Test
+  void testFenceMode() {
+    myTurtle.setModeStrategy(new FenceModeStrategy());
+
+    List<TurtleStep> steps = myTurtle.move(1000);
+    final TurtleState expectedInitState = new TurtleState(new Point(0,0), 0);
+    final Vector expectedPositionChange = new Vector(0, 150);
+    final double expectedAngelChange = 0;
+    TurtleStep expectedStep = new TurtleStep(expectedInitState, expectedPositionChange, expectedAngelChange);
+    double Xf = 0;
+    double Yf = 150;
+    double finalHeading = 0;
+    TurtleState expectedFinalState = new TurtleState(new Point(Xf, Yf), finalHeading);
+
+    for (TurtleStep step: steps) {
+      // check TurtleStep
+      checkTurtleStep(expectedStep, step);
+    }
+
+    // check final state
+    checkTurtleState(expectedFinalState, myTurtle.getCurrentState());
+
+  }
+  @Test
   void testNormalTurtleStepForward() {
     // fd 50
     List<TurtleStep> steps = myTurtle.move(50);
