@@ -9,7 +9,6 @@ import javafx.scene.Parent;
 import javafx.stage.Stage;
 import slogo.controller.listeners.HelpListener;
 import slogo.model.api.Session;
-import slogo.view.builders.PageBuilder;
 import slogo.view.userinterface.UIElement;
 
 /**
@@ -31,8 +30,8 @@ public class ExpandHelpPage extends GeneralPage {
    */
   public ExpandHelpPage(Stage stage, Session session, String text) {
     super(stage, new HelpListener(session));
+    myPageBuilder = new PageBuilder(stage);
     root = new Group();
-    myPageBuilder = new PageBuilder(stage, root);
     this.text = text;
   }
 
@@ -47,7 +46,7 @@ public class ExpandHelpPage extends GeneralPage {
     Collection<UIElement> UIElements = new ArrayList<>();
     UIElements.addAll(setupTitleText(screenWidth, screenHeight));
     UIElements.addAll(setUpCommandText(screenWidth, screenHeight));
-    myPageBuilder.styleUIElements(UIElements);
+    myPageBuilder.styleUI(UIElements, root);
   }
 
   private Collection<UIElement> setUpCommandText(double screenWidth, double screenHeight) {

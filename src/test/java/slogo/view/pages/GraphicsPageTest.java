@@ -37,7 +37,7 @@ class GraphicsPageTest extends DukeApplicationTest {
   @Override
   public void start(Stage stage) {
     // create application and add scene for testing to given stage
-    myView = new SlogoWindow(stage, "GraphicsPage");
+    myView = new SlogoWindow(stage, "graphics");
   }
 
 

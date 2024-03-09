@@ -10,6 +10,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import slogo.view.windows.HelpWindow;
 import slogo.view.windows.SlogoWindow;
 
 /**

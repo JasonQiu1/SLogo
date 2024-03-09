@@ -8,7 +8,6 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import slogo.controller.listeners.GraphicsListener;
-import slogo.view.builders.PageBuilder;
 import slogo.view.userinterface.UIElement;
 
 /**
@@ -34,7 +33,7 @@ public class GraphicsPage extends GeneralPage {
   public GraphicsPage(Stage stage) {
     super(stage, new GraphicsListener());
     root = new Group();
-    myPageBuilder = new PageBuilder(stage, root);
+    myPageBuilder = new PageBuilder(stage);
   }
 
   /**
@@ -71,7 +70,7 @@ public class GraphicsPage extends GeneralPage {
     UIElements.addAll(setupCheckBoxes(screenWidth, screenHeight));
     UIElements.addAll(setupTurtle(screenWidth, screenHeight));
 
-    myPageBuilder.styleUIElements(UIElements);
+    myPageBuilder.styleUI(UIElements, root);
   }
 
   private Collection<UIElement> setupBackground(double screenWidth, double screenHeight) {

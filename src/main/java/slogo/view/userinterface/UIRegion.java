@@ -1,5 +1,6 @@
 package slogo.view.userinterface;
 
+import java.io.File;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -14,7 +15,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeType;
-import tool.XmlHelper;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
 
 /**
  * Represents a region in the Slogo user interface. Extends the UIElement class. It provides methods
@@ -49,29 +51,24 @@ public class UIRegion extends UIElement {
   }
 
   private static BorderStroke getBorderStroke(Color border, BorderStrokeStyle borderStrokeStyle) {
-    return new BorderStroke(
-        border,
-        borderStrokeStyle,
-        new CornerRadii(0),
-        new BorderWidths(1));
+    return new BorderStroke(border, borderStrokeStyle, new CornerRadii(0), new BorderWidths(1));
   }
 
   private static BorderStrokeStyle getBorderStrokeStyle() {
-    return new BorderStrokeStyle(
-        StrokeType.INSIDE,
-        StrokeLineJoin.MITER,
-        StrokeLineCap.BUTT,
-        10,
-        0,
+    return new BorderStrokeStyle(StrokeType.INSIDE, StrokeLineJoin.MITER, StrokeLineCap.BUTT, 10, 0,
         null);
   }
 
   private static String findTheme() {
     try {
-      return new XmlHelper().getElementFromTag("BackgroundTheme", THEME_XML);
+      File file = new File(THEME_XML);
+      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+      return doc.getElementsByTagName("BackgroundTheme").item(0).getTextContent();
+
     } catch (Exception e) {
-      return "light";
+      System.out.println(e);
     }
+    return "light";
   }
 
   /**

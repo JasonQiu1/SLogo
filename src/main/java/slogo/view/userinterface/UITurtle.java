@@ -19,8 +19,8 @@ import tool.XmlHelper;
  */
 public class UITurtle extends UIElement {
 
-  private static final ResourceBundle configResourceBundle = ResourceBundle.getBundle(
-      "slogo.Configuration");
+  private static final ResourceBundle configResourceBundle =
+      ResourceBundle.getBundle("slogo.Configuration");
 
   private static final int TURTLE_SIZE = 10;
   private static final String TURTLE_XML = "src/main/resources/turtle_image/selected_turtle.xml";
@@ -105,6 +105,53 @@ public class UITurtle extends UIElement {
     }
   }
 
+  private void rotate(double newHeading) {
+    currentHeading = INITIAL_HEADING + newHeading;
+    MY_TURTLE.setRotate(currentHeading);
+  }
+
+  private Point move(double x, double y) {
+    double xInitial = CURRENT_POSITION.getX();
+    double yInitial = CURRENT_POSITION.getY();
+
+    xInitial = checkXBound(xInitial);
+    yInitial = checkYBound(yInitial);
+
+    CURRENT_POSITION.setX(ORIGIN.getX() + x);
+    CURRENT_POSITION.setY(ORIGIN.getY() - y);
+
+    setPosition(CURRENT_POSITION.getX(), CURRENT_POSITION.getY());
+
+    return new Point(xInitial, yInitial);
+  }
+
+  private double checkXBound(double x) {
+    if (x >= X_MAX + ORIGIN.getX()) {
+      this.penDown = false;
+      return X_MIN + ORIGIN.getX();
+    } else if (x <= X_MIN + ORIGIN.getX()) {
+      this.penDown = false;
+      return X_MAX + ORIGIN.getX();
+    }
+    return x;
+  }
+
+  private double checkYBound(double y) {
+    if (y >= Y_MAX + ORIGIN.getY()) {
+      this.penDown = false;
+      return Y_MIN + ORIGIN.getY();
+    } else if (y <= Y_MIN + ORIGIN.getY()) {
+      this.penDown = false;
+      return Y_MAX + ORIGIN.getY();
+    }
+    return y;
+  }
+
+  private void draw(Point pInitial, Point pFinal) {
+    myPen.draw(pInitial.getX() - MY_TURTLE.getRadius(), pInitial.getY() - MY_TURTLE.getRadius(),
+        pFinal.getX() - MY_TURTLE.getRadius(), pFinal.getY() - MY_TURTLE.getRadius());
+  }
+
   /**
    * Deactivate/Activate pen
    *
@@ -154,52 +201,5 @@ public class UITurtle extends UIElement {
    */
   public void clearLastLine() {
     myPen.eraseLine();
-  }
-
-  private void rotate(double newHeading) {
-    currentHeading = INITIAL_HEADING + newHeading;
-    MY_TURTLE.setRotate(currentHeading);
-  }
-
-  private Point move(double x, double y) {
-    double xInitial = CURRENT_POSITION.getX();
-    double yInitial = CURRENT_POSITION.getY();
-
-    xInitial = checkXBound(xInitial);
-    yInitial = checkYBound(yInitial);
-
-    CURRENT_POSITION.setX(ORIGIN.getX() + x);
-    CURRENT_POSITION.setY(ORIGIN.getY() - y);
-
-    setPosition(CURRENT_POSITION.getX(), CURRENT_POSITION.getY());
-
-    return new Point(xInitial, yInitial);
-  }
-
-  private double checkXBound(double x) {
-    if (x >= X_MAX + ORIGIN.getX()) {
-      this.penDown = false;
-      return X_MIN + ORIGIN.getX();
-    } else if (x <= X_MIN + ORIGIN.getX()) {
-      this.penDown = false;
-      return X_MAX + ORIGIN.getX();
-    }
-    return x;
-  }
-
-  private double checkYBound(double y) {
-    if (y >= Y_MAX + ORIGIN.getY()) {
-      this.penDown = false;
-      return Y_MIN + ORIGIN.getY();
-    } else if (y <= Y_MIN + ORIGIN.getY()) {
-      this.penDown = false;
-      return Y_MAX + ORIGIN.getY();
-    }
-    return y;
-  }
-
-  private void draw(Point pInitial, Point pFinal) {
-    myPen.draw(pInitial.getX() - MY_TURTLE.getRadius(), pInitial.getY() - MY_TURTLE.getRadius(),
-        pFinal.getX() - MY_TURTLE.getRadius(), pFinal.getY() - MY_TURTLE.getRadius());
   }
 }

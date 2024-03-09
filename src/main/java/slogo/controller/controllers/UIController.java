@@ -1,7 +1,15 @@
 package slogo.controller.controllers;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Document;
 import slogo.model.api.Session;
 import slogo.model.api.XmlConfiguration;
 import slogo.view.userinterface.UIButton;
@@ -16,17 +24,37 @@ import slogo.view.userinterface.UIElement;
  */
 public abstract class UIController {
 
-  protected final XmlConfiguration xmlConfiguration = new XmlConfiguration();
-  protected final String helpFile = "data/commands/command_help_basic.xml";
   // Instance Variable
   private final Collection<UIElement> myElements;
   private Session session;
+  protected final XmlConfiguration xmlConfiguration = new XmlConfiguration();
+  protected final String helpFile = "data/commands/command_help_basic.xml";
 
   /**
    * Constructor for UIController.
    */
   public UIController() {
     myElements = new ArrayList<>();
+  }
+
+  /**
+   * Writes XML data to the provided output stream.
+   *
+   * @param doc    the XML document to write
+   * @param output the output stream to write to
+   * @throws TransformerException if an error occurs during transformation
+   */
+  protected static void writeXml(Document doc, OutputStream output) throws TransformerException {
+
+    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+    Transformer transformer = transformerFactory.newTransformer();
+
+    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+    DOMSource source = new DOMSource(doc);
+    StreamResult result = new StreamResult(output);
+
+    transformer.transform(source, result);
   }
 
   /**
@@ -80,6 +108,4 @@ public abstract class UIController {
   public void setSession(Session session) {
     this.session = session;
   }
-
-
 }

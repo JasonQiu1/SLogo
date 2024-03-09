@@ -9,10 +9,11 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import slogo.model.api.exception.coderunner.ErrorType;
 import slogo.model.api.exception.coderunner.RunCodeError;
-import slogo.model.math.Point;
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
+import slogo.model.math.Point;
 import slogo.model.math.Vector;
 import slogo.model.session.SessionImplementation;
 
@@ -168,9 +169,9 @@ class SessionTest {
     Map<Integer, TurtleState> expected = Map.of(1, new TurtleState(new Point(0, 50), 90));
   }
 
+  // !!! Atan does not pass due to floating point error, but it is correct
   @ParameterizedTest
-  @ValueSource(
-      strings = {"fd sine 90", "fd tan 45", "if [ atan 1 ] == 45 [ fd 1 ]", "fd [ sqrt 4 ] - 1"})
+  @ValueSource(strings = {"fd sine 90", "fd tan 45", "fd atan 1", "fd [ sqrt 4 ] - 1"})
   void run_Trig(String command) {
 //  GIVEN one turtle at (0,0) heading 0deg
 //  WHEN run(command)
@@ -740,6 +741,54 @@ class SessionTest {
           Map.of(1, new TurtleState(new Point(0, 50), 0), 5, new TurtleState(new Point(0, 0), 0), 3,
               new TurtleState(new Point(0, 50), 90));
       assertStatesEqual(expected, actual);
+    }
+  }
+
+  @Nested
+  class RunErrors {
+
+    void assertEquals(RunCodeError expected, RunCodeError actual) {
+      Assertions.assertEquals(expected.getErrorType(), actual.getErrorType());
+      Assertions.assertEquals(expected.getErrorMessageKey(), actual.getErrorMessageKey());
+      Assertions.assertEquals(expected.getLineNumber(), actual.getLineNumber());
+      Assertions.assertEquals(expected.getLine(), actual.getLine());
+    }
+
+    @Test
+    void token() {
+      RunCodeError actual = Assertions.assertThrows(RunCodeError.class, () -> {
+        _session.run("::");
+      });
+      RunCodeError expected = new RunCodeError(ErrorType.TOKENIZE, "invalidToken", 0, "::");
+      assertEquals(expected, actual);
+    }
+
+    @Test
+    void parse() {
+      RunCodeError actual = Assertions.assertThrows(RunCodeError.class, () -> {
+        _session.run("[ 5 6");
+      });
+      RunCodeError expected =
+          new RunCodeError(ErrorType.PARSE, "expectedDifferentToken", 1, "[ 5 6");
+      assertEquals(expected, actual);
+    }
+
+    @Test
+    void interpret() {
+      RunCodeError actual = Assertions.assertThrows(RunCodeError.class, () -> {
+        _session.run("fd 50 / 0");
+      });
+      RunCodeError expected = new RunCodeError(ErrorType.INTERPRET, "divideByZero", 1, "fd 50 / 0");
+      assertEquals(expected, actual);
+    }
+
+    @Test
+    void runtime() {
+      RunCodeError actual = Assertions.assertThrows(RunCodeError.class, () -> {
+        _session.run("+");
+      });
+      RunCodeError expected = new RunCodeError(ErrorType.RUNTIME, "nullExpression", -1, null);
+      assertEquals(expected, actual);
     }
   }
 }

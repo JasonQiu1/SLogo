@@ -10,11 +10,10 @@ import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
-import slogo.controller.listeners.HelpListener;
 import slogo.model.api.Session;
 import slogo.model.api.XmlConfiguration;
 import slogo.model.api.exception.XmlException;
-import slogo.view.builders.PageBuilder;
+import slogo.controller.listeners.HelpListener;
 import slogo.view.userinterface.UIElement;
 
 /**
@@ -38,7 +37,7 @@ public class HelpPage extends GeneralPage {
   public HelpPage(Stage stage, Session session) {
     super(stage, new HelpListener(session));
     root = new Group();
-    myPageBuilder = new PageBuilder(stage, root);
+    myPageBuilder = new PageBuilder(stage);
     myXmlConfig = new XmlConfiguration();
   }
 
@@ -51,7 +50,7 @@ public class HelpPage extends GeneralPage {
   @Override
   public void setPage(double screenWidth, double screenHeight) {
     Collection<UIElement> UIElements = new ArrayList<>(setupTitleText(screenWidth, screenHeight));
-    myPageBuilder.styleUIElements(UIElements);
+    myPageBuilder.styleUI(UIElements, root);
     setUpCommandList(screenWidth, screenHeight);
   }
 
@@ -94,7 +93,7 @@ public class HelpPage extends GeneralPage {
       //TODO: make this cleaner
       Collection<UIElement> UIElements = new ArrayList<>(
           setupExceptionText(screenWidth, screenHeight));
-      myPageBuilder.styleUIElements(UIElements);
+      myPageBuilder.styleUI(UIElements, root);
     }
 
   }

@@ -62,4 +62,3 @@ public class XmlHelper {
     transformer.transform(source, result);
   }
 }
-

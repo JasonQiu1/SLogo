@@ -39,7 +39,8 @@ public class HelpListener implements UIListener {
   public void sendSignal(UIElement element) {
     switch (element.getID().toLowerCase()) {
       case "library commands" -> myXmlController.notifyController(element);
-      case "user-defined commands", "user-defined variables", "history", "command history", "variable list" -> {
+      case "user-defined commands", "user-defined variables", "history", "command history",
+          "variable list" -> {
         helpController.notifyController(element);
         myTurtleController.notifyController(element);
       }

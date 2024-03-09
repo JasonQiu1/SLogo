@@ -16,21 +16,12 @@ public class UIPen {
   private final Group myCanvas;
   private Color myPenColor = Color.BLACK;
 
-  /**
-   * Constructs a UIPen with the specified canvas.
-   *
-   * @param canvas The canvas on which the pen will draw.
-   */
   public UIPen(Group canvas) {
     lineCollector = new Stack<>();
     myCanvas = canvas;
   }
 
-  /**
-   * Sets the color of the pen.
-   *
-   * @param color The color to set the pen to.
-   */
+
   public void setColor(Color color) {
     myPenColor = color;
   }
@@ -54,9 +45,6 @@ public class UIPen {
     myCanvas.getChildren().add(line);
   }
 
-  /**
-   * Clears the screen by removing all drawn lines.
-   */
   public void clearScreen() {
     myCanvas.getChildren().removeAll(lineCollector);
     lineCollector.clear();
