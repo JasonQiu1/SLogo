@@ -9,16 +9,16 @@ import slogo.model.math.Vector;
 
 /**
  * Strategy for Wrap mode behavior. If the turtle moves off the edge of the screen it will continue
- * on the other side. (default)
+ * on the other side.
  *
  * @author Judy He
  */
 public class WrapModeStrategy implements ModeStrategy {
 
-  Turtle turtle;
+  private Turtle turtle;
 
   /**
-   * Moves the turtle by the specified distance given the Wrap mode strategy
+   * Moves the turtle by the specified distance given the Wrap mode strategy.
    *
    * @param turtle   the turtle to be moved
    * @param distance the distance to move
@@ -27,11 +27,12 @@ public class WrapModeStrategy implements ModeStrategy {
   @Override
   public List<TurtleStep> move(Turtle turtle, double distance) {
     this.turtle = turtle;
-    double dx = Turtle.calculateXComponent(distance, turtle.getCurrentState().heading());
-    double dy = Turtle.calculateYComponent(distance, turtle.getCurrentState().heading());
-    List<TurtleStep> intermediateSteps = new ArrayList<>();
+    return generateInterSteps(turtle.getXYComponents(distance));
+  }
 
-    wrapMove(dx, dy, intermediateSteps);
+  private List<TurtleStep> generateInterSteps(Vector v) {
+    List<TurtleStep> intermediateSteps = new ArrayList<>();
+    wrapMove(v.dx(), v.dy(), intermediateSteps);
     return intermediateSteps;
   }
 

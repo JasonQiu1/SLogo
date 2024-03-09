@@ -11,7 +11,7 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import slogo.model.api.Session;
-import slogo.model.api.XmlConfiguration;
+import slogo.model.configuration.XmlConfiguration;
 import slogo.model.api.exception.XmlException;
 import slogo.controller.listeners.HelpListener;
 import slogo.view.userinterface.UIElement;
@@ -28,6 +28,7 @@ public class HelpPage extends GeneralPage {
   private final PageBuilder myPageBuilder;
   private final XmlConfiguration myXmlConfig;
   private final String helpFile = "data/commands/command_help_basic.xml";
+  private double[] elementDimension;
 
   /**
    * Constructs a HelpPage object with the specified stage.
@@ -50,6 +51,7 @@ public class HelpPage extends GeneralPage {
   @Override
   public void setPage(double screenWidth, double screenHeight) {
     Collection<UIElement> UIElements = new ArrayList<>(setupTitleText(screenWidth, screenHeight));
+    elementDimension = new double[]{screenWidth / 2 - 40, screenHeight / 8};
     myPageBuilder.styleUI(UIElements, root);
     setUpCommandList(screenWidth, screenHeight);
   }
@@ -66,7 +68,7 @@ public class HelpPage extends GeneralPage {
 
   private Collection<UIElement> setupTitleText(double screenWidth, double screenHeight) {
     Map<String, double[]> textIDs = new HashMap<>();
-    textIDs.put("Help", new double[]{screenWidth / 2 - 40, screenHeight / 8});
+    textIDs.put("Help", elementDimension);
     return createElements(textIDs, "text");
   }
 
@@ -90,7 +92,7 @@ public class HelpPage extends GeneralPage {
       root.getChildren()
           .add(createListElement("library commands", commands, position).getElement());
     } catch (XmlException e) {
-      //TODO: make this cleaner
+
       Collection<UIElement> UIElements = new ArrayList<>(
           setupExceptionText(screenWidth, screenHeight));
       myPageBuilder.styleUI(UIElements, root);

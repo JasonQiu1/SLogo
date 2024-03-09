@@ -5,6 +5,7 @@ import slogo.controller.controllers.LanguageController;
 import slogo.controller.controllers.ThemeController;
 import slogo.controller.controllers.TurtleController;
 import slogo.view.userinterface.UIElement;
+import slogo.view.windows.SlogoWindow;
 
 /**
  * SplashListener class implements UIListener interface to handle UI events on the splash screen. It
@@ -58,6 +59,11 @@ public class SplashListener implements UIListener {
     switch (element.getID()) {
       case "TurtleSelector", "Load File" -> myTurtleController.notifyController(element);
       case "Help" -> helpController.notifyController(element);
+      case "Load Preferences" -> {
+        myLanguageController.notifyController(element);
+        myTurtleController.notifyController(element);
+        myThemeController.notifyController(element);
+      }
     }
   }
 }

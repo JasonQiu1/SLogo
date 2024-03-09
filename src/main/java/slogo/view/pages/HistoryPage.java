@@ -69,8 +69,7 @@ public class HistoryPage extends GeneralPage {
   }
 
   private void setUpHistoryList(double screenWidth, double screenHeight) {
-    List<Map<String, Map<String, String>>> historyList = session.getCommandHistory(0);
-
+    List<Map<String, Map<String, String>>> historyList = session.getCommandHistory(Integer.MAX_VALUE);
     double[] position = new double[2];
     position[0] = (100);
     position[1] = (100);

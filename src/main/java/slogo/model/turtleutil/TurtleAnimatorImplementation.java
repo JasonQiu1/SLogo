@@ -34,7 +34,7 @@ public class TurtleAnimatorImplementation implements TurtleAnimator {
   public static final double Y_MAX = parseConfigDouble("Y_MAX");
   private static final double MAX_SPEED = parseConfigDouble("MAX_SPEED");
   private static final double MIN_SPEED = parseConfigDouble("MIN_SPEED");
-  public final double STANDARD_FPS = parseConfigDouble("STANDARD_FPS");
+  public static final double STANDARD_FPS = parseConfigDouble("STANDARD_FPS");
   private static final double DEFAULT_PIXELS_PER_SECOND = parseConfigDouble(
       "DEFAULT_PIXELS_PER_SECOND");
   private static final double DEFAULT_SPEED = parseConfigDouble("DEFAULT_SPEED");
