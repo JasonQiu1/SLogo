@@ -6,12 +6,12 @@ import slogo.model.api.turtle.TurtleStep;
 import slogo.model.math.Vector;
 
 /**
- * Strategy for Window mode behavior.
+ * Strategy for Window mode behavior. The turtle can move past the edges of the screen, unbounded.
  *
  * @author Judy He
- *
  */
 public class WindowModeStrategy implements ModeStrategy {
+
   Turtle turtle;
 
   /**
@@ -31,6 +31,7 @@ public class WindowModeStrategy implements ModeStrategy {
     intermediateSteps.add(normalMove(dx, dy));
     return intermediateSteps;
   }
+
   private TurtleStep normalMove(double dx, double dy) {
     Vector posChange = new Vector(dx, dy);
     TurtleStep step = new TurtleStep(turtle.getCurrentState(), posChange, 0);

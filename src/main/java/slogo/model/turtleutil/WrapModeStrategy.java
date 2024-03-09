@@ -8,12 +8,13 @@ import slogo.model.math.Point;
 import slogo.model.math.Vector;
 
 /**
- * Strategy for Wrap mode behavior.
+ * Strategy for Wrap mode behavior. If the turtle moves off the edge of the screen it will continue
+ * on the other side. (default)
  *
  * @author Judy He
- *
  */
 public class WrapModeStrategy implements ModeStrategy {
+
   Turtle turtle;
 
   /**
@@ -45,13 +46,20 @@ public class WrapModeStrategy implements ModeStrategy {
     turtle.updateHistory(step, true);
     intermediateSteps.add(step);
 
-    Point finalPos = Turtle.calculateFinalPosition(turtle.getCurrentState().position(), interPosChange);
+    Point finalPos = Turtle.calculateFinalPosition(turtle.getCurrentState().position(),
+        interPosChange);
 
-    if (finalPos.getX() == TurtleAnimatorImplementation.X_MAX) finalPos.setX(TurtleAnimatorImplementation.X_MIN);
-    else if (finalPos.getX() == TurtleAnimatorImplementation.X_MIN) finalPos.setX(TurtleAnimatorImplementation.X_MAX);
+    if (finalPos.getX() == TurtleAnimatorImplementation.X_MAX) {
+      finalPos.setX(TurtleAnimatorImplementation.X_MIN);
+    } else if (finalPos.getX() == TurtleAnimatorImplementation.X_MIN) {
+      finalPos.setX(TurtleAnimatorImplementation.X_MAX);
+    }
 
-    if (finalPos.getY() == TurtleAnimatorImplementation.Y_MAX) finalPos.setY(TurtleAnimatorImplementation.Y_MIN);
-    else if (finalPos.getY() == TurtleAnimatorImplementation.Y_MIN) finalPos.setY(TurtleAnimatorImplementation.Y_MAX);
+    if (finalPos.getY() == TurtleAnimatorImplementation.Y_MAX) {
+      finalPos.setY(TurtleAnimatorImplementation.Y_MIN);
+    } else if (finalPos.getY() == TurtleAnimatorImplementation.Y_MIN) {
+      finalPos.setY(TurtleAnimatorImplementation.Y_MAX);
+    }
 
     turtle.setCurrentState(new TurtleState(finalPos, turtle.getCurrentState().heading()));
 
@@ -65,10 +73,12 @@ public class WrapModeStrategy implements ModeStrategy {
 
     if (turtle.isOutXMax(dx)) {
       interDx = TurtleAnimatorImplementation.X_MAX - turtle.getCurrentState().position().getX();
-      interDy = Turtle.calculateYComponentGivenXComponentAngle(interDx, turtle.getCurrentState().heading());
+      interDy = Turtle.calculateYComponentGivenXComponentAngle(interDx,
+          turtle.getCurrentState().heading());
     } else if (turtle.isOutXMin(dx)) {
       interDx = TurtleAnimatorImplementation.X_MIN - turtle.getCurrentState().position().getX();
-      interDy = Turtle.calculateYComponentGivenXComponentAngle(interDx, turtle.getCurrentState().heading());
+      interDy = Turtle.calculateYComponentGivenXComponentAngle(interDx,
+          turtle.getCurrentState().heading());
     }
 
     if (turtle.isOutYMax(interDy) || turtle.isOutYMin(interDy)) {
@@ -77,10 +87,12 @@ public class WrapModeStrategy implements ModeStrategy {
 
     if (turtle.isOutYMax(dy) && interDy == 0) {
       interDy = TurtleAnimatorImplementation.Y_MAX - turtle.getCurrentState().position().getY();
-      interDx = Turtle.calculateXComponentGivenYComponentAngle(interDy, turtle.getCurrentState().heading());
+      interDx = Turtle.calculateXComponentGivenYComponentAngle(interDy,
+          turtle.getCurrentState().heading());
     } else if (turtle.isOutYMin(dy) && interDy == 0) {
       interDy = TurtleAnimatorImplementation.Y_MIN - turtle.getCurrentState().position().getY();
-      interDx = Turtle.calculateXComponentGivenYComponentAngle(interDy, turtle.getCurrentState().heading());
+      interDx = Turtle.calculateXComponentGivenYComponentAngle(interDy,
+          turtle.getCurrentState().heading());
     }
 
     return new Vector(interDx, interDy);

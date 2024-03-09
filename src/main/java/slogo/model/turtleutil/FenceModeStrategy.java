@@ -6,12 +6,13 @@ import slogo.model.api.turtle.TurtleStep;
 import slogo.model.math.Vector;
 
 /**
- * Strategy for Fence mode behavior.
+ * Strategy for Fence mode behavior. If the turtle attempts to move past the edge of the screen it
+ * will stop.
  *
  * @author Judy He
- *
  */
 public class FenceModeStrategy implements ModeStrategy {
+
   Turtle turtle;
 
   /**
@@ -39,7 +40,7 @@ public class FenceModeStrategy implements ModeStrategy {
       dx = turtle.getCurrentState().position().getX() - TurtleAnimatorImplementation.X_MIN;
     } else if (turtle.isOutYMax(dy)) {
       dy = TurtleAnimatorImplementation.Y_MAX - turtle.getCurrentState().position().getY();
-    } else if (turtle.isOutYMin(dy)){
+    } else if (turtle.isOutYMin(dy)) {
       dy = turtle.getCurrentState().position().getY() - TurtleAnimatorImplementation.Y_MIN;
     }
     Vector posChange = new Vector(dx, dy);
