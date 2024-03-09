@@ -15,6 +15,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import slogo.model.api.exception.XmlException;
+import slogo.model.session.SessionImplementation;
 
 /**
  * The purpose of this class is to parse XML files for command help information and information
@@ -93,7 +94,7 @@ public class XmlConfiguration {
   public Session loadSession(String fileName) throws XmlException {
     try {
       List<String> commands = getCommandsFromFile(fileName);
-      Session session = new Session();
+      Session session = new SessionImplementation();
 
       for (String command : commands) {
         session.run(command);

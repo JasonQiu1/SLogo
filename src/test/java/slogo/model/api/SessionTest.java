@@ -10,10 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import slogo.model.api.exception.coderunner.RunCodeError;
-import slogo.model.api.turtle.Point;
+import slogo.model.math.Point;
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
-import slogo.model.api.turtle.Vector;
+import slogo.model.math.Vector;
+import slogo.model.session.SessionImplementation;
 
 class SessionTest {
 
@@ -21,7 +22,7 @@ class SessionTest {
 
   @BeforeEach
   void setUp() {
-    _session = new Session();
+    _session = new SessionImplementation();
   }
 
   void assertEquals(Point expected, Point actual) {
@@ -30,8 +31,8 @@ class SessionTest {
   }
 
   void assertEquals(Vector expected, Vector actual) {
-    Assertions.assertEquals(expected.getDx(), actual.getDx(), Math.abs(expected.getDx()) / 1e3);
-    Assertions.assertEquals(expected.getDy(), actual.getDy(), Math.abs(expected.getDy()) / 1e3);
+    Assertions.assertEquals(expected.dx(), actual.dx(), Math.abs(expected.dx()) / 1e3);
+    Assertions.assertEquals(expected.dy(), actual.dy(), Math.abs(expected.dy()) / 1e3);
   }
 
   void assertEquals(TurtleState expected, TurtleState actual) {
@@ -580,6 +581,12 @@ class SessionTest {
     void multiple_two_turtles() {
       int actual = _session.run("tell [ 1 2] fd 50 bk 50 rt 50 lt heading fd home ");
       Assertions.assertEquals(6, actual);
+    }
+
+    @Test
+    void loop() {
+      int actual = _session.run("repeat 1800 [fd 10 rt :repcount + 0.1]");
+      Assertions.assertEquals(3600, actual);
     }
   }
 

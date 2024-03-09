@@ -1,12 +1,6 @@
 package slogo.view.userinterface;
 
-import static slogo.controller.controllers.LanguageController.LANGUAGE_TAG;
-import static slogo.controller.controllers.LanguageController.LANGUAGE_XML;
-
-import java.io.File;
 import javafx.scene.Node;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
 import slogo.controller.listeners.UIListener;
 
 /**
@@ -98,18 +92,15 @@ public class UIElement {
   }
 
   /**
-   * Gets the current user-selected language of the application with english as default
+   * Sets the status of the button.
    *
-   * @return the current user-selected language
+   * @param selected True to set the button as selected, false otherwise.
    */
-  protected String getLanguage() {
-    try {
-      File file = new File(LANGUAGE_XML);
-      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
-      return doc.getElementsByTagName(LANGUAGE_TAG).item(0).getTextContent();
-
-    } catch (Exception e) {
-      return "english";
+  public void setStatus(Boolean selected) {
+    if (selected) {
+      myElement.setOpacity(1.0f);
+    } else {
+      myElement.setOpacity(0.2f);
     }
   }
 }

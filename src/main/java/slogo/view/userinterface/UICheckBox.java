@@ -5,7 +5,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import slogo.model.LanguageManager;
+import slogo.view.LanguageManager;
 
 /**
  * Represents a checkbox in the Slogo user interface. Extends the UIElement class. It encapsulates
@@ -35,7 +35,7 @@ public class UICheckBox extends UIElement {
     myBox = (CheckBox) getElement();
     myBox.setTextFill(Color.GREEN);
     myBox.toFront();
-    setText(LanguageManager.translate(getLanguage(), text));
+    setText(LanguageManager.translate(LanguageManager.getCurrentLanguage(), text));
     setCheckbox();
     setPosition(x, y);
   }

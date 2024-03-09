@@ -12,6 +12,10 @@ import slogo.model.api.exception.coderunner.RunCodeError;
  */
 class Lexer {
 
+  /**
+   * All of the keywords' strings mapped to their enum types.
+   */
+
   private static final Map<String, TokenType> keywordMap =
       Map.ofEntries(Map.entry("make", TokenType.MAKE), Map.entry("repeat", TokenType.REPEAT),
           Map.entry("dotimes", TokenType.DOTIMES), Map.entry("for", TokenType.FOR),
@@ -20,6 +24,11 @@ class Lexer {
           Map.entry("tell", TokenType.TELL), Map.entry("ask", TokenType.ASK),
           Map.entry("askwith", TokenType.ASKWITH));
 
+  /**
+   * Initializes the lexer for a string of commands.
+   *
+   * @param commands the commands to tokenize
+   */
   Lexer(String commands) {
     if (commands == null) {
       commands = "";
@@ -29,12 +38,17 @@ class Lexer {
     lineNumber = 0;
     lines = input.split("\n");
     blockStartCursors = new Stack<>();
+    consumeWhiteSpace();
   }
 
+  /**
+   * Tokenizes the next token and returns it.
+   *
+   * @return the next token if successful
+   * @throws RunCodeError if there was an error encountered while tokenizing
+   */
   Token nextToken() throws RunCodeError {
-    while (isWhiteSpace()) {
-      consume();
-    }
+    consumeWhiteSpace();
     char currentChar = consume();
     return switch (currentChar) {
       case '~' -> createToken(TokenType.TILDA);
@@ -67,36 +81,50 @@ class Lexer {
         }
       }
       default -> {
-        // logics operators
-        if (currentChar == '=' && match('=')) {
-          yield createToken(TokenType.EQUAL_TO);
-        } else if (currentChar == '!' && match('=')) {
-          yield createToken(TokenType.NOT_EQUAL_TO);
-        } else if (currentChar == '>') {
-          if (match('=')) {
-            yield createToken(TokenType.GREATER_EQUAL_TO);
-          } else {
-            yield createToken(TokenType.GREATER_THAN);
-          }
-        } else if (currentChar == '<') {
-          if (match('=')) {
-            yield createToken(TokenType.LESS_EQUAL_TO);
-          } else {
-            yield createToken(TokenType.LESS_THAN);
-          }
+        Token logicOperator = matchLogicOperator(currentChar);
+        if (logicOperator != null) {
+          yield logicOperator;
         }
-        // aggregates
-        if (currentChar == ':' && isAlpha()) {
-          consume();
-          yield createToken(TokenType.VARIABLE, name());
-        } else if (isNumeric(currentChar)) {
-          yield number();
-        } else if (isAlpha(currentChar)) {
-          yield command();
+        Token aggregateToken = matchAggregateToken(currentChar);
+        if (aggregateToken != null) {
+          yield aggregateToken;
         }
         throw new RunCodeError(ErrorType.TOKENIZE, "invalidToken", lineNumber, currentLine());
       }
     };
+  }
+
+  private Token matchAggregateToken(char currentChar) {
+    if (currentChar == ':' && isAlpha()) {
+      consume();
+      return createToken(TokenType.VARIABLE, name());
+    } else if (isNumeric(currentChar)) {
+      return number();
+    } else if (isAlpha(currentChar)) {
+      return command();
+    }
+    return null;
+  }
+
+  private Token matchLogicOperator(char currentChar) {
+    if (currentChar == '=' && match('=')) {
+      return createToken(TokenType.EQUAL_TO);
+    } else if (currentChar == '!' && match('=')) {
+      return createToken(TokenType.NOT_EQUAL_TO);
+    } else if (currentChar == '>') {
+      if (match('=')) {
+        return createToken(TokenType.GREATER_EQUAL_TO);
+      } else {
+        return createToken(TokenType.GREATER_THAN);
+      }
+    } else if (currentChar == '<') {
+      if (match('=')) {
+        return createToken(TokenType.LESS_EQUAL_TO);
+      } else {
+        return createToken(TokenType.LESS_THAN);
+      }
+    }
+    return null;
   }
 
   private int aggregateCursorIdx;
@@ -104,7 +132,7 @@ class Lexer {
   private final String input;
   private final String[] lines;
   private int lineNumber;
-  private Stack<Integer> blockStartCursors;
+  private final Stack<Integer> blockStartCursors;
 
   private boolean isWhiteSpace() {
     return switch (peek()) {
@@ -196,11 +224,18 @@ class Lexer {
     return input.charAt(cursorIdx);
   }
 
+  private void consumeWhiteSpace() {
+    while (isWhiteSpace()) {
+      cursorIdx++;
+    }
+  }
+
   private char consume() {
     if (isDone()) {
       return '\0';
     }
-    return input.charAt(cursorIdx++);
+    char ret = input.charAt(cursorIdx++);
+    return ret;
   }
 
   // if matched, then advance at the same time

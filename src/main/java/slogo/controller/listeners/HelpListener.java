@@ -1,6 +1,7 @@
 package slogo.controller.listeners;
 
 import java.util.Collection;
+import slogo.controller.controllers.TurtleController;
 import slogo.controller.controllers.XmlController;
 import slogo.model.api.Session;
 import slogo.view.userinterface.UIElement;
@@ -13,6 +14,7 @@ import slogo.view.userinterface.UIElement;
 public class HelpListener implements UIListener {
 
   XmlController myXmlController = new XmlController();
+  TurtleController myTurtleController = new TurtleController();
   private final Session session;
 
   /**
@@ -39,7 +41,7 @@ public class HelpListener implements UIListener {
       myXmlController.notifyController(element);
     } else {
       helpController.notifyController(element);
-      turtleController.notifyController(element);
+      myTurtleController.notifyController(element);
     }
   }
 

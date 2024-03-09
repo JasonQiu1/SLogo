@@ -60,7 +60,6 @@ public class SpeedController extends UIController {
     }
 
     private void setSpeedFour() {
-        this.getTurtleAnimator().setSpeed(4);
         halfFlag = false;
         oneFlag = false;
         twoFlag = false;
@@ -68,7 +67,6 @@ public class SpeedController extends UIController {
     }
 
     private void setSpeedTwo() {
-        this.getTurtleAnimator().setSpeed(2);
         halfFlag = false;
         oneFlag = false;
         twoFlag = true;
@@ -76,7 +74,6 @@ public class SpeedController extends UIController {
     }
 
     private void setSpeedOne() {
-        this.getTurtleAnimator().setSpeed(1);
         halfFlag = false;
         oneFlag = true;
         twoFlag = false;
@@ -84,7 +81,6 @@ public class SpeedController extends UIController {
     }
 
     private void setSpeedHalf() {
-        this.getTurtleAnimator().setSpeed(0.5);
         halfFlag = true;
         oneFlag = false;
         twoFlag = false;

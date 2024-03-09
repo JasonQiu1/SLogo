@@ -129,11 +129,10 @@ public class ExternalButton extends UIButton {
   /**
    * Adds functionality to open a specific page.
    *
-   * @param stage    The stage where the button is placed.
    * @param pageType The type of page to be opened.
    */
-  public void addOpenPage(Stage stage, String pageType) {
-    myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, c -> new SlogoWindow(stage, pageType));
+  public void addOpenPage(String pageType) {
+    myButton.addEventHandler(MouseEvent.MOUSE_CLICKED, c -> new SlogoWindow(new Stage(), pageType));
   }
 
   public void addOpenHelpWindow(String pageType) {

@@ -20,6 +20,8 @@ public class SplashListener implements UIListener {
 
   private final ThemeController myThemeController;
   private final LanguageController myLanguageController;
+  private final TurtleController myTurtleController;
+
 
   /**
    * Constructor for SplashListener.
@@ -27,6 +29,7 @@ public class SplashListener implements UIListener {
   public SplashListener() {
     myThemeController = new ThemeController();
     myLanguageController = new LanguageController();
+    myTurtleController = new TurtleController();
   }
 
   /**
@@ -51,13 +54,13 @@ public class SplashListener implements UIListener {
   @Override
   public void passElementsToController(Collection<UIElement> elements) {
     myThemeController.addAllElements(elements);
-    turtleController.addAllElements(elements);
+    myTurtleController.addAllElements(elements);
     myLanguageController.addAllElements(elements);
   }
 
   private void handleButtonElement(UIElement element) {
     switch (element.getID()) {
-      case "TurtleSelector", "Load File" -> turtleController.notifyController(element);
+      case "TurtleSelector", "Load File" -> myTurtleController.notifyController(element);
       case "Help" -> helpController.notifyController(element);
       case "Load Preferences" -> {
         myLanguageController.notifyController(element);

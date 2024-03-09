@@ -33,6 +33,13 @@ import slogo.model.turtleutil.Turtle;
  */
 public class Interpreter implements Visitor {
 
+  /**
+   * Adds/removes turtles in-place of the given list, and wraps a new environment around the given
+   * one.
+   *
+   * @param libraryEnvironment the given environment to enclose
+   * @param turtles            the list reference to directly modify with new turtles
+   */
   Interpreter(Environment libraryEnvironment, List<Turtle> turtles) {
     this.globalEnvironment = new Environment(libraryEnvironment);
     this.currentEnvironment = this.globalEnvironment;
@@ -44,6 +51,12 @@ public class Interpreter implements Visitor {
     this.stepsCreated = 0;
   }
 
+  /**
+   * Main entry for interpreting a program.
+   *
+   * @param parser the parser stream with the program loaded
+   * @return the number of steps created for each turtle
+   */
   public int interpret(Parser parser) {
     currentParser = parser;
     Expression expression;
@@ -55,6 +68,12 @@ public class Interpreter implements Visitor {
     return stepsCreated;
   }
 
+  /**
+   * Interprets block expressions.
+   *
+   * @param parser a parser loaded with the body of the block
+   * @return the return value of the last expression in the block, or 0 if no commands run
+   */
   private double interpretBlock(Parser parser) {
     currentParser = parser;
     Expression expression;
@@ -65,6 +84,13 @@ public class Interpreter implements Visitor {
     return ret;
   }
 
+  /**
+   * Evaluates an expression (AST) and returns the final double result
+   *
+   * @param expression the input expression
+   * @return the result of evaluating the expression
+   * @throws RunCodeError if the input is null
+   */
   public double evaluate(Expression expression) throws RunCodeError {
     if (expression == null) {
       throw new RunCodeError(ErrorType.RUNTIME, "nullExpression", -1, null);
@@ -77,45 +103,10 @@ public class Interpreter implements Visitor {
     return expression.getValue();
   }
 
-  private BiFunction<Double, Double, Double> getBinaryOperator(Token operatorToken) {
-    return switch (operatorToken.type()) {
-      case PLUS -> Double::sum;
-      case MINUS -> (a, b) -> a - b;
-      case STAR -> (a, b) -> a * b;
-      case FORWARD_SLASH -> (a, b) -> {
-        if (b == 0) {
-          throw Util.createError("divideByZero", operatorToken);
-        }
-        return (a / b);
-      };
-      case PERCENT -> (a, b) -> {
-        if (b == 0) {
-          throw Util.createError("moduloByZero", operatorToken);
-        }
-        return (a % b);
-      };
-      case EQUAL_TO -> (a, b) -> booleanToDouble(a.equals(b));
-      case NOT_EQUAL_TO -> (a, b) -> booleanToDouble(!a.equals(b));
-      case GREATER_THAN -> (a, b) -> booleanToDouble(a > b);
-      case LESS_THAN -> (a, b) -> booleanToDouble(a < b);
-      case GREATER_EQUAL_TO -> (a, b) -> booleanToDouble(a >= b);
-      case LESS_EQUAL_TO -> (a, b) -> booleanToDouble(a <= b);
-      default -> throw Util.createError("invalidBinaryOperator", operatorToken);
-    };
-  }
-
   @Override
   public double visitBinary(Binary expression) {
     BiFunction<Double, Double, Double> binaryOperator = getBinaryOperator(expression.getOperator());
     return binaryOperator.apply(evaluate(expression.getLeft()), evaluate(expression.getRight()));
-  }
-
-  private Function<Double, Double> getUnaryOperator(Token operatorToken) {
-    return switch (operatorToken.type()) {
-      case TILDA -> (x) -> (x == 0) ? 0 : x * -1;
-      default -> throw new RunCodeError(ErrorType.PARSE, "invalidBinaryOperator",
-          operatorToken.lineNumber(), operatorToken.line());
-    };
   }
 
   @Override
@@ -126,7 +117,11 @@ public class Interpreter implements Visitor {
 
   @Override
   public double visitVariable(Variable expression) {
-    return currentEnvironment.lookupVariable(expression.getName());
+    try {
+      return currentEnvironment.lookupVariable(expression.getName());
+    } catch (RunCodeError error) {
+      return 0.0;
+    }
   }
 
   @Override
@@ -163,24 +158,12 @@ public class Interpreter implements Visitor {
 
   @Override
   public double visitFor(For expression) {
-    String iteratorName = (String) expression.getIterator().literal();
     double iteratorStart = evaluate(expression.getStart());
     double iteratorEnd = evaluate(expression.getEnd());
     double iteratorIncrement = evaluate(expression.getIncrement());
 
-    Environment previousEnvironment = currentEnvironment;
-    currentEnvironment = new Environment(currentEnvironment);
-    currentEnvironment.setVariable(iteratorName, iteratorStart);
-
-    double ret = 0;
-    while (currentEnvironment.lookupVariable(expression.getIterator()) < iteratorEnd) {
-      ret = evaluate(expression.getBody());
-      currentEnvironment.setVariable(iteratorName,
-          currentEnvironment.lookupVariable(expression.getIterator()) + iteratorIncrement);
-    }
-
-    currentEnvironment = previousEnvironment;
-    return ret;
+    return runForLoop(expression.getIterator(), iteratorStart, iteratorEnd, iteratorIncrement,
+        expression.getBody());
   }
 
   @Override
@@ -211,31 +194,6 @@ public class Interpreter implements Visitor {
     return turtles.size();
   }
 
-  private Optional<Turtle> getTurtle(int id) {
-    for (Turtle turtle : turtles) {
-      if (turtle.getId() == id) {
-        return Optional.of(turtle);
-      }
-    }
-    return Optional.empty();
-  }
-
-  private double selectAndCreateTurtles(List<Expression> idExpressions) {
-    int id = 1;
-    selectedTurtles.clear();
-    for (Expression idExpression : idExpressions) {
-      id = (int) Math.round(evaluate(idExpression));
-      int finalId = id;
-      Turtle turtle = getTurtle(id).orElseGet(() -> {
-        Turtle newTurtle = new Turtle(finalId);
-        turtles.add(newTurtle);
-        return newTurtle;
-      });
-      selectedTurtles.add(new CodeTurtle(turtle));
-    }
-    return id;
-  }
-
   @Override
   public double visitTell(Tell expression) {
     return selectAndCreateTurtles(expression.getIds());
@@ -255,18 +213,8 @@ public class Interpreter implements Visitor {
   @Override
   public double visitAskWith(AskWith expression) {
     List<CodeTurtle> previouslySelectedTurtles = selectedTurtles;
-    List<CodeTurtle> turtlesToSelect = new ArrayList<>();
-    selectedTurtles = new ArrayList<>();
-    for (Turtle turtle : turtles) {
-      CodeTurtle candidate = new CodeTurtle(turtle);
-      selectedTurtles.clear();
-      selectedTurtles.add(candidate);
-      double predicateResult = evaluate(expression.getPredicate());
-      if (predicateResult != 0) {
-        turtlesToSelect.add(candidate);
-      }
-    }
-    selectedTurtles = turtlesToSelect;
+    selectTurtlesIf(expression.getPredicate());
+
     double result = evaluate(expression.getBody());
     selectedTurtles = previouslySelectedTurtles;
     return result;
@@ -296,5 +244,100 @@ public class Interpreter implements Visitor {
 
   private double booleanToDouble(boolean bool) {
     return bool ? 1 : 0;
+  }
+
+  private Optional<Turtle> getTurtle(int id) {
+    for (Turtle turtle : turtles) {
+      if (turtle.getId() == id) {
+        return Optional.of(turtle);
+      }
+    }
+    return Optional.empty();
+  }
+
+  private Function<Double, Double> getUnaryOperator(Token operatorToken) {
+    return switch (operatorToken.type()) {
+      case TILDA -> (x) -> (x == 0) ? 0 : x * -1;
+      default -> throw new RunCodeError(ErrorType.PARSE, "invalidBinaryOperator",
+          operatorToken.lineNumber(), operatorToken.line());
+    };
+  }
+
+  private BiFunction<Double, Double, Double> getBinaryOperator(Token operatorToken) {
+    return switch (operatorToken.type()) {
+      case PLUS -> Double::sum;
+      case MINUS -> (a, b) -> a - b;
+      case STAR -> (a, b) -> a * b;
+      case FORWARD_SLASH -> (a, b) -> {
+        if (b == 0) {
+          throw ErrorFactory.createError(ErrorType.INTERPRET, "divideByZero", operatorToken);
+        }
+        return (a / b);
+      };
+      case PERCENT -> (a, b) -> {
+        if (b == 0) {
+          throw ErrorFactory.createError(ErrorType.INTERPRET, "moduloByZero", operatorToken);
+        }
+        return (a % b);
+      };
+      case EQUAL_TO -> (a, b) -> booleanToDouble(a.equals(b));
+      case NOT_EQUAL_TO -> (a, b) -> booleanToDouble(!a.equals(b));
+      case GREATER_THAN -> (a, b) -> booleanToDouble(a > b);
+      case LESS_THAN -> (a, b) -> booleanToDouble(a < b);
+      case GREATER_EQUAL_TO -> (a, b) -> booleanToDouble(a >= b);
+      case LESS_EQUAL_TO -> (a, b) -> booleanToDouble(a <= b);
+      default -> throw ErrorFactory.createError(ErrorType.INTERPRET, "invalidBinaryOperator",
+          operatorToken);
+    };
+  }
+
+  private double runForLoop(Token iteratorToken, double iteratorStart, double iteratorEnd,
+      double iteratorIncrement, Expression body) {
+    String iteratorName = (String) iteratorToken.literal();
+
+    Environment previousEnvironment = currentEnvironment;
+    currentEnvironment = new Environment(currentEnvironment);
+    currentEnvironment.setVariable(iteratorName, iteratorStart);
+
+    double ret = 0;
+    while (currentEnvironment.lookupVariable(iteratorToken) < iteratorEnd) {
+      ret = evaluate(body);
+      currentEnvironment.setVariable(iteratorName,
+          currentEnvironment.lookupVariable(iteratorToken) + iteratorIncrement);
+    }
+
+    currentEnvironment = previousEnvironment;
+    return ret;
+  }
+
+  private double selectAndCreateTurtles(List<Expression> idExpressions) {
+    int id = 1;
+    selectedTurtles.clear();
+    for (Expression idExpression : idExpressions) {
+      id = (int) Math.round(evaluate(idExpression));
+      int finalId = id;
+      Turtle turtle = getTurtle(id).orElseGet(() -> {
+        Turtle newTurtle = new Turtle(finalId);
+        turtles.add(newTurtle);
+        return newTurtle;
+      });
+      selectedTurtles.add(new CodeTurtle(turtle));
+    }
+    return id;
+  }
+
+  private void selectTurtlesIf(Expression predicate) {
+    List<CodeTurtle> turtlesToSelect = new ArrayList<>();
+    selectedTurtles = new ArrayList<>();
+    for (Turtle turtle : turtles) {
+      CodeTurtle candidate = new CodeTurtle(turtle);
+      selectedTurtles.clear();
+      selectedTurtles.add(candidate);
+      double predicateResult = evaluate(predicate);
+      if (predicateResult != 0) {
+        turtlesToSelect.add(candidate);
+      }
+    }
+    selectedTurtles = turtlesToSelect;
   }
 }

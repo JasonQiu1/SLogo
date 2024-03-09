@@ -9,20 +9,20 @@ import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import slogo.model.api.turtle.Point;
-import slogo.model.api.turtle.TurtleAnimator;
+import slogo.model.math.Point;
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
 import slogo.model.turtleutil.Turtle;
+import slogo.model.turtleutil.TurtleAnimatorImplementation;
 
 public class TurtleAnimatorTest {
   private Turtle myTurtle;
-  private TurtleAnimator myTurtleAnimator;
+  private TurtleAnimatorImplementation myTurtleAnimator;
 
   @BeforeEach
   void setup () {
     myTurtle = new Turtle(1);
-    myTurtleAnimator = new TurtleAnimator();
+    myTurtleAnimator = new TurtleAnimatorImplementation();
   }
 
   @Test
@@ -30,8 +30,8 @@ public class TurtleAnimatorTest {
     prepareMove();
 
     List<TurtleState> expectedInterStates = new ArrayList<>();
-    for (int i = 1; i <= 24; i++) {
-      TurtleState state = new TurtleState(new Point(0,i),0);
+    for (double i = 1.0; i <= 24.0; i++) {
+      TurtleState state = new TurtleState(new Point(0.0,round(50.0 / 24.0 * i)),0.0);
       expectedInterStates.add(state);
     }
 
@@ -47,7 +47,7 @@ public class TurtleAnimatorTest {
 
     List<TurtleState> expectedInterStates = new ArrayList<>();
     for (int i = 1; i <= 6; i++) {
-      TurtleState state = new TurtleState(new Point(0,i*4),0);
+      TurtleState state = new TurtleState(new Point(0,round(50.0 / 24.0 * i * 4)),0);
       expectedInterStates.add(state);
     }
 
@@ -72,7 +72,7 @@ public class TurtleAnimatorTest {
     prepareMove();
 
     List<TurtleState> expectedInterStates = new ArrayList<>();
-    TurtleState state = new TurtleState(new Point(0,24),0);
+    TurtleState state = new TurtleState(new Point(0,50),0);
     expectedInterStates.add(state);
 
 
@@ -88,7 +88,7 @@ public class TurtleAnimatorTest {
 
     List<TurtleState> expectedInterStates = new ArrayList<>();
     for (int i = 1; i <= 4; i++) {
-      TurtleState state = new TurtleState(new Point(0,0),i*6);
+      TurtleState state = new TurtleState(new Point(0,0), 50.0 / 24.0 * i * 6);
       expectedInterStates.add(state);
     }
 
@@ -100,7 +100,7 @@ public class TurtleAnimatorTest {
   void testNextFrame() {
     prepareMove();
     Map<Integer, TurtleState> nextFrame = myTurtleAnimator.nextFrame();
-    TurtleState expectedNextFrame = new TurtleState(new Point(0,1),0);
+    TurtleState expectedNextFrame = new TurtleState(new Point(0.0,round(50.0 / 24.0)),0);
     Map<Integer, TurtleState> expectedFrames = new HashMap<>();
     expectedFrames.put(0,expectedNextFrame);
 
@@ -116,7 +116,39 @@ public class TurtleAnimatorTest {
     myTurtleAnimator.nextFrame();
     myTurtleAnimator.nextFrame();
     Map<Integer, TurtleState> nextFrame = myTurtleAnimator.previousFrame();
-    TurtleState expectedNextFrame = new TurtleState(new Point(0,3),0);
+    TurtleState expectedNextFrame = new TurtleState(new Point(0.0,round(50.0 / 24.0 * 3)),0);
+    Map<Integer, TurtleState> expectedFrames = new HashMap<>();
+    expectedFrames.put(0,expectedNextFrame);
+
+    checkFrame(nextFrame, expectedFrames);
+
+  }
+
+  @Test
+  void resetFrameToBeginning() {
+    prepareMove();
+    myTurtleAnimator.nextFrame();
+    myTurtleAnimator.nextFrame();
+    myTurtleAnimator.nextFrame();
+    myTurtleAnimator.nextFrame();
+    Map<Integer, TurtleState> nextFrame = myTurtleAnimator.resetFrame();
+    TurtleState expectedNextFrame = new TurtleState(new Point(0.0,round(50.0 / 24.0)),0);
+    Map<Integer, TurtleState> expectedFrames = new HashMap<>();
+    expectedFrames.put(0,expectedNextFrame);
+
+    checkFrame(nextFrame, expectedFrames);
+
+  }
+
+  @Test
+  void resetFrameGivenFramesBack() {
+    prepareMove();
+    myTurtleAnimator.nextFrame();
+    myTurtleAnimator.nextFrame();
+    myTurtleAnimator.nextFrame();
+    myTurtleAnimator.nextFrame();
+    Map<Integer, TurtleState> nextFrame = myTurtleAnimator.resetFrame(3);
+    TurtleState expectedNextFrame = new TurtleState(new Point(0.0,round(50.0 / 24.0 * 2)),0);
     Map<Integer, TurtleState> expectedFrames = new HashMap<>();
     expectedFrames.put(0,expectedNextFrame);
 
@@ -127,14 +159,14 @@ public class TurtleAnimatorTest {
 
   private void prepareMove() {
     Map<Integer, List<TurtleStep>> turtles = new HashMap<>();
-    List<TurtleStep> steps = myTurtle.move(24);
+    List<TurtleStep> steps = myTurtle.move(50);
     turtles.put(0, steps);
     myTurtleAnimator.animateStep(turtles);
   }
 
   private void prepareRotate() {
     Map<Integer, List<TurtleStep>> turtles = new HashMap<>();
-    TurtleStep step = myTurtle.rotate(24);
+    TurtleStep step = myTurtle.rotate(50);
     turtles.put(0, List.of(step));
     myTurtleAnimator.animateStep(turtles);
   }
@@ -146,9 +178,11 @@ public class TurtleAnimatorTest {
       Iterator<TurtleState> expectedIter = expectedInterStates.iterator();
       while (iter.hasNext() && expectedIter.hasNext()) {
         TurtleState state = iter.next();
+        state.position().setX(round(state.position().getX()));
+        state.position().setY(round(state.position().getY()));
         TurtleState expected = expectedIter.next();
-        assertEquals(state.position(), expected.position());
-        assertEquals(state.heading(), expected.heading());
+        assertEquals(expected.position(), state.position());
+        assertEquals(expected.heading(), state.heading());
       }
     }
 
@@ -156,10 +190,18 @@ public class TurtleAnimatorTest {
 
   private void checkFrame(Map<Integer, TurtleState> states, Map<Integer, TurtleState> expected) {
     for (Integer turtleId: states.keySet()) {
-      assertEquals(states.get(turtleId).position(), expected.get(turtleId).position());
-      assertEquals(states.get(turtleId).heading(), expected.get(turtleId).heading());
+      TurtleState state = states.get(turtleId);
+      state.position().setX(round(state.position().getX()));
+      state.position().setY(round(state.position().getY()));
+      assertEquals(expected.get(turtleId).position(), states.get(turtleId).position());
+      assertEquals(expected.get(turtleId).heading(), states.get(turtleId).heading());
     }
 
+  }
+
+  private static double round(double value) {
+    int scale = (int) Math.pow(10, 10);
+    return (double) Math.round(value * scale) / scale;
   }
 
 }

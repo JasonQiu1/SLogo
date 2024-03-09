@@ -13,7 +13,6 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import slogo.model.api.Session;
 import slogo.model.api.XmlConfiguration;
-import slogo.model.api.turtle.TurtleAnimator;
 import slogo.view.userinterface.UIButton;
 import slogo.view.userinterface.UIElement;
 
@@ -29,10 +28,8 @@ public abstract class UIController {
     // Instance Variable
     private final Collection<UIElement> myElements;
     private Session session;
-    private TurtleAnimator turtleAnimator = new TurtleAnimator();
     protected final XmlConfiguration xmlConfiguration = new XmlConfiguration();
     protected final String helpFile = "data/commands/command_help_basic.xml";
-
 
     /**
      * Constructor for UIController.
@@ -108,14 +105,9 @@ public abstract class UIController {
     protected Session getCurrentSession() {
         return session;
     }
-    protected TurtleAnimator getTurtleAnimator() {
-        return turtleAnimator;
-    }
     public void setSession(Session session) {
         this.session = session;
     }
-    public void setTurtleAnimator(TurtleAnimator turtleAnimator) {
-        this.turtleAnimator = turtleAnimator;
-    }
+
 
 }
