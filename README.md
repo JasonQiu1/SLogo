@@ -64,7 +64,10 @@ This project implements a simple Logo ide, interpreter, and visualizer.
         * Variables can be set by clicking on them in the pop-up
         * Commands can be run by clicking on them in the pop-up
     * Preferences:
-        * User can load preferences for
+        * User can load preferences for SplashScreen
+    * Load/Save
+      * User can load and save programs to/from .slogo files
+    * 
 
 * Features unimplemented:
     * Commands:
