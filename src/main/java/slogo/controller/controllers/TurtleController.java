@@ -153,7 +153,7 @@ public class TurtleController extends UIController {
   }
 
   private void updateTurtleViews() {
-    framesRan = 1;
+    framesRan = 0;
     Map<Integer, List<TurtleStep>> totalSteps =
         this.getCurrentSession().getTurtlesStepHistories(numCommands);
     TURTLE_ANIMATOR.animateStep(totalSteps);
@@ -208,7 +208,7 @@ public class TurtleController extends UIController {
       // reset turtle position
       turtleView.updateState(state.position().getX(), state.position().getY(), state.heading());
       // reset frames ran
-      framesRan = 1;
+      framesRan = 0;
       // turn on pen
       turtleView.setPenDown(true);
     }

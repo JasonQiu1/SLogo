@@ -19,6 +19,8 @@ This project implements a simple Logo ide, interpreter, and visualizer.
 * Resources used for learning (including AI assistance)
     * Jason Qiu
         * Interpreter : https://craftinginterpreters.com/contents.html
+    * Judy He
+        * Design patterns: https://www.oodesign.com/
 
 * Resources used directly (including AI assistance)
 
@@ -40,7 +42,7 @@ This project implements a simple Logo ide, interpreter, and visualizer.
           variables in for commands
 
 * Known Bugs:
-  * Replay does not function properly after changing speed
+    * Replay does not function properly after changing speed
 
 * Features implemented:
     * Commands:
@@ -55,8 +57,6 @@ This project implements a simple Logo ide, interpreter, and visualizer.
 * Features unimplemented:
     * Commands:
         * setpencolor, setpensize, pencolor, penup, pendown, showturtle, hideturtle, clearscreen
-    * Animation:
-      * Dynamic Animation Speed: speed up/slow down ongoing animation
 
 * Noteworthy Features:
     * Commands:
@@ -71,10 +71,11 @@ This project implements a simple Logo ide, interpreter, and visualizer.
           when running code, which includes line number, the raw line of code itself, and where in
           the running process the error occurred (tokenizing, parsing, interpreting, runtime, etc.)
     * Animation:
-      * Play, pause, step through, replay animation
-      * Animation supports 3 modes (wrap, window, fence) and can be easily extended to support new modes that controls the turtle's behavior when it reaches the edge. 
-      * Draw line, erase line 
-      * User may change animation speed (speed down/slow down future animations)
+        * Play, pause, step through, replay animation
+        * Animation supports 3 modes (wrap, window, fence) and can be easily extended to support new
+          modes that controls the turtle's behavior when it reaches the edge.
+        * Draw line, erase line
+        * User may speed up/slow down both ongoing and future animations
 
 ### Assignment Impressions
 
@@ -84,4 +85,10 @@ that knowledge to the test. Encountering and solving challenges such as letting 
 somehow how many steps were taken with each command ran were interesting and not what I anticipated
 in the beginning.
 
-Judy He: My primary responsibility for this project was implementing both the model and the view part of the turtle animation. It was challenging at times to compute the math behind the turtle motion and designing the API in such a way that it supports speed adjustments, the wrap mode and tracks the step history of the turtles. As I helped integrated the animation part of the model with view, I encountered further challenges in displaying the intermediate states of the turtle computed by the model as well as generating the line animation. Another challenge was implementing the View to support change in animation speed.    
+Judy He: My primary responsibility for this project was implementing both the model and the view
+part of the turtle animation. It was challenging at times to compute the math behind the turtle
+motion and designing the API in such a way that it supports speed adjustments, the wrap mode and
+tracks the step history of the turtles. As I helped integrated the animation part of the model with
+view, I encountered further challenges in displaying the intermediate states of the turtle computed
+by the model as well as generating the line animation. Another challenge was implementing the View
+to support change in animation speed.    

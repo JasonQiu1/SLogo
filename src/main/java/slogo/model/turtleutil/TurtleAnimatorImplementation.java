@@ -198,6 +198,7 @@ public class TurtleAnimatorImplementation implements TurtleAnimator {
 
   private List<TurtleState> getMoveInterStates(TurtleState initState, Vector posChange) {
     List<TurtleState> interStates = new ArrayList<>();
+
     double pixels = posChange.getMagnitude();
     TurtleState currState = new TurtleState(initState.position(), initState.heading());
     double totalFrames = pixels / pixelsPerSecond * STANDARD_FPS;
@@ -216,6 +217,7 @@ public class TurtleAnimatorImplementation implements TurtleAnimator {
 
   private List<TurtleState> getAngleInterStates(TurtleState initState, double angleChange) {
     List<TurtleState> interStates = new ArrayList<>();
+
     double currAngle = initState.heading();
     double totalFrames = Math.abs(angleChange) / pixelsPerSecond * STANDARD_FPS;
     double angleChangePerFrame = angleChange / totalFrames;
@@ -242,7 +244,7 @@ public class TurtleAnimatorImplementation implements TurtleAnimator {
     if (speed >= MAX_SPEED) {
       pixelsPerSecond = -1;
     } else if (speed <= MIN_SPEED) {
-      pixelsPerSecond = 1;
+      pixelsPerSecond = 0.5;
     } else {
       pixelsPerSecond = DEFAULT_PIXELS_PER_SECOND * speed;
     }
