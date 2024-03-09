@@ -14,23 +14,23 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import slogo.model.api.XmlConfiguration;
 import slogo.model.api.exception.XmlException;
-import slogo.model.api.exception.coderunner.RunCodeError;
+import slogo.model.api.turtle.TurtleAnimator;
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
-import slogo.model.turtleutil.TurtleAnimatorImplementation;
-import slogo.view.LanguageManager;
 import slogo.view.userinterface.UIButton;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UITextField;
 import slogo.view.userinterface.UITurtle;
 import slogo.view.windows.HelpWindow;
+import tool.XmlHelper;
 
 /**
  * TurtleController class implements UIController interface to manage turtle UI elements. It
  * provides functionality to control the movement and appearance of the turtle.
  *
- * @author Jeremyah Flowers, Judy He, Jason Qiu
+ * @author Jeremyah Flowers, Judy He
  */
 public class TurtleController extends UIController {
 
@@ -38,14 +38,15 @@ public class TurtleController extends UIController {
   public static final String TURTLE_XML = "src/main/resources/selected_turtle.xml";
   private final Map<String, UITurtle> TURTLE_VIEWS = new HashMap<>();
   private Timeline animation = new Timeline();
+  private final XmlConfiguration myXmlConfig = new XmlConfiguration();
   private Map<Integer, TurtleState> currentFrame;
   private int framesRan;
   private int numCommands;
   private boolean animationOnPause;
-  private TurtleAnimatorImplementation myTurtleAnimator;
+  private final TurtleAnimator myTurtleAnimator;
 
   public TurtleController() {
-    myTurtleAnimator = new TurtleAnimatorImplementation();
+    myTurtleAnimator = new TurtleAnimator();
   }
 
   /**
@@ -77,26 +78,20 @@ public class TurtleController extends UIController {
     animation.setCycleCount(Timeline.INDEFINITE);
     double frameDuration = 1.0 / (myTurtleAnimator.getSpeed()
         * this.myTurtleAnimator.STANDARD_FPS); // Calculate the duration for the KeyFrame
-    animation.getKeyFrames().add(new KeyFrame(Duration.seconds(frameDuration), e -> step()));
+    animation.getKeyFrames()
+        .add(new KeyFrame(Duration.seconds(frameDuration), e -> step()));
     animation.play();
   }
 
   private void runCommands(UITextField textFieldView) {
     String commands = textFieldView.getTextCommands();
-    try {
-      this.numCommands = this.getCurrentSession().run(commands);
-    } catch (RunCodeError error) {
-      new HelpWindow("error", getCurrentSession(),
-          "[" + LanguageManager.getKeyValue(error.getErrorType().toString()) + "]: "
-              + LanguageManager.getKeyValue("errorOnLine") + error.getLineNumber() + " ('"
-              + error.getLine() + "'): " + LanguageManager.getKeyValue(error.getErrorMessageKey()));
-    }
+    this.numCommands = this.getCurrentSession().run(commands);
   }
 
   private void loadCommands(UIElement element) {
     String filePath = ((UIButton) element).getMyPath();
     try {
-      List<String> commands = xmlConfiguration.loadSessionFromFile(filePath);
+      List<String> commands = myXmlConfig.loadSessionFromFile(filePath);
       String allCommands = String.join(" ", commands);
       this.numCommands = getCurrentSession().run(allCommands);
     } catch (XmlException e) {
@@ -123,16 +118,7 @@ public class TurtleController extends UIController {
   }
 
   private void saveTurtleSelection(String path) {
-    try {
-      FileOutputStream file = new FileOutputStream(TURTLE_XML);
-      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-      Element turtleSelect = doc.createElement("SelectedTurtle");
-      turtleSelect.setTextContent(path);
-      doc.appendChild(turtleSelect);
-      writeXml(doc, file);
-    } catch (ParserConfigurationException | TransformerException | FileNotFoundException e) {
-      throw new RuntimeException(e);
-    }
+    new XmlHelper().updateFile(path, "SelectedTurtle",TURTLE_XML);
   }
 
   private void updateElement(UIElement element) {
@@ -148,13 +134,13 @@ public class TurtleController extends UIController {
   }
 
   private void addTurtleView(UITurtle turtleView) {
-    this.TURTLE_VIEWS.put(turtleView.getID() + ((int) TURTLE_VIEWS.size() + 1), turtleView);
+    this.TURTLE_VIEWS.put(turtleView.getID() + (TURTLE_VIEWS.size() + 1), turtleView);
   }
 
   private void updateTurtleViews() {
     framesRan = 0;
-    Map<Integer, List<TurtleStep>> totalSteps =
-        this.getCurrentSession().getTurtlesStepHistories(numCommands);
+    Map<Integer, List<TurtleStep>> totalSteps = this.getCurrentSession()
+        .getTurtlesStepHistories(numCommands);
     myTurtleAnimator.animateStep(totalSteps);
     this.currentFrame = myTurtleAnimator.nextFrame();
   }
@@ -189,7 +175,8 @@ public class TurtleController extends UIController {
       UITurtle turtleView = this.TURTLE_VIEWS.get("Turtle" + turtleId);
       if (turtleView.isShowing()) {
         turtleView.setPenDown(true); // turn on pen
-        turtleView.updateState(state.position().getX(), state.position().getY(), state.heading());
+        turtleView.updateState(state.position().getX(), state.position().getY(),
+            state.heading());
       }
     }
     framesRan++;

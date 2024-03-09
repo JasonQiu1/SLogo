@@ -1,0 +1,40 @@
+<values_view>
+  <index_entry>
+    <name>Pen Colors</name>
+    <index>
+      Index 1: Enable/Disable Red
+    </index>
+    <index>
+      Index 2: Enable/Disable Green
+    </index>
+    <index>
+      Index 3: Enable/Disable Blue
+    </index>
+  </index_entry>
+
+  <index_entry>
+    <name>Background Colors</name>
+    <index>
+      Index 1: Set Black and White Background
+    </index>
+    <index>
+      Index 2: Set Green and Blue Background
+    </index>
+    <index>
+      Index 3: Set Pink and Purple Background
+    </index>
+  </index_entry>
+
+  <index_entry>
+    <name>Pen Thickness</name>
+    <index>
+      Index 1: Set pen size small (0.5)
+    </index>
+    <index>
+      Index 2: Set pen size medium (1.0)
+    </index>
+    <index>
+      Index 3: Set pen size large (2.0)
+    </index>
+  </index_entry>
+</values_view>

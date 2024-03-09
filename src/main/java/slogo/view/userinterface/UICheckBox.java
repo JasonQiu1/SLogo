@@ -35,7 +35,7 @@ public class UICheckBox extends UIElement {
     myBox = (CheckBox) getElement();
     myBox.setTextFill(Color.GREEN);
     myBox.toFront();
-    setText(LanguageManager.translate(LanguageManager.getCurrentLanguage(), text));
+    setText(LanguageManager.translate(getLanguage(), text));
     setCheckbox();
     setPosition(x, y);
   }

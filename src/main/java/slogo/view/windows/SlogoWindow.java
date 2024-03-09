@@ -4,7 +4,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import slogo.view.pages.GeneralPage;
 import slogo.view.pages.GraphicsPage;
-import slogo.view.pages.HelpPage;
 import slogo.view.pages.SplashPage;
 
 /**

@@ -9,17 +9,14 @@ import javafx.scene.Parent;
 import javafx.stage.Stage;
 import slogo.controller.listeners.HelpListener;
 import slogo.model.api.Session;
+import slogo.view.builders.PageBuilder;
 import slogo.view.userinterface.UIElement;
 
-/**
- * Page to input parameters for setting value of user def variable
- *
- * @author Jordan Haytaian
- */
 public class ExpandVariablePage extends GeneralPage {
 
   private final Group root;
   private final PageBuilder myPageBuilder;
+  private final Session session;
   private final String text;
 
   /**
@@ -30,7 +27,8 @@ public class ExpandVariablePage extends GeneralPage {
   public ExpandVariablePage(Stage stage, Session session, String text) {
     super(stage, new HelpListener(session));
     root = new Group();
-    myPageBuilder = new PageBuilder(stage);
+    myPageBuilder = new PageBuilder(stage, root);
+    this.session = session;
     this.text = text;
   }
 
@@ -45,7 +43,7 @@ public class ExpandVariablePage extends GeneralPage {
     Collection<UIElement> UIElements = new ArrayList<>();
     UIElements.addAll(setUpTextField(screenWidth, screenHeight));
     UIElements.addAll(setupTitleText(screenWidth, screenHeight));
-    myPageBuilder.styleUI(UIElements, root);
+    myPageBuilder.styleUIElements(UIElements);
   }
 
   private Collection<UIElement> setupTitleText(double screenWidth, double screenHeight) {

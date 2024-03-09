@@ -1,9 +1,6 @@
 package slogo.controller.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import slogo.model.api.exception.XmlException;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UIListView;
 import slogo.view.userinterface.UITextField;
@@ -22,37 +19,25 @@ public class HelpController extends UIController {
    * @param element the UI element that triggered the notification
    */
   public void notifyController(UIElement element) {
-    if (element.getType().equalsIgnoreCase("textfield")) {
-      if (isVar(element.getID())) {
-        updateVarValue(element);
-      } else {
-        runCommandFromHelp(element);
+    switch (element.getType().toLowerCase()) {
+      case "textfield" -> updateVarValue(element);
+    }
+    switch (element.getID()) {
+      case "Variables", "Commands", "Help", "History" -> {
+        new HelpWindow(element.getID().toLowerCase(), this.getCurrentSession());
       }
-    } else {
-      switch (element.getID()) {
-        case "Variables", "Commands", "Help", "History" -> {
-          new HelpWindow(element.getID().toLowerCase(), this.getCurrentSession());
-        }
-        case "User Def Commands" -> {
-          String expandText = getCommandInfo(((UIListView) element).getSelectedItem());
-          new HelpWindow("command expand", this.getCurrentSession(), expandText);
-        }
-        case "Command History" -> {
-          runCommandFromHistory(element);
-        }
-        case "Variable List" -> {
-          String varName = getVarName(((UIListView) element).getSelectedItem());
-          new HelpWindow("variable expand", this.getCurrentSession(), varName);
-        }
-        default -> {
-          if (getCurrentSession() != null) {
-            String command = getCommandName(element.getID());
-            new HelpWindow("parameter expand", this.getCurrentSession(), command);
-          }
-        }
+      case "User-Defined Commands" -> {
+        String expandText = getCommandInfo(((UIListView) element).getSelectedItem());
+        new HelpWindow("command expand", this.getCurrentSession(), expandText);
+      }
+      case "Command History" -> {
+        runCommandFromHistory(element);
+      }
+      case "Variable List" -> {
+        String varName = getVarName(((UIListView) element).getSelectedItem());
+        new HelpWindow("variable expand", this.getCurrentSession(), varName);
       }
     }
-
   }
 
   private String getVarName(String option) {
@@ -64,24 +49,9 @@ public class HelpController extends UIController {
     return varName;
   }
 
-  private String getCommandName(String option) {
-    String[] lines = option.split("\n");
-
-    for (String line : lines) {
-      if (line.startsWith("Name:")) {
-        return line.split(": ")[1];
-      }
-    }
-    return option;
-  }
-
   private String getCommandInfo(String option) {
-    String[] parts = option.split("\n");
-    String[] commandParts = parts[0].split(":");
-    String command = commandParts[1].trim();
-
     Map<String, Map<String, String>> commandMap = this.getCurrentSession().getUserDefinedCommands();
-    Map<String, String> commandMetaData = commandMap.get(command);
+    Map<String, String> commandMetaData = commandMap.get(option);
     String body = commandMetaData.get("body");
     return option + "\nNested Commands: " + body;
   }
@@ -91,20 +61,10 @@ public class HelpController extends UIController {
     this.getCurrentSession().run(command);
   }
 
-  private void runCommandFromHelp(UIElement element) {
-    String command = element.getID();
-    String parameters = ((UITextField) element).getTextCommands();
-    this.getCurrentSession().run(command + " " + parameters);
-  }
-
   private void updateVarValue(UIElement element) {
     String varName = element.getID();
     String varValue = ((UITextField) element).getTextCommands();
     String command = "make :" + varName + " " + varValue;
     this.getCurrentSession().run(command);
-  }
-
-  private boolean isVar(String text) {
-    return getCurrentSession().getVariables().containsKey(text);
   }
 }

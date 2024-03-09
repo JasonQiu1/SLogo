@@ -1,9 +1,11 @@
 package slogo.controller.listeners;
 
 import java.util.Collection;
+import slogo.controller.controllers.HelpController;
 import slogo.controller.controllers.TurtleController;
 import slogo.controller.controllers.XmlController;
 import slogo.model.api.Session;
+import slogo.model.turtleutil.Turtle;
 import slogo.view.userinterface.UIElement;
 
 /**
@@ -13,6 +15,7 @@ import slogo.view.userinterface.UIElement;
  */
 public class HelpListener implements UIListener {
 
+  HelpController myHelpController = new HelpController();
   XmlController myXmlController = new XmlController();
   TurtleController myTurtleController = new TurtleController();
   private final Session session;
@@ -37,14 +40,19 @@ public class HelpListener implements UIListener {
 
   @Override
   public void sendSignal(UIElement element) {
+    myHelpController.setSession(session);
+    switch (element.getType().toLowerCase()) {
+      case "textfield" ->
+        myHelpController.notifyController(element);
+    }
     switch (element.getID().toLowerCase()) {
       case "library commands" -> myXmlController.notifyController(element);
-      case "user-defined commands", "user-defined variables", "history", "command history", "variable list" -> {
-        helpController.notifyController(element);
-        myTurtleController.notifyController(element);
-      }
       default -> {
+<<<<<<< HEAD
         helpController.notifyController(element);
+=======
+        myHelpController.notifyController(element);
+>>>>>>> 17fd9ee (Added XML Helper and Builders. [NOTE: someone pushed code that doesn't compile to the branch. please fix].)
         myTurtleController.notifyController(element);
       }
     }
