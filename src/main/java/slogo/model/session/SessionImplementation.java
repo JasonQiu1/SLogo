@@ -16,7 +16,7 @@ import slogo.model.turtleutil.Turtle;
  * External API for the frontend to interact with the model. Responsible for running Slogo code and
  * maintaining command history and turtle step history.
  *
- * @author Jason Qiu
+ * @author Jason Qiu, Judy He
  */
 public class SessionImplementation implements Session {
 
@@ -59,8 +59,8 @@ public class SessionImplementation implements Session {
    */
   @Override
   public List<Map<String, Map<String, String>>> getCommandHistory(int maxLength) {
-    return commandHistory.subList(Math.max(0, commandHistory.size() - maxLength),
-        commandHistory.size());
+    return new ArrayList<>(commandHistory.subList(Math.max(0, commandHistory.size() - maxLength),
+        commandHistory.size()));
   }
 
   /**

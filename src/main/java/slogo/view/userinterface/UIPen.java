@@ -40,6 +40,6 @@ public class UIPen {
   }
 
   public void eraseLine() {
-    myCanvas.getChildren().remove(lineCollector.pop());
+    if (!lineCollector.isEmpty()) myCanvas.getChildren().remove(lineCollector.pop());
   }
 }

@@ -10,7 +10,7 @@ import slogo.model.api.turtle.TurtleStep;
  * External API for the frontend to interact with the model. Responsible for running Slogo code and
  * maintaining command history and turtle step history.
  *
- * @author Jason Qiu
+ * @author Jason Qiu, Judy He
  */
 public interface Session {
 

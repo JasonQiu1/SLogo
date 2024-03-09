@@ -6,9 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.Group;
 import javafx.scene.Parent;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import slogo.controller.listeners.HelpListener;
 import slogo.view.userinterface.UIElement;
@@ -16,7 +18,7 @@ import slogo.view.userinterface.UIElement;
 /**
  * Page to display error messages
  *
- * @author Jordan Haytaian
+ * @author Jordan Haytaian, Jason Qiu
  */
 public class ErrorPage extends GeneralPage {
 
@@ -24,7 +26,7 @@ public class ErrorPage extends GeneralPage {
   private final PageBuilder myPageBuilder;
   private final String errorMessage;
   private static final String FONT_FAMILY = "Verdana";
-  private static final Font MESSAGE_FONT = Font.font(FONT_FAMILY, FontWeight.MEDIUM, 25);
+  private static final Font MESSAGE_FONT = Font.font(FONT_FAMILY, FontWeight.MEDIUM, 12);
 
   /**
    * Constructor for ErrorPage
@@ -50,8 +52,13 @@ public class ErrorPage extends GeneralPage {
     Collection<UIElement> UIElements = new ArrayList<>(setupTitleText(screenWidth, screenHeight));
     myPageBuilder.styleUI(UIElements, root);
     Text messageText = new Text(screenWidth / 2 - 100, screenHeight / 2, errorMessage);
+    messageText.setWrappingWidth(100);
     messageText.setFont(MESSAGE_FONT);
-    root.getChildren().add(messageText);
+    ScrollPane container = new ScrollPane(new TextFlow(messageText));
+    container.setLayoutY(100);
+    container.setFitToWidth(true);
+    container.setPrefHeight(600);
+    root.getChildren().add(container);
   }
 
   /**

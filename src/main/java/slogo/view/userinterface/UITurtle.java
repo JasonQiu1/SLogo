@@ -3,12 +3,14 @@ package slogo.view.userinterface;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ResourceBundle;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
+import slogo.model.math.Point;
 
 /**
  * Represents a turtle graphic element in the Slogo user interface. Handles the display and
@@ -19,19 +21,22 @@ import org.w3c.dom.Document;
  */
 public class UITurtle extends UIElement {
 
+  private static final ResourceBundle configResourceBundle = ResourceBundle.getBundle(
+      "slogo.Configuration");
+
   private static final int TURTLE_SIZE = 10;
   private static final String TURTLE_XML = "src/main/resources/turtle_image/selected_turtle.xml";
   private static final String DEFAULT_TURTLE = "turtle_image/turtle_img01.png";
   private static final String IMG_DIR = "turtle_image/";
-  public static final double X_MIN = -150; // get from resource file
-  public static final double X_MAX = 150; // get from resource file
-  public static final double Y_MIN = -150; // get from resource file
-  public static final double Y_MAX = 150; // get from resource file
-  private final Circle myTurtle;
-  private final double X_ORIGIN;
-  private final double Y_ORIGIN;
-  private final double initHeading;
-  private double x, y, heading;
+  private static final double X_MIN = parseConfigDouble("X_MIN");
+  private static final double X_MAX = parseConfigDouble("X_MAX");
+  private static final double Y_MIN = parseConfigDouble("Y_MIN");
+  private static final double Y_MAX = parseConfigDouble("Y_MAX");
+  private final Circle MY_TURTLE;
+  private final Point ORIGIN;
+  private final Point CURRENT_POSITION;
+  private final double INITIAL_HEADING;
+  private double currentHeading;
   private UIPen myPen;
   private boolean penDown;
 
@@ -44,17 +49,15 @@ public class UITurtle extends UIElement {
    */
   public UITurtle(String turtleID, double x, double y) {
     super(new Circle(TURTLE_SIZE), turtleID);
-    myTurtle = (Circle) getElement();
-    myTurtle.setFill(Color.BLACK);
-    myTurtle.toFront();
-    this.x = x;
-    this.y = y;
-    this.heading = 0;
-    this.X_ORIGIN = x;
-    this.Y_ORIGIN = y;
-    this.initHeading = 0;
-    this.penDown = false;
-    myTurtle.setOnMouseClicked(click -> showTurtle(!isShowing()));
+    MY_TURTLE = (Circle) getElement();
+    MY_TURTLE.setFill(Color.BLACK);
+    MY_TURTLE.toFront();
+    ORIGIN = new Point(x, y);
+    CURRENT_POSITION = new Point(x, y);
+    currentHeading = 0;
+    INITIAL_HEADING = 0;
+    penDown = false;
+    MY_TURTLE.setOnMouseClicked(click -> showTurtle(!isShowing()));
     setSpecialType("Turtle");
     setPosition(x, y);
   }
@@ -81,7 +84,7 @@ public class UITurtle extends UIElement {
   public void setupTurtle() {
     try {
       Path turtleImg = Paths.get(IMG_DIR, findTurtle());
-      myTurtle.setFill(new ImagePattern(new Image(turtleImg.toFile().toString())));
+      MY_TURTLE.setFill(new ImagePattern(new Image(turtleImg.toFile().toString())));
     } catch (Exception e) {
       System.out.println(e);
     }
@@ -91,63 +94,114 @@ public class UITurtle extends UIElement {
    * Updates the turtle's position on the screen.
    */
   public void updateState(double x, double y, double angle) {
-    double xInitial = this.x;
-    double yInitial = this.y;
-
-    // check bounds
-    if (xInitial >= X_MAX + X_ORIGIN) {
-      xInitial = X_MIN + X_ORIGIN;
-      this.penDown = false;
-    }
-    else if (xInitial <= X_MIN + X_ORIGIN) {
-      xInitial = X_MAX + X_ORIGIN;
-      this.penDown = false;
+    if (ORIGIN.getX() + x != CURRENT_POSITION.getX() || ORIGIN.getY() - y != CURRENT_POSITION.getY()) {
+      Point pInitial = move(x, y);
+      if (penDown) {
+        draw(pInitial, CURRENT_POSITION);
+      }
     }
 
-    if (yInitial >= Y_MAX + Y_ORIGIN) {
-      yInitial = Y_MIN + Y_ORIGIN;
-      this.penDown = false;
-    }
-    else if (yInitial <= Y_MIN + Y_ORIGIN) {
-      yInitial = Y_MAX + Y_ORIGIN;
-      this.penDown = false;
-    }
-
-    this.x = X_ORIGIN + x;
-    this.y = Y_ORIGIN - y;
-    setPosition(this.x, this.y);
-    
-    this.heading = initHeading + angle;
-    myTurtle.setRotate(this.heading);
-
-    if (penDown) draw(xInitial, yInitial, this.x, this.y);
+    if (INITIAL_HEADING + angle != currentHeading) rotate(angle);
   }
 
-  private void draw(double xInitial, double yInitial, double xFinal, double yFinial) {
-      myPen.draw(xInitial - myTurtle.getRadius(), yInitial- myTurtle.getRadius(), xFinal - myTurtle.getRadius(), yFinial - myTurtle.getRadius());
+  private void rotate(double newHeading) {
+    currentHeading = INITIAL_HEADING + newHeading;
+    MY_TURTLE.setRotate(currentHeading);
   }
 
+  private Point move(double x, double y) {
+    double xInitial = CURRENT_POSITION.getX();
+    double yInitial = CURRENT_POSITION.getY();
+
+    xInitial = checkXBound(xInitial);
+    yInitial = checkYBound(yInitial);
+
+    CURRENT_POSITION.setX(ORIGIN.getX() + x);
+    CURRENT_POSITION.setY(ORIGIN.getY() - y);
+
+    setPosition(CURRENT_POSITION.getX(), CURRENT_POSITION.getY());
+
+    return new Point(xInitial, yInitial);
+  }
+
+  private double checkXBound(double x) {
+    if (x >= X_MAX + ORIGIN.getX()) {
+      this.penDown = false;
+      return X_MIN + ORIGIN.getX();
+    } else if (x <= X_MIN + ORIGIN.getX()) {
+      this.penDown = false;
+      return X_MAX + ORIGIN.getX();
+    }
+    return x;
+  }
+
+  private double checkYBound(double y) {
+    if (y >= Y_MAX + ORIGIN.getY()) {
+      this.penDown = false;
+      return Y_MIN + ORIGIN.getY();
+    } else if (y <= Y_MIN + ORIGIN.getY()) {
+      this.penDown = false;
+      return Y_MAX + ORIGIN.getY();
+    }
+    return y;
+  }
+
+  private void draw(Point pInitial, Point pFinal) {
+    myPen.draw(pInitial.getX() - MY_TURTLE.getRadius(), pInitial.getY() - MY_TURTLE.getRadius(),
+        pFinal.getX() - MY_TURTLE.getRadius(), pFinal.getY() - MY_TURTLE.getRadius());
+  }
+
+  /**
+   * Deactivate/Activate pen
+   *
+   * @param penDown is pen down or not down
+   */
   public void setPenDown(boolean penDown) {
     this.penDown = penDown;
   }
 
+  /**
+   * Set pen for turtle view
+   *
+   * @param pen turtle's pen
+   */
   public void setPen(UIPen pen) {
     myPen = pen;
   }
+
+  /**
+   * Clear drawings
+   */
   public void clearScreen() {
     myPen.clearScreen();
   }
 
+  /**
+   * Show/activate turtle
+   * @param doShow do or do not show turtle
+   */
   public void showTurtle(Boolean doShow) {
     sendSignal();
     setStatus(doShow);
   }
 
+  /**
+   * Check is turtle showing/active
+   *
+   * @return turtle is or is not showing/active
+   */
   public Boolean isShowing() {
-    return myTurtle.getOpacity() > 0.5;
+    return MY_TURTLE.getOpacity() > 0.5;
   }
 
+  /**
+   * Erase most recent line drawn by turtle
+   */
   public void clearLastLine() {
     myPen.eraseLine();
+  }
+
+  private static double parseConfigDouble(String key) {
+    return Double.parseDouble(configResourceBundle.getString(key));
   }
 }

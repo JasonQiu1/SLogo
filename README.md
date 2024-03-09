@@ -1,4 +1,5 @@
 # slogo
+
 ## Team 3
 
 ## Jason Qiu (jq48), Jordan (jeh120), Jeremyah, Judy He (yh381)
@@ -19,7 +20,9 @@ This project implements a simple Logo ide, interpreter, and visualizer.
     * Jason Qiu
         * Interpreter : https://craftinginterpreters.com/contents.html
     * Jordan Haytaian
-      * Chatgpt
+        * Chatgpt
+    * Judy He
+        * Design patterns: https://www.oodesign.com/
 
 * Resources used directly (including AI assistance)
 
@@ -27,7 +30,8 @@ This project implements a simple Logo ide, interpreter, and visualizer.
 
 * Main class: Main.java
 
-* Data files needed: Translations/english.properties, Translations/french.properties, Translations/spanish.properties
+* Data files needed: Translations/english.properties, Translations/french.properties,
+  Translations/spanish.properties
 
 * Interesting data files: data/preferences/preference_1.xml
 
@@ -41,10 +45,10 @@ This project implements a simple Logo ide, interpreter, and visualizer.
           variables in for commands
 
 * Known Bugs:
-  * Replay does not function properly after changing speed
-  * Loading a file after running a loaded file only executes the last command in the file
-  * Running a command from a help menu that does not take parameters will prompt for parameters
-  * Some language translations and help documentation make buttons overlap or text flow off-screen
+    * Replay does not function properly after changing speed
+    * Loading a file after running a loaded file only executes the last command in the file
+    * Running a command from a help menu that does not take parameters will prompt for parameters
+    * Some language translations and help documentation make buttons overlap or text flow off-screen
 
 * Features implemented:
     * Commands:
@@ -56,17 +60,15 @@ This project implements a simple Logo ide, interpreter, and visualizer.
         * Throws an error which should be caught by the view and displayed to the user when
           encountering an error with the given code
     * Help Pages:
-      * Commands, Variables, and History can all be displayed in a pop-up window
-      * Variables can be set by clicking on them in the pop-up
-      * Commands can be run by clicking on them in the pop-up
+        * Commands, Variables, and History can all be displayed in a pop-up window
+        * Variables can be set by clicking on them in the pop-up
+        * Commands can be run by clicking on them in the pop-up
     * Preferences:
-      * User can load preferences for 
+        * User can load preferences for
 
 * Features unimplemented:
     * Commands:
         * setpencolor, setpensize, pencolor, penup, pendown, showturtle, hideturtle, clearscreen
-    * Animation:
-      * Dynamic Animation Speed: speed up/slow down ongoing animation
 
 * Noteworthy Features:
     * Commands:
@@ -81,10 +83,11 @@ This project implements a simple Logo ide, interpreter, and visualizer.
           when running code, which includes line number, the raw line of code itself, and where in
           the running process the error occurred (tokenizing, parsing, interpreting, runtime, etc.)
     * Animation:
-      * Play, pause, step through, replay animation
-      * Animation supports 3 modes (wrap, window, fence) and can be easily extended to support new modes that controls the turtle's behavior when it reaches the edge. 
-      * Draw line, erase line 
-      * User may change animation speed (speed down/slow down future animations)
+        * Play, pause, step through, replay animation
+        * Animation supports 3 modes (wrap, window, fence) and can be easily extended to support new
+          modes that controls the turtle's behavior when it reaches the edge.
+        * Draw line, erase line
+        * User may speed up/slow down both ongoing and future animations
 
 ### Assignment Impressions
 
@@ -94,4 +97,10 @@ that knowledge to the test. Encountering and solving challenges such as letting 
 somehow how many steps were taken with each command ran were interesting and not what I anticipated
 in the beginning.
 
-Judy He: My primary responsibility for this project was implementing both the model and the view part of the turtle animation. It was challenging at times to compute the math behind the turtle motion and designing the API in such a way that it supports speed adjustments, the wrap mode and tracks the step history of the turtles. As I helped integrated the animation part of the model with view, I encountered further challenges in displaying the intermediate states of the turtle computed by the model as well as generating the line animation. Another challenge was implementing the View to support change in animation speed.    
+Judy He: My primary responsibility for this project was implementing both the model and the view
+part of the turtle animation. It was challenging at times to compute the math behind the turtle
+motion and designing the API in such a way that it supports speed adjustments, the wrap mode and
+tracks the step history of the turtles. As I helped integrated the animation part of the model with
+view, I encountered further challenges in displaying the intermediate states of the turtle computed
+by the model as well as generating the line animation. Another challenge was implementing the View
+to support change in animation speed.    
