@@ -258,7 +258,7 @@ public class Interpreter implements Visitor {
   private Function<Double, Double> getUnaryOperator(Token operatorToken) {
     return switch (operatorToken.type()) {
       case TILDA -> (x) -> (x == 0) ? 0 : x * -1;
-      default -> throw new RunCodeError(ErrorType.PARSE, "invalidBinaryOperator",
+      default -> throw new RunCodeError(ErrorType.INTERPRET, "invalidBinaryOperator",
           operatorToken.lineNumber(), operatorToken.line());
     };
   }

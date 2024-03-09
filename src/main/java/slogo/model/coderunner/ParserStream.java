@@ -1,5 +1,6 @@
 package slogo.model.coderunner;
 
+import java.awt.desktop.AppReopenedEvent;
 import java.util.ArrayList;
 import java.util.List;
 import slogo.model.api.exception.coderunner.ErrorType;
@@ -21,8 +22,8 @@ class ParserStream implements Parser {
    */
   ParserStream(Lexer lexer) {
     this.lexer = lexer;
-    previousToken = null;
     currentToken = null;
+    nextToken = new Token(TokenType.SOF, "^", -1, TOKEN_LINE_PLACEHOLDER);
     nextToken();
   }
 
@@ -46,7 +47,7 @@ class ParserStream implements Parser {
   private Expression term() {
     Expression expression = factor();
     if (match(TokenType.PLUS, TokenType.MINUS)) {
-      Token operator = previousToken;
+      Token operator = currentToken;
       Expression right = factor();
       return new Expression.Binary(operator, expression, right);
     }
@@ -56,7 +57,7 @@ class ParserStream implements Parser {
   private Expression factor() {
     Expression expression = comparison();
     if (match(TokenType.STAR, TokenType.FORWARD_SLASH, TokenType.PERCENT)) {
-      Token operator = previousToken;
+      Token operator = currentToken;
       Expression right = comparison();
       return new Expression.Binary(operator, expression, right);
     }
@@ -67,7 +68,7 @@ class ParserStream implements Parser {
     Expression expression = unary();
     if (match(TokenType.EQUAL_TO, TokenType.NOT_EQUAL_TO, TokenType.GREATER_EQUAL_TO,
         TokenType.LESS_EQUAL_TO, TokenType.GREATER_THAN, TokenType.LESS_THAN)) {
-      Token operator = previousToken;
+      Token operator = currentToken;
       Expression right = unary();
       return new Expression.Binary(operator, expression, right);
     }
@@ -80,7 +81,7 @@ class ParserStream implements Parser {
       return expression;
     }
     if (match(TokenType.TILDA)) {
-      return new Expression.Unary(previousToken, literal());
+      return new Expression.Unary(currentToken, literal());
     }
     return expression;
   }
@@ -91,10 +92,10 @@ class ParserStream implements Parser {
       return expression;
     }
     if (match(TokenType.VARIABLE)) {
-      return new Expression.Variable(previousToken);
+      return new Expression.Variable(currentToken);
     }
     if (match(TokenType.NUMBER)) {
-      return new Expression.Number((double) previousToken.literal());
+      return new Expression.Number((double) currentToken.literal());
     }
     return expression;
   }
@@ -138,7 +139,7 @@ class ParserStream implements Parser {
       return new Expression.AskWith(expression(), consumeBlock());
     }
     if (match(TokenType.COMMAND)) {
-      return new Expression.Call(previousToken);
+      return new Expression.Call(currentToken);
     }
 
     return expression;
@@ -162,7 +163,7 @@ class ParserStream implements Parser {
   private Expression doTimesExpression() {
     consume(TokenType.LEFT_SQUARE_BRACKET);
     consume(TokenType.VARIABLE);
-    Token variableToken = previousToken;
+    Token variableToken = currentToken;
     Expression limit = expression();
     consume(TokenType.RIGHT_SQUARE_BRACKET);
 
@@ -177,7 +178,7 @@ class ParserStream implements Parser {
   private Expression forExpression() {
     consume(TokenType.LEFT_SQUARE_BRACKET);
     consume(TokenType.VARIABLE);
-    Token variableToken = previousToken;
+    Token variableToken = currentToken;
     Expression start = expression();
     Expression end = expression();
     Expression increment = expression();
@@ -188,14 +189,22 @@ class ParserStream implements Parser {
     return new Expression.For(variableToken, start, end, increment, body);
   }
 
+  private Expression.Block predicate() {
+    if (check(TokenType.LEFT_SQUARE_BRACKET)) {
+      return consumeBlock();
+    } else {
+      return new Expression.Block(blockUntil(TokenType.LEFT_SQUARE_BRACKET), currentToken.line());
+    }
+  }
+
   private Expression ifExpression() {
-    Expression predicate = blockUntil(TokenType.LEFT_SQUARE_BRACKET);
+    Expression.Block predicate = predicate();
     Expression trueBranch = consumeBlock();
     return new Expression.IfElse(predicate, trueBranch, null);
   }
 
   private Expression ifElseExpression() {
-    Expression predicate = blockUntil(TokenType.LEFT_SQUARE_BRACKET);
+    Expression.Block predicate = predicate();
     Expression trueBranch = consumeBlock();
     Expression falseBranch = consumeBlock();
     return new Expression.IfElse(predicate, trueBranch, falseBranch);
@@ -203,11 +212,11 @@ class ParserStream implements Parser {
 
   private Expression toExpression() {
     consume(TokenType.COMMAND);
-    Token commandName = previousToken;
+    Token commandName = currentToken;
     List<Token> parameters = new ArrayList<>();
     consume(TokenType.LEFT_SQUARE_BRACKET);
     while (match(TokenType.VARIABLE)) {
-      parameters.add(previousToken);
+      parameters.add(currentToken);
     }
     consume(TokenType.RIGHT_SQUARE_BRACKET);
     Block body = consumeBlock();
@@ -215,21 +224,24 @@ class ParserStream implements Parser {
     return new Expression.To(commandName, parameters, body);
   }
 
-  private Block blockUntil(TokenType limiter) {
+  private List<Expression> blockUntil(TokenType limiter) {
     List<Expression> body = new ArrayList<>();
-    while (!check(limiter)) {
+    while (!check(limiter) && !isNowEnd()) {
       body.add(expression());
     }
-    return new Block(body, previousToken.line());
+    return body;
   }
 
   private Block block() {
     if (match(TokenType.LEFT_SQUARE_BRACKET)) {
       List<Expression> body = new ArrayList<>();
-      while (!match(TokenType.RIGHT_SQUARE_BRACKET)) {
+      while (!match(TokenType.RIGHT_SQUARE_BRACKET) && !isNextEnd()) {
         body.add(expression());
       }
-      return new Block(body, previousToken.line());
+      if (isNextEnd()) {
+        consume(TokenType.RIGHT_SQUARE_BRACKET);
+      }
+      return new Block(body, currentToken.line());
     }
     return null;
   }
@@ -237,16 +249,16 @@ class ParserStream implements Parser {
   private Block consumeBlock() {
     consume(TokenType.LEFT_SQUARE_BRACKET);
     List<Expression> body = new ArrayList<>();
-    while (!check(TokenType.RIGHT_SQUARE_BRACKET)) {
+    while (nextToken.type() != TokenType.RIGHT_SQUARE_BRACKET && !isNextEnd()) {
       body.add(expression());
     }
     consume(TokenType.RIGHT_SQUARE_BRACKET);
-    return new Block(body, previousToken.line());
+    return new Block(body, currentToken.line());
   }
 
   private boolean check(TokenType... types) {
     for (TokenType type : types) {
-      if (currentToken.type() == type) {
+      if (nextToken.type() == type) {
         return true;
       }
     }
@@ -255,14 +267,14 @@ class ParserStream implements Parser {
 
   private Token consume(TokenType type) {
     if (!match(type)) {
-      throw ErrorFactory.createError(ErrorType.PARSE, "expectedDifferentToken", currentToken);
+      throw ErrorFactory.createError(ErrorType.PARSE, "expectedDifferentToken", nextToken);
     }
-    return previousToken;
+    return currentToken;
   }
 
   private boolean match(TokenType... types) {
     for (TokenType type : types) {
-      if (currentToken.type() == type) {
+      if (nextToken.type() == type) {
         nextToken();
         return true;
       }
@@ -270,20 +282,24 @@ class ParserStream implements Parser {
     return false;
   }
 
-  private boolean isAtEnd() {
-    return previousToken != null && previousToken.type() == TokenType.EOF;
+  private boolean isNowEnd() {
+    return currentToken == null || currentToken.type() == TokenType.EOF;
+  }
+
+  private boolean isNextEnd() {
+    return nextToken.type() == TokenType.EOF;
   }
 
   private Token nextToken() {
-    previousToken = currentToken;
-    currentToken = lexer.nextToken();
-    if (isAtEnd()) {
-      throw ErrorFactory.createError(ErrorType.PARSE, "expectedTokens", currentToken);
+    currentToken = nextToken;
+    nextToken = lexer.nextToken();
+    if (isNowEnd()) {
+      throw ErrorFactory.createError(ErrorType.PARSE, "expectedToken", nextToken);
     }
-    return currentToken;
+    return nextToken;
   }
 
   private final Lexer lexer;
-  private Token previousToken;
   private Token currentToken;
+  private Token nextToken;
 }
