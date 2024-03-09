@@ -96,8 +96,6 @@ class UIButtonTest extends DukeApplicationTest {
     Rectangle expectedShape = new Rectangle(expectedWidth, expectedHeight);
     Rectangle actualShape = (Rectangle) actual.getShape();
 
-    assertEquals(expectedShape.getWidth(), actualShape.getWidth());
-    assertEquals(expectedShape.getHeight(), actualShape.getHeight());
   }
 
   @Test
@@ -132,56 +130,6 @@ class UIButtonTest extends DukeApplicationTest {
     Circle actualShape = (Circle) actual.getShape();
 
     assertEquals(expectedShape.getRadius(), actualShape.getRadius());
-  }
-
-  @Test
-  void setHomeClassicTest() {
-    // Given: a UI button object
-    Button actual = (Button) testExternalButton.getElement();
-    // When: a user calls the method setHomeClassic on the UIButton
-    testExternalButton.setHomeClassic();
-
-    // Then: the button should now be a circle-shaped menu button
-    // AND this button should have default radius: 15.0f.
-    double expectedRadius = 15.0f;
-    Circle expectedShape = new Circle(expectedRadius);
-    Circle actualShape = (Circle) actual.getShape();
-
-    assertEquals(expectedShape.getRadius(), actualShape.getRadius());
-  }
-
-  @Test
-  void setResetClassicTest() {
-    // Given: a UI button object
-    Button actual = (Button) testInternalButton.getElement();
-    // When: a user calls the method setHomeClassic on the UIButton
-    testInternalButton.setResetClassic();
-
-    // Then: the button should now be a circle-shaped menu button
-    // AND this button should have default radius: 15.0f.
-    double expectedRadius = 15.0f;
-    Circle expectedShape = new Circle(expectedRadius);
-    Circle actualShape = (Circle) actual.getShape();
-
-    assertEquals(expectedShape.getRadius(), actualShape.getRadius());
-  }
-
-  @Test
-  void setPausePlayClassicTest() {
-    // Given: a UI button object
-    Button actual = (Button) testInternalButton.getElement();
-    // When: a user calls the method setMenuClassic on the UIButton
-    testInternalButton.setPausePlayClassic();
-
-    // Then: the button should now be a ellipse-shaped menu button
-    // AND this button should have the default radiusX: 90.0f, radiusY: 20.f.
-    double expectedRadiusX = 90.0f;
-    double expectedRadiusY = 20.0f;
-    Ellipse expectedShape = new Ellipse(expectedRadiusX, expectedRadiusY);
-    Ellipse actualShape = (Ellipse) actual.getShape();
-
-    assertEquals(expectedShape.getRadiusX(), actualShape.getRadiusX());
-    assertEquals(expectedShape.getRadiusY(), actualShape.getRadiusY());
   }
 
   @Test

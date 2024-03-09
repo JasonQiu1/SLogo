@@ -65,6 +65,9 @@ class GraphicsPageTest extends DukeApplicationTest {
 
       // when pressing Command + R (to clear the text field)
       press(KeyCode.COMMAND, KeyCode.R);
+      type(KeyCode.COMMAND, KeyCode.R);
+      press(KeyCode.COMMAND, KeyCode.R);
+      type(KeyCode.COMMAND, KeyCode.R);
 
       // then the text field should be empty
       String expected2 = "";
@@ -102,6 +105,52 @@ class GraphicsPageTest extends DukeApplicationTest {
       // then the text field should be empty
       String expected3 = "";
       assertEquals(expected3, myTextField.getText());
+    }
+
+    @Test
+    void testBasicCommands() {
+      // given a text field with no text
+      // when writing a single line of text "fd 50"
+      myTextField.clear();
+      try {
+        String expected1 = "fd 50";
+        // when
+        writeInputTo(myTextField, expected1);
+
+        //then
+        assertEquals(expected1, myTextField.getText());
+        press(KeyCode.COMMAND, KeyCode.R);
+      } catch (Exception e) {
+        fail();
+      }
+
+      // given a text field with no text
+      // when writing a single line of text "rt 90"
+      myTextField.clear();
+      try {
+        String expected1 = "rt 90";
+        // when
+        writeInputTo(myTextField, expected1);
+
+        //then
+        assertEquals(expected1, myTextField.getText());
+        press(KeyCode.COMMAND, KeyCode.R);
+      } catch (Exception e) {
+        fail();
+      }
+
+      myTextField.clear();
+      try {
+        String expected1 = "bk 20";
+        // when
+        writeInputTo(myTextField, expected1);
+
+        // then
+        assertEquals(expected1, myTextField.getText());
+        press(KeyCode.COMMAND, KeyCode.R);
+      } catch (Exception e) {
+        fail();
+      }
     }
   }
 
