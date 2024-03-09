@@ -312,7 +312,6 @@ public class Turtle {
         && currentState.position().getY() + dy >= TurtleAnimatorImplementation.Y_MIN;
   }
 
-
   /**
    * Calculates the final position after a movement.
    *

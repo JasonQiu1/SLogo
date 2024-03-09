@@ -16,7 +16,7 @@ import slogo.model.turtleutil.Turtle;
  * External API for the frontend to interact with the model. Responsible for running Slogo code and
  * maintaining command history and turtle step history.
  *
- * @author Jason Qiu
+ * @author Jason Qiu, Judy He
  */
 public class SessionImplementation implements Session {
 
