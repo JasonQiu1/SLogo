@@ -42,10 +42,10 @@ public class TurtleController extends UIController {
   private int framesRan;
   private int numCommands;
   private boolean animationOnPause;
-  private TurtleAnimatorImplementation myTurtleAnimator;
+  private final TurtleAnimatorImplementation TURTLE_ANIMATOR = new TurtleAnimatorImplementation();
+  ;
 
   public TurtleController() {
-    myTurtleAnimator = new TurtleAnimatorImplementation();
   }
 
   /**
@@ -57,7 +57,7 @@ public class TurtleController extends UIController {
   public void notifyController(UIElement element) {
     switch (element.getType().toLowerCase()) {
       case "textfield" -> {
-        if (element.getID().equalsIgnoreCase("CommandLine")){
+        if (element.getID().equalsIgnoreCase("CommandLine")) {
           runCommands((UITextField) element);
         }
         updateElements();
@@ -73,10 +73,11 @@ public class TurtleController extends UIController {
 
   // Private helper methods
   private void setAnimation() {
+    animation.stop();
     animation = new Timeline();
     animation.setCycleCount(Timeline.INDEFINITE);
-    double frameDuration = 1.0 / (myTurtleAnimator.getSpeed()
-        * this.myTurtleAnimator.STANDARD_FPS); // Calculate the duration for the KeyFrame
+    double frameDuration = 1.0 / (TURTLE_ANIMATOR.getSpeed()
+        * TURTLE_ANIMATOR.STANDARD_FPS); // Calculate the duration for the KeyFrame
     animation.getKeyFrames().add(new KeyFrame(Duration.seconds(frameDuration), e -> step()));
     animation.play();
   }
@@ -114,7 +115,7 @@ public class TurtleController extends UIController {
       case "TurtleSelector" -> saveTurtleSelection(button.getMyPath());
       case "Play/Pause" -> pausePlayAnimation();
       case "Step" -> manualStep();
-      case "0.5x" -> updateAnimationSpeed(0.5);
+      case ".5x" -> updateAnimationSpeed(0.5);
       case "1x" -> updateAnimationSpeed(1);
       case "2x" -> updateAnimationSpeed(2);
       case "4x" -> updateAnimationSpeed(4);
@@ -155,8 +156,8 @@ public class TurtleController extends UIController {
     framesRan = 0;
     Map<Integer, List<TurtleStep>> totalSteps =
         this.getCurrentSession().getTurtlesStepHistories(numCommands);
-    myTurtleAnimator.animateStep(totalSteps);
-    this.currentFrame = myTurtleAnimator.nextFrame();
+    TURTLE_ANIMATOR.animateStep(totalSteps);
+    this.currentFrame = TURTLE_ANIMATOR.nextFrame();
   }
 
   private void pausePlayAnimation() {
@@ -164,11 +165,8 @@ public class TurtleController extends UIController {
   }
 
   private void updateAnimationSpeed(double speed) {
-    myTurtleAnimator.setSpeed(speed);
-    double frameDuration = 1.0 / (myTurtleAnimator.getSpeed()
-        * myTurtleAnimator.STANDARD_FPS); // Calculate the duration for the KeyFrame
-    animation.setDelay(Duration.seconds(frameDuration));
-    animation.setRate(myTurtleAnimator.getSpeed());
+    TURTLE_ANIMATOR.setSpeed(speed);
+    setAnimation();
   }
 
   private void step() {
@@ -184,24 +182,25 @@ public class TurtleController extends UIController {
   }
 
   private void animateNextFrame() {
-    for (Integer turtleId : this.currentFrame.keySet()) {
-      TurtleState state = this.currentFrame.get(turtleId);
-      UITurtle turtleView = this.TURTLE_VIEWS.get("Turtle" + turtleId);
+    for (Integer turtleId : currentFrame.keySet()) {
+      TurtleState state = currentFrame.get(turtleId);
+      UITurtle turtleView = TURTLE_VIEWS.get("Turtle" + turtleId);
       if (turtleView.isShowing()) {
         turtleView.setPenDown(true); // turn on pen
         turtleView.updateState(state.position().getX(), state.position().getY(), state.heading());
       }
     }
     framesRan++;
-    this.currentFrame = myTurtleAnimator.nextFrame();
+    currentFrame = TURTLE_ANIMATOR.nextFrame();
   }
 
   private void replayAnimation() {
-    this.currentFrame = myTurtleAnimator.resetFrame(framesRan);
+    this.currentFrame = TURTLE_ANIMATOR.resetFrame(framesRan);
     for (Integer turtleId : this.currentFrame.keySet()) {
       TurtleState state = this.currentFrame.get(turtleId);
       UITurtle turtleView = this.TURTLE_VIEWS.get("Turtle" + turtleId);
-      for (int i = 0; i < framesRan - 2; i++) {
+      int numLinesToErase = framesRan - 1;
+      for (int i = 0; i < numLinesToErase; i++) {
         turtleView.clearLastLine();
       }
       // turn off pen
