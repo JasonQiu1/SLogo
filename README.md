@@ -46,7 +46,7 @@ This project implements a simple Logo ide, interpreter, and visualizer.
 
 * Known Bugs:
     * Replay does not function properly after changing speed
-    * Loading a file after running a loaded file only executes the last command in the file
+    * Load throws error from splash screen, works properly in IDE
     * Running a command from a help menu that does not take parameters will prompt for parameters
     * Some language translations and help documentation make buttons overlap or text flow off-screen
 
