@@ -39,7 +39,7 @@ public class UIButton extends UIElement {
     myButton.setFont(BTN_FONT);
     myButton.setTextFill(Color.GREEN);
     myButton.toFront();
-    setText(LanguageManager.translate(getLanguage(), text));
+    setText(LanguageManager.translate(LanguageManager.getCurrentLanguage(), text));
     setPosition(x, y);
     addShadow();
   }

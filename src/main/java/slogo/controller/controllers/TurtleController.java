@@ -15,9 +15,11 @@ import javax.xml.transform.TransformerException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import slogo.model.api.exception.XmlException;
+import slogo.model.api.exception.coderunner.RunCodeError;
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
 import slogo.model.turtleutil.TurtleAnimatorImplementation;
+import slogo.view.LanguageManager;
 import slogo.view.userinterface.UIButton;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UITextField;
@@ -28,7 +30,7 @@ import slogo.view.windows.HelpWindow;
  * TurtleController class implements UIController interface to manage turtle UI elements. It
  * provides functionality to control the movement and appearance of the turtle.
  *
- * @author Jeremyah Flowers, Judy He
+ * @author Jeremyah Flowers, Judy He, Jason Qiu
  */
 public class TurtleController extends UIController {
 
@@ -73,14 +75,20 @@ public class TurtleController extends UIController {
     animation.setCycleCount(Timeline.INDEFINITE);
     double frameDuration = 1.0 / (myTurtleAnimator.getSpeed()
         * this.myTurtleAnimator.STANDARD_FPS); // Calculate the duration for the KeyFrame
-    animation.getKeyFrames()
-        .add(new KeyFrame(Duration.seconds(frameDuration), e -> step()));
+    animation.getKeyFrames().add(new KeyFrame(Duration.seconds(frameDuration), e -> step()));
     animation.play();
   }
 
   private void runCommands(UITextField textFieldView) {
     String commands = textFieldView.getTextCommands();
-    this.numCommands = this.getCurrentSession().run(commands);
+    try {
+      this.numCommands = this.getCurrentSession().run(commands);
+    } catch (RunCodeError error) {
+      new HelpWindow("error", getCurrentSession(),
+          "[" + LanguageManager.getKeyValue(error.getErrorType().toString()) + "]: "
+              + LanguageManager.getKeyValue("errorOnLine") + error.getLineNumber() + " ('"
+              + error.getLine() + "'): " + LanguageManager.getKeyValue(error.getErrorMessageKey()));
+    }
   }
 
   private void loadCommands(UIElement element) {
@@ -143,8 +151,8 @@ public class TurtleController extends UIController {
 
   private void updateTurtleViews() {
     framesRan = 0;
-    Map<Integer, List<TurtleStep>> totalSteps = this.getCurrentSession()
-        .getTurtlesStepHistories(numCommands);
+    Map<Integer, List<TurtleStep>> totalSteps =
+        this.getCurrentSession().getTurtlesStepHistories(numCommands);
     myTurtleAnimator.animateStep(totalSteps);
     this.currentFrame = myTurtleAnimator.nextFrame();
   }
@@ -179,8 +187,7 @@ public class TurtleController extends UIController {
       UITurtle turtleView = this.TURTLE_VIEWS.get("Turtle" + turtleId);
       if (turtleView.isShowing()) {
         turtleView.setPenDown(true); // turn on pen
-        turtleView.updateState(state.position().getX(), state.position().getY(),
-            state.heading());
+        turtleView.updateState(state.position().getX(), state.position().getY(), state.heading());
       }
     }
     framesRan++;

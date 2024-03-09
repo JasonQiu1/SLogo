@@ -37,7 +37,7 @@ public class UITextField extends UIElement {
     myTextBox = (TextField) getElement();
     myTextBox.setAlignment(Pos.BASELINE_LEFT);
     myTextBox.toFront();
-    myTextBox.setText(LanguageManager.translate(getLanguage(), text));
+    myTextBox.setText(LanguageManager.translate(LanguageManager.getCurrentLanguage(), text));
     setPosition(x, y);
   }
 
