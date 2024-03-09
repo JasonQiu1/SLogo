@@ -25,13 +25,7 @@ public class FenceModeStrategy implements ModeStrategy {
   @Override
   public List<TurtleStep> move(Turtle turtle, double distance) {
     this.turtle = turtle;
-    return generateInterSteps(calculatePosChange(distance));
-  }
-
-  private Vector calculatePosChange(double distance) {
-    double dx = Turtle.calculateXComponent(distance, turtle.getCurrentState().heading());
-    double dy = Turtle.calculateYComponent(distance, turtle.getCurrentState().heading());
-    return new Vector(dx, dy);
+    return generateInterSteps(turtle.getXYComponents(distance));
   }
 
   private List<TurtleStep> generateInterSteps(Vector v) {

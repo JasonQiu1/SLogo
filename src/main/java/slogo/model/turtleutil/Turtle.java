@@ -314,6 +314,12 @@ public class Turtle {
         && currentState.position().getY() + dy >= TurtleAnimatorImplementation.Y_MIN;
   }
 
+  protected Vector getXYComponents(double distance) {
+    double dx = Turtle.calculateXComponent(distance, currentState.heading());
+    double dy = Turtle.calculateYComponent(distance, currentState.heading());
+    return new Vector(dx, dy);
+  }
+
   /**
    * Calculates the final position after a movement.
    *
