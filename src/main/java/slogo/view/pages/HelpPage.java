@@ -11,7 +11,7 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import slogo.model.api.Session;
-import slogo.model.api.XmlConfiguration;
+import slogo.model.configuration.XmlConfiguration;
 import slogo.model.api.exception.XmlException;
 import slogo.controller.listeners.HelpListener;
 import slogo.view.userinterface.UIElement;

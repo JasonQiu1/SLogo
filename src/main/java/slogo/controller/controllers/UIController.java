@@ -12,7 +12,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import slogo.model.api.Session;
-import slogo.model.api.XmlConfiguration;
+import slogo.model.configuration.XmlConfiguration;
 import slogo.view.userinterface.UIButton;
 import slogo.view.userinterface.UIElement;
 
