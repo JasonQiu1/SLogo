@@ -12,7 +12,7 @@ This project implements a simple Logo ide, interpreter, and visualizer.
 
 * Finish Date: March 8, 2024
 
-* Hours Spent: 39 (Jason Qiu) + 40 (Judy He) +
+* Hours Spent: 43 (Jason Qiu) + 40 (Judy He) +
 
 ### Attributions
 
