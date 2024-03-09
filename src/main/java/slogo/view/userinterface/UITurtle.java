@@ -11,6 +11,7 @@ import javafx.scene.shape.Circle;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import slogo.model.math.Point;
+import tool.XmlHelper;
 
 /**
  * Represents a turtle graphic element in the Slogo user interface. Handles the display and
@@ -64,14 +65,10 @@ public class UITurtle extends UIElement {
 
   private static String findTurtle() {
     try {
-      File file = new File(TURTLE_XML);
-      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
-      return doc.getElementsByTagName("SelectedTurtle").item(0).getTextContent();
-
+      return new XmlHelper().getElementFromTag("SelectedTurtle", TURTLE_XML);
     } catch (Exception e) {
-      System.out.println(e);
+      return DEFAULT_TURTLE;
     }
-    return DEFAULT_TURTLE;
   }
 
   public void setPenColor(Color color) {
