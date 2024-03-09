@@ -132,7 +132,8 @@ public class XmlConfiguration {
 
     try {
       PrintWriter writer = new PrintWriter(file);
-      for (Map<String, Map<String, String>> commandMap : session.getCommandHistory(0)) {
+      for (Map<String, Map<String, String>> commandMap : session.getCommandHistory(
+          Integer.MAX_VALUE)) {
         for (String command : commandMap.keySet()) {
           writer.println(command);
         }
