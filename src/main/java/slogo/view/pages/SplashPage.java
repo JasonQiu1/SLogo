@@ -10,6 +10,7 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import slogo.controller.listeners.SplashListener;
+import slogo.view.builders.PageBuilder;
 import slogo.view.userinterface.UIElement;
 
 /**
@@ -37,7 +38,7 @@ public class SplashPage extends GeneralPage {
   public SplashPage(Stage stage) {
     super(stage, new SplashListener());
     root = new Group();
-    myPageBuilder = new PageBuilder(stage);
+    myPageBuilder = new PageBuilder(stage, root);
   }
 
   /**
@@ -68,7 +69,7 @@ public class SplashPage extends GeneralPage {
     UIElements.addAll(setupExternalButtons(screenWidth, screenHeight));
     UIElements.addAll(setupCheckBoxes(screenWidth, screenHeight));
     UIElements.addAll(setupText(screenWidth, screenHeight));
-    myPageBuilder.styleUI(UIElements, root);
+    myPageBuilder.styleUIElements(UIElements);
   }
 
   private void createLanguageDropDown(double screenWidth, double screenHeight) {

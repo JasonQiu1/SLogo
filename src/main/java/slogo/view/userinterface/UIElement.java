@@ -1,6 +1,12 @@
 package slogo.view.userinterface;
 
+import static slogo.controller.controllers.LanguageController.LANGUAGE_TAG;
+import static slogo.controller.controllers.LanguageController.LANGUAGE_XML;
+
+import java.io.File;
 import javafx.scene.Node;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
 import slogo.controller.listeners.UIListener;
 
 /**
@@ -89,6 +95,22 @@ public class UIElement {
   protected void setPosition(double x, double y) {
     myElement.setLayoutX(x - myElement.getBoundsInLocal().getWidth() / 2);
     myElement.setLayoutY(y - myElement.getBoundsInLocal().getHeight() / 2);
+  }
+
+  /**
+   * Gets the current user-selected language of the application with english as default
+   *
+   * @return the current user-selected language
+   */
+  protected String getLanguage() {
+    try {
+      File file = new File(LANGUAGE_XML);
+      Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
+      return doc.getElementsByTagName(LANGUAGE_TAG).item(0).getTextContent();
+
+    } catch (Exception e) {
+      return "english";
+    }
   }
 
   /**
