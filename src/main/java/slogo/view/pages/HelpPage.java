@@ -14,6 +14,7 @@ import slogo.model.api.Session;
 import slogo.model.api.XmlConfiguration;
 import slogo.model.api.exception.XmlException;
 import slogo.controller.listeners.HelpListener;
+import slogo.view.builders.PageBuilder;
 import slogo.view.userinterface.UIElement;
 
 /**
@@ -37,7 +38,7 @@ public class HelpPage extends GeneralPage {
   public HelpPage(Stage stage, Session session) {
     super(stage, new HelpListener(session));
     root = new Group();
-    myPageBuilder = new PageBuilder(stage);
+    myPageBuilder = new PageBuilder(stage, root);
     myXmlConfig = new XmlConfiguration();
   }
 
@@ -50,7 +51,7 @@ public class HelpPage extends GeneralPage {
   @Override
   public void setPage(double screenWidth, double screenHeight) {
     Collection<UIElement> UIElements = new ArrayList<>(setupTitleText(screenWidth, screenHeight));
-    myPageBuilder.styleUI(UIElements, root);
+    myPageBuilder.styleUIElements(UIElements);
     setUpCommandList(screenWidth, screenHeight);
   }
 
@@ -93,7 +94,7 @@ public class HelpPage extends GeneralPage {
       //TODO: make this cleaner
       Collection<UIElement> UIElements = new ArrayList<>(
           setupExceptionText(screenWidth, screenHeight));
-      myPageBuilder.styleUI(UIElements, root);
+      myPageBuilder.styleUIElements(UIElements);
     }
 
   }

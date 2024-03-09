@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.stage.Stage;
 import slogo.model.api.Session;
 import slogo.controller.listeners.HelpListener;
+import slogo.view.builders.PageBuilder;
 import slogo.view.userinterface.UIElement;
 
 /**
@@ -35,7 +36,7 @@ public class CommandPage extends GeneralPage {
   public CommandPage(Stage stage, Session session) {
     super(stage, new HelpListener(session));
     root = new Group();
-    myPageBuilder = new PageBuilder(stage);
+    myPageBuilder = new PageBuilder(stage, root);
     this.session = session;
   }
 
@@ -48,7 +49,7 @@ public class CommandPage extends GeneralPage {
   @Override
   public void setPage(double screenWidth, double screenHeight) {
     Collection<UIElement> UIElements = new ArrayList<>(setupTitleText(screenWidth, screenHeight));
-    myPageBuilder.styleUI(UIElements, root);
+    myPageBuilder.styleUIElements(UIElements);
     setUpCommandList(screenWidth, screenHeight);
   }
 
