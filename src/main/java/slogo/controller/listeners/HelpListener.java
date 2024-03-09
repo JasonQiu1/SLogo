@@ -45,7 +45,7 @@ public class HelpListener implements UIListener {
       }
       default -> {
         helpController.notifyController(element);
-        turtleController.notifyController(element);
+        myTurtleController.notifyController(element);
       }
     }
   }
