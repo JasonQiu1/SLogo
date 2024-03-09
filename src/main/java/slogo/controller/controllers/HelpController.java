@@ -3,7 +3,6 @@ package slogo.controller.controllers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import slogo.model.api.XmlConfiguration;
 import slogo.model.api.exception.XmlException;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UIListView;
@@ -24,17 +23,17 @@ public class HelpController extends UIController {
    */
   public void notifyController(UIElement element) {
     if (element.getType().equalsIgnoreCase("textfield")) {
-      if (isCommand(element.getID())) {
-        runCommandFromHelp(element);
-      } else {
+      if (isVar(element.getID())) {
         updateVarValue(element);
+      } else {
+        runCommandFromHelp(element);
       }
     } else {
       switch (element.getID()) {
         case "Variables", "Commands", "Help", "History" -> {
           new HelpWindow(element.getID().toLowerCase(), this.getCurrentSession());
         }
-        case "User-Defined Commands" -> {
+        case "User Def Commands" -> {
           String expandText = getCommandInfo(((UIListView) element).getSelectedItem());
           new HelpWindow("command expand", this.getCurrentSession(), expandText);
         }
@@ -77,8 +76,12 @@ public class HelpController extends UIController {
   }
 
   private String getCommandInfo(String option) {
+    String[] parts = option.split("\n");
+    String[] commandParts = parts[0].split(":");
+    String command = commandParts[1].trim();
+
     Map<String, Map<String, String>> commandMap = this.getCurrentSession().getUserDefinedCommands();
-    Map<String, String> commandMetaData = commandMap.get(option);
+    Map<String, String> commandMetaData = commandMap.get(command);
     String body = commandMetaData.get("body");
     return option + "\nNested Commands: " + body;
   }
@@ -101,22 +104,7 @@ public class HelpController extends UIController {
     this.getCurrentSession().run(command);
   }
 
-  private boolean isCommand(String text) {
-    try {
-      Map<String, String> commandMap = xmlConfiguration.loadHelpFile(helpFile);
-      List<String> commands = new ArrayList<>();
-
-      for (String command : commandMap.keySet()) {
-        String[] lines = command.split("\n");
-        for (String line : lines) {
-          if (line.startsWith("Name:")) {
-            commands.add(line.split(": ")[1]);
-          }
-        }
-      }
-      return commands.contains(text);
-    } catch (XmlException e){
-      return false;
-    }
+  private boolean isVar(String text) {
+    return getCurrentSession().getVariables().containsKey(text);
   }
 }

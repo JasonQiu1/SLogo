@@ -15,6 +15,11 @@ import slogo.model.api.Session;
 import slogo.controller.listeners.HelpListener;
 import slogo.view.userinterface.UIElement;
 
+/**
+ * Page to view command history
+ *
+ * @author Jordan Haytaian
+ */
 public class HistoryPage extends GeneralPage {
 
   private final Group root;
