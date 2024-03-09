@@ -35,9 +35,6 @@ public class HelpListener implements UIListener {
 
   @Override
   public void sendSignal(UIElement element) {
-    if (element.getType().equalsIgnoreCase("textfield")) {
-      helpController.notifyController(element);
-    }
     switch (element.getID().toLowerCase()) {
       case "library commands" -> myXmlController.notifyController(element);
       case "user-defined commands", "user-defined variables", "history", "command history", "variable list" -> {

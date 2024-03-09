@@ -1,6 +1,10 @@
 package slogo.controller.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import slogo.model.api.XmlConfiguration;
+import slogo.model.api.exception.XmlException;
 import slogo.view.userinterface.UIElement;
 import slogo.view.userinterface.UIListView;
 import slogo.view.userinterface.UITextField;
@@ -20,30 +24,36 @@ public class HelpController extends UIController {
    */
   public void notifyController(UIElement element) {
     if (element.getType().equalsIgnoreCase("textfield")) {
-      updateVarValue(element);
-    }
-    switch (element.getID()) {
-      case "Variables", "Commands", "Help", "History" -> {
-        new HelpWindow(element.getID().toLowerCase(), this.getCurrentSession());
+      if (isCommand(element.getID())) {
+        runCommandFromHelp(element);
+      } else {
+        updateVarValue(element);
       }
-      case "User-Defined Commands" -> {
-        String expandText = getCommandInfo(((UIListView) element).getSelectedItem());
-        new HelpWindow("command expand", this.getCurrentSession(), expandText);
-      }
-      case "Command History" -> {
-        runCommandFromHistory(element);
-      }
-      case "Variable List" -> {
-        String varName = getVarName(((UIListView) element).getSelectedItem());
-        new HelpWindow("variable expand", this.getCurrentSession(), varName);
-      }
-      default -> {
-        if (getCurrentSession() != null) {
-          String command = getCommandName(element.getID());
-          new HelpWindow("parameter expand", this.getCurrentSession(), command);
+    } else {
+      switch (element.getID()) {
+        case "Variables", "Commands", "Help", "History" -> {
+          new HelpWindow(element.getID().toLowerCase(), this.getCurrentSession());
+        }
+        case "User-Defined Commands" -> {
+          String expandText = getCommandInfo(((UIListView) element).getSelectedItem());
+          new HelpWindow("command expand", this.getCurrentSession(), expandText);
+        }
+        case "Command History" -> {
+          runCommandFromHistory(element);
+        }
+        case "Variable List" -> {
+          String varName = getVarName(((UIListView) element).getSelectedItem());
+          new HelpWindow("variable expand", this.getCurrentSession(), varName);
+        }
+        default -> {
+          if (getCurrentSession() != null) {
+            String command = getCommandName(element.getID());
+            new HelpWindow("parameter expand", this.getCurrentSession(), command);
+          }
         }
       }
     }
+
   }
 
   private String getVarName(String option) {
@@ -78,10 +88,35 @@ public class HelpController extends UIController {
     this.getCurrentSession().run(command);
   }
 
+  private void runCommandFromHelp(UIElement element) {
+    String command = element.getID();
+    String parameters = ((UITextField) element).getTextCommands();
+    this.getCurrentSession().run(command + " " + parameters);
+  }
+
   private void updateVarValue(UIElement element) {
     String varName = element.getID();
     String varValue = ((UITextField) element).getTextCommands();
     String command = "make :" + varName + " " + varValue;
     this.getCurrentSession().run(command);
+  }
+
+  private boolean isCommand(String text) {
+    try {
+      Map<String, String> commandMap = xmlConfiguration.loadHelpFile(helpFile);
+      List<String> commands = new ArrayList<>();
+
+      for (String command : commandMap.keySet()) {
+        String[] lines = command.split("\n");
+        for (String line : lines) {
+          if (line.startsWith("Name:")) {
+            commands.add(line.split(": ")[1]);
+          }
+        }
+      }
+      return commands.contains(text);
+    } catch (XmlException e){
+      return false;
+    }
   }
 }

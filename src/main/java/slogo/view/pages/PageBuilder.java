@@ -175,11 +175,6 @@ public class PageBuilder {
   }
 
   private void loadTextField(UITextField textField) {
-//    if (textField.getID().equals("CommandLine")) {
-//      textField.setupTextBox();
-//    } else {
-//      throw new TypeNotPresentException(textField.getID(), new Throwable());
-//    }
     textField.setupTextBox();
   }
 }
