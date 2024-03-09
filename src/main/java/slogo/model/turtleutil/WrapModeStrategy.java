@@ -7,8 +7,22 @@ import slogo.model.api.turtle.TurtleStep;
 import slogo.model.math.Point;
 import slogo.model.math.Vector;
 
+/**
+ * Strategy for Wrap mode behavior.
+ *
+ * @author Judy He
+ *
+ */
 public class WrapModeStrategy implements ModeStrategy {
   Turtle turtle;
+
+  /**
+   * Moves the turtle by the specified distance given the Wrap mode strategy
+   *
+   * @param turtle   the turtle to be moved
+   * @param distance the distance to move
+   * @return the intermediate steps representing the movement
+   */
   @Override
   public List<TurtleStep> move(Turtle turtle, double distance) {
     this.turtle = turtle;
@@ -21,7 +35,7 @@ public class WrapModeStrategy implements ModeStrategy {
   }
 
   private void wrapMove(double dx, double dy, List<TurtleStep> intermediateSteps) {
-    if (isWithinBounds(dx, dy)) {
+    if (turtle.isWithinBounds(dx, dy)) {
       intermediateSteps.add(normalMove(dx, dy));
       return;
     }
@@ -49,22 +63,22 @@ public class WrapModeStrategy implements ModeStrategy {
     double interDx = 0.0;
     double interDy = 0.0;
 
-    if (isOutXMax(dx)) {
+    if (turtle.isOutXMax(dx)) {
       interDx = TurtleAnimatorImplementation.X_MAX - turtle.getCurrentState().position().getX();
       interDy = Turtle.calculateYComponentGivenXComponentAngle(interDx, turtle.getCurrentState().heading());
-    } else if (isOutXMin(dx)) {
+    } else if (turtle.isOutXMin(dx)) {
       interDx = TurtleAnimatorImplementation.X_MIN - turtle.getCurrentState().position().getX();
       interDy = Turtle.calculateYComponentGivenXComponentAngle(interDx, turtle.getCurrentState().heading());
     }
 
-    if (isOutYMax(interDy) || isOutYMin(interDy)) {
+    if (turtle.isOutYMax(interDy) || turtle.isOutYMin(interDy)) {
       interDy = 0.0;
     }
 
-    if (isOutYMax(dy) && interDy == 0) {
+    if (turtle.isOutYMax(dy) && interDy == 0) {
       interDy = TurtleAnimatorImplementation.Y_MAX - turtle.getCurrentState().position().getY();
       interDx = Turtle.calculateXComponentGivenYComponentAngle(interDy, turtle.getCurrentState().heading());
-    } else if (isOutYMin(dy) && interDy == 0) {
+    } else if (turtle.isOutYMin(dy) && interDy == 0) {
       interDy = TurtleAnimatorImplementation.Y_MIN - turtle.getCurrentState().position().getY();
       interDx = Turtle.calculateXComponentGivenYComponentAngle(interDy, turtle.getCurrentState().heading());
     }
@@ -72,28 +86,6 @@ public class WrapModeStrategy implements ModeStrategy {
     return new Vector(interDx, interDy);
   }
 
-  private boolean isOutXMax(double dx) {
-    return turtle.getCurrentState().position().getX() + dx > TurtleAnimatorImplementation.X_MAX;
-  }
-
-  private boolean isOutXMin(double dx) {
-    return turtle.getCurrentState().position().getX() + dx < TurtleAnimatorImplementation.X_MIN;
-  }
-
-  private boolean isOutYMax(double dy) {
-    return turtle.getCurrentState().position().getY() + dy > TurtleAnimatorImplementation.Y_MAX;
-  }
-
-  private boolean isOutYMin(double dy) {
-    return turtle.getCurrentState().position().getY() + dy < TurtleAnimatorImplementation.Y_MIN;
-  }
-
-  private boolean isWithinBounds(double dx, double dy) {
-    return turtle.getCurrentState().position().getX() + dx <= TurtleAnimatorImplementation.X_MAX
-        && turtle.getCurrentState().position().getX() + dx >= TurtleAnimatorImplementation.X_MIN
-        && turtle.getCurrentState().position().getY() + dy <= TurtleAnimatorImplementation.Y_MAX
-        && turtle.getCurrentState().position().getY() + dy >= TurtleAnimatorImplementation.Y_MIN;
-  }
 
   private TurtleStep normalMove(double dx, double dy) {
     Vector posChange = new Vector(dx, dy);

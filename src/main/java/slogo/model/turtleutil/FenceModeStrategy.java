@@ -2,13 +2,25 @@ package slogo.model.turtleutil;
 
 import java.util.ArrayList;
 import java.util.List;
-import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
-import slogo.model.math.Point;
 import slogo.model.math.Vector;
 
+/**
+ * Strategy for Fence mode behavior.
+ *
+ * @author Judy He
+ *
+ */
 public class FenceModeStrategy implements ModeStrategy {
   Turtle turtle;
+
+  /**
+   * Moves the turtle by the specified distance given the Fence mode strategy
+   *
+   * @param turtle   the turtle to be moved
+   * @param distance the distance to move
+   * @return the intermediate steps representing the movement
+   */
   @Override
   public List<TurtleStep> move(Turtle turtle, double distance) {
     this.turtle = turtle;
@@ -21,13 +33,13 @@ public class FenceModeStrategy implements ModeStrategy {
   }
 
   private TurtleStep fenceMove(double dx, double dy) {
-    if (isOutXMax(dx)) {
+    if (turtle.isOutXMax(dx)) {
       dx = TurtleAnimatorImplementation.X_MAX - turtle.getCurrentState().position().getX();
-    } else if (isOutXMin(dx)) {
+    } else if (turtle.isOutXMin(dx)) {
       dx = turtle.getCurrentState().position().getX() - TurtleAnimatorImplementation.X_MIN;
-    } else if (isOutYMax(dy)) {
+    } else if (turtle.isOutYMax(dy)) {
       dy = TurtleAnimatorImplementation.Y_MAX - turtle.getCurrentState().position().getY();
-    } else if (isOutYMin(dy)){
+    } else if (turtle.isOutYMin(dy)){
       dy = turtle.getCurrentState().position().getY() - TurtleAnimatorImplementation.Y_MIN;
     }
     Vector posChange = new Vector(dx, dy);
@@ -35,20 +47,5 @@ public class FenceModeStrategy implements ModeStrategy {
     turtle.updateHistory(step, false);
     turtle.updateTurtleState(step);
     return step;
-  }
-  private boolean isOutXMax(double dx) {
-    return turtle.getCurrentState().position().getX() + dx > TurtleAnimatorImplementation.X_MAX;
-  }
-
-  private boolean isOutXMin(double dx) {
-    return turtle.getCurrentState().position().getX() + dx < TurtleAnimatorImplementation.X_MIN;
-  }
-
-  private boolean isOutYMax(double dy) {
-    return turtle.getCurrentState().position().getY() + dy > TurtleAnimatorImplementation.Y_MAX;
-  }
-
-  private boolean isOutYMin(double dy) {
-    return turtle.getCurrentState().position().getY() + dy < TurtleAnimatorImplementation.Y_MIN;
   }
 }

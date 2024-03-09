@@ -196,8 +196,10 @@ public class Turtle {
    */
   public TurtleStep setXY(Point position) throws InvalidPositionException {
 
-    if (position.getX() > TurtleAnimatorImplementation.X_MAX || position.getY() > TurtleAnimatorImplementation.Y_MAX
-        || position.getX() < TurtleAnimatorImplementation.X_MIN || position.getY() < TurtleAnimatorImplementation.Y_MIN) {
+    if (position.getX() > TurtleAnimatorImplementation.X_MAX
+        || position.getY() > TurtleAnimatorImplementation.Y_MAX
+        || position.getX() < TurtleAnimatorImplementation.X_MIN
+        || position.getY() < TurtleAnimatorImplementation.Y_MIN) {
       throw new InvalidPositionException(errorResourceBundle.getString("INVALID_POSITION"));
     }
 
@@ -286,6 +288,30 @@ public class Turtle {
   protected static double getAngleChange(double a1, double a2) {
     return a2 - a1;
   }
+
+  protected boolean isOutXMax(double dx) {
+    return currentState.position().getX() + dx > TurtleAnimatorImplementation.X_MAX;
+  }
+
+  protected boolean isOutXMin(double dx) {
+    return currentState.position().getX() + dx < TurtleAnimatorImplementation.X_MIN;
+  }
+
+  protected boolean isOutYMax(double dy) {
+    return currentState.position().getY() + dy > TurtleAnimatorImplementation.Y_MAX;
+  }
+
+  protected boolean isOutYMin(double dy) {
+    return currentState.position().getY() + dy < TurtleAnimatorImplementation.Y_MIN;
+  }
+
+  protected boolean isWithinBounds(double dx, double dy) {
+    return currentState.position().getX() + dx <= TurtleAnimatorImplementation.X_MAX
+        && currentState.position().getX() + dx >= TurtleAnimatorImplementation.X_MIN
+        && currentState.position().getY() + dy <= TurtleAnimatorImplementation.Y_MAX
+        && currentState.position().getY() + dy >= TurtleAnimatorImplementation.Y_MIN;
+  }
+
 
   /**
    * Calculates the final position after a movement.

@@ -5,9 +5,22 @@ import java.util.List;
 import slogo.model.api.turtle.TurtleStep;
 import slogo.model.math.Vector;
 
+/**
+ * Strategy for Window mode behavior.
+ *
+ * @author Judy He
+ *
+ */
 public class WindowModeStrategy implements ModeStrategy {
   Turtle turtle;
 
+  /**
+   * Moves the turtle by the specified distance given the Window mode strategy
+   *
+   * @param turtle   the turtle to be moved
+   * @param distance the distance to move
+   * @return the intermediate steps representing the movement
+   */
   @Override
   public List<TurtleStep> move(Turtle turtle, double distance) {
     this.turtle = turtle;
