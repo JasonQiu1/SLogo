@@ -40,9 +40,8 @@ public class HelpListener implements UIListener {
   @Override
   public void sendSignal(UIElement element) {
     myHelpController.setSession(session);
-    switch (element.getType().toLowerCase()) {
-      case "textfield" ->
-        myHelpController.notifyController(element);
+    if (element.getType().equalsIgnoreCase("textfield")) {
+      myHelpController.notifyController(element);
     }
     switch (element.getID().toLowerCase()) {
       case "library commands" -> myXmlController.notifyController(element);

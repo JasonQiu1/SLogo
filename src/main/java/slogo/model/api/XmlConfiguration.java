@@ -24,7 +24,6 @@ import slogo.model.api.exception.XmlException;
 public class XmlConfiguration {
 
   private final ArrayList<String> tagList;
-  private final String commandTag = "command";
 
   /**
    * Constructor for XmlConfig

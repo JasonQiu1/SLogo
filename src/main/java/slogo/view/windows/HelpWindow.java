@@ -8,6 +8,7 @@ import slogo.view.pages.ErrorPage;
 import slogo.view.pages.ExpandCommandPage;
 import slogo.view.pages.ExpandVariablePage;
 import slogo.view.pages.GeneralPage;
+import slogo.view.pages.HelpExpandPage;
 import slogo.view.pages.HelpPage;
 import slogo.view.pages.HistoryPage;
 import slogo.view.pages.VariablePage;
@@ -82,6 +83,9 @@ public class HelpWindow {
       }
       case "variable expand" -> {
         return new ExpandVariablePage(helpStage, session, expandText);
+      }
+      case "help expand" -> {
+        return new HelpExpandPage(helpStage, session, expandText);
       }
       case "error" -> {
         return new ErrorPage(helpStage, expandText);

@@ -46,9 +46,9 @@ public class XmlController extends UIController {
     try {
       Map<String, String> commandMap = myXMLConfiguration.loadHelpFile(helpFile);
       String commandInfo = commandMap.get(option);
-      new HelpWindow("expand", getCurrentSession(), commandInfo);
+      new HelpWindow("help expand", getCurrentSession(), commandInfo);
     } catch (XmlException e) {
-      //TODO: Exception handling
+      new HelpWindow("error", getCurrentSession(), "unable to load command info");
     }
   }
 
