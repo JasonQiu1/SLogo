@@ -10,7 +10,7 @@ that returned a session. Having the method return the commands allowed us to
 maintain backward compatibility while encouraging a more cohesive design where controllers do not
 reassign the session.
 
-#### New `resetFrame(int frames)` method
+#### TurtleAnimator: New `resetFrame(int frames)` method
 
 In the changes stage of the project, we realized that, in order to replay the most recent animation
 from the most recent command, we would need to pass to `TurtleAnimator` the number of frames ran for
@@ -19,7 +19,7 @@ go back to for each Turtle. However, to avoid deprecating the existing `resetFra
 resets the turtle animation to the beginning and replays all commands, we chose to use method
 overload and added a new method `resetFrame(int frames)` that accepts a parameter.
 
-# Session
+#### Session
 
 We realized the view didn't have any way to know how many steps each turtle took after 
 a string of commands were run, so it couldn't accurately query the right amount of step history to
