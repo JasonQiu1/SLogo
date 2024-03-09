@@ -1,6 +1,7 @@
 package slogo.model.turtleutil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import slogo.model.api.exception.turtle.InvalidPositionException;
@@ -18,6 +19,7 @@ public class Turtle {
 
   private int id;
   private TurtleState currentState;
+  private ModeStrategy modeStrategy = new WrapModeStrategy();
   private final List<TurtleStepExtended> stepHistory;
   private int currentPointInStepHistory;
   private static final String DEFAULT_RESOURCE_PACKAGE = "slogo.model.";
@@ -52,6 +54,19 @@ public class Turtle {
    */
   public TurtleState getCurrentState() {
     return currentState;
+  }
+
+  /**
+   * Sets the current state of the turtle.
+   *
+   * @param currentState the new current state of the turtle
+   */
+  public void setCurrentState(TurtleState currentState) {
+    this.currentState = currentState;
+  }
+
+  public void setModeStrategy(ModeStrategy moveStrategy) {
+    this.modeStrategy = moveStrategy;
   }
 
   /**
@@ -149,7 +164,7 @@ public class Turtle {
     return backwardStep;
   }
 
-  private void updateTurtleState(TurtleStep step) {
+  protected void updateTurtleState(TurtleStep step) {
     // update turtle state
     Point finalPos = calculateFinalPosition(this.currentState.position(),
         step.changeInPosition());
@@ -218,90 +233,10 @@ public class Turtle {
    * @return the intermediate steps representing the movement
    */
   public List<TurtleStep> move(double distance) {
-    double dx = this.calculateXComponent(distance, this.currentState.heading());
-    double dy = this.calculateYComponent(distance, this.currentState.heading());
-    List<TurtleStep> intermediateSteps = new ArrayList<>();
-    wrapMove(dx, dy, intermediateSteps);
-    return intermediateSteps;
-  }
-
-  private void wrapMove(double dx, double dy, List<TurtleStep> intermediateSteps) {
-    if (isWithinBounds(dx, dy)) {
-      intermediateSteps.add(normalMove(dx, dy));
-      return;
+    if (modeStrategy == null) {
+      return Collections.emptyList();
     }
-
-    Vector interPosChange = findInterPosChange(dx, dy);
-    TurtleStep step = new TurtleStep(currentState, interPosChange, 0);
-    updateHistory(step, true);
-    intermediateSteps.add(step);
-
-    Point finalPos = calculateFinalPosition(this.currentState.position(), interPosChange);
-
-    if (finalPos.getX() == TurtleAnimatorImplementation.X_MAX) finalPos.setX(TurtleAnimatorImplementation.X_MIN);
-    else if (finalPos.getX() == TurtleAnimatorImplementation.X_MIN) finalPos.setX(TurtleAnimatorImplementation.X_MAX);
-
-    if (finalPos.getY() == TurtleAnimatorImplementation.Y_MAX) finalPos.setY(TurtleAnimatorImplementation.Y_MIN);
-    else if (finalPos.getY() == TurtleAnimatorImplementation.Y_MIN) finalPos.setY(TurtleAnimatorImplementation.Y_MAX);
-
-    currentState = new TurtleState(finalPos, currentState.heading());
-
-    wrapMove(dx - interPosChange.dx(), dy - interPosChange.dy(), intermediateSteps);
-  }
-
-  private Vector findInterPosChange(double dx, double dy) {
-
-    double interDx = 0.0;
-    double interDy = 0.0;
-
-    if (isOutXMax(dx)) {
-      interDx = TurtleAnimatorImplementation.X_MAX - this.currentState.position().getX();
-    } else if (isOutXMin(dx)) {
-      interDx = TurtleAnimatorImplementation.X_MIN - this.currentState.position().getX();
-    }
-
-    interDy = this.calculateYComponentGivenXComponentAngle(interDx, this.currentState.heading());
-
-    if (isOutYMax(dy) || interDy > TurtleAnimatorImplementation.Y_MAX) {
-      interDy = TurtleAnimatorImplementation.Y_MAX - this.currentState.position().getY();
-    } else if (isOutYMin(dy) || interDy < TurtleAnimatorImplementation.Y_MIN) {
-      interDy = TurtleAnimatorImplementation.Y_MIN - this.currentState.position().getY();
-    }
-
-    interDx = this.calculateXComponentGivenYComponentAngle(interDy, this.currentState.heading());
-
-    return new Vector(interDx, interDy);
-  }
-
-  private boolean isOutXMax(double dx) {
-    return this.currentState.position().getX() + dx > TurtleAnimatorImplementation.X_MAX;
-  }
-
-  private boolean isOutXMin(double dx) {
-    return this.currentState.position().getX() + dx < TurtleAnimatorImplementation.X_MIN;
-  }
-
-  private boolean isOutYMax(double dy) {
-    return this.currentState.position().getY() + dy > TurtleAnimatorImplementation.Y_MAX;
-  }
-
-  private boolean isOutYMin(double dy) {
-    return this.currentState.position().getY() + dy < TurtleAnimatorImplementation.Y_MIN;
-  }
-
-  private boolean isWithinBounds(double dx, double dy) {
-    return this.currentState.position().getX() + dx <= TurtleAnimatorImplementation.X_MAX
-        && this.currentState.position().getX() + dx >= TurtleAnimatorImplementation.X_MIN
-        && this.currentState.position().getY() + dy <= TurtleAnimatorImplementation.Y_MAX
-        && this.currentState.position().getY() + dy >= TurtleAnimatorImplementation.Y_MIN;
-  }
-
-  private TurtleStep normalMove(double dx, double dy) {
-    Vector posChange = new Vector(dx, dy);
-    TurtleStep step = new TurtleStep(this.currentState, posChange, 0);
-    updateHistory(step, false);
-    updateTurtleState(step);
-    return step;
+    return modeStrategy.move(this, distance);
   }
 
   /**
@@ -314,7 +249,7 @@ public class Turtle {
     this.currentState = initialState;
   }
 
-  private void updateHistory(TurtleStep newStep, boolean isCrossBorder) {
+  protected void updateHistory(TurtleStep newStep, boolean isCrossBorder) {
     if (currentPointInStepHistory != stepHistory.size()) {
       stepHistory.add(currentPointInStepHistory + 1,
           new TurtleStepExtended(newStep, isCrossBorder));
@@ -324,31 +259,31 @@ public class Turtle {
     currentPointInStepHistory++;
   }
 
-  private double calculateYComponentGivenXComponentAngle(double x, double angle) {
+  protected static double calculateYComponentGivenXComponentAngle(double x, double angle) {
     double newMagnitude = x / Math.sin(Math.toRadians(angle));
     return newMagnitude * Math.cos(Math.toRadians(angle));
   }
 
-  private double calculateXComponentGivenYComponentAngle(double y, double angle) {
+  protected static double calculateXComponentGivenYComponentAngle(double y, double angle) {
     double newMagnitude = y / Math.cos(Math.toRadians(angle));
     return newMagnitude * Math.sin(Math.toRadians(angle));
   }
 
-  private double calculateXComponent(double magnitude, double angle) {
+  protected static double calculateXComponent(double magnitude, double angle) {
     return magnitude * Math.sin(Math.toRadians(angle));
   }
 
-  private double calculateYComponent(double magnitude, double angle) {
+  protected static double calculateYComponent(double magnitude, double angle) {
     return magnitude * Math.cos(Math.toRadians(angle));
   }
 
-  private Vector getVectorBetweenTwoPoints(Point p1, Point p2) {
+  protected static Vector getVectorBetweenTwoPoints(Point p1, Point p2) {
     double dx = p2.getX() - p1.getX();
     double dy = p2.getY() - p1.getY();
     return new Vector(dx, dy);
   }
 
-  private double getAngleChange(double a1, double a2) {
+  protected static double getAngleChange(double a1, double a2) {
     return a2 - a1;
   }
 
@@ -359,7 +294,7 @@ public class Turtle {
    * @param vector          the vector representing the movement
    * @return the final position after the movement
    */
-  public static Point calculateFinalPosition(Point initialPosition, Vector vector) {
+  protected static Point calculateFinalPosition(Point initialPosition, Vector vector) {
     double xFinal = initialPosition.getX() + vector.dx();
     double yFinal = initialPosition.getY() + vector.dy();
 
