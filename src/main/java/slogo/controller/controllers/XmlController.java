@@ -1,9 +1,7 @@
 package slogo.controller.controllers;
 
-import java.util.List;
 import java.util.Map;
 import slogo.model.api.Session;
-import slogo.model.api.XmlConfiguration;
 import slogo.model.api.exception.XmlException;
 import slogo.view.userinterface.UIButton;
 import slogo.view.userinterface.UIElement;

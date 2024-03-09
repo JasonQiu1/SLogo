@@ -12,13 +12,9 @@ import javafx.util.Duration;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import slogo.model.api.XmlConfiguration;
 import slogo.model.api.exception.XmlException;
-
 import slogo.model.api.turtle.TurtleState;
 import slogo.model.api.turtle.TurtleStep;
 import slogo.model.turtleutil.TurtleAnimatorImplementation;
