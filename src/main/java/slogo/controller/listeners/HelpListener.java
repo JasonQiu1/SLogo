@@ -13,9 +13,9 @@ import slogo.view.userinterface.UIElement;
  */
 public class HelpListener implements UIListener {
 
+  private final Session session;
   XmlController myXmlController = new XmlController();
   TurtleController myTurtleController = new TurtleController();
-  private final Session session;
 
   /**
    * HelpListener constructor when session access is needed

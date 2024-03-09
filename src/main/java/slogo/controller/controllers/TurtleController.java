@@ -1,7 +1,5 @@
 package slogo.controller.controllers;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -9,11 +7,6 @@ import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import slogo.model.api.exception.XmlException;
 import slogo.model.api.exception.coderunner.RunCodeError;
 import slogo.model.api.turtle.TurtleState;
@@ -38,13 +31,12 @@ public class TurtleController extends UIController {
   // Instance Variables
   public static final String TURTLE_XML = "src/main/resources/selected_turtle.xml";
   private final Map<String, UITurtle> TURTLE_VIEWS = new HashMap<>();
+  private final TurtleAnimatorImplementation TURTLE_ANIMATOR = new TurtleAnimatorImplementation();
   private Timeline animation = new Timeline();
   private Map<Integer, TurtleState> currentFrame;
   private int framesRan;
   private int numCommands;
   private boolean animationOnPause;
-  private final TurtleAnimatorImplementation TURTLE_ANIMATOR = new TurtleAnimatorImplementation();
-  ;
 
   public TurtleController() {
   }
@@ -89,7 +81,7 @@ public class TurtleController extends UIController {
       this.numCommands = this.getCurrentSession().run(commands);
     } catch (RunCodeError error) {
       new HelpWindow("error", getCurrentSession(),
-          "[" + LanguageManager.getKeyValue(error.getErrorType().toString()) + "]: "
+          "[" + LanguageManager.getKeyValue(error.getErrorType()) + "]: "
               + LanguageManager.getKeyValue("errorOnLine") + error.getLineNumber() + " ('"
               + error.getLine() + "'): " + LanguageManager.getKeyValue(error.getErrorMessageKey()));
     }
@@ -125,7 +117,7 @@ public class TurtleController extends UIController {
   }
 
   private void saveTurtleSelection(String path) {
-    new XmlHelper().updateFile(path,"SelectedTurtle", TURTLE_XML);
+    new XmlHelper().updateFile(path, "SelectedTurtle", TURTLE_XML);
   }
 
   private void updateElement(UIElement element) {
@@ -141,7 +133,7 @@ public class TurtleController extends UIController {
   }
 
   private void addTurtleView(UITurtle turtleView) {
-    this.TURTLE_VIEWS.put(turtleView.getID() + ((int) TURTLE_VIEWS.size() + 1), turtleView);
+    this.TURTLE_VIEWS.put(turtleView.getID() + (TURTLE_VIEWS.size() + 1), turtleView);
   }
 
   private void updateTurtleViews() {

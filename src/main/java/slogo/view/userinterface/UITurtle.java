@@ -1,6 +1,5 @@
 package slogo.view.userinterface;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
@@ -8,8 +7,6 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
 import slogo.model.math.Point;
 import tool.XmlHelper;
 
@@ -69,6 +66,10 @@ public class UITurtle extends UIElement {
     } catch (Exception e) {
       return DEFAULT_TURTLE;
     }
+  }
+
+  private static double parseConfigDouble(String key) {
+    return Double.parseDouble(configResourceBundle.getString(key));
   }
 
   public void setPenColor(Color color) {
@@ -153,10 +154,6 @@ public class UITurtle extends UIElement {
    */
   public void clearLastLine() {
     myPen.eraseLine();
-  }
-
-  private static double parseConfigDouble(String key) {
-    return Double.parseDouble(configResourceBundle.getString(key));
   }
 
   private void rotate(double newHeading) {
