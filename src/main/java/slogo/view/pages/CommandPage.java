@@ -49,9 +49,9 @@ public class CommandPage extends GeneralPage {
    */
   @Override
   public void setPage(double screenWidth, double screenHeight) {
+    elementDimension = new double[]{screenWidth / 2 - 40, screenHeight / 8};
     Collection<UIElement> UIElements = new ArrayList<>(setupTitleText(screenWidth, screenHeight));
     myPageBuilder.styleUI(UIElements, root);
-    elementDimension = new double[]{screenWidth / 2 - 40, screenHeight / 8};
     setUpCommandList(screenWidth, screenHeight);
   }
 

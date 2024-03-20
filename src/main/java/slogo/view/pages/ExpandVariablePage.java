@@ -43,10 +43,10 @@ public class ExpandVariablePage extends GeneralPage {
    */
   @Override
   public void setPage(double screenWidth, double screenHeight) {
+    elementDimension = new double[]{screenWidth / 2 - 40, screenHeight / 8};
     Collection<UIElement> UIElements = new ArrayList<>();
     UIElements.addAll(setUpTextField(screenWidth, screenHeight));
     UIElements.addAll(setupTitleText(screenWidth, screenHeight));
-    elementDimension = new double[]{screenWidth / 2 - 40, screenHeight / 8};
     myPageBuilder.styleUI(UIElements, root);
   }
 
@@ -71,7 +71,6 @@ public class ExpandVariablePage extends GeneralPage {
   public Parent getPage() {
     return root;
   }
-
 
 
 }

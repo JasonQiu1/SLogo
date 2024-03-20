@@ -50,8 +50,8 @@ public class HelpPage extends GeneralPage {
    */
   @Override
   public void setPage(double screenWidth, double screenHeight) {
-    Collection<UIElement> UIElements = new ArrayList<>(setupTitleText(screenWidth, screenHeight));
     elementDimension = new double[]{screenWidth / 2 - 40, screenHeight / 8};
+    Collection<UIElement> UIElements = new ArrayList<>(setupTitleText(screenWidth, screenHeight));
     myPageBuilder.styleUI(UIElements, root);
     setUpCommandList(screenWidth, screenHeight);
   }
