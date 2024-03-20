@@ -2,7 +2,7 @@
 
 ## Team 3
 
-## Jason Qiu (jq48), Jordan (jeh120), Jeremyah, Judy He (yh381)
+## Jason Qiu (jq48), Jordan (jeh120), Jeremyah (jtf45), Judy He (yh381)
 
 This project implements a simple Logo ide, interpreter, and visualizer.
 
@@ -24,7 +24,10 @@ This project implements a simple Logo ide, interpreter, and visualizer.
     * Judy He
         * Design patterns: https://www.oodesign.com/
 
+
 * Resources used directly (including AI assistance)
+  * Jeremyah Flowers
+    * Chatgpt - Comments
 
 ### Running the Program
 
@@ -51,6 +54,9 @@ This project implements a simple Logo ide, interpreter, and visualizer.
     * Load throws error from splash screen, works properly in IDE
     * Running a command from a help menu that does not take parameters will prompt for parameters
     * Some language translations and help documentation make buttons overlap or text flow off-screen
+    * Not all language translations functions as expected
+    * Show/Hide turtle does not work perfectly sometimes breaks (i.e., turtle moves when it is not 
+      selected).
 
 * Features implemented:
     * Commands:
@@ -78,6 +84,8 @@ This project implements a simple Logo ide, interpreter, and visualizer.
     * Preferences:
         * XML Graphics preferences (loading file, background color, pen color, index values, num
           turtles)
+    * Adding multiple turtles
+    * Changing via pen indexes
 
 * Noteworthy Features:
     * Commands:
@@ -124,3 +132,12 @@ working extensively in front-end development. I really enjoyed working with grap
 design considerations about the user's visual experience. I found this project to be very
 collaborative in that I was often working in classes that other group members had created. This was
 a great exercise in interpreting and writing compatible code.
+
+Jeremyah Flowers: My focus was on the UI flow and the frontend design. I learned a lot about 
+frontend development which I did not knowing coming into the project. I also learned quiet a bit 
+about abstractions and extensibility with design. This helped me to see the importance of 
+communicating early and often with team-members and also how to work better through the design 
+process. I also learned a lot from my team-mates throughout this design process, techniques such as
+utilizing Excel sheets to organize group tasks (something I learned from Judy) and scheduling 
+frequent meetings to check/keep up with the progress of others (something I learned from the team 
+as a whole).
