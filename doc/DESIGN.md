@@ -1,4 +1,4 @@
-# DESIGN Document for PROJECT_NAME
+# DESIGN Document for Slogo
 
 ### Team 3
 
